@@ -8,11 +8,9 @@ import './styles.scss';
 class App extends Component {
 	render() {
 		return (
-			<div>
-				<div className="basicOuter" ><div className="basicInner" ><div>
+			<div className="basicOuter" ><div className="basicInner" ><div>
 					SPAIN PODCAST PREMIUM
-				</div></div></div>
-			</div>
+			</div></div></div>
 		);
 	}
 }

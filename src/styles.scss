@@ -3,6 +3,10 @@ html,body {
 	color: #fff;
 	font-family: Lato, sans-serif;
 	height:100%;
+	margin:0;
+		width:100%;
+	height:100%;
+	overflow:hidden;
 }
 #root{
 	height:100%;
@@ -19,3 +23,128 @@ html,body {
 	text-align:center;
 	vertical-align: middle;
 }
+main{
+	position:absolute;
+	width:100%;
+	height:100%;
+	top:0;
+	left:0;
+}
+menuOptions{
+	position:absolute;
+	z-index: 2004;
+	width:350px;
+	height:100%;
+	top:0;
+	right:-350px;
+	background:#fff;
+	-webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
+}
+menuOptions nav div{
+	display:block;
+}
+menuOptions div {
+	cursor:pointer;
+	width:100%;
+	padding:10px;
+	-webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
+}
+menuOptions div:hover {
+	width:100%;
+	background:#204671;
+	color:#fff;
+}
+menuOptions a{
+	color:#204671;
+	text-decoration:none;
+}
+menuOptions a:visited{
+	color:#204671;
+	text-decoration:none;
+}
+MenuPB{
+	font-size: 25px;
+    cursor: pointer;
+    display: block;
+    color: #fff;
+    font-size: 50px;
+    font-weight: bold;
+    /* background: #333; */
+    padding: 10px;
+    right: 0;
+    top: -10px;
+    position: fixed;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
+}
+SubmenuPB{
+	line-height: 18px;
+    word-break: break-all;
+    position: fixed;
+    bottom: 0;
+    width: 15px;
+    right: 0;
+    margin-left: 10px;
+    /* margin-top: 10px; */
+    padding: 20px;
+    padding-right: 30px;
+    color: #fff;
+    font-size: 30px;
+    /* background: #333; */
+    cursor: pointer;
+    -webkit-transition: all .5s ease;
+    transition: all .5s ease;
+    /* font-weight: bold; */
+}
+.submenuOp{
+	cursor:pointer;
+	display: inline-block;
+    padding: 10px;
+    margin:4px;
+    background: #fff;
+    -webkit-transition: all .5s ease;
+    transition: all .5s ease;
+    /* font-weight: bold; */
+}
+.submenuOp:hover{
+	display: inline-block;
+    padding: 10px;
+    color:#fff;
+    background: #4c65c5;
+}
+ .submenuOp a{
+	color:#204671;
+	text-decoration:none;
+}
+.showMenu{
+	right: 0;
+}
+.backPB{
+	cursor: pointer;
+    display: inline-block;
+    padding: 10px;
+    margin: 4px;
+    background: #fff;
+    -webkit-transition: all .5s ease;
+    transition: all .5s ease;
+    /* font-weight: bold; */
+    -webkit-transition: all .5s ease;
+    transition: all .5s ease;
+    /* font-weight: bold; */
+}
+.backPB a{
+	color:#204671;
+	text-decoration:none;
+}
+.backPB:hover{
+	display: inline-block;
+    padding: 10px;
+    color:#fff;
+    background: #4c65c5;
+}
+

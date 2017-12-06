@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import 'font-awesome/css/font-awesome.css';
-import 'normalize.css/normalize.css';
+import React from 'react'
 
-import './styles.scss';
+import Menu from './components/Menu/Menu.js'
 
+import Main from './scenes/Main/Main.js'
 
-class App extends Component {
-	render() {
-		return (
-			<div>
-				<div className="basicOuter" ><div className="basicInner" ><div>
-					SPAIN PODCAST PREMIUM
-				</div></div></div>
+class App extends React.Component {
+	
+  	render() {
+	  	return(
+	  		<div>
+			  	<Main />
+			    <Menu />
 			</div>
-		);
-	}
+	  	)
+	  }
+
 }
 
-export default App;
+export default App

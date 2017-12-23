@@ -9,6 +9,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 process.env.NODE_ENV = 'development';
 
+
 module.exports = {
 	cache: true,
 	debug: true,

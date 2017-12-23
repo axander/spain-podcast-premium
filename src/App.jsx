@@ -1,20 +1,50 @@
+import 'babel-polyfill';
 import React from 'react'
-
-import Menu from './components/Menu/Menu.js'
-
+import { API , Modal } from './services/Rest.js'
+import TranslatedComponent from './utils/TranslatedComponent.js'
 import Main from './scenes/Main/Main.js'
 
+
+
 class App extends React.Component {
-	
+	constructor(props) {
+		super(props);
+		this.state = { 
+			isOpen: false,
+          	showedError: ''
+		 };
+		 API.action('config', null, this.setStorage, this.onError);
+	}
+	onError = (_response, _error) =>{
+	    console.log(_response);
+	    this.setState({
+          isOpen: true,
+          showedError: _error
+      	});
+	}
+	setStorage = (_response) => {
+	    localStorage.setItem('config', _response );
+	}
+	componentDidMount() {
+    	
+  	}
   	render() {
 	  	return(
 	  		<div>
 			  	<Main />
-			    <Menu />
+			  	<Modal show={this.state.isOpen} onClose={this.toggleModal} >
+	              {this.translate(this.state.showedError)}
+	            </Modal>
 			</div>
 	  	)
 	  }
-
 }
 
-export default App
+App.propTypes = {
+  //who: React.PropTypes.string.isRequired,
+};
+
+
+// Returns nothing because it mutates the class
+TranslatedComponent(App);
+export default App;

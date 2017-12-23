@@ -1,28 +1,49 @@
-import React from 'react'
-import SingleUserAPI from '../../services/api.js'
-import { Link } from 'react-router-dom'
-
 // The Player looks up the player using the number parsed from
 // the URL's pathname. If no player is found with the given
 // number, then a "player not found" message is displayed.
-const SingleUser = (props) => {
-  const singleUser = SingleUserAPI.get(
-    parseInt(props.match.params.number, 10)
-  )
-  console.log(props);
-  if (!singleUser) {
-    return <div>Sorry, but the singleUser was not found</div>
+
+import React from 'react'
+import SingleUserAPI from '../../services/api.js'
+import { Link } from 'react-router-dom'
+import TranslatedComponent from '../../utils/TranslatedComponent.js';
+
+class SingleUser extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      'singleUser':SingleUserAPI.get(
+        parseInt(props.match.params.number, 10)
+      )
+    };
   }
-  return (
-    <div className="basicOuter" >
-      <div className="basicInner">
-        <h1>{singleUser.name} (#{singleUser.number})</h1>
-        <h2>Position: {singleUser.position}</h2>
-        <Link to='/user'><div className="backPB" >Back</div></Link>
-      </div>
-    </div>
-
-  )
+  componentDidMount() {
+    // Will execute as normal
+    typeof document.getElementById('root')['submenu'] !== 'undefined' ? document.getElementById('root')['submenu'].handler= null : null;
+  }
+  render() {
+    if (!this.state.singleUser) {
+      return <div>Sorry, but the singleUser was not found</div>
+    }else{
+      return (
+        <div className="basicOuter" >
+          <div className="basicInner">
+            <h1>{this.translate('register.'+this.state.singleUser.name)}(#{this.state.singleUser.number})</h1>
+            <h2>Position: {this.state.singleUser.position}</h2>
+            <Link to='/user'><div className="backPB" >{this.translate('back')}</div></Link>
+          </div>
+        </div> 
+      );
+    }
+    
+  }
 }
+SingleUser.propTypes = {
+  //who: React.PropTypes.string.isRequired,
+};
 
-export default SingleUser
+// Returns nothing because it mutates the class
+TranslatedComponent(SingleUser);
+export default SingleUser;
+
+
+

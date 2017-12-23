@@ -1,3 +1,4 @@
+import { polyfill } from 'es6-promise'; polyfill();
 // A simple data API that will be used to get the data for our
 // components. On a real website, a more robust data fetching
 // solution would be more appropriate.
@@ -10,10 +11,10 @@ const UsuarioApi = {
       { number: 4, name: "Home Op4", position: "M", sub:"/" }
     ],
     '/user':[
-      { number: 5, name: "Registro", position: "D" , sub:"/user" },
-      { number: 6, name: "Identificación", position: "D" , sub:"/user" },
-      { number: 7, name: "Modificación", position: "D" , sub:"/user" },
-      { number: 8, name: "Consulta", position: "M" , sub:"/user" }
+      { number: 5, name: "register", position: "D" , sub:"/user" },
+      { number: 6, name: "identify", position: "D" , sub:"/user" },
+      { number: 7, name: "modify", position: "D" , sub:"/user" },
+      { number: 8, name: "query", position: "M" , sub:"/user" }
     ],
     '/content':[
       { number: 9, name: "content Op1", position: "G" , sub:"/content" },

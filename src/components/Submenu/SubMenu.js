@@ -1,7 +1,9 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import { Link } from 'react-router-dom'
 import UsuarioApi from '../../services/api2.js'
 import SubMenuPB from './SubMenuPB.js'
+import TranslatedComponent from '../../utils/TranslatedComponent.js';
 
 
 // The Header creates links that can be used to navigate
@@ -12,21 +14,46 @@ class Submenu extends React.Component {
         super(props);
         this.state = {
         	'sub':props.sub,
-        	'toogle':true,
-        	'show': 'hideMenu'
+        	'show': '',
+        	'toogle':false
         };
+        this.clickHandler = this.clickHandler.bind(this);
+        this.handleClickOutside = this.handleClickOutside.bind(this);
+    }
+	clickHandler(){
+		if(!this.state.toogle || this.state.show === '' ){
+			this.state.toogle = true
+			this.setState({
+			    'show': 'showMenu'
+			}),
+			document.getElementById('root').addEventListener('click', this.handleClickOutside, true)
+		}else if(this.state.toogle ){
+			this.state.toogle = false;
+			this.setState({
+			    'show': ''
+			});
+			document.getElementById('root').removeEventListener('click', this.handleClickOutside, true)
+		}
+    }
+    componentDidMount() {
+    	
+	}
+	componentWillUnmount() {
+	    document.getElementById('root').removeEventListener('click', this.handleClickOutside, true);
+	}
 
-    }
-	clickHandler = () => {
-		this.setState({
-			'toogle': !this.state.toogle,
-		    'show': this.state.toogle ? 'showMenu' : ''
-		 });
-    }
+	handleClickOutside(event) {
+	    const domNode = ReactDOM.findDOMNode(this);
+	    if (!domNode || !domNode.contains(event.target)) {
+	        this.setState({
+			    'show': ''
+			 });
+	    }
+	    document.getElementById('root').removeEventListener('click', this.handleClickOutside, true);
+	}
     
   	render() {
 	  	return(
-	  		
 	  		<div onClick={ this.clickHandler } >
 		  		<SubMenuPB ></ SubMenuPB>
 		  		<menuOptions 
@@ -35,20 +62,26 @@ class Submenu extends React.Component {
 	      			} 
 	      		>			    
 				    <nav>
-					    {
-					        UsuarioApi.all(this.state.sub).map(p => (
-					            <Link key={p.number} to={this.state.sub+'/'+p.number}><div>{p.name}</div></Link>
-					        ))
-					    }
+				    	<div className="scrollCont" >
+				    			<div className="scrollableCont" >
+								    {
+								        UsuarioApi.all(this.state.sub).map(p => (
+								            <Link key={p.number} to={this.state.sub+'/'+p.number}><div>{this.translate('register.'+p.name)}</div></Link>
+								        ))
+								    }
+								</div>
+						</div>
 				    </nav>
 
 				</menuOptions>
 				
 			</div>
-			
 	  	)
 	  }
-
 }
-
+Submenu.propTypes = {
+  //who: React.PropTypes.string.isRequired,
+};
+TranslatedComponent(Submenu);
 export default Submenu
+

@@ -2,6 +2,8 @@ const path = require('path');
 const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 
+process.env.NODE_ENV = 'development';
+
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -16,6 +18,10 @@ module.exports = {
 		port: 3333
 	},
 	resolve: {
+		"alias": {
+	      "react": "preact-compat",
+	      "react-dom": "preact-compat"
+	    },
 		root: path.resolve('src'),
 		extensions: ['.js', '.json', '.jsx', ''],
 	},
@@ -33,11 +39,32 @@ module.exports = {
 		publicPath: '/'
 	},
 	plugins: [
+		new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/]),
 		new HtmlWebpackPlugin({
 			inject: true,
 			template: path.resolve('public/index.html'),
 		}),
 		new webpack.HotModuleReplacementPlugin(),
+		new webpack.DefinePlugin({
+	      'process.env': {
+	        'NODE_ENV': JSON.stringify('production')
+	      }
+	    }),
+	    new webpack.optimize.UglifyJsPlugin({
+	      mangle: true,
+	      compress: {
+	        warnings: false, // Suppress uglification warnings
+	        pure_getters: true,
+	        unsafe: true,
+	        unsafe_comps: true,
+	        screw_ie8: true
+	      },
+	      output: {
+	        comments: false,
+	      },
+	      exclude: [/\.min\.js$/gi] // skip pre-minified libs
+	    }),
+	    new webpack.optimize.AggressiveMergingPlugin()
 	],
 	module: {
 		preLoaders: [{
@@ -85,5 +112,8 @@ module.exports = {
 	},
 	eslint: {
 		failOnError: true,
+	},
+	node: {
+	   fs: "empty"
 	}
 };

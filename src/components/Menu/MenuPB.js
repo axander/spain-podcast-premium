@@ -1,7 +1,13 @@
 import React from 'react'
 
-const MenuPB = () => (
-  <menuPB><div>☰</div></menuPB>
-)
 
+
+class MenuPB extends React.Component {
+  	render() {
+	  	return(
+	  		<menuPB><div>☰</div></menuPB>
+	  	)
+	  }
+
+}
 export default MenuPB

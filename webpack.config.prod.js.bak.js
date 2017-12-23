@@ -29,7 +29,7 @@ module.exports = {
 		root: [path.join(process.cwd(), 'node_modules')]
 	},
 	entry: [
-		
+		require.resolve('react-dev-utils/webpackHotDevClient'),
 		path.resolve('src/index.jsx'),
 	],
 	output: {

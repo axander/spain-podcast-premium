@@ -3,24 +3,42 @@ import Submenu from '../../components/Submenu/Submenu.js'
 import UsuarioApi from '../../services/api2.js'
 import SingleLayout from '../../components/SingleLayout/SingleLayout.js'
 import { Link, Route } from 'react-router-dom'
+import TranslatedComponent from '../../utils/TranslatedComponent.js';
 // The FullRoster iterates over all of the players and creates
 // a link to their profile page.
-const FullUser = (props) => (
-    <div className="basicOuter" >
-      <div className="basicInner">
-        <h1>USUARIO</h1>
-        {
-          UsuarioApi.options[props.match.path].map(p => (
-            <Link key={p.number}  to={props.match.path+'/'+p.number} ><div className='submenuOp' >
-              {p.name}
-            </div></Link>
-          ))
-        }
-        <Route path={props.match.path+'/:number'} component={SingleLayout} />
-      </div>  
-       <Submenu sub={props.match.path} />
-    </div>
-   
-)
 
-export default FullUser
+class FullUser extends React.Component {
+  /*constructor(props) {
+    super(props);
+  }*/
+  componentDidMount() {
+    // Will execute as normal
+  }
+  render() {
+    return (
+      <div className="basicOuter" >
+        <div className="basicInner">
+          <h1>{this.translate('menu.user').toUpperCase()}</h1>
+          {
+            UsuarioApi.options[this.props.match.path].map(p => (
+              <Link key={p.number}  to={this.props.match.path+'/'+p.number} ><div className='submenuOp' >
+                {this.translate('register.'+p.name)}
+              </div></Link>
+            ))
+          }
+          <Route path={this.props.match.path+'/:number'} component={SingleLayout} />
+        </div>  
+         <Submenu sub={this.props.match.path} />
+      </div>
+    );
+  }
+}
+
+FullUser.propTypes = {
+  //who: React.PropTypes.string.isRequired,
+};
+
+
+// Returns nothing because it mutates the class
+TranslatedComponent(FullUser);
+export default FullUser;

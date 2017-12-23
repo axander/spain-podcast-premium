@@ -1,7 +1,8 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import { Link } from 'react-router-dom'
 import MenuPB from './MenuPB.js'
-
+import TranslatedComponent from '../../utils/TranslatedComponent.js';
 // The Header creates links that can be used to navigate
 // between routes.
 
@@ -9,39 +10,75 @@ class Menu extends React.Component {
 	constructor(props) {
         super(props);
         this.state = {
-        	'toogle':true,
-        	'show': 'hideMenu'
+        	'show': '',
+        	'toogle':false
         };
+        this.clickHandler = this.clickHandler.bind(this);
+        this.handleClickOutside = this.handleClickOutside.bind(this);
     }
-	clickHandler = () => {
-		this.setState({
-			'toogle': !this.state.toogle,
-		    'show': this.state.toogle ? 'showMenu' : ''
-		 });
+	clickHandler(event){
+		if(!this.state.toogle || this.state.show === '' ){
+			this.state.toogle = true
+			this.setState({
+			    'show': 'showMenu'
+			}),
+			document.getElementById('root').addEventListener('click', this.handleClickOutside, true)
+		}else if(this.state.toogle ){
+			this.state.toogle = false;
+			this.setState({
+			    'show': ''
+			});
+			document.getElementById('root').removeEventListener('click', this.handleClickOutside, true)
+		}
     }
+    componentDidMount() {
+	}
+	componentWillUnmount() {
+		document.getElementById('root').removeEventListener('click', this.handleClickOutside, true);
+	}
+
+	handleClickOutside(event) {
+	    const domNode = ReactDOM.findDOMNode(this);
+	    if (!domNode || !domNode.contains(event.target)) {
+	        this.setState({
+			    'show': ''
+			 });
+	    }
+	    document.getElementById('root').removeEventListener('click', this.handleClickOutside, true);
+	}
   	render() {
 	  	return(
-	  		<div onClick={ this.clickHandler } >
+	  		<div  onClick={ this.clickHandler } >
 		  		<MenuPB ></ MenuPB>
-		  		<menuOptions 
+		  		<menuOptions id="menuContainer" 
 		  			className={
 						this.state.show 
 	      			} 
-	      		>			    
-
+	      		>
 				    <nav>
-				        <Link to='/'><div>Home</div></Link>
-				        <Link to='/user'><div>Usuario</div></Link>
-				        <Link to='/content'><div>Listados de Contenidos</div></Link>
-				        <Link to='/podcast'><div>Podcast</div></Link>
+				    	<div className="scrollCont" >
+				    		<div className="scrollableCont" >
+						        <Link to='/'><div>{this.translate('menu.home')}</div></Link>
+						        <Link to='/program'><div>{this.translate('menu.program')}</div></Link>
+						        <Link to='/channel'><div>{this.translate('menu.channel')}</div></Link>
+						        <Link to='/podcast'><div>{this.translate('menu.podcast')}</div></Link>
+						        <Link to='/content'><div>{this.translate('menu.content')}</div></Link>
+						    </div>
+					    </div>
 				    </nav>
-
 				</menuOptions>
+				
 			</div>
 			
 	  	)
 	  }
 
 }
+Menu.propTypes = {
+  //who: React.PropTypes.string.isRequired,
+};
 
+
+// Returns nothing because it mutates the class
+TranslatedComponent(Menu);
 export default Menu

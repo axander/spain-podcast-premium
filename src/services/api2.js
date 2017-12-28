@@ -11,10 +11,10 @@ const UsuarioApi = {
       { number: 4, name: "Home Op4", position: "M", sub:"/" }
     ],
     '/user':[
-      { number: 5, name: "register", position: "D" , sub:"/user" },
-      { number: 6, name: "identify", position: "D" , sub:"/user" },
-      { number: 7, name: "modify", position: "D" , sub:"/user" },
-      { number: 8, name: "query", position: "M" , sub:"/user" }
+      { id:"personalData", name: "personalData", position: "U" , sub:"/user" },
+      { id:"bankData", name: "bankData", position: "U" , sub:"/user" },
+      { id:"sessionData", name: "sessionData", position: "U" , sub:"/user" },
+      { id:"subscriptionData", name: "subscriptionData", position: "U" , sub:"/user" }
     ],
     '/content':[
       { number: 9, name: "content Op1", position: "G" , sub:"/content" },
@@ -31,7 +31,7 @@ const UsuarioApi = {
   },
   all: function(_op) { return this.options[_op]},
   get: function(id) {
-    const isOption = p => p.number === id
+    const isOption = p => p.id === id
     return this.options.find(isOption)
   }
 }

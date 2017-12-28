@@ -12,9 +12,10 @@ class SingleUser extends React.Component {
     super(props);
     this.state = {
       'singleUser':SingleUserAPI.get(
-        parseInt(props.match.params.number, 10)
+        props.match.params.id
       )
     };
+    alert(this.state.singleUSer);
   }
   componentDidMount() {
     // Will execute as normal
@@ -27,7 +28,7 @@ class SingleUser extends React.Component {
       return (
         <div className="basicOuter" >
           <div className="basicInner">
-            <h1>{this.translate('register.'+this.state.singleUser.name)}(#{this.state.singleUser.number})</h1>
+            <h1>{this.translate('register.'+this.state.singleUser.id)}</h1>
             <h2>Position: {this.state.singleUser.position}</h2>
             <Link to='/user'><div className="backPB" >{this.translate('back')}</div></Link>
           </div>

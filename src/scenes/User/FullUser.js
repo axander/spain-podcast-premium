@@ -21,12 +21,12 @@ class FullUser extends React.Component {
           <h1>{this.translate('menu.user').toUpperCase()}</h1>
           {
             UsuarioApi.options[this.props.match.path].map(p => (
-              <Link key={p.number}  to={this.props.match.path+'/'+p.number} ><div className='submenuOp' >
-                {this.translate('register.'+p.name)}
+              <Link key={p.id}  to={this.props.match.path+'/'+p.id} ><div className='submenuOp' >
+                {this.translate('register.'+p.id)}
               </div></Link>
             ))
           }
-          <Route path={this.props.match.path+'/:number'} component={SingleLayout} />
+          <Route path={this.props.match.path+'/:name'} component={SingleLayout} />
         </div>  
          <Submenu sub={this.props.match.path} />
       </div>

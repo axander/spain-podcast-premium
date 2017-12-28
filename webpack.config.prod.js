@@ -23,7 +23,7 @@ module.exports = {
 	      "react-dom": "preact-compat"
 	    },
 		root: path.resolve('src'),
-		extensions: ['.js', '.json', '.jsx', ''],
+		extensions: ['.js', '.json', '.jsx'],
 	},
 	resolveLoader: {
 		root: [path.join(process.cwd(), 'node_modules')]
@@ -51,6 +51,7 @@ module.exports = {
 	      }
 	    }),
 	    new webpack.optimize.UglifyJsPlugin({
+	    	sourceMap: true, minimize: true,
 	      mangle: true,
 	      compress: {
 	        warnings: false, // Suppress uglification warnings

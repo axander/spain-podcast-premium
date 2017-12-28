@@ -66,7 +66,7 @@ class Submenu extends React.Component {
 				    			<div className="scrollableCont" >
 								    {
 								        UsuarioApi.all(this.state.sub).map(p => (
-								            <Link key={p.number} to={this.state.sub+'/'+p.number}><div>{this.translate('register.'+p.name)}</div></Link>
+								            <Link key={p.id} to={this.state.sub+'/'+p.id}><div>{this.translate('register.'+p.id)}</div></Link>
 								        ))
 								    }
 								</div>

@@ -19,7 +19,7 @@ class User extends React.Component {
     return (
       <Switch>
 	    <Route exact path='/user' component={FullUser}/>
-	    <Route path='/user/:number' component={SingleUser} />
+	    <Route path='/user/:id' component={SingleUser} />
 	</Switch>
     );
   }

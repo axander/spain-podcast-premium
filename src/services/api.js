@@ -4,21 +4,26 @@ import { polyfill } from 'es6-promise'; polyfill();
 // solution would be more appropriate.
 const SingleUserAPI = {
   singleUsers: [
-    { id:'Home01', number: 1, name: "Home Op1", position: "G", sub:"./" },
-    { id:'Home02', number: 2, name: "Home Op2", position: "D", sub:"./"  },
-    { id:'Home03', number: 3, name: "Home Op3", position: "D", sub:"./"  },
-    { id:'Home04', number: 4, name: "Home Op4", position: "M", sub:"./"  },
+    { id:'Home01', name: "Home Op1", position: "H", sub:"./" },
+    { id:'Home02', name: "Home Op2", position: "H", sub:"./"  },
+    { id:'Home03', name: "Home Op3", position: "H", sub:"./"  },
+    { id:'Home04', name: "Home Op4", position: "H", sub:"./"  },
     { id:'personalData', name: "Personal Data", position: "U", sub:"/user"  },
     { id:'bankData', name: "Bank Data", position: "U", sub:"/user"  },
     { id:'subscriptionData', name: "Subscription Data", position: "U", sub:"/user"  },
     { id:'sessionData', name: "Session Data", position: "U", sub:"/user"  },
-    { id:'Home01', number: 10, name: "Contenido Listado Op2", position: "D", sub:"/content"  },
-    { id:'Home01', number: 11, name: "Contenido Listado Op3", position: "D", sub:"/content"  },
-    { id:'Home01', number: 12, name: "Contenido Listado Op4", position: "M", sub:"/content"  },
-    { id:'Home01', number: 13, name: "Podcast Op1", position: "G", sub:"/podcast"  },
-    { id:'Home01', number: 14, name: "Podcast Op2", position: "D", sub:"/podcast"  },
-    { id:'Home01', number: 15, name: "Podcast Op3", position: "D", sub:"/podcast"  },
-    { id:'Home01', number: 16, name: "Podcast Op4", position: "M", sub:"/podcast"  }
+    { id:'deleteAccount', name: "Delete Account", position: "U", sub:"/user"  },
+    { id:'Content01', name: "Contenido Listado Op1", position: "C", sub:"/content"  },
+    { id:'Content02', name: "Contenido Listado Op2", position: "C", sub:"/content"  },
+    { id:'Content03', name: "Contenido Listado Op3", position: "C", sub:"/content"  },
+    { id:'Podcast01', name: "Podcast Op1", position: "P", sub:"/podcast"  },
+    { id:'Podcast02', name: "Podcast Op2", position: "P", sub:"/podcast"  },
+    { id:'Podcast03', name: "Podcast Op3", position: "P", sub:"/podcast"  },
+    { id:'Podcast04', name: "Podcast Op4", position: "P", sub:"/podcast"  },
+    { id:'Fav01', name: "Fav Op1", position: "F", sub:"/favourites"  },
+    { id:'Fav02', name: "Fav Op2", position: "F", sub:"/favourites"  },
+    { id:'Fav03', name: "Fav Op3", position: "F", sub:"/favourites"  },
+    { id:'Fav04', name: "Fav Op4", position: "F", sub:"/favourites"  }
   ],
   all: function() { return this.singleUsers},
   get: function(id) {

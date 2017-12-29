@@ -10,6 +10,9 @@ html,body {
 	height:100%;
 	overflow:hidden;
 }
+label {
+    margin-top: 5px;
+}
 spinner{
     position:fixed;
     background:rgba(32, 70, 113, 0.82);
@@ -71,6 +74,34 @@ main, maincontainer, auth,logout{
 	top:0;
 	left:0;
 }
+iconmenu{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+iconmenu a{
+    cursor: pointer;
+    margin-bottom: 4px;
+    display: inline-block;
+}
+iconmenu a:hover{
+    opacity:.5;
+}
+.icoSelected{
+    padding: 14px;
+    border-radius: 40px;
+    background: #7e9ab9;
+}
+.icoNoSelected{
+    padding: 14px;
+    border-radius: 40px;
+    background: transparent;
+}
+.user, .later, .favourites, .downloads, .history, .shared  {
+        text-align: center;
+}
 menuOptions{
 	position:absolute;
 	z-index: 2004;
@@ -121,6 +152,10 @@ menuOptions a:visited{
 	color:#204671;
 	text-decoration:none;
 }
+menuOptions .opSelected{
+    background: #204671;
+    color: #fff;
+}
 //languages picker
 .language-picker{
     width: 100% !important;
@@ -156,7 +191,7 @@ menuOptions button{
 }
 menuOptions button:hover{
     background:#204671;
-    color:#fff;
+    color:#fff !important;
 }
 console {
     position: absolute;
@@ -232,9 +267,10 @@ settingsPB{
     transition: all .5s ease;
 }
 SubmenuPB{
+    position: fixed;
+    z-index:2004;
 	line-height: 18px;
     word-break: break-all;
-    position: fixed;
     bottom: 0;
     width: 15px;
     right: 0;
@@ -483,6 +519,49 @@ input[type="text"], input[type="password"]{
 .modal .modal-contain{
     padding: 30px;
 }
-
+.notValid_msg{
+    font-size: 10px ;
+    color: #dd4b39 !important;
+}
+.notValid_input{
+    border: 1px solid #dd4b39 !important;
+    background: #bfece5 !important;
+}
+.disabled{
+    pointer-events: none;
+    background: #365c86!important;
+    opacity: .5;
+}
 //Modal
+
+//scenes
+personalData {
+    
+}
+personalData .container{
+    background: #fff;
+    margin: 0;
+    width: 100%;
+    color: #204670;
+}
+personalData .container{
+    background: #fff;
+    margin: 0;
+    width: 100%;
+}
+personalData label {
+    float:left;
+}
+personalData input[type=text] {
+    cursor: pointer;
+    display: inline-block;
+    margin:0;
+    background: #fff;
+    border:1px solid #204670;
+    color: #204670;
+    width:100%;
+}
+
+
+
 

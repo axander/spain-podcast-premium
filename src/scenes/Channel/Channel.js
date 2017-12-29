@@ -6,11 +6,15 @@ import { Link, Route } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js';
 
 class Channel extends React.Component {
-  /*constructor(props) {
+  constructor(props) {
     super(props);
-  }*/
+    typeof props.location !== 'undefined'
+    ? localStorage.setItem('lastState',props.location.pathname)
+    : null;
+  }
   componentDidMount() {
     // Will execute as normal
+        
   }
   render() {
     return (

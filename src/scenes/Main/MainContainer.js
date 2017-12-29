@@ -5,6 +5,12 @@ import Home from '../Home/Home.js'
 import User from '../User/User.js'
 import Content from '../Content/Content.js'
 import Podcast from '../Podcast/Podcast.js'
+import Favourites from '../Favourites/Favourites.js'
+import Downloads from '../Downloads/Downloads.js'
+import Historial from '../History/History.js'
+import Later from '../Later/Later.js'
+import Shared from '../Shared/Shared.js'
+
 class MainContainer extends React.Component {
   
   render() {
@@ -16,6 +22,11 @@ class MainContainer extends React.Component {
             <Route path='/user' component={User} />
             <Route path='/content' component={Content}/>
             <Route path='/podcast' component={Podcast}/>
+            <Route path='/favourites' component={Favourites} />
+            <Route path='/downloads' component={Downloads} />
+            <Route path='/later' component={Later} />
+            <Route path='/history' component={Historial} />
+            <Route path='/shared' component={Shared} />
           </Switch>
         </maincontainer>
 

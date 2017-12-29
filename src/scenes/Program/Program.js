@@ -8,6 +8,9 @@ import TranslatedComponent from '../../utils/TranslatedComponent.js';
 class Program extends React.Component {
   constructor(props) {
     super(props);
+    typeof props.location !== 'undefined'
+    ? localStorage.setItem('lastState',props.location.pathname)
+    : null;
     this.state = {
       'data':[
         { name:'Alejandro'},

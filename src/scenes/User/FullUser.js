@@ -22,7 +22,7 @@ class FullUser extends React.Component {
           {
             UsuarioApi.options[this.props.match.path].map(p => (
               <Link key={p.id}  to={this.props.match.path+'/'+p.id} ><div className='submenuOp' >
-                {this.translate('register.'+p.id)}
+                {this.translate(p.sub.replace('/','')+'.'+p.id)}
               </div></Link>
             ))
           }

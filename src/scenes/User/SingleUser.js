@@ -15,7 +15,6 @@ class SingleUser extends React.Component {
         props.match.params.id
       )
     };
-    alert(this.state.singleUSer);
   }
   componentDidMount() {
     // Will execute as normal
@@ -28,7 +27,7 @@ class SingleUser extends React.Component {
       return (
         <div className="basicOuter" >
           <div className="basicInner">
-            <h1>{this.translate('register.'+this.state.singleUser.id)}</h1>
+            <h1>{this.translate(this.state.singleUser.sub.replace('/','')+'.'+this.state.singleUser.id)}</h1>
             <h2>Position: {this.state.singleUser.position}</h2>
             <Link to='/user'><div className="backPB" >{this.translate('back')}</div></Link>
           </div>

@@ -20,12 +20,12 @@ class Podcast extends React.Component {
           <h1>PODCAST</h1>
           {
               UsuarioApi.options[this.props.match.path].map(p => (
-                <Link key={p.number}  to={this.props.match.path+'/'+p.number} ><div className='submenuOp' >
+                <Link key={p.number}  to={this.props.match.path+'/'+p.id} ><div className='submenuOp' >
                   {p.name}
                 </div></Link>
               ))
             }
-            <Route path={this.props.match.path+'/:number'} component={SingleLayout} />
+            <Route path={this.props.match.path+'/:id'} component={SingleLayout} />
         </div>  
         <Submenu  sub={this.props.match.path}/>  
       </div>

@@ -1,26 +1,32 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
-import FullUser from './FullUser.js'
-import SingleUser from './SingleUser.js'
+import Submenu from '../../components/Submenu/Submenu.js'
+import UsuarioApi from '../../services/api2.js'
+import SingleLayout from '../../components/SingleLayout/SingleLayout.js'
+import { Link, Route } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js';
 
-// The Roster component matches one of two different routes
-// depending on the full pathname
-
-
-
 class User extends React.Component {
-
+  /*constructor(props) {
+    super(props);
+  }*/
   componentDidMount() {
     // Will execute as normal
   }
-
   render() {
     return (
-      <Switch>
-	    <Route exact path='/user' component={FullUser}/>
-	    <Route path='/user/:id' component={SingleUser} />
-	</Switch>
+      <div className="user">
+        <h1>{this.translate('user').toUpperCase()}</h1>
+        {
+              UsuarioApi.options[this.props.match.path].map(p => (
+                <Link key={p.number}  to={this.props.match.path+'/'+p.id} ><div className='submenuOp' >
+                  {this.translate('user.'+p.name)}
+                </div></Link>
+              ))
+            }
+            <Route path={this.props.match.path+'/:id'} component={SingleLayout} />
+        <Submenu  sub={this.props.match.path}/> 
+      </div> 
+
     );
   }
 }

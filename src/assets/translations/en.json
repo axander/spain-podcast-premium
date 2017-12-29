@@ -25,10 +25,12 @@
   "or": "or",
   "password": "password",
   "password.repit": "Repit password",
-  "register.personalData":"Personal Data",
-  "register.bankData":"Bank Data",
-  "register.subscriptionData":"Subscription",
-  "register.sessionData":"Session Data",
+  "user.personalData":"Personal Data",
+  "user.bankData":"Bank Data",
+  "user.subscriptionData":"Subscription",
+  "user.sessionData":"Session Data",
+  "register.emailNotValid": "Remember intro a valid email, please",
+  "register.passwordNotMatch": "Remember, Password and Repit Password must match",
   "register.identify": "Identify",
   "register.modify": "Modify",
   "register.or": "or",
@@ -46,5 +48,5 @@
   "confirm.0003": "Invalid data.",
   "user": "user",
   "welcome": "Welcome to SPAIN PODCAST PREMIUM!",
-  "critical":"It has been a problem. Try again later, please.  ."
+  "critical":"It has been a problem. Try again later, please."
 }

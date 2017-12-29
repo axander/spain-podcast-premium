@@ -10,6 +10,7 @@ import { Modal, API } from '../../services/Rest.js'
 import Settings from '../../components/Settings/Settings.js'
 import FBPB from '../../components/FBPB.js'
 import Dev from '../../components/Dev/Dev.js'
+import IconMenu from '../../components/IconMenu/IconMenu.js'
 import Menu from '../../components/Menu/Menu.js'
 import Logout from '../Login/Logout.js'
 import Recover from '../Login/Recover.js'
@@ -185,6 +186,7 @@ class Main extends React.Component {
         </Switch>
         <Dev />
         <Menu />
+        <IconMenu />
         <Settings logout={fakeAuth}  />
         <Modal />
       </div>

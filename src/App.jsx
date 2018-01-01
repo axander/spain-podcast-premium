@@ -11,7 +11,7 @@ class App extends React.Component {
 		super(props);
 		this.state = { 
 			isOpen: false,
-          	showedError: '',
+          	showedMsg: '',
           	config: false
 		 };
 		 window.setSpinner();
@@ -21,14 +21,14 @@ class App extends React.Component {
 	    console.log(_response);
 	    this.setState({
           isOpen: true,
-          showedError: _error
+          showedMsg: _error
       	});
 	}
 	setStorage = (_response) => {
 		window.setSpinner();
 	    this.setState({
           isOpen: false,
-          showedError: '',
+          showedMsg: '',
           config:true
       	});
 	}
@@ -41,7 +41,7 @@ class App extends React.Component {
 	  		<div>
 			  	<Main />
 			  	<Modal show={this.state.isOpen} onClose={this.toggleModal} >
-	              {this.translate(this.state.showedError)}
+	              {this.translate(this.state.showedMsg)}
 	            </Modal>
 			</div>
 	  	)

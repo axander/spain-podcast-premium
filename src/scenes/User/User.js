@@ -4,29 +4,19 @@ import UsuarioApi from '../../services/api2.js'
 import SingleLayout from '../../components/SingleLayout/SingleLayout.js'
 import { Link, Route } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js';
+import Utils from '../../utils/Utils.js';
 
 class User extends React.Component {
   constructor(props) {
     super(props);
-    this.checkScene = this.checkScene.bind(this);
   }
-  checkScene(_scene){
-    var checked = false;
-    localStorage.getItem('lastState').indexOf(_scene)>=0
-    ? checked = true
-    : checked = false;
-    return checked
-  }
-  /*componentDidMount() {
-    // Will execute as normal
-  }*/
   render() {
     return (
       <div className="user">
         <h1>{this.translate('user').toUpperCase()}</h1>
         {
               UsuarioApi.options[this.props.match.path].map(p => (
-                <Link key={p.number}  to={this.props.match.path+'/'+p.id} ><div className={ this.checkScene(this.props.match.path+'/'+p.id) ? 'submenuOp tabSelected' : 'submenuOp' }  >
+                <Link key={p.number}  to={this.props.match.path+'/'+p.id} ><div className={ Utils.checkScene(this.props.match.path+'/'+p.id) ? 'submenuOp tabSelected' : 'submenuOp' }  >
                   {this.translate('user.'+p.name)}
                 </div></Link>
               ))

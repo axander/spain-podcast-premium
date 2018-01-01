@@ -21,6 +21,7 @@ import Home from '../Home/Home.js'
 import Program from '../Program/Program.js'
 import Channel from '../Channel/Channel.js'
 import Podcast from '../Podcast/Podcast.js'
+import Terms from '../Terms/Terms.js'
 import MainContainer from './MainContainer.js'
 import TranslatedComponent from '../../utils/TranslatedComponent.js'
 import AddPropsToRoute from '../../components/AddPropsToRoute.js'
@@ -61,7 +62,7 @@ class Login extends React.Component{
     this.state = {
      'user':'',
      'pwd':'',
-     'showedError': localStorage.getItem('error'),
+     'showedMsg': localStorage.getItem('error'),
      'isOpen': localStorage.getItem('error') ? true : false,
      'loggedFb': localStorage.getItem('extStatus')
     };
@@ -92,17 +93,17 @@ class Login extends React.Component{
   onError = (_response, _error) =>{
     this.setState({
           isOpen: true,
-          showedError: _error
+          showedMsg: _error
       });
     /*this.setState(() => ({
-        showedError: 'ERROR'
+        showedMsg: 'ERROR'
       }))*/
   }
   handleSubmit(event, _login, _onError) {
     console.log(this.state);
     window.setSpinner();
     this.setState(() => ({
-        showedError: ''
+        showedMsg: ''
       }))
     event.preventDefault();
     //API.action('','GET', { 'user':this.state.user, 'pwd':this.state.pwd}, this.login, this.onError);
@@ -112,7 +113,7 @@ class Login extends React.Component{
     localStorage.getItem('error')
     ? ( this.setState({
           isOpen: true,
-          showedError: localStorage.getItem('error')
+          showedMsg: localStorage.getItem('error')
       }) , localStorage.removeItem('error') )
     :null;
   }
@@ -143,9 +144,9 @@ class Login extends React.Component{
               <div className="formOr" >------------------   {this.translate('register.or')}   ------------------</div>
               <form onSubmit={e => this.handleSubmit(e, this.login, this.onError)}>
                 <div><label>{this.translate('user').toUpperCase()}</label></div>
-                <div><input id="user" type="text"  onChange={this.handleChange} /></div>
+                <div><input id="user" type="text"  onChange={this.handleChange} value={this.state.user} /></div>
                 <div><label>{this.translate('password').toUpperCase()}</label></div>
-                <div><input id="pwd" type="password" onChange={this.handleChange} /></div>
+                <div><input id="pwd" type="password" onChange={this.handleChange} value={this.state.pwd} /></div>
                 <Link to='/recover' className='contrast'><div>{this.translate('register.recoverPwd')}</div></Link>
                 <div><div className="submitBtn" onClick={e => this.handleSubmit(e, this.login, this.onError)} >{this.translate('continue').toUpperCase()}</div></div>
               </form>
@@ -154,7 +155,7 @@ class Login extends React.Component{
         </div>
         <div>
           <Modal show={this.state.isOpen} onClose={this.toggleModal} >
-              {this.translate(this.state.showedError)}
+              {this.translate(this.state.showedMsg)}
             </Modal>
         </div>
       </auth>  
@@ -179,7 +180,8 @@ class Main extends React.Component {
           <Route exact path='/login' component={Login}/>
           <Route exact path='/logout' component={Logout}/>
           <Route exact path='/register' component={Register}/>
-          <Route exact path='/confirm' component={Confirm}/>
+          <Route exact path='/terms' component={Terms}/>
+          <Route path='/confirm' component={Confirm}/>
           <Route exact path='/recover' component={Recover} />
           <Route exact path='/program' component={Program} />
           <Route exact path='/program/:channel' component={Program} />

@@ -25,6 +25,9 @@ spinner{
     width: 100%;
     height: 100%;
 }
+a:hover, a:visited, a:link{
+    text-decoration:none;
+}
 a.contrast, a:visited.contrast, a:visited.contrast{
     display:inline-block;
     color: #dde7f3;
@@ -172,12 +175,15 @@ AuthButton {
 .home > div {
     text-align:center;
 }
-main, maincontainer, auth,logout{
+main, maincontainer, auth, confirm, logout{
 	position:absolute;
 	width:100%;
 	height:100%;
 	top:0;
 	left:0;
+}
+auth a{
+    color:#fff;
 }
 iconmenu{
     position: fixed;
@@ -205,7 +211,7 @@ iconmenu a:hover{
     border-radius: 40px;
     background: transparent;
 }
-.user, .later, .favourites, .downloads, .history, .shared  {
+.user, .later, .favourites, .downloads, .history, .shared, .terms {
         text-align: center;
 }
 menuOptions{
@@ -934,6 +940,110 @@ personalData input[type=text] {
     color: #204670;
     width:100%;
 }
+/*subscriptions style*/
+.subsc_item{
+    position: relative;
+    display: inline-block;
+    width: 180px;
+    height: 150px;
+    margin: 10px;
+    background: #fff;
+    -webkit-transition: all .5s ease;
+    transition: all .5s ease;
+}
+.subsc_item:hover{
+    opacity:.5;
+}
+.subs_actual{
+    font-size:50px;
+}
+.subsc_ico{
+    font-size:50px;
+}
+.subsc_active{
+    background: green;
+    padding: 10px;
+    color: #fff;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.subsc_nonActive{
+    background: #dd4b39;
+    padding: 10px;
+    color: #fff;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+/*subscriptions style*/
+/*invitations style*/
+.inv_intro{
+    background:#fff;
+    color: #6889b1;
+    padding:10px;
+}
+.inv_item{
+    position: relative;
+    vertical-align: top;
+    display: inline-block;
+    width: 180px;
+    height: 150px;
+    margin: 10px;
+    background: #fff;
+    -webkit-transition: all .5s ease;
+    transition: all .5s ease;
+    color: #6889b1;
+    text-align: left;
+    padding: 10px;
+    margin: 20px;
+}
+.code_active{
+    background: green;
+    padding: 10px;
+    color: #fff;
+    position: absolute;
+    left:0;
+    bottom: 0;
+    width: 100%;
+}
+.code_nonActive{
+    cursor:pointer;
+    background: #dd4b39;
+    padding: 10px;
+    color: #fff;
+    position: absolute;
+    left:0;
+    bottom: 0;
+    width: 100%;
+}
+.code_nonActive:hover{
+    opacity:.5;
+}
+.code_nonActive .next{
+    float: right;
+}
+
+.code_lapsed{
+    background: #333;
+    padding: 10px;
+    color: #fff;
+    position: absolute;
+    bottom: 0;
+    left:0;
+    width: 100%;
+}
+sendInvitation{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: #fff;
+    top: 0;
+    left: 0;
+    padding: 10px;
+}
+
+/*invitations style*/
 
 
 

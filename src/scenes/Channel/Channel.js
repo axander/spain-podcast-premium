@@ -5,6 +5,7 @@ import UsuarioApi from '../../services/api2.js'
 import SingleLayout from '../../components/SingleLayout/SingleLayout.js'
 import { Link, Route } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js';
+import Utils from '../../utils/Utils.js';
 
 class Channel extends React.Component {
   constructor(props) {
@@ -15,15 +16,7 @@ class Channel extends React.Component {
     this.state = {
       'data':[ ]
     }
-    this.checkScene = this.checkScene.bind(this);
     this.clickHandler = this.clickHandler.bind(this);
-  }
-  checkScene(_scene){
-    var checked = false;
-    localStorage.getItem('lastState').indexOf(_scene)>=0
-    ? checked = true
-    : checked = false;
-    return checked
   }
   onSuccess = (_response) => {
     _response.status === 'successfull'
@@ -35,7 +28,7 @@ class Channel extends React.Component {
     )
     : this.setState({
         isOpen: true,
-        showedError: 'channels.' + _response.reason
+        showedMsg: 'channels.' + _response.reason
     });
   }
   clickHandler(event){
@@ -49,7 +42,7 @@ class Channel extends React.Component {
   onError = (_response, _error) =>{
     this.setState({
           isOpen: true,
-          showedError: _error
+          showedMsg: _error
       });
   }
   toggleModal = () => {
@@ -71,11 +64,11 @@ class Channel extends React.Component {
 
   render() {
     return (
-      <div className={ this.checkScene('/channel') ? 'channel' : 'channel resetPaddingBottom' }>
-        <div className={ this.checkScene('/channel') ? '' : 'hide' } >
+      <div className={ Utils.checkScene('/channel') ? 'channel' : 'channel resetPaddingBottom' }>
+        <div className={ Utils.checkScene('/channel') ? '' : 'hide' } >
           <h1>{this.translate('menu.channel').toUpperCase()}</h1>
         </div>
-        <div className={ this.checkScene('/channel') ? '' : 'resetPaddingTop' }>
+        <div className={ Utils.checkScene('/channel') ? '' : 'resetPaddingTop' }>
           <div class="row" >
             {
               this.state.data.map(p => (
@@ -100,7 +93,7 @@ class Channel extends React.Component {
           </div>
         </div>
         <Modal show={this.state.isOpen} onClose={this.toggleModal} >
-          {this.translate(this.state.showedError)}
+          {this.translate(this.state.showedMsg)}
         </Modal>
       </div> 
     );

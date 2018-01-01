@@ -5,6 +5,7 @@ import UsuarioApi from '../../services/api2.js'
 import SingleLayout from '../../components/SingleLayout/SingleLayout.js'
 import { Link, Route } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js';
+import Utils from '../../utils/Utils.js';
 
 class Program extends React.Component {
   constructor(props) {
@@ -16,15 +17,7 @@ class Program extends React.Component {
       'data':[ ],
       'channel': typeof this.props.match === 'undefined' ? this.props.channel : typeof this.props.match.params.channel === 'undefined' ? ( localStorage.getItem('lastChannel') ? localStorage.getItem('lastChannel') : 'Generic' ) : this.props.match.params.channel
     }
-    this.checkScene = this.checkScene.bind(this);
     this.clickHandler = this.clickHandler.bind(this);
-  }
-  checkScene(_scene){
-    var checked = false;
-    localStorage.getItem('lastState').indexOf(_scene)>=0
-    ? checked = true
-    : checked = false;
-    return checked
   }
   onSuccess = (_response) => {
     _response.status === 'successfull'
@@ -36,7 +29,7 @@ class Program extends React.Component {
     )
     : this.setState({
         isOpen: true,
-        showedError: 'program.' + _response.reason
+        showedMsg: 'program.' + _response.reason
     });
   }
   clickHandler(event){
@@ -49,7 +42,7 @@ class Program extends React.Component {
   onError = (_response, _error) =>{
     this.setState({
           isOpen: true,
-          showedError: _error
+          showedMsg: _error
       });
   }
   toggleModal = () => {
@@ -72,11 +65,11 @@ class Program extends React.Component {
 
   render() {
     return (
-      <div className={ this.checkScene('/program') ? 'program' : 'program resetPaddingBottom' }>
-        <div className={ this.checkScene('/program') ? '' : 'hide' } >
+      <div className={ Utils.checkScene('/program') ? 'program' : 'program resetPaddingBottom' }>
+        <div className={ Utils.checkScene('/program') ? '' : 'hide' } >
           <h1>{this.translate('menu.program').toUpperCase() + ' ' + this.translate('channel') + ' ' + this.state.channel }</h1>
         </div>
-        <div className={ this.checkScene('/program') ? '' : 'resetPaddingTop' }>
+        <div className={ Utils.checkScene('/program') ? '' : 'resetPaddingTop' }>
           <div class="row" >
             {
               this.state.data.map(p => (
@@ -101,7 +94,7 @@ class Program extends React.Component {
           </div>
         </div>
         <Modal show={this.state.isOpen} onClose={this.toggleModal} >
-          {this.translate(this.state.showedError)}
+          {this.translate(this.state.showedMsg)}
         </Modal>
       </div> 
     );

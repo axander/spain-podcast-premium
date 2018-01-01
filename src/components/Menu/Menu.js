@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { Link } from 'react-router-dom'
 import MenuPB from './MenuPB.js'
 import TranslatedComponent from '../../utils/TranslatedComponent.js';
+import Utils from '../../utils/Utils.js';
 // The Header creates links that can be used to navigate
 // between routes.
 
@@ -15,7 +16,6 @@ class Menu extends React.Component {
         };
         this.clickHandler = this.clickHandler.bind(this);
         this.handleClickOutside = this.handleClickOutside.bind(this);
-        this.checkScene = this.checkScene.bind(this);
     }
 	clickHandler(event){
 		if(!this.state.toogle || this.state.show === '' ){
@@ -31,13 +31,6 @@ class Menu extends React.Component {
 			});
 			document.getElementById('root').removeEventListener('click', this.handleClickOutside, true)
 		}
-    }
-    checkScene(_scene){
-    	var checked = false;
-    	localStorage.getItem('lastState').indexOf(_scene)>=0
-    	? checked = true
-    	: checked = false;
-    	return checked
     }
     componentDidMount() {
 	}
@@ -66,11 +59,11 @@ class Menu extends React.Component {
 				    <nav>
 				    	<div className="scrollCont" >
 				    		<div className="scrollableCont" >
-						        <Link to='/'><div className={ this.checkScene('/') && localStorage.getItem('lastState') ==='/' ? 'opSelected' : 'opNoSelected' } >{this.translate('menu.home')}</div></Link>
-						        <Link to='/channel'><div className={ this.checkScene('/channel') ? 'opSelected' : 'opNoSelected' } >{this.translate('menu.channel')}</div></Link>
-						        <Link to='/program'><div className={ this.checkScene('/program') ? 'opSelected' : 'opNoSelected' } >{this.translate('menu.program')}</div></Link>
-						        <Link to='/podcast'><div className={ this.checkScene('/podcast') ? 'opSelected' : 'opNoSelected' } >{this.translate('menu.podcast')}</div></Link>
-						        <Link to='/content'><div className={ this.checkScene('/content') ? 'opSelected' : 'opNoSelected' } >{this.translate('menu.content')}</div></Link>
+						        <Link to='/'><div className={ Utils.checkScene('/') && localStorage.getItem('lastState') ==='/' ? 'opSelected' : 'opNoSelected' } >{this.translate('menu.home')}</div></Link>
+						        <Link to='/channel'><div className={ Utils.checkScene('/channel') ? 'opSelected' : 'opNoSelected' } >{this.translate('menu.channel')}</div></Link>
+						        <Link to='/program'><div className={ Utils.checkScene('/program') ? 'opSelected' : 'opNoSelected' } >{this.translate('menu.program')}</div></Link>
+						        <Link to='/podcast'><div className={ Utils.checkScene('/podcast') ? 'opSelected' : 'opNoSelected' } >{this.translate('menu.podcast')}</div></Link>
+						        <Link to='/content'><div className={ Utils.checkScene('/content') ? 'opSelected' : 'opNoSelected' } >{this.translate('menu.content')}</div></Link>
 						    </div>
 					    </div>
 				    </nav>

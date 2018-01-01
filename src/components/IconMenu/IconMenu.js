@@ -8,7 +8,7 @@ import history from '../../assets/images/history.png';
 import share from '../../assets/images/share.png';
 import user from '../../assets/images/user.png';
 import TranslatedComponent from '../../utils/TranslatedComponent.js';
-
+import Utils from '../../utils/Utils.js';
 
 // The Header creates links that can be used to navigate
 // between routes.
@@ -16,24 +16,16 @@ import TranslatedComponent from '../../utils/TranslatedComponent.js';
 class IconMenu extends React.Component {
 	constructor(props) {
         super(props);
-        this.checkScene = this.checkScene.bind(this);
-    }
-    checkScene(_scene){
-    	var checked = false;
-    	localStorage.getItem('lastState').indexOf(_scene)>=0
-    	? checked = true
-    	: checked = false;
-    	return checked
     }
   	render() {
 	  	return(
 	  		<iconmenu>
-		  		<Link to="/favourites"><div className={ this.checkScene('/favourites') ? 'icoSelected' : 'icoNoSelected' } ><img src={fav} alt="fav" /></div></Link>
-		  		<Link to="/downloads"><div className={ this.checkScene('/downloads') ? 'icoSelected' : 'icoNoSelected' } ><img src={download} alt="download" /></div></Link>
-		  		<Link to="/later"><div className={ this.checkScene('/later') ? 'icoSelected' : 'icoNoSelected' } ><img src={later} alt="later" /></div></Link>
-		  		<Link to="/history"><div className={ this.checkScene('/history') ? 'icoSelected' : 'icoNoSelected' } ><img src={history} alt="history" /></div></Link>
-		  		<Link to="/shared"><div className={ this.checkScene('/shared') ? 'icoSelected' : 'icoNoSelected' } ><img src={share} alt="shared" /></div></Link>
-		  		<Link to="/user"><div className={ this.checkScene('/user') ? 'icoSelected' : 'icoNoSelected' } ><img src={user} alt="user" /></div></Link>
+		  		<Link to="/favourites"><div className={ Utils.checkScene('/favourites') ? 'icoSelected' : 'icoNoSelected' } ><img src={fav} alt="fav" /></div></Link>
+		  		<Link to="/downloads"><div className={ Utils.checkScene('/downloads') ? 'icoSelected' : 'icoNoSelected' } ><img src={download} alt="download" /></div></Link>
+		  		<Link to="/later"><div className={ Utils.checkScene('/later') ? 'icoSelected' : 'icoNoSelected' } ><img src={later} alt="later" /></div></Link>
+		  		<Link to="/history"><div className={ Utils.checkScene('/history') ? 'icoSelected' : 'icoNoSelected' } ><img src={history} alt="history" /></div></Link>
+		  		<Link to="/shared"><div className={ Utils.checkScene('/shared') ? 'icoSelected' : 'icoNoSelected' } ><img src={share} alt="shared" /></div></Link>
+		  		<Link to="/user"><div className={ Utils.checkScene('/user') ? 'icoSelected' : 'icoNoSelected' } ><img src={user} alt="user" /></div></Link>
 		  	</iconmenu>
 	  	)
 	  }

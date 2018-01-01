@@ -18,7 +18,7 @@ class DeleteAccount extends React.Component {
   handleSubmit(event) {
     window.setSpinner();
     this.setState(() => ({
-        showedError: ''
+        showedMsg: ''
       }))
     event.preventDefault();
     API.action('savePersonalData', this.state, this.onSuccess, this.onError);
@@ -28,19 +28,19 @@ class DeleteAccount extends React.Component {
     ? ( 
       this.setState({
           'isOpen': true,
-          'showedError': 'user.form.successful',
+          'showedMsg': 'user.form.successful',
       })
     )
     : this.setState({
           isOpen: true,
-          showedError: 'user.form.' + _response.reason
+          showedMsg: 'user.form.' + _response.reason
       });
     
   }
   onError = (_response, _error) =>{
     this.setState({
           isOpen: true,
-          showedError: _error
+          showedMsg: _error
       });
   }
   toggleModal = () => {
@@ -80,7 +80,7 @@ class DeleteAccount extends React.Component {
           </form>
         </div>
         <Modal show={this.state.isOpen} onClose={this.toggleModal} >
-          {this.translate(this.state.showedError)}
+          {this.translate(this.state.showedMsg)}
         </Modal>
       </deleteAccount> 
     );

@@ -12,6 +12,7 @@ const UsuarioApi = {
     ],
     '/user':[
       { id:"personalData", name: "personalData", position: "U" , sub:"/user" },
+      { id:"invitations", name: "invitations", position: "U" , sub:"/user" },
       { id:"bankData", name: "bankData", position: "U" , sub:"/user" },
       { id:"sessionData", name: "sessionData", position: "U" , sub:"/user" },
       { id:"subscriptionData", name: "subscriptionData", position: "U" , sub:"/user" },

@@ -17,37 +17,48 @@ class Register extends React.Component {
      'passwordNotMatch':'',
      'pwdClass':'',
      'pwdRepit':'',
-     'showedError': localStorage.getItem('error'),
+     'terms':false,
+     'showedMsg': localStorage.getItem('error'),
      'isOpen': localStorage.getItem('error') ? true : false,
-     'deactive': 'disabled'
+     'deactive': 'disabled',
+     'success':false
     };
-
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+  resetForm = () => {
+    this.setState(this.baseState)
+  }
   componentDidMount() {
+       
+  }
+  componentWillUnmount(){
     
   }
   componentDidUpdate(){
     /*localStorage.getItem('error')
     ? ( this.setState({
           isOpen: true,
-          showedError: localStorage.getItem('error')
+          showedMsg: localStorage.getItem('error')
       }) , localStorage.removeItem('error') )
     :null;*/
   }
   onSuccess = (_response) => {
-    _response.status === 'successful'
-    ? alert('ok')
+    _response.status === 'successfull'
+    ? this.setState({
+          isOpen: true,
+          showedMsg: 'register.successfull',
+          success: true
+      })
     : this.setState({
           isOpen: true,
-          showedError: 'register.' + _response.reason
+          showedMsg: 'register.' + _response.reason
       });
   }
   onError = (_response, _error) =>{
     this.setState({
           isOpen: true,
-          showedError: _error
+          showedMsg: _error
       });
   }
   toggleModal = () => {
@@ -56,10 +67,10 @@ class Register extends React.Component {
       });
    }
   handleChange(event) {
-    console.log(event.target.id);
-    this.setState({[event.target.id]:event.target.value});
+    
     switch(event.target.id){
       case 'email':
+          this.setState({[event.target.id]:event.target.value});
           !Utils.validateEmail(event.target.value)
           ? this.setState({
             'emailValidation':this.translate('register.emailNotValid'),
@@ -71,6 +82,7 @@ class Register extends React.Component {
           })
       break;
       case 'pwd':
+          this.setState({[event.target.id]:event.target.value});
           this.state.pwd !== this.state.pwdRepit
           ? this.setState({
             'passwordNotMatch':this.translate('register.passwordNotMatch'),
@@ -80,7 +92,9 @@ class Register extends React.Component {
             'passwordNotMatch':'',
             'pwdClass':''
           })
+      break;
       case 'pwdRepit':
+          this.setState({[event.target.id]:event.target.value});
           this.state.pwd !== this.state.pwdRepit
           ? this.setState({
             'passwordNotMatch':this.translate('register.passwordNotMatch'),
@@ -90,11 +104,22 @@ class Register extends React.Component {
             'passwordNotMatch':'',
             'pwdClass':''
           })
+      break;
+      case 'nick':
+          this.setState({[event.target.id]:event.target.value});
+      break;
+      case 'terms':
+          this.setState({[event.target.id]:event.target.checked});
+          this.setState({
+            'terms':event.target.checked
+          })
+      break;
       default:
+          this.setState({[event.target.id]:event.target.value});
       break
     }
     this.state.email !== '' && this.state.pwd !== '' && this.state.pwdRepit !== '' && this.state.nick !== ''
-    && this.state.emailValidation === '' && this.state.passwordNotMatch === ''
+    && this.state.emailValidation === '' && this.state.passwordNotMatch === '' && this.state.terms
     ? this.state.deactive = ''
     : this.state.deactive = 'disabled';
     
@@ -102,7 +127,7 @@ class Register extends React.Component {
   handleSubmit(event) {
     window.setSpinner();
     this.setState(() => ({
-        showedError: ''
+        showedMsg: ''
       }))
     event.preventDefault();
     API.action('createAccount', this.state, this.onSuccess, this.onError);
@@ -110,37 +135,47 @@ class Register extends React.Component {
 
 
   render() {
+    if(this.state.success){
+        return (
+          <auth>
+            <div className="basicOuter" >
+              <div className="basicInner">
+                  <div>{this.translate('register.successfull')}</div>
+                  <Link to='/'><div className="backPB" >{this.translate('back')}</div></Link>
+              </div>
+            </div>
+          </auth> 
+          )
+      }
     return (
       <auth>
-
         <div className="basicOuter" >
       	  	<div className="basicInner">
-
       	    	<h1>{this.translate('create.account')}</h1>
-              <form onSubmit={this.handleSubmit}>
+              <form onSubmit={this.handleSubmit} autocomplete="on" >
                 <div><label>{this.translate('email').toUpperCase()}</label></div>
-                <div><input id="email" type="text"  onChange={this.handleChange} className={ this.state.emailClass } /></div>
+                <div><input id="email" type="text"  onChange={this.handleChange} className={ this.state.emailClass} value={this.state.email} /></div>
                 <div className="notValid_msg" >{this.state.emailValidation}</div>
                 <div><label>{this.translate('nick').toUpperCase()}</label></div>
-                <div><input id="nick" type="text"  onChange={this.handleChange} /></div>
+                <div><input id="nick" type="text"  onChange={this.handleChange} value={this.state.nick} /></div>
                 <div><label>{this.translate('password').toUpperCase()}</label></div>
-                <div><input id="pwd" type="password" onChange={this.handleChange} className={ this.state.pwdClass } /></div>
+                <div><input id="pwd" type="password" onChange={this.handleChange} className={ this.state.pwdClass } value={this.state.pwd} /></div>
                 <div className="notValid_msg" >{this.state.passwordNotMatch}</div>
                 <div><label>{this.translate('password.repit').toUpperCase()}</label></div>
-                <div><input id="pwdRepit" type="password" onChange={this.handleChange} className={ this.state.pwdClass } /></div>
+                <div><input id="pwdRepit" type="password" onChange={this.handleChange} className={ this.state.pwdClass } value={this.state.pwdRepit} /></div>
+                <div><input id="terms" type="checkbox" onChange={this.handleChange}  checked={this.state.terms}  /><Link to='/terms' target="_blank" > {this.translate('user.terms').toUpperCase()}</Link></div>
                 <div><div className={"submitBtn " + this.state.deactive }  onClick={this.handleSubmit} >{this.translate('continue').toUpperCase()}</div></div>
               </form>
               <Link to='/'><div className="backPB" >{this.translate('back')}</div></Link>
       		</div>
     	  </div>
         <Modal show={this.state.isOpen} onClose={this.toggleModal} >
-          {this.translate(this.state.showedError)}
+          {this.translate(this.state.showedMsg)}
         </Modal>
       </auth>  
     );
   }
 }
-
 Register.propTypes = {
   //who: React.PropTypes.string.isRequired,
 };

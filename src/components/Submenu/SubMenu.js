@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import UsuarioApi from '../../services/api2.js'
 import SubMenuPB from './SubMenuPB.js'
 import TranslatedComponent from '../../utils/TranslatedComponent.js';
-
+import Utils from '../../utils/Utils.js';
 
 // The Header creates links that can be used to navigate
 // between routes.
@@ -19,7 +19,6 @@ class Submenu extends React.Component {
         };
         this.clickHandler = this.clickHandler.bind(this);
         this.handleClickOutside = this.handleClickOutside.bind(this);
-        this.checkScene = this.checkScene.bind(this);
     }
 	clickHandler(){
 		if(!this.state.toogle || this.state.show === '' ){
@@ -35,13 +34,6 @@ class Submenu extends React.Component {
 			});
 			document.getElementById('root').removeEventListener('click', this.handleClickOutside, true)
 		}
-    }
-    checkScene(_scene){
-    	var checked = false;
-    	localStorage.getItem('lastState').indexOf(_scene)>=0
-    	? checked = true
-    	: checked = false;
-    	return checked
     }
     componentDidMount() {
     	
@@ -74,7 +66,7 @@ class Submenu extends React.Component {
 				    			<div className="scrollableCont" >
 								    {
 								        UsuarioApi.all(this.state.sub).map(p => (
-								            <Link key={p.id} to={this.state.sub+'/'+p.id}><div  className={ this.checkScene(p.sub+'/'+p.id) ? 'opSelected' : 'opNoSelected' } >{this.translate(p.sub.replace('/','')+'.'+p.id)}</div></Link>
+								            <Link key={p.id} to={this.state.sub+'/'+p.id}><div  className={ Utils.checkScene(p.sub+'/'+p.id) ? 'opSelected' : 'opNoSelected' } >{this.translate(p.sub.replace('/','')+'.'+p.id)}</div></Link>
 								        ))
 								    }
 								</div>

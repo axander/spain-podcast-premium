@@ -5,6 +5,7 @@ import UsuarioApi from '../../services/api2.js'
 import SingleLayout from '../../components/SingleLayout/SingleLayout.js'
 import { Link, Route } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js';
+import Utils from '../../utils/Utils.js';
 
 class Podcast extends React.Component {
   constructor(props) {
@@ -16,14 +17,6 @@ class Podcast extends React.Component {
       'data':[ ],
       'program': typeof this.props.match === 'undefined' ? this.props.program : typeof this.props.match.params.program === 'undefined' ? ( localStorage.getItem('lastProgram') ? localStorage.getItem('lastProgram') : 'Generic' ) : this.props.match.params.program
     }
-    this.checkScene = this.checkScene.bind(this);
-  }
-  checkScene(_scene){
-    var checked = false;
-    localStorage.getItem('lastState').indexOf(_scene)>=0
-    ? checked = true
-    : checked = false;
-    return checked
   }
   onSuccess = (_response) => {
     _response.status === 'successfull'
@@ -35,13 +28,13 @@ class Podcast extends React.Component {
     )
     : this.setState({
         isOpen: true,
-        showedError: 'podcast.' + _response.reason
+        showedMsg: 'podcast.' + _response.reason
     });
   }
   onError = (_response, _error) =>{
     this.setState({
           isOpen: true,
-          showedError: _error
+          showedMsg: _error
       });
   }
   toggleModal = () => {
@@ -64,11 +57,11 @@ class Podcast extends React.Component {
 
   render() {
     return (
-      <div className={ this.checkScene('/podcast') ? 'podcast' : 'podcast resetPaddingBottom' }>
-        <div className={ this.checkScene('/podcast') ? '' : 'hide' } >
+      <div className={ Utils.checkScene('/podcast') ? 'podcast' : 'podcast resetPaddingBottom' }>
+        <div className={ Utils.checkScene('/podcast') ? '' : 'hide' } >
           <h1>{this.translate('menu.podcast').toUpperCase() + ' ' + this.translate('program') + ' ' + this.state.program }</h1>
         </div>
-        <div className={ this.checkScene('/podcast') ? '' : 'resetPaddingTop' }>
+        <div className={ Utils.checkScene('/podcast') ? '' : 'resetPaddingTop' }>
           <div class="row" >
             {
               this.state.data.map(p => (
@@ -91,7 +84,7 @@ class Podcast extends React.Component {
           </div>
         </div>
         <Modal show={this.state.isOpen} onClose={this.toggleModal} >
-          {this.translate(this.state.showedError)}
+          {this.translate(this.state.showedMsg)}
         </Modal>
       </div> 
     );

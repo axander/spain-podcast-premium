@@ -8,7 +8,14 @@ const Utils = {
 	validateEmail: function(email) {
 	  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	  return re.test(email);
-	}
+	},
+	checkScene: function(_scene){
+    	var checked = false;
+    	typeof localStorage.getItem('lastState') !== 'undefined' && localStorage.getItem('lastState') && localStorage.getItem('lastState').indexOf(_scene)>=0
+    	? checked = true
+    	: checked = false;
+    	return checked
+    }
 }
 
 export default Utils

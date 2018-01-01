@@ -9,6 +9,7 @@ const SingleUserAPI = {
     { id:'Home03', name: "Home Op3", position: "H", sub:"./"  },
     { id:'Home04', name: "Home Op4", position: "H", sub:"./"  },
     { id:'personalData', name: "Personal Data", position: "U", sub:"/user"  },
+    { id:'invitations', name: "Invitations", position: "U", sub:"/user"  },
     { id:'bankData', name: "Bank Data", position: "U", sub:"/user"  },
     { id:'subscriptionData', name: "Subscription Data", position: "U", sub:"/user"  },
     { id:'sessionData', name: "Session Data", position: "U", sub:"/user"  },

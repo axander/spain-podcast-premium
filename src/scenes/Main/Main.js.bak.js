@@ -50,7 +50,7 @@ class Login extends React.Component{
     this.state = {
      'user':'',
      'pwd':'',
-     'showedError':'',
+     'showedMsg':'',
      'isOpen': false 
     };
 
@@ -80,7 +80,7 @@ class Login extends React.Component{
       this.setState(() => ({
         redirectToReferrer: false,
         isOpen: true,
-        showedError: 'bye'
+        showedMsg: 'bye'
       }))
     
     })
@@ -88,16 +88,16 @@ class Login extends React.Component{
   onError = (_response, _error) =>{
     this.setState({
           isOpen: true,
-          showedError: _error
+          showedMsg: _error
       });
     /*this.setState(() => ({
-        showedError: 'ERROR'
+        showedMsg: 'ERROR'
       }))*/
   }
   handleSubmit(event, _login, _onError) {
     console.log(this.state);
     this.setState(() => ({
-        showedError: ''
+        showedMsg: ''
       }))
     event.preventDefault();
     //API.action('','GET', { 'user':this.state.user, 'pwd':this.state.pwd}, this.login, this.onError);
@@ -142,7 +142,7 @@ class Login extends React.Component{
         </div>
         <div>
           <Modal show={this.state.isOpen} onClose={this.toggleModal} >
-              {this.translate(this.state.showedError)}
+              {this.translate(this.state.showedMsg)}
             </Modal>
         </div>
       </auth>  

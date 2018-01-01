@@ -2,15 +2,19 @@ import React from 'react'
 import TranslatedComponent from '../../utils/TranslatedComponent.js';
 import { Link } from 'react-router-dom'
 import { Modal, API } from '../../services/Rest.js'
+import Basic from '../../components/Subscription/Basic.js'
+import Invited from '../../components/Subscription/Invited.js'
+import Premium from '../../components/Subscription/Premium.js'
 
 
 class Confirm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-     'showedError': localStorage.getItem('error'),
+     'showedMsg': localStorage.getItem('error'),
      'isOpen': localStorage.getItem('error') ? true : false,
      'loggedAs': localStorage.getItem('logged') ? 'basicBorderBtn inline' : 'hide',
+     'subscription': localStorage.getItem('logged') ? '' : 'hide',
      'notLogged': localStorage.getItem('logged') ? 'hide' : 'contrast basicBorderBtn inline',
      'nickName': JSON.parse(localStorage.getItem('client')) ? JSON.parse(localStorage.getItem('client')).personalData.nickName : null,
      'msg':!localStorage.getItem('logged') ? this.translate('confirm.wait') : this.translate('confirm.successful')
@@ -25,16 +29,18 @@ class Confirm extends React.Component {
         this.setParameters(),
         window.setSpinner(),
         this.setState(() => ({
-          showedError: ''
+          showedMsg: ''
         })),
         window.history.replaceState({}, document.title, "./#/confirm"),
         API.action('confirmAccount', this.state, this.onSuccess, this.onError)
       )
     : this.setState(() => ({
           'isOpen': true,
-          'notLogged': localStorage.getItem('logged') ? 'hide' : 'contrast basicBorderBtn inline',
+          'loggedAs': 'hide',
+          'subscription':'hide',
+          'notLogged': 'contrast basicBorderBtn inline',
           'msg': '',
-          'showedError': 'confirm.0003'
+          'showedMsg': 'confirm.0003'
         }));
     
   }
@@ -48,21 +54,21 @@ class Confirm extends React.Component {
     /*localStorage.getItem('error')
     ? ( this.setState({
           isOpen: true,
-          showedError: localStorage.getItem('error')
+          showedMsg: localStorage.getItem('error')
       }) , localStorage.removeItem('error') )
     :null;*/
   }
   onSuccess = (_response) => {
     _response.status === 'successfull'
     ? ( 
+      localStorage.setItem('proccess','subscribing'),
       localStorage.setItem('logged',true),
       console.log(_response),
       localStorage.setItem('client',JSON.stringify(_response.data)),
       localStorage.setItem('token',_response.token),
       this.setState({
-          'isOpen': true,
-          'showedError': 'confirm.successful',
           'loggedAs': localStorage.getItem('logged') ? 'basicBorderBtn inline' : 'hide',
+          'subscription': localStorage.getItem('logged') ? '' : 'hide',
           'notLogged': localStorage.getItem('logged') ? 'hide' : 'basicBorderBtn inline',
           'nickName': JSON.parse(localStorage.getItem('client')) ? JSON.parse(localStorage.getItem('client')).personalData.nickName : null,
           'msg': this.translate('confirm.successful')
@@ -70,14 +76,14 @@ class Confirm extends React.Component {
     )
     : this.setState({
           isOpen: true,
-          showedError: 'confirm.' + _response.reason
+          showedMsg: 'confirm.' + _response.reason
       });
     
   }
   onError = (_response, _error) =>{
     this.setState({
           isOpen: true,
-          showedError: _error
+          showedMsg: _error
       });
   }
   toggleModal = () => {
@@ -96,18 +102,31 @@ class Confirm extends React.Component {
 
   render() {
     return (
-      <auth>
+      <confirm>
         <div className="basicOuter" >
-      	  	<div className="basicInner">
-              <div>{this.state.msg}</div>
-              <Link to='/' className="contrast" ><div  className={this.state.notLogged} >{this.translate('back')}</div></Link>
-              <Link to='/user' className='contrast'><div className={this.state.loggedAs}>{this.translate('logged.as')}{this.state.nickName}</div></Link>
-      		</div>
+    	  	<div className="basicInner">
+            <div>{this.state.msg}</div>
+            <Link to='/' className="contrast" ><div  className={this.state.notLogged} >{this.translate('back')}</div></Link>
+            <Link to='/user' className='contrast'><div className={this.state.loggedAs}>{this.translate('logged.as')}{this.state.nickName}</div></Link>
+            <div className={this.state.subscription} >
+              <div className="row" >
+                <div className="col-xs-12 col-md-4" >
+                  <Basic data={ {'status': 1} } />
+                </div>
+                <div className="col-xs-12 col-md-4" >
+                  <Invited/>
+                </div>
+                <div className="col-xs-12 col-md-4" >
+                  <Premium/>
+                </div>
+              </div>
+            </div>
+    		  </div>
     	  </div>
         <Modal show={this.state.isOpen} onClose={this.toggleModal} >
-          {this.translate(this.state.showedError)}
+          {this.translate(this.state.showedMsg)}
         </Modal>
-      </auth>  
+      </confirm>  
     );
   }
 }

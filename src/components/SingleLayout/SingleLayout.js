@@ -3,6 +3,8 @@ import SingleUserAPI from '../../services/api.js'
 import { Link, Switch, Route } from 'react-router-dom'
 
 import PersonalData from '../../scenes/User/PersonalData.js'
+import Invitations from '../../scenes/User/Invitations.js'
+import Subscription from '../../scenes/User/Subscription.js'
 import DeleteAccount from '../../scenes/User/DeleteAccount.js'
 import BankData from '../../scenes/User/BankData.js'
 
@@ -24,6 +26,8 @@ const SingleLayout = (props) => {
       <h2>Position: {singleUser.position}</h2>
       <Switch>
           <Route path='/user/personalData' component={PersonalData} />
+          <Route path='/user/invitations' component={Invitations} />
+          <Route path='/user/subscriptionData' component={Subscription} />
           <Route path='/user/deleteAccount' component={DeleteAccount} />
           <Route path='/user/bankData' component={BankData}/>
       </Switch>

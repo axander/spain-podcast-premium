@@ -6,19 +6,27 @@ import { Link, Route } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js';
 
 class User extends React.Component {
-  /*constructor(props) {
+  constructor(props) {
     super(props);
-  }*/
-  componentDidMount() {
-    // Will execute as normal
+    this.checkScene = this.checkScene.bind(this);
   }
+  checkScene(_scene){
+    var checked = false;
+    localStorage.getItem('lastState').indexOf(_scene)>=0
+    ? checked = true
+    : checked = false;
+    return checked
+  }
+  /*componentDidMount() {
+    // Will execute as normal
+  }*/
   render() {
     return (
       <div className="user">
         <h1>{this.translate('user').toUpperCase()}</h1>
         {
               UsuarioApi.options[this.props.match.path].map(p => (
-                <Link key={p.number}  to={this.props.match.path+'/'+p.id} ><div className='submenuOp' >
+                <Link key={p.number}  to={this.props.match.path+'/'+p.id} ><div className={ this.checkScene(this.props.match.path+'/'+p.id) ? 'submenuOp tabSelected' : 'submenuOp' }  >
                   {this.translate('user.'+p.name)}
                 </div></Link>
               ))

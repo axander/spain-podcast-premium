@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js';
 import Program from '../Program/Program.js'
 import Channel from '../Channel/Channel.js'
+import Podcast from '../Podcast/Podcast.js'
 
 class Home extends React.Component {
   constructor(props) {
@@ -43,10 +44,34 @@ class Home extends React.Component {
         </div>
         <div className="row">
           <div className="col-xs-12 col-md-6">
-            <Program/>
+            <div>
+              <h1>{this.translate('menu.channel').toUpperCase()}</h1>
+            </div>
+            <div className="section-container" >
+              <div className="section-contain">
+                <Channel />
+              </div>
+            </div>
           </div>
           <div className="col-xs-12 col-md-6">
-            <Channel/>
+            <div>
+              <h1>{this.translate('menu.program').toUpperCase()}</h1>
+            </div>
+            <div className="section-container" >
+              <div className="section-contain">
+                <Program channel={localStorage.getItem('lastChannel') ? localStorage.getItem('lastChannel') : 'generic' } />
+              </div>
+            </div>
+          </div>
+          <div className="col-xs-12 col-md-6">
+            <div>
+              <h1>{this.translate('menu.podcast').toUpperCase()}</h1>
+            </div>
+            <div className="section-container" >
+              <div className="section-contain">
+                <Podcast program={localStorage.getItem('lastProgram') ? localStorage.getItem('lastProgram') : 'generic' }  />
+              </div>
+            </div>
           </div>
         </div>
       </div>  

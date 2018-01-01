@@ -2,13 +2,19 @@ html,body {
     position:absolute;
     top:0;
     left:0;
-	background-color: #204671;
+	background-color: #698ab1;
 	color: #fff;
 	font-family: Lato, sans-serif;
 	margin:0;
 	width:100%;
 	height:100%;
 	overflow:hidden;
+    -ms-overflow-style: none;  // IE 10+
+    overflow: -moz-scrollbars-none;  // Firefox
+}
+
+html::-webkit-scrollbar, body::-webkit-scrollbar { 
+    display: none;  // Safari and Chrome
 }
 label {
     margin-top: 5px;
@@ -21,7 +27,7 @@ spinner{
 }
 a.contrast, a:visited.contrast, a:visited.contrast{
     display:inline-block;
-    color:#7aa6da;
+    color: #dde7f3;
     text-decoration:none;
 }
 a:hover.contrast > div{
@@ -33,11 +39,14 @@ a:hover.contrast > div{
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    /* overflow-y: scroll; */
-    padding-right: 15px;
-    padding-bottom: 100px;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll; 
+    -ms-overflow-style: none;  // IE 10+
+    overflow: -moz-scrollbars-none;  // Firefox
+}
+#root::-webkit-scrollbar { 
+    display: none;  // Safari and Chrome
 }
 .basicOuter{
 	display:table;
@@ -51,8 +60,21 @@ a:hover.contrast > div{
 	text-align:center;
 	vertical-align: middle;
 }
+.bgImage{
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+.bgImage img{
+    width: 100%;
+    height: auto;
+}
 .hide{
     display:none;
+}
+.resetPaddingTop{
+    padding-top: 1px!important;
+    padding-bottom: 1px !important;
 }
 AuthButton {
     position:absolute;
@@ -60,9 +82,92 @@ AuthButton {
     right:0;
     font-size:40px;
 }
-.home, .program, .channel{
+.home{
     padding:20px;
     padding-top:100px;
+    padding-bottom: 100px;
+}
+.section-container{
+    position:relative;
+    height:300px;
+    border: 4px solid #fff;
+    overflow-x:hidden;
+    overflow-y:scroll;
+    -ms-overflow-style: none;  // IE 10+
+    overflow: -moz-scrollbars-none;  // Firefox
+}
+.section-container::-webkit-scrollbar { 
+    display: none;  // Safari and Chrome
+}
+.section-contain{
+    height: 100%;
+}
+.channel, .program, .podcast{
+    padding-bottom:80px;
+}
+.channel, .program, podcast {
+    padding-bottom:80px;
+}
+.resetPaddingBottom{
+    padding-bottom:0;
+}
+.channel a, .program a{
+    color: #fff;
+}
+.channel > div:first-child, .program > div:first-child, .podcast > div:first-child{
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    padding-top: 0;
+    background: transparent;
+}
+.channel > div, .program  > div, .podcast > div{
+    height:auto;
+    background:#fff;
+    padding-top:58px;
+}
+.channel h1, .program h1, .podcast h1{
+    text-align: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #7e9ab9;
+    z-index: 1;
+    margin: 0;
+    padding: 10px;
+}
+.program h1, .podcast h1{
+    text-align: left;
+}
+.item{
+    cursor: pointer;
+    padding: 10px;
+    /*margin: 10px;*/
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 50%;
+    /* border-bottom: 1px dotted #fff; */
+    -webkit-transition: all .5s ease;
+    transition: all .5s ease;
+}
+.item:hover{
+    opacity:.5;
+}
+.item div{
+    pointer-events:none;
+}
+.program .rot, .channel .rot, .podcast .rot, .item .rot{
+    display: inline-block;
+    float: left;
+    padding:10px;
+    font-size:20px;
+    background:rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+.program .desc, .channel .desc, .podcast .desc, .item .desc{
+    padding:10px;
+    font-size:12px;
+    background:rgba(0, 0, 0, 0.5);
 }
 .home > div {
     text-align:center;
@@ -76,6 +181,8 @@ main, maincontainer, auth,logout{
 }
 iconmenu{
     position: fixed;
+    padding: 10px;
+    background: #40628a;
     bottom: 0;
     left: 0;
     right: 0;
@@ -83,7 +190,6 @@ iconmenu{
 }
 iconmenu a{
     cursor: pointer;
-    margin-bottom: 4px;
     display: inline-block;
 }
 iconmenu a:hover{
@@ -103,8 +209,8 @@ iconmenu a:hover{
         text-align: center;
 }
 menuOptions{
-	position:absolute;
-	z-index: 2004;
+	position:fixed;
+	z-index: 2010;
 	width:350px;
 	height:100%;
 	top:0;
@@ -156,6 +262,236 @@ menuOptions .opSelected{
     background: #204671;
     color: #fff;
 }
+
+channelOptions{
+    position:fixed;
+    z-index: 2004;
+    width:75%;
+    height:100%;
+    top:0;
+    left:-75%;
+    background:#fff;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
+}
+channelOptions nav {
+    height:100%;
+    overflow: hidden;
+}
+channelOptions nav div{
+    display:block;
+}
+channelOptions nav .scrollCont .scrollableCont a div{
+    cursor:pointer;
+    width:100%;
+    padding:10px;
+    font-size:30px;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
+}
+channelOptions nav .scrollCont .scrollableCont a div:hover{
+    width:100%;
+    background:#204671;
+    color:#fff;
+}
+channelOptions nav .scrollCont{
+    position: absolute;
+    top: 0;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  // IE 10+
+    overflow: -moz-scrollbars-none;  // Firefox
+}
+channelOptions nav .scrollCont::-webkit-scrollbar { 
+    display: none;  // Safari and Chrome
+}
+channelOptions nav .scrollableCont{
+    height:auto;
+    padding-top:40px;
+}
+channelOptions a, channelOptions a:hover{
+    cursor:pointer;
+    color:#204671;
+    text-decoration:none;
+}
+channelOptions a:visited{
+    color:#204671;
+    text-decoration:none;
+}
+channelOptions .opSelected{
+    background: #204671;
+    color: #fff;
+}
+channelOptions .item{
+    margin:10px;
+}
+
+programOptions{
+    position:fixed;
+    z-index: 2004;
+    width:75%;
+    height:100%;
+    top:0;
+    left:-75%;
+    background:#fff;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
+}
+programOptions nav {
+    height:100%;
+    overflow: hidden;
+}
+programOptions nav div{
+    display:block;
+}
+programOptions nav .scrollCont .scrollableCont a div{
+    cursor:pointer;
+    width:100%;
+    padding:10px;
+    font-size:30px;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
+}
+programOptions nav .scrollCont .scrollableCont a div:hover{
+    width:100%;
+    background:#204671;
+    color:#fff;
+}
+programOptions nav .scrollCont{
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  // IE 10+
+    overflow: -moz-scrollbars-none;  // Firefox
+}
+programOptions nav .scrollCont::-webkit-scrollbar { 
+    display: none;  // Safari and Chrome
+}
+programOptions nav .scrollableCont{
+    height:auto;
+    padding-top:40px;
+}
+programOptions a, programOptions a:hover{
+    cursor:pointer;
+    color:#204671;
+    text-decoration:none;
+}
+programOptions a:visited{
+    color:#204671;
+    text-decoration:none;
+}
+programOptions .opSelected{
+    background: #204671;
+    color: #fff;
+}
+programOptions .item{
+    margin:10px;
+}
+podcastOptions{
+    position:fixed;
+    z-index: 2004;
+    width:75%;
+    height:100%;
+    top:0;
+    left:-75%;
+    background:#fff;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
+}
+podcastOptions nav {
+    height:100%;
+    overflow: hidden;
+}
+podcastOptions nav div{
+    display:block;
+}
+podcastOptions nav .scrollCont .scrollableCont a div{
+    cursor:pointer;
+    width:100%;
+    padding:10px;
+    font-size:30px;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
+}
+podcastOptions nav .scrollCont .scrollableCont a div:hover{
+    width:100%;
+    background:#204671;
+    color:#fff;
+}
+podcastOptions nav .scrollCont{
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  // IE 10+
+    overflow: -moz-scrollbars-none;  // Firefox
+}
+podcastOptions nav .scrollCont::-webkit-scrollbar { 
+    display: none;  // Safari and Chrome
+}
+podcastOptions nav .scrollableCont{
+    height:auto;
+    padding-top:40px;
+}
+podcastOptions a, podcastOptions a:hover{
+    cursor:pointer;
+    color:#204671;
+    text-decoration:none;
+}
+podcastOptions a:visited{
+    color:#204671;
+    text-decoration:none;
+}
+podcastOptions .opSelected{
+    background: #204671;
+    color: #fff;
+}
+podcastOptions .item{
+    margin:10px;
+}
+.backContentPB{
+    position: fixed;
+    z-index: 1;
+    width: 25%;
+    cursor: pointer;
+    color: #204671;
+    font-size: 20px;
+    padding: 10px;
+}
+.forwardContentPB{
+    position: fixed;
+    z-index: 1;
+    text-align: right;
+    width: 75%;
+    cursor: pointer;
+    color: #204671;
+    font-size: 20px;
+    padding: 10px;
+}
+.contentStateRot{
+    pointer-events:none;
+    position: fixed;
+    background: #fff;
+    z-index: 1;
+    text-align: center;
+    width: 75%;
+    color: #204671;
+    font-size: 20px;
+    padding: 10px;
+}
+.contentSelected{
+    opacity:.5;
+}
+.tabSelected{
+    background: #7e99b9 !important;
+    color: #fff;
+}
 //languages picker
 .language-picker{
     width: 100% !important;
@@ -167,6 +503,21 @@ menuOptions .opSelected{
     border-top: 1px dotted #204670;
     padding: 10px;
     margin: 0;
+}
+.language-picker > div{
+    cursor:pointer;
+    display: block;
+    background: #fff;
+    color: #204670;
+    padding:10px;
+    text-align:center;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
+}
+.language-picker > div:hover, .language-picker .lanActive{
+    color: #fff;
+    background: #204670;
 }
 menuOptions button{
     cursor: pointer;
@@ -228,11 +579,11 @@ DevPB{
     color: #fff;
     font-size: 50px;
     font-weight: bold;
-    /* background: #333; */
     padding: 10px;
     left: 0;
-    top: -10px;
+    top: -17px;
     position: fixed;
+    z-index: 2004;
     -webkit-transition: all .5s ease;
     -moz-transition: all .5s ease;
     transition: all .5s ease;  
@@ -248,8 +599,26 @@ MenuPB{
     /* background: #333; */
     padding: 10px;
     right: 0;
-    top: -10px;
+    top: -17px;
     position: fixed;
+    z-index: 2004;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
+}
+channelMenuPB{
+    font-size: 25px;
+    cursor: pointer;
+    display: block;
+    color: #fff;
+    font-size: 50px;
+    font-weight: bold;
+    /* background: #333; */
+    padding: 10px;
+    right: 85px;
+    top: -20px;
+    position: fixed;
+    z-index: 2004;
     -webkit-transition: all .5s ease;
     -moz-transition: all .5s ease;
     transition: all .5s ease;
@@ -259,8 +628,8 @@ settingsPB{
     display: block;
     color: #fff;
     padding: 10px;
-    left: 0;
-    bottom: 0;
+    left: 15px;
+    bottom: 15px;
     position: fixed;
     -webkit-transition: all .5s ease;
     -moz-transition: all .5s ease;
@@ -274,6 +643,7 @@ SubmenuPB{
     bottom: 0;
     width: 15px;
     right: 0;
+    bottom: -5px;
     margin-left: 10px;
     /* margin-top: 10px; */
     padding: 20px;
@@ -308,6 +678,9 @@ SubmenuPB{
 }
 .showMenu{
 	right: 0;
+}
+.showContents{
+    left:0;
 }
 .submitPB, .backPB{
 	cursor: pointer;
@@ -394,8 +767,8 @@ input[type="text"], input[type="password"]{
     cursor:pointer;
     margin:10px;
     padding:10px;
-    border: 1px dotted #7aa6da;
-    color: #7aa6da;
+    border: 1px dotted #79a6da;
+    color: #dde7f3;
 }
 .basicBtn:hover{
     cursor:pointer;
@@ -437,7 +810,7 @@ input[type="text"], input[type="password"]{
 }
 .formOr{
     margin-bottom:20px;
-    color:#7aa5d6;
+    color: #dde7f3;
 }
 
 /* Facebook */

@@ -30,7 +30,7 @@ class TranslationPicker extends React.Component {
 
   handlePickLanguage(languageCode) {
     TranslationActionCreator.changeLanguage(languageCode);
-
+    localStorage.setItem('language', languageCode );
     this.setState({
       isLoading: true,
     });
@@ -44,12 +44,12 @@ class TranslationPicker extends React.Component {
       <div className="language-picker">
         <p>{this.translate('languages')}</p>
         {TranslationStore.getAvailableLanguages().map((language, index) =>
-          <button key={index}
-                  className={'btn' + (activeLanguage === language ? ' active' : '')}
+          <div key={index}
+                  className={ language.code === localStorage.getItem('language') ? 'lanActive' : '' }
                   disabled={isLoading}
                   onClick={this.handlePickLanguage.bind(this, language.code)}>
             {this.translate('languages.'+language.code)}
-          </button>
+          </div>
         )}
       </div>
     );

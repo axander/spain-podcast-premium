@@ -14,6 +14,7 @@ module.exports = {
 	debug: true,
 	devtool: 'source-map',
 	devServer: {
+		host: '0.0.0.0',
 		inline: true,
 		port: 3333
 	},

@@ -25,15 +25,18 @@ const API = {
 		};
 
 		fetch(
-			_method === 'GET' ? url+"?"+Utils.formatGetParameters(_params) : url , 
+			_method === 'GET' && List[_path].service !== 'config' ? url+"?"+Utils.formatGetParameters(_params) : url , 
 			{
 				/*mode: 'no-cors',*/
 		      	method: _method,
+		      	cache: "force-cache",
 		      	headers: localStorage.getItem('token') && fullUrl < 0 ? new Headers({
+		      			'Cache-Control': 'cache',
 		      			'Accept':'*/*',
 		                'Content-Type': 'application/x-www-form-urlencoded', // <-- Specifying the Content-Type
 		                'Authorization': 'Bearer ' + localStorage.getItem('token') ,
 		        }) : new Headers({
+		        		'Cache-Control': 'cache',
 		        		'Accept':'*/*',
 		                'Content-Type': 'application/x-www-form-urlencoded', // <-- Specifying the Content-Type
 		        }),
@@ -51,7 +54,7 @@ const API = {
 			if(typeof List[_path] !== 'undefined' && List[_path].service === 'config'){
 				data.data.token ? localStorage.setItem('token',data.data.token) : null;
 				localStorage.setItem('config',JSON.stringify(data.data));
-				console.log(JSON.parse(localStorage.getItem('config')));
+				_onSuccess(data);	
 			}else{
 				window.setSpinner();
 		    	_onSuccess(data);				

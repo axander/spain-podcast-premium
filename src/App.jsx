@@ -11,8 +11,10 @@ class App extends React.Component {
 		super(props);
 		this.state = { 
 			isOpen: false,
-          	showedError: ''
+          	showedError: '',
+          	config: false
 		 };
+		 window.setSpinner();
 		 API.action('config', null, this.setStorage, this.onError);
 	}
 	onError = (_response, _error) =>{
@@ -23,12 +25,18 @@ class App extends React.Component {
       	});
 	}
 	setStorage = (_response) => {
-	    localStorage.setItem('config', _response );
+		window.setSpinner();
+	    this.setState({
+          isOpen: false,
+          showedError: '',
+          config:true
+      	});
 	}
 	componentDidMount() {
     	
   	}
   	render() {
+  		if(this.state.config)
 	  	return(
 	  		<div>
 			  	<Main />
@@ -43,7 +51,6 @@ class App extends React.Component {
 App.propTypes = {
   //who: React.PropTypes.string.isRequired,
 };
-
 
 // Returns nothing because it mutates the class
 TranslatedComponent(App);

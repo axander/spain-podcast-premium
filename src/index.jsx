@@ -19,6 +19,7 @@ class AppComponent extends React.Component {
   componentDidMount() {
     // Trigger loading of the language file
     TranslationActionCreator.changeLanguage(Constants.DEFAULT_LANGUAGE, success => {
+      localStorage.setItem('language', Constants.DEFAULT_LANGUAGE )
       if (success) {
         this.forceUpdate();
       }

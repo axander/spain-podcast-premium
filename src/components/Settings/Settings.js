@@ -94,42 +94,6 @@ class Settings extends React.Component {
 				    			<Link to='/logout' id='logoutPB' className={this.state.logout} >Log Out</Link>
 				    			<TranslationPicker />
 				        		<Link to='/user'><div className={ this.checkScene('/user') ? 'opSelected' : 'opNoSelected' } >{this.translate('menu.user')}</div></Link>
-				        		<Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>...</div></Link>
-						        <Link to='/notdefined'><div>FIN</div></Link>
 				        	</div>
 				        </div>
 				    </nav>			    

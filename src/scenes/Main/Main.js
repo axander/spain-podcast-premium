@@ -9,9 +9,10 @@ import Logged from '../../services/Logged.js'
 import { Modal, API } from '../../services/Rest.js'
 import Settings from '../../components/Settings/Settings.js'
 import FBPB from '../../components/FBPB.js'
-import Dev from '../../components/Dev/Dev.js'
+/*import Dev from '../../components/Dev/Dev.js'*/
 import IconMenu from '../../components/IconMenu/IconMenu.js'
 import Menu from '../../components/Menu/Menu.js'
+import ChannelMenu from '../../components/ChannelMenu/ChannelMenu.js'
 import Logout from '../Login/Logout.js'
 import Recover from '../Login/Recover.js'
 import Register from '../Login/Register.js'
@@ -19,6 +20,7 @@ import Confirm from '../Login/Confirm.js'
 import Home from '../Home/Home.js'
 import Program from '../Program/Program.js'
 import Channel from '../Channel/Channel.js'
+import Podcast from '../Podcast/Podcast.js'
 import MainContainer from './MainContainer.js'
 import TranslatedComponent from '../../utils/TranslatedComponent.js'
 import AddPropsToRoute from '../../components/AddPropsToRoute.js'
@@ -180,14 +182,18 @@ class Main extends React.Component {
           <Route exact path='/confirm' component={Confirm}/>
           <Route exact path='/recover' component={Recover} />
           <Route exact path='/program' component={Program} />
+          <Route exact path='/program/:channel' component={Program} />
+          <Route exact path='/podcast' component={Podcast} />
+          <Route exact path='/podcast/:program' component={Podcast} />
           <Route exact path='/channel' component={Channel} />
           <Route exact path='/SPP_DEV' component={Home}/>
           <PrivateRoute exact path='/*' component={MainContainer} />
         </Switch>
-        <Dev />
+        <ChannelMenu  />
         <Menu />
         <IconMenu />
         <Settings logout={fakeAuth}  />
+
         <Modal />
       </div>
     );

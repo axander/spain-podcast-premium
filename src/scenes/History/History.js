@@ -10,7 +10,6 @@ class Historial extends React.Component {
     super(props);
   }*/
   componentDidMount() {
-    // Will execute as normal
   }
   render() {
     return (

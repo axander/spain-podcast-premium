@@ -50,7 +50,6 @@ class Program extends React.Component {
           isOpen: !this.state.isOpen
       });
    }
-
   componentDidMount(){
     typeof localStorage.getItem('program')!=='undefined' && localStorage.getItem('program') && localStorage.getItem('lastChannel') === this.state.channel
     ? this.setState ({

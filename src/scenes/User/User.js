@@ -10,6 +10,9 @@ class User extends React.Component {
   constructor(props) {
     super(props);
   }
+  componentDidMount() {
+    localStorage.getItem('proccess') ? localStorage.removeItem('proccess') : null;
+  }
   render() {
     return (
       <div className="user">

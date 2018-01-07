@@ -20,12 +20,16 @@ class Premium extends React.Component {
 	  			<div className='subsc_item' >
 	  				<div>{this.translate('user.premium')}</div>
 	  				<div className="subsc_ico" >P</div>
-	  				<div className={typeof this.props.data !=='undefined' && this.props.data.status ? 'hide' : 'subsc_nonActive' } >
+	  				<div className={typeof this.props.data !=='undefined' && this.props.data.status === 0 ? 'subsc_nonActive' : 'hide' } >
 	  					{this.translate('user.subsNonActive')}
 	  				</div>
-	  				<div className={typeof this.props.data !=='undefined' && this.props.data.status ? 'subsc_active' : 'hide' } >
+	  				<div className={typeof this.props.data !=='undefined' && this.props.data.status === 1 ? 'subsc_active' : 'hide' } >
 	  					{this.translate('user.subsActive')}
 	  				</div>
+	  				<div className={typeof this.props.data !=='undefined' && this.props.data.status === 2 ? 'lapsed' : 'hide' } >
+	  					{this.translate('user.premiumLapsed')}
+	  				</div>
+	  				<div className={this.props.data.status === 2 ? 'requireAttention' : 'hide'} >!</div>
 	  			</div>
 	  		</Link>
 	  	)

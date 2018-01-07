@@ -51,6 +51,15 @@ a:hover.contrast > div{
 #root::-webkit-scrollbar { 
     display: none;  // Safari and Chrome
 }
+.left{
+    float:left;
+}
+.right{
+    float:right;
+}
+.pointerEventsDisable{
+    pointer-events:none;
+}
 .basicOuter{
 	display:table;
 	width: 100%;
@@ -78,6 +87,19 @@ a:hover.contrast > div{
 .resetPaddingTop{
     padding-top: 1px!important;
     padding-bottom: 1px !important;
+}
+.requireAttention{
+    position: absolute;
+    top: -25px;
+    right: -25px;
+    width: 50px;
+    height: 50px;
+    background: #dd4b39;
+    color: #fff;
+    border-radius: 25px;
+    line-height: 51px;
+    font-size: 20px;
+    font-weight:bold;
 }
 AuthButton {
     position:absolute;
@@ -945,7 +967,7 @@ personalData input[type=text] {
     position: relative;
     display: inline-block;
     width: 180px;
-    height: 150px;
+    height: 180px;
     margin: 10px;
     background: #fff;
     -webkit-transition: all .5s ease;
@@ -979,16 +1001,19 @@ personalData input[type=text] {
 /*subscriptions style*/
 /*invitations style*/
 .inv_intro{
-    background:#fff;
-    color: #6889b1;
-    padding:10px;
+    background: #dd4b39;
+    padding: 10px;
+    position: relative;
+    display: inline-block;
+    margin:40px;
+    height: 130px;
 }
 .inv_item{
     position: relative;
     vertical-align: top;
     display: inline-block;
     width: 180px;
-    height: 150px;
+    height: 200px;
     margin: 10px;
     background: #fff;
     -webkit-transition: all .5s ease;
@@ -1007,7 +1032,7 @@ personalData input[type=text] {
     bottom: 0;
     width: 100%;
 }
-.code_nonActive{
+.code_nonActive, .code_noSended{
     cursor:pointer;
     background: #dd4b39;
     padding: 10px;
@@ -1018,13 +1043,21 @@ personalData input[type=text] {
     width: 100%;
 }
 .code_nonActive:hover{
+    opacity:.5
+}
+.code_nonActive > div, .code_noSended > div{
+    padding:4px;
+}
+.code_nonActive div:nth-child(2):hover, .code_noSended div:nth-child(2):hover{
     opacity:.5;
 }
-.code_nonActive .next{
-    float: right;
+.code_nonActive input, .code_noSended input{
+    position:relative;
+    margin: 0;
+    width:100%;
+    left:0;
 }
-
-.code_lapsed{
+.code_lapsed, .lapsed{
     background: #333;
     padding: 10px;
     color: #fff;
@@ -1033,6 +1066,7 @@ personalData input[type=text] {
     left:0;
     width: 100%;
 }
+
 sendInvitation{
     width: 100%;
     height: 100%;

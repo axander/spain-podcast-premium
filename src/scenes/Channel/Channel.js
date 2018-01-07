@@ -50,7 +50,6 @@ class Channel extends React.Component {
           isOpen: !this.state.isOpen
       });
    }
-
   componentDidMount(){
     typeof localStorage.getItem('channels')!=='undefined'  && localStorage.getItem('channels')
     ? this.setState ({

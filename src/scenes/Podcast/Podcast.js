@@ -54,7 +54,6 @@ class Podcast extends React.Component {
       API.action('getListPod', { 'program' : this.state.program }, this.onSuccess, this.onError, 'GET')
       )
   }
-
   render() {
     return (
       <div className={ Utils.checkScene('/podcast') ? 'podcast' : 'podcast resetPaddingBottom' }>

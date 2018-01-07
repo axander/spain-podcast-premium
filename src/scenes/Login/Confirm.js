@@ -26,7 +26,7 @@ class Confirm extends React.Component {
     var urlParameters = [];
     typeof window.location.href.split('?')[1] !== 'undefined'
     ? ( urlParameters = window.location.href.split('?')[1].split('&'),
-        this.setParameters(),
+        this.setParameters(urlParameters),
         window.setSpinner(),
         this.setState(() => ({
           showedMsg: ''
@@ -111,13 +111,13 @@ class Confirm extends React.Component {
             <div className={this.state.subscription} >
               <div className="row" >
                 <div className="col-xs-12 col-md-4" >
-                  <Basic data={ {'status': 1} } />
+                  <Basic data={ {'status': 1, activationDate:new Date().getTime()} } />
                 </div>
                 <div className="col-xs-12 col-md-4" >
-                  <Invited/>
+                  <Invited data={ {'status': 0, 'code':''} }/>
                 </div>
                 <div className="col-xs-12 col-md-4" >
-                  <Premium/>
+                  <Premium data={ {'status': 0} }/>
                 </div>
               </div>
             </div>

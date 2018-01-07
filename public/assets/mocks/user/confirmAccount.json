@@ -49,11 +49,22 @@
 			},
 			"codesTo":[											
 				{ 
-					"id":"",
-					"status":0,						
-					"deferred":"xxx@xx.xx"		
-
+					"id":"xxxxxxx1",
+					"code":"qwe1234qq",
+					"status":0,
+					"date":1234123412341234,						
+					"deferred":""
+				},
+				{ 
+					"id":"xxxxxxx1",
+					"code":"sdf551re4q",
+					"status":0,
+					"date":1234123412341234,					
+					"deferred":""
 				}
+			],
+			"codesFrom":[											
+				
 			],
 			"payments":[										
 				{ 
@@ -66,22 +77,19 @@
 					"basic":{ 
 						"id":"",
 						"status":1,					
-						"date":"2017-12-12",			
-						"mili":0,			
+						"activationDate":1515254832318,						
 						"code":""					
 					},
 					"invited":{
 						"id":"",
 						"status":0,					
-						"date":"2017-12-12",			
-						"mili":0,			
+						"activationDate":null,						
 						"code":""					
 					},
 					"premium":{
 						"id":"",
 						"status":0,					
-						"date":"2017-12-12",			
-						"mili":0,		
+						"activationDate":null,				
 						"code":""					
 					}
 				}

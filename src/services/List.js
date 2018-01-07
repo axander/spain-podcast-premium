@@ -65,6 +65,10 @@ const List = {
 		"service":"user/saveTypeSubscription",
 		"method":"POST"
 	},
+	"updateSubscription":{
+		"service":"user/updateSubscription",
+		"method":"POST"
+	},
 	"deleteAccount":{
 		"service":"user/deleteAccount",
 		"method":"POST"
@@ -120,6 +124,14 @@ const List = {
 	"getListCodeInv":{
 		"service":"user/getListCodeInv",
 		"method":"GET"
+	},
+	"sendCodeInv":{
+		"service":"user/sendCodeInv",
+		"method":"POST"
+	},
+	"setCodeInv":{
+		"service":"user/setCodeInv",
+		"method":"POST"
 	},
 	"getListDevice":{
 		"service":"user/getListDevice",

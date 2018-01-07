@@ -15,6 +15,7 @@ import Menu from '../../components/Menu/Menu.js'
 import ChannelMenu from '../../components/ChannelMenu/ChannelMenu.js'
 import Logout from '../Login/Logout.js'
 import Recover from '../Login/Recover.js'
+import RecoverConfirm from '../Login/RecoverConfirm.js'
 import Register from '../Login/Register.js'
 import Confirm from '../Login/Confirm.js'
 import Home from '../Home/Home.js'
@@ -24,6 +25,7 @@ import Podcast from '../Podcast/Podcast.js'
 import Terms from '../Terms/Terms.js'
 import MainContainer from './MainContainer.js'
 import TranslatedComponent from '../../utils/TranslatedComponent.js'
+import Utils from '../../utils/Utils.js'
 import AddPropsToRoute from '../../components/AddPropsToRoute.js'
 
 
@@ -60,11 +62,19 @@ class Login extends React.Component{
     console.log('here');
     console.log(props);this.state = { isOpen: true };
     this.state = {
-     'user':'',
+     'email':'',
+     'emailClass':'',
+     'emailValidation':'',
      'pwd':'',
+     'deactive': 'disabled',
      'showedMsg': localStorage.getItem('error'),
      'isOpen': localStorage.getItem('error') ? true : false,
-     'loggedFb': localStorage.getItem('extStatus')
+     'loggedFb': localStorage.getItem('extStatus'),
+     'statusSubscription':{},
+     'lapsedSubscription':{},
+     'codesData': {},
+     'isOpen': false,
+     'showedMsg': '' 
     };
     localStorage.removeItem('error')
     this.handleChange = this.handleChange.bind(this);
@@ -73,17 +83,60 @@ class Login extends React.Component{
   }
 
   handleChange(event) {
-    console.log(event.target.id);
+    switch(event.target.id){
+      case 'email':
+          this.setState({[event.target.id]:event.target.value});
+          !Utils.validateEmail(event.target.value)
+          ? this.setState({
+            'emailValidation':this.translate('register.emailNotValid'),
+            'emailClass':'notValid_input'
+          })
+          : this.setState({
+            'emailValidation':'',
+            'emailClass':''
+          })
+      break;
+      case 'pwd':
+          /*this.setState({[event.target.id]:event.target.value});
+          this.state.pwd !== this.state.pwdRepit
+          ? this.setState({
+            'passwordNotMatch':this.translate('register.passwordNotMatch'),
+            'pwdClass':'notValid_input'
+          })
+          : this.setState({
+            'passwordNotMatch':'',
+            'pwdClass':''
+          })*/
+      break;
+      default:
+          this.setState({[event.target.id]:event.target.value});
+      break
+    }
     this.setState({[event.target.id]:event.target.value});
+    this.state.email !== '' && this.state.pwd !== '' && this.state.emailValidation === ''
+    ? this.state.deactive = ''
+    : this.state.deactive = 'disabled';
   }
   state = {
     redirectToReferrer : false
   }
   login = (_response) => {
-    localStorage.setItem('logged',true);
-    console.log(_response);
-    localStorage.setItem('client',JSON.stringify(_response.data));
-    localStorage.setItem('token',_response.token);
+    var subscriptionData = {};
+    _response.status === 'successfull'
+    ? (
+      localStorage.setItem('logged',true),
+      console.log(_response),
+      localStorage.setItem('email',_response.data.personalData.email),
+      localStorage.setItem('client',JSON.stringify(_response.data)),
+      localStorage.setItem('token',_response.token),
+      this.setLogged(_response)
+    )
+    : this.setState({
+          isOpen: true,
+          showedMsg: 'login.error.' + _response.reason
+      });
+  }
+  setLogged(){
     fakeAuth.authenticate(() => {
       this.setState(() => ({
         redirectToReferrer: true
@@ -107,7 +160,7 @@ class Login extends React.Component{
       }))
     event.preventDefault();
     //API.action('','GET', { 'user':this.state.user, 'pwd':this.state.pwd}, this.login, this.onError);
-    API.action('login', this.state, this.login, this.onError);
+    API.action('login', { 'email':this.state.email, 'pwd':this.state.pwd}, this.login, this.onError);
   }
   componentDidUpdate(){
     localStorage.getItem('error')
@@ -143,12 +196,13 @@ class Login extends React.Component{
               <div><FBPB /></div>
               <div className="formOr" >------------------   {this.translate('register.or')}   ------------------</div>
               <form onSubmit={e => this.handleSubmit(e, this.login, this.onError)}>
-                <div><label>{this.translate('user').toUpperCase()}</label></div>
-                <div><input id="user" type="text"  onChange={this.handleChange} value={this.state.user} /></div>
+                <div><label>{this.translate('email').toUpperCase()}</label></div>
+                <div><input id="email" type="text"  onChange={this.handleChange} className={ this.state.emailClass} value={this.state.email} /></div>
+                <div className="notValid_msg" >{this.state.emailValidation}</div>
                 <div><label>{this.translate('password').toUpperCase()}</label></div>
                 <div><input id="pwd" type="password" onChange={this.handleChange} value={this.state.pwd} /></div>
                 <Link to='/recover' className='contrast'><div>{this.translate('register.recoverPwd')}</div></Link>
-                <div><div className="submitBtn" onClick={e => this.handleSubmit(e, this.login, this.onError)} >{this.translate('continue').toUpperCase()}</div></div>
+                <div><div className={"submitBtn " + this.state.deactive } onClick={e => this.handleSubmit(e, this.login, this.onError)} >{this.translate('continue').toUpperCase()}</div></div>
               </form>
               <Link to='/'><div className="backPB" >{this.translate('back')}</div></Link>
           </div>
@@ -169,8 +223,66 @@ class Main extends React.Component {
   constructor(props) {
       super(props);
       this.state = { 
-        isOpen: true
+        isOpen: true,
+        'statusSubscription':{},
+        'lapsedSubscription':{},
+        'codesData': {},
       };
+  }
+  updateSubscriptions(_subscriptionData, _email){
+    this.state.lapsedSubscription = _subscriptionData.lapsed;
+    this.state.codesData = _subscriptionData.codesData;
+    this.state.statusSubscription = {
+      'email': _email,
+      'basic': _subscriptionData.lapsed.basic ? 2 : _subscriptionData.status.basic,                
+      'invited': _subscriptionData.lapsed.invited ? 2 : _subscriptionData.status.invited,               
+      'premium': _subscriptionData.lapsed.premium ? 2 : _subscriptionData.status.premium,
+      'code': _subscriptionData.codeInv              
+    }
+    window.setSpinner();
+    API.action('updateSubscription', this.state.statusSubscription, this.updateSubscriptionSuccess, this.updateSubscriptionError);
+  }
+  updateSubscriptionSuccess = (_response) => {
+    /*this.setState({
+          isOpen: true,
+          showedMsg: this.state.lapsedSubscription.premium ? 'register.premiumLapsed' : this.state.lapsedSubscription.invited ? 'register.invitedLapsed' : 'register.basicLapsed'
+      });*/
+    var client = JSON.parse(localStorage.getItem('client'));
+    client.paymentData.subscription.type.basic.status = this.state.statusSubscription.basic;
+    client.paymentData.subscription.type.invited.status = this.state.statusSubscription.invited;
+    client.paymentData.subscription.type.premium.status = this.state.statusSubscription.premium;
+    client.paymentData.codesFrom = this.state.codesData;
+    localStorage.setItem('client',JSON.stringify(client));
+    this.state.lapsedSubscription.basic ? localStorage.setItem('proccess','register.basicLapsed') : null;
+    this.state.lapsedSubscription.invited ? localStorage.setItem('proccess','register.invitedLapsed') : null;
+    this.state.lapsedSubscription.premium ? localStorage.setItem('proccess','register.premiumLapsed') : null;
+    window.location.href = './#/user/subscriptionData';
+  }
+  updateSubscriptionError = (_response, _error) =>{
+    this.setState({
+          isOpen: true,
+          showedMsg: _error
+      });
+    /*this.setState(() => ({
+        showedMsg: 'ERROR'
+      }))*/
+  }
+  componentWillUpdate(){
+    var subscriptionData = {};
+    var client = JSON.parse(localStorage.getItem('client'));
+    localStorage.getItem('logged') && !localStorage.getItem('checkingSubscription')
+    ? ( 
+      //check type of subscription from data
+      localStorage.setItem('checkingSubscription', true),
+      subscriptionData = Utils.checkSubscription(client.paymentData),
+      console.log(subscriptionData),
+      //check instant lapsed
+      //subscriptionInfo = { 'type': typeSubscription, 'status': subscription, 'lapsed': lapsed, 'codesData': [codesFrom], 'codeInv': codeInv }
+      subscriptionData.lapsed.premium || subscriptionData.lapsed.invited || subscriptionData.lapsed.basic
+        ? this.updateSubscriptions(subscriptionData, client.personalData.email)
+        : localStorage.getItem('checkingSubscription') ? localStorage.removeItem('checkingSubscription') : null
+    )
+    : null;
   }
   render() {
     return (
@@ -183,6 +295,7 @@ class Main extends React.Component {
           <Route exact path='/terms' component={Terms}/>
           <Route path='/confirm' component={Confirm}/>
           <Route exact path='/recover' component={Recover} />
+          <Route exact path='/recover/confirm' component={RecoverConfirm} />
           <Route exact path='/program' component={Program} />
           <Route exact path='/program/:channel' component={Program} />
           <Route exact path='/podcast' component={Podcast} />

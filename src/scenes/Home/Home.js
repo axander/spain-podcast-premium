@@ -19,7 +19,6 @@ class Home extends React.Component {
     };
   }
   componentDidMount() {
-    // Will execute as normal
   }
   componentDidUpdate(){
     this.state = {

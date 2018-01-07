@@ -4,7 +4,7 @@ import TranslatedComponent from '../../utils/TranslatedComponent.js';
 import Basic from '../../components/Subscription/Basic.js'
 import Invited from '../../components/Subscription/Invited.js'
 import Premium from '../../components/Subscription/Premium.js'
-
+import { Modal, API } from '../../services/Rest.js'
 
 
 class Subscription extends React.Component {
@@ -13,10 +13,22 @@ class Subscription extends React.Component {
     var client = JSON.parse(localStorage.getItem('client'));
     this.state={
       'list':client.paymentData.subscription,
-      'type':client.paymentData.subscription.type.premium.status ? 'premium' : client.paymentData.subscription.type.invited.status ? 'invited' : 'basic'
+      'type':client.paymentData.subscription.type.premium.status === 1 ? 'premium' : client.paymentData.subscription.type.invited.status === 1 ? 'invited' : 'basic',
+      'isOpen': localStorage.getItem('proccess') ? true : false ,
+      'showedMsg': localStorage.getItem('proccess') ? localStorage.getItem('proccess') : '',
+      'code': client.paymentData.subscription.type.invited.code,
+      'activationDateInv': client.paymentData.subscription.type.invited.activationDate,
     }
   }
+  toggleModal = () => {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  }
   componentDidMount() {
+    var client = JSON.parse(localStorage.getItem('client'));
+    localStorage.getItem('proccess') ? localStorage.removeItem('proccess') : null;
+    localStorage.getItem('checkingSubscription') ? localStorage.removeItem('checkingSubscription') : null;
   }
   render() {
     return (
@@ -44,6 +56,11 @@ class Subscription extends React.Component {
               </div>
             </div>
           </div>
+        </div>
+        <div>
+          <Modal show={this.state.isOpen} onClose={this.toggleModal} >
+            {this.translate(this.state.showedMsg)}
+          </Modal>
         </div>
       </subscription>  
     );

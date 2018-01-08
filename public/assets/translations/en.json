@@ -63,6 +63,7 @@
   "user.allSubscription":"Subscriptions Status",
   "user.sessionData":"Session Data",
   "user.deleteAccount":"Delete Account",
+  "user.deleteAccount.successfull":"Account Deleted",
   "user.favourites":"Favourites",
   "user.history":"Historial",
   "user.later":"See later",

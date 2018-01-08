@@ -54,10 +54,18 @@ class Settings extends React.Component {
 			this.props.logout.signout() ,
 			document.getElementById('root')['submenu'].handler = null
 			)
-    	: alert('failed');
+    	: this.setState({
+          isOpen: true,
+          showedMsg: 'user.logout.error.'+_response.reason
+      	});
     }
-    componentDidMount() {
-	    
+    componentWillUpdate() {
+    	localStorage.getItem('proccessing') === 'logingOut'
+    	? (
+    		localStorage.removeItem('proccessing'),
+    		this.props.logout.signout()
+    	)
+    	: null;
 	}
 	componentWillUnmount() {
 	    document.getElementById('root').removeEventListener('click', this.handleClickOutside, true);

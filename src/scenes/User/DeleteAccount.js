@@ -21,21 +21,26 @@ class DeleteAccount extends React.Component {
         showedMsg: ''
       }))
     event.preventDefault();
-    API.action('savePersonalData', this.state, this.onSuccess, this.onError);
+    API.action('deleteAccount', {'email':this.state.email} , this.onSuccess, this.onError);
   }
   onSuccess = (_response) => {
-    _response.status === 'successfull'
-    ? ( 
-      this.setState({
-          'isOpen': true,
-          'showedMsg': 'user.form.successful',
-      })
-    )
-    : this.setState({
+      _response.status === 'successfull'
+      ? ( 
+        localStorage.removeItem('logged'), 
+        localStorage.removeItem('token'),
+        localStorage.removeItem('client'),
+        typeof localStorage.getItem('extStatus') !== 'undefined' && JSON.parse(localStorage.getItem('extStatus')) && JSON.parse(localStorage.getItem('extStatus')).authResponse && JSON.parse(localStorage.getItem('extStatus')).authResponse.accessToken ? window.logoutFb() : null,
+        localStorage.setItem('proccessing','logingOut'),
+        this.setState(() => ({
           isOpen: true,
-          showedMsg: 'user.form.' + _response.reason
+          showedMsg: 'user.deleteAccount.successfull'
+        }))
+      )
+      : this.setState({
+          isOpen: true,
+          showedMsg: 'user.deleteAccount.error' + _response.reason
       });
-    
+
   }
   onError = (_response, _error) =>{
     this.setState({
@@ -44,6 +49,9 @@ class DeleteAccount extends React.Component {
       });
   }
   toggleModal = () => {
+      this.state.isOpen
+      ? window.location.href ='./'
+      : null;
       this.setState({
           isOpen: !this.state.isOpen
       });
@@ -56,26 +64,6 @@ class DeleteAccount extends React.Component {
       <deleteAccount>
         <div className="container" >
           <form onSubmit={this.handleSubmit}>
-            <div className="row">
-              <div class="col-xs-12 col-md-6">
-                <div><label>{this.translate('user.nick').toUpperCase()}</label></div>
-                <div><input id="nickName" type="text" value={this.state.nickName} /></div>
-              </div>
-              <div class="col-xs-12 col-md-6">
-                <div><label>{this.translate('user.email').toUpperCase()}</label></div>
-                <div><input id="email" type="text"  value={this.state.email} /></div>
-              </div>
-            </div>
-            <div className="row">
-              <div class="col-xs-12 col-md-6">
-                <div><label>{this.translate('user.name').toUpperCase()}</label></div>
-                <div><input id="name" type="text"  value={this.state.name} /></div>
-              </div>
-              <div class="col-xs-12 col-md-6">
-                <div><label>{this.translate('user.surname').toUpperCase()}</label></div>
-                <div><input id="surname" type="text" value={this.state.surname} /></div>
-              </div>
-            </div>
             <div><div className="submitBtn" onClick={this.handleSubmit} >{this.translate('continue').toUpperCase()}</div></div>
           </form>
         </div>

@@ -62,6 +62,7 @@
   "user.allSubscription":"Estado de las subscripciones",
   "user.sessionData":"Datos de sesión",
   "user.deleteAccount":"Eliminar cuenta",
+  "user.deleteAccount.successfull":"Cuenta eliminada.",
   "user.favourites":"Favoritos",
   "user.history":"Historial",
   "user.later":"Ver más tarde",

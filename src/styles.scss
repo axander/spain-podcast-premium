@@ -299,6 +299,8 @@ channelOptions{
     top:0;
     left:-75%;
     background:#fff;
+    -webkit-box-shadow: 0;
+    box-shadow: 0;
     -webkit-transition: all .5s ease;
     -moz-transition: all .5s ease;
     transition: all .5s ease;
@@ -365,6 +367,8 @@ programOptions{
     top:0;
     left:-75%;
     background:#fff;
+    -webkit-box-shadow: 0;
+    box-shadow: 0;
     -webkit-transition: all .5s ease;
     -moz-transition: all .5s ease;
     transition: all .5s ease;
@@ -428,6 +432,8 @@ podcastOptions{
     top:0;
     left:-75%;
     background:#fff;
+    -webkit-box-shadow: 0;
+    box-shadow: 0;
     -webkit-transition: all .5s ease;
     -moz-transition: all .5s ease;
     transition: all .5s ease;
@@ -483,6 +489,54 @@ podcastOptions .opSelected{
 podcastOptions .item{
     margin:10px;
 }
+
+podcastPlayer{
+    position:fixed;
+    z-index: 2004;
+    width:75%;
+    height:100%;
+    top:0;
+    left:-75%;
+    background:#ddd;
+    color:#444;
+    -webkit-box-shadow: 0;
+    box-shadow: 0;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
+}
+podcastPlayer section{
+    padding:10px;
+}
+podcastPlayer section:first-child{
+    padding:0px;
+    padding-top: 8px;
+}
+podcastPlayer section:first-child table{
+    margin:10px;
+}
+podcastPlayer nav {
+    height:100%;
+    overflow: hidden;
+}
+podcastPlayer nav .scrollCont{
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  // IE 10+
+    overflow: -moz-scrollbars-none;  // Firefox
+}
+podcastPlayer nav .scrollCont::-webkit-scrollbar { 
+    display: none;  // Safari and Chrome
+}
+podcastPlayer nav .scrollableCont{
+    height:auto;
+    padding-top:40px;
+}
+podcastPlayer nav div{
+    display:block;
+}
+
 .backContentPB{
     position: fixed;
     z-index: 1;
@@ -727,6 +781,8 @@ SubmenuPB{
 }
 .showContents{
     left:0;
+    -webkit-box-shadow: 0px 0 55px -2px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0 55px -2px rgba(0, 0, 0, 0.4);
 }
 .submitPB, .backPB{
 	cursor: pointer;

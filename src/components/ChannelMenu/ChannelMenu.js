@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Link } from 'react-router-dom'
 import ChannelMenuPB from './ChannelMenuPB.js'
+import PlayerApp from '../Player/PlayerApp/PlayerApp.js'
 import TranslatedComponent from '../../utils/TranslatedComponent.js';
 import { Modal, API } from '../../services/Rest.js'
 // The Header creates links that can be used to navigate
@@ -27,11 +28,14 @@ class ChannelMenu extends React.Component {
         this.clickHandlerChannel = this.clickHandlerChannel.bind(this);
         this.clickHandlerProgram = this.clickHandlerProgram.bind(this);
         this.clickHandlerPodcast = this.clickHandlerPodcast.bind(this);
+        this.clickHandlerChannelPB = this.clickHandlerChannelPB.bind(this);
         this.backChannel = this.backChannel.bind(this);
         this.backProgram = this.backProgram.bind(this);
+        this.backPodcast = this.backPodcast.bind(this);
         this.handleClickOutside = this.handleClickOutside.bind(this);
         this.forwardProgram = this.forwardProgram.bind(this);
         this.forwardPodcast = this.forwardPodcast.bind(this);
+        this.forwardPodcastPlayer = this.forwardPodcastPlayer.bind(this);
     }
 	clickHandler(event){
 		switch(this.state.state){
@@ -86,9 +90,39 @@ class ChannelMenu extends React.Component {
 					document.getElementById('root').removeEventListener('click', this.handleClickOutside, true)
 				}
 			break;
+			/*case 'podcastPlayer':
+				if(!this.state.toogle || this.state.showPodcastPlayer === '' ){
+					this.state.toogle = true
+					this.setState({
+					    'showPodcastPlayer': 'showContents',
+					}),
+					document.getElementById('channelMenuPB').addEventListener('click', this.handleClickOutside, true)
+				}else if(this.state.toogle ){
+					this.state.toogle = false;
+					this.setState({
+					    'showPodcastPlayer': ''
+					});
+					document.getElementById('channelMenuPB').removeEventListener('click', this.handleClickOutside, true)
+				}
+			break;*/
 			default:
 			break;
 		}
+    }
+    clickHandlerChannelPB(event){
+    	if(this.state.state === 'podcastPlayer'){
+    		if(this.state.showPodcastPlayer === '' ){
+				this.state.toogle = true
+				this.setState({
+				    'showPodcastPlayer': 'showContents',
+				});
+			}else{
+				this.state.toogle = false;
+				this.setState({
+				    'showPodcastPlayer': ''
+				});
+			}
+    	}
     }
     clickHandlerChannel(event){
 		typeof localStorage.getItem('program')!=='undefined' && localStorage.getItem('program') && localStorage.getItem('lastChannel') === event.target.id
@@ -139,8 +173,17 @@ class ChannelMenu extends React.Component {
 	    ;
     }
     clickHandlerPodcast(event){
-		this.state.podcast = event.target.id;
 		localStorage.setItem('lastPodcast',event.target.id );
+    	this.setState ({
+	      	'toogle':false,
+	        'show': '',
+	        'showProgram': '',
+	        'showPodcast': '',
+	        'showPodcastPlayer': 'showContents',
+	        'podcast': event.target.id,
+	        'state':'podcastPlayer'
+		});
+		document.getElementById('root').removeEventListener('click', this.handleClickOutside, true)
     }
     backChannel(event){
 		this.setState({
@@ -158,6 +201,17 @@ class ChannelMenu extends React.Component {
 		    'showProgram': 'showContents',
 		    'showPodcast': ''
 		 });
+    }
+    backPodcast(event){
+		this.setState({
+			'state':'podcast',
+			'toogle':false,
+			'show': '',
+		    'showProgram': '',
+	        'showPodcast': 'showContents',
+	        'showPodcastPlayer': ''
+		 });
+		document.getElementById('root').addEventListener('click', this.handleClickOutside, true)
     }
     forwardProgram(event){
     	typeof localStorage.getItem('program')!=='undefined'  && localStorage.getItem('program')
@@ -182,6 +236,16 @@ class ChannelMenu extends React.Component {
 		    'show': '',
 		    'showProgram': '',
 		    'showPodcast':'showContents'
+		 });
+    }
+    forwardPodcastPlayer(event){
+		this.setState({
+			'state':'podcastPlayer',
+			'toogle':false,
+		    'show': '',
+		    'showProgram': '',
+		    'showPodcast':'',
+		    'showPodcastPlayer': 'showContents'
 		 });
     }
     componentDidMount() {
@@ -289,8 +353,10 @@ class ChannelMenu extends React.Component {
 	}
   	render() {
 	  	return(
-	  		<div  onClick={ this.clickHandler } >
-		  		<ChannelMenuPB ></ChannelMenuPB>
+	  		<div onClick={ this.clickHandler } >
+	  			<div onClick={ this.clickHandlerChannelPB } >
+		  			<ChannelMenuPB />
+		  		</div>
 		  		<channelOptions id="menuContainer" className={this.state.show } >
 				    <nav>
 				    	<div className='contentStateRot' >{this.translate('menu.channel')}</div>
@@ -350,6 +416,7 @@ class ChannelMenu extends React.Component {
 				    <nav>
 				    	<div>
 				    		<div className='contentStateRot' >{this.translate('menu.podcast')+':'+this.translate('program')+this.state.program}</div>
+				    		<div className={this.state.podcast !== '' ? 'forwardContentPB' : 'hide'} onClick={this.forwardPodcastPlayer} >{this.translate('menu.podcastPlayer')}⇨</div>
 				    		<div className='backContentPB' onClick={this.backProgram} >⇦{this.translate('menu.program')}</div>
 				    	</div>
 				    	<div className="scrollCont" >
@@ -374,6 +441,21 @@ class ChannelMenu extends React.Component {
 					    </div>
 				    </nav>
 				</podcastOptions>
+				<podcastPlayer id="menuContainer" className={this.state.showPodcastPlayer} >
+				    <nav>
+				    	<div>
+				    		<div className='contentStateRot' >{this.translate('podcast')+':'+this.state.podcast}</div>
+				    		<div className='forwardContentPB' onClick={ this.clickHandlerChannelPB } >X</div>
+				    		<div className='backContentPB' onClick={this.backPodcast} >⇦{this.translate('menu.podcast')}</div>
+				    	</div>
+				    	<div className="scrollCont" >
+				    		<div className="scrollableCont" >
+				    			<PlayerApp />
+						    </div>
+					    </div>
+				    </nav>
+				    <PlayerApp />
+				</podcastPlayer>
 			</div>
 	  	)
 	  }

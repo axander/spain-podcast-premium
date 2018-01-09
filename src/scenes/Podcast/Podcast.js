@@ -1,5 +1,6 @@
 import React from 'react'
 import { Modal, API } from '../../services/Rest.js'
+import PlayerApp from '../../components/Player/PlayerApp/PlayerApp.js'
 import Submenu from '../../components/Submenu/Submenu.js'
 import UsuarioApi from '../../services/api2.js'
 import SingleLayout from '../../components/SingleLayout/SingleLayout.js'
@@ -60,6 +61,7 @@ class Podcast extends React.Component {
         <div className={ Utils.checkScene('/podcast') ? '' : 'hide' } >
           <h1>{this.translate('menu.podcast').toUpperCase() + ' ' + this.translate('program') + ' ' + this.state.program }</h1>
         </div>
+        <PlayerApp />
         <div className={ Utils.checkScene('/podcast') ? '' : 'resetPaddingTop' }>
           <div class="row" >
             {

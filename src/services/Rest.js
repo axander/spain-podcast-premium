@@ -29,7 +29,6 @@ const API = {
 			{
 				/*mode: 'no-cors',*/
 		      	method: _method,
-		      	cache: "force-cache",
 		      	headers: localStorage.getItem('token') && fullUrl < 0 ? new Headers({
 		      			'Cache-Control': 'cache',
 		      			'Accept':'*/*',

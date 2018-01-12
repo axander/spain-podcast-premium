@@ -24,7 +24,7 @@ class Settings extends React.Component {
     }
     changeToApp(e){
     	localStorage.getItem('app') ? localStorage.removeItem('app') : localStorage.setItem('app', true);
-    	window.location.href='/';
+    	window.location.href='./';
     }
 	clickHandler(e){
 		if(!this.state.toogle || this.state.show === '' ){

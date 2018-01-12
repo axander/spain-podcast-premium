@@ -19,6 +19,9 @@ import RecoverConfirm from '../Login/RecoverConfirm.js'
 import Register from '../Login/Register.js'
 import Confirm from '../Login/Confirm.js'
 import Home from '../Home/Home.js'
+import Home_web from '../Home/web/Home_web.js'
+import Header_web from '../Home/web/Header_web.js'
+import Footer_web from '../Home/web/Footer_web.js'
 import Program from '../Program/Program.js'
 import Channel from '../Channel/Channel.js'
 import Podcast from '../Podcast/Podcast.js'
@@ -285,33 +288,62 @@ class Main extends React.Component {
     : null;
   }
   render() {
-    return (
-      <div>
-        <Switch>
-          <Route exact path='/' component={Home}/>
-          <Route exact path='/login' component={Login}/>
-          <Route exact path='/logout' component={Logout}/>
-          <Route exact path='/register' component={Register}/>
-          <Route exact path='/terms' component={Terms}/>
-          <Route path='/confirm' component={Confirm}/>
-          <Route exact path='/recover' component={Recover} />
-          <Route exact path='/recover/confirm' component={RecoverConfirm} />
-          <Route exact path='/program' component={Program} />
-          <Route exact path='/program/:channel' component={Program} />
-          <Route exact path='/podcast' component={Podcast} />
-          <Route exact path='/podcast/:program' component={Podcast} />
-          <Route exact path='/channel' component={Channel} />
-          <Route exact path='/SPP_DEV' component={Home}/>
-          <PrivateRoute exact path='/*' component={MainContainer} />
-        </Switch>
-        <ChannelMenu  />
-        <Menu />
-        <IconMenu />
-        <Settings logout={fakeAuth}  />
+    if( localStorage.getItem('app') ){
 
-        <Modal />
-      </div>
-    );
+      return (
+        <div>
+          <Switch>
+            <Route exact path='/' component={localStorage.getItem('app') ? Home_web : Home}/>
+            <Route exact path='/login' component={Login}/>
+            <Route exact path='/logout' component={Logout}/>
+            <Route exact path='/register' component={Register}/>
+            <Route exact path='/terms' component={Terms}/>
+            <Route path='/confirm' component={Confirm}/>
+            <Route exact path='/recover' component={Recover} />
+            <Route exact path='/recover/confirm' component={RecoverConfirm} />
+            <Route exact path='/program' component={Program} />
+            <Route exact path='/program/:channel' component={Program} />
+            <Route exact path='/podcast' component={Podcast} />
+            <Route exact path='/podcast/:program' component={Podcast} />
+            <Route exact path='/channel' component={Channel} />
+            <Route exact path='/SPP_DEV' component={Home}/>
+            <PrivateRoute exact path='/*' component={MainContainer} />
+          </Switch>
+          <Header_web />
+          <Footer_web />
+          <Settings logout={fakeAuth}  />
+          <Modal />
+        </div>
+      );
+    }else {
+      return (
+        <div>
+          <Switch>
+            <Route exact path='/' component={localStorage.getItem('app') ? Home_web : Home}/>
+            <Route exact path='/login' component={Login}/>
+            <Route exact path='/logout' component={Logout}/>
+            <Route exact path='/register' component={Register}/>
+            <Route exact path='/terms' component={Terms}/>
+            <Route path='/confirm' component={Confirm}/>
+            <Route exact path='/recover' component={Recover} />
+            <Route exact path='/recover/confirm' component={RecoverConfirm} />
+            <Route exact path='/program' component={Program} />
+            <Route exact path='/program/:channel' component={Program} />
+            <Route exact path='/podcast' component={Podcast} />
+            <Route exact path='/podcast/:program' component={Podcast} />
+            <Route exact path='/channel' component={Channel} />
+            <Route exact path='/SPP_DEV' component={Home}/>
+            <PrivateRoute exact path='/*' component={MainContainer} />
+          </Switch>
+          <ChannelMenu  />
+          <Menu />
+          <IconMenu />
+          <Settings logout={fakeAuth}  />
+          <Modal />
+        </div>
+      );
+    }
+    
   }
 }
 //<PrivateRoute exact path='/*' component={AddPropsToRoute(MainContainer, this.props, fakeAuth )} />

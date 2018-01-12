@@ -1,6 +1,5 @@
 import 'babel-polyfill';
 import React from 'react'
-import Device from './utils/Device.js'
 import { API , Modal } from './services/Rest.js'
 import TranslatedComponent from './utils/TranslatedComponent.js'
 import Main from './scenes/Main/Main.js'
@@ -34,30 +33,18 @@ class App extends React.Component {
       	});
 	}
 	componentDidMount() {
-
+    	localStorage.setItem('template','dark');
   	}
   	render() {
   		if(this.state.config)
-	  	if(Device.na){
-	  		return(
-		  		<div>
-				  	<Main />
-				  	<Modal show={this.state.isOpen} onClose={this.toggleModal} >
-		              {this.translate(this.state.showedMsg)}
-		            </Modal>
-				</div>
-		  	)
-	  	}else{
-	  		return(
-		  		<div>
-				  	<Main />
-				  	<Modal show={this.state.isOpen} onClose={this.toggleModal} >
-		              {this.translate(this.state.showedMsg)}
-		            </Modal>
-				</div>
-		  	)
-	  	}
-	  	
+	  	return(
+	  		<div>
+			  	<Main />
+			  	<Modal show={this.state.isOpen} onClose={this.toggleModal} >
+	              {this.translate(this.state.showedMsg)}
+	            </Modal>
+			</div>
+	  	)
 	  }
 }
 

@@ -1,0 +1,18 @@
+$template-light-bg: #fff;
+$template-light-color: #444;
+
+$template-dark-bg: #000;
+$template-dark-color: #fff;
+
+.home_web_light{
+	background: $template-light-bg;
+	color: $template-light-color;
+	width:100%;
+	min-height:100vh;
+}
+.home_web_dark{
+	background: $template-dark-bg;
+	color: $template-dark-color;
+	width:100%;
+	min-height:100vh;
+}

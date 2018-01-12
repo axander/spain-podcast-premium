@@ -1153,6 +1153,29 @@ sendInvitation{
 
 /*invitations style*/
 
+.deviceInfo{
+    padding: 10px;
+    color:#444
+}
+.deviceInfo span{
+    font-size:20px;
+}
+.toApp{
+    cursor: pointer;
+    display: block;
+    padding: 20px;
+    font-size: 25px;
+    color: #fff;
+    background: #204671;
+    text-decoration: none;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
+}
+.toApp:hover{
+    opacity:.5;
+}
+
 
 
 

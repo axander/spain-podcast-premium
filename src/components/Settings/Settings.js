@@ -6,6 +6,7 @@ import SettingsPB from './SettingsPB.js'
 import TranslationPicker from '../TranslationPicker.js';
 import TranslatedComponent from '../../utils/TranslatedComponent.js';
 import Utils from '../../utils/Utils.js';
+import Device from '../../utils/Device.js';
 // The Header creates links that can be used to navigate
 // between routes.
 
@@ -19,6 +20,11 @@ class Settings extends React.Component {
         };
         this.clickHandler = this.clickHandler.bind(this);
         this.handleClickOutside = this.handleClickOutside.bind(this);
+        this.changeToApp = this.changeToApp.bind(this);
+    }
+    changeToApp(e){
+    	localStorage.getItem('app') ? localStorage.removeItem('app') : localStorage.setItem('app', true);
+    	window.location.href='/';
     }
 	clickHandler(e){
 		if(!this.state.toogle || this.state.show === '' ){
@@ -92,14 +98,24 @@ class Settings extends React.Component {
 	      			<nav>
 	      				<div className="scrollCont" >
 				    		<div className="scrollableCont" >
+				    			<div className="toApp" onClick={this.changeToApp} >App</div>
 				    			<Link to='/logout' id='logoutPB' className={this.state.logout} >Log Out</Link>
 				    			<TranslationPicker />
 				        		<Link to='/user'><div className={ Utils.checkScene('/user') ? 'opSelected' : 'opNoSelected' } >{this.translate('menu.user')}</div></Link>
 				        		<Link to='/terms'><div className={ Utils.checkScene('/terms') ? 'opSelected' : 'opNoSelected' } >{this.translate('terms')}</div></Link>
+				        		<div className='deviceInfo' >{ Device.na }
+						        </div>
+				        		<div className='deviceInfo' >{
+						            Device.data.map( p => (
+						              <div>
+						     			<span className='rot' >{p.name}: </span>{p.value}
+						              </div>
+						            ))
+						          }
+						        </div>
 				        	</div>
 				        </div>
 				    </nav>			    
-
 				</menuOptions>
 				
 			</div>

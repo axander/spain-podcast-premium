@@ -10,6 +10,7 @@ import Utils from '../../utils/Utils.js';
 class Channel extends React.Component {
   constructor(props) {
     super(props);
+    
     typeof props.location !== 'undefined'
     ? localStorage.setItem('lastState',props.location.pathname)
     : null;

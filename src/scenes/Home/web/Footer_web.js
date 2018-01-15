@@ -24,18 +24,18 @@ class Footer_web extends React.Component {
 
   render() {
     return (
-      <div className={ 'footer_web_'+localStorage.getItem('template')} >
+      <div className={ 'footer_web footer_web_'+localStorage.getItem('template')} >
         <div class='row'>
-          <div class='col-xs-12 col-md-3 col-lg-3 '><Footer_about /></div>
-          <div class='col-xs-12 col-md-3 col-lg-3 '><Footer_account /></div>
-          <div class='col-xs-12 col-md-3 col-lg-3 '><Footer_link /></div>
-          <div class='col-xs-12 col-md-3 col-lg-3 '><Footer_app /></div>
+          <div className={'col-md-offset-2 col-xs-12 col-md-2 col-lg-2 footer_web_block footer_web_block_'+localStorage.getItem('template')}><div><div><Footer_about /></div></div></div>
+          <div className={'col-xs-12 col-md-2 col-lg-2 footer_web_block footer_web_block_'+localStorage.getItem('template')}><div><div><Footer_account /></div></div></div>
+          <div className={'col-xs-12 col-md-2 col-lg-2 footer_web_block footer_web_block_'+localStorage.getItem('template')}><div><div><Footer_link /></div></div></div>
+          <div className={'col-xs-12 col-md-3 col-lg-3 footer_web_block footer_web_block_'+localStorage.getItem('template')}><div><div><Footer_app /></div></div></div>
         </div>
         <div class='row'>
           <div class='col-xs-12 col-lg-12'><Footer_generic /></div>
         </div>
         <div class='row'>
-          <div class='col-xs-12 col-lg-12'><Footer_copyright /></div>
+          <div class='col-xs-12 col-lg-12 '><Footer_copyright /></div>
         </div>
       </div>  
     );

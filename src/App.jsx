@@ -33,7 +33,7 @@ class App extends React.Component {
       	});
 	}
 	componentDidMount() {
-    	localStorage.setItem('template','dark');
+    	!localStorage.getItem('template') ? localStorage.setItem('template','dark') : null;
   	}
   	render() {
   		if(this.state.config)

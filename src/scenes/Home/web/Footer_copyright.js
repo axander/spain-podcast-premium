@@ -17,8 +17,8 @@ class Footer_copyright extends React.Component {
 
   render() {
     return (
-      <div>
-        Footer_copyright
+      <div className={ 'footer_web_copyright footer_web_copyright_'+localStorage.getItem('template')}>
+        <div>{this.translate('footer.copyright')}</div>
       </div>  
     );
   }

@@ -39,7 +39,7 @@ class AppComponent extends React.Component {
     }
 
     return (
-      <div className="app-wrapper">
+      <div className={ localStorage.getItem('app') ? "app-wrapper" : "app-wrapper_web" } >
         
         {/* No connection to the translation picker */}
         <HashRouter>

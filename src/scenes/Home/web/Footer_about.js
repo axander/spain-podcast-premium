@@ -18,7 +18,10 @@ class Footer_about extends React.Component {
   render() {
     return (
       <div>
-        Footer about
+        <h1>{this.translate('spainpodcast').toUpperCase()}</h1>
+        <Link to={'/info/about'} ><div>{this.translate('footer.about')}</div></Link>
+        <Link to={'/info/help_center'} ><div>{this.translate('footer.help')}</div></Link>
+        <Link to={'/info/ads'} ><div>{this.translate('footer.ads')}</div></Link>
       </div>  
     );
   }

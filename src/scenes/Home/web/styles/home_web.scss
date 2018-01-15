@@ -4,15 +4,43 @@ $template-light-color: #444;
 $template-dark-bg: #000;
 $template-dark-color: #fff;
 
+.home_web{
+	width:100%;
+	min-height:100vh;
+	padding-top: 40px;
+}
+.home_web h1{
+	text-align: center;
+}
+
 .home_web_light{
 	background: $template-light-bg;
 	color: $template-light-color;
-	width:100%;
-	min-height:100vh;
+	
 }
 .home_web_dark{
 	background: $template-dark-bg;
 	color: $template-dark-color;
-	width:100%;
-	min-height:100vh;
 }
+.home_web .section-container_web{
+	transform: scale(.6);
+    position: relative;
+    margin-top: -170px;
+    top: 0;
+}
+.home_web .section-container{
+	height: 880px;
+	margin-bottom: -110px;
+	border:0;
+	border-bottom:4px solid #fff;
+}
+.home_web .section-container_web .channel>div, .home_web .section-container_web .podcast>div, .home_web .section-container_web .program>div{
+	background:#000;
+}
+.home_web .section-container_web .item{
+	margin: 10px;
+}
+.home_web .section-container_web .app{
+	background:#fff !important;
+}
+

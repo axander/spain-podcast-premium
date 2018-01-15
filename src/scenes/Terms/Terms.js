@@ -15,9 +15,17 @@ class Terms extends React.Component {
   }
   render() {
     return (
-      <div className="terms">
-        <h1>{this.translate('terms').toUpperCase()}</h1>
-      </div> 
+      <div className='mainContainer' >
+        <terms>
+          <div className='terms'>
+            <div className="basicOuter" >
+              <div className="basicInner">
+                <h1>{this.translate('terms').toUpperCase()}</h1>
+              </div> 
+            </div>
+          </div>
+        </terms>
+      </div>
     );
   }
 }

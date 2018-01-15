@@ -14,6 +14,7 @@ import IconMenu from '../../components/IconMenu/IconMenu.js'
 import Menu from '../../components/Menu/Menu.js'
 import ChannelMenu from '../../components/ChannelMenu/ChannelMenu.js'
 import Logout from '../Login/Logout.js'
+import Info from '../Info/Info.js'
 import Recover from '../Login/Recover.js'
 import RecoverConfirm from '../Login/RecoverConfirm.js'
 import Register from '../Login/Register.js'
@@ -172,6 +173,7 @@ class Login extends React.Component{
           showedMsg: localStorage.getItem('error')
       }) , localStorage.removeItem('error') )
     :null;
+    Utils.scrollToTop(300);
   }
 
   clickHandlerFB(event){
@@ -192,30 +194,34 @@ class Login extends React.Component{
     }
     //<div><input type="submit" value={this.translate('continue').toUpperCase()} className="submitBtn" /></div>
     return (
-      <auth>
-        <div className="basicOuter" >
-            <div className="basicInner">
-              <h1>{this.translate('login')}</h1>
-              <div><FBPB /></div>
-              <div className="formOr" >------------------   {this.translate('register.or')}   ------------------</div>
-              <form onSubmit={e => this.handleSubmit(e, this.login, this.onError)}>
-                <div><label>{this.translate('email').toUpperCase()}</label></div>
-                <div><input id="email" type="text"  onChange={this.handleChange} className={ this.state.emailClass} value={this.state.email} /></div>
-                <div className="notValid_msg" >{this.state.emailValidation}</div>
-                <div><label>{this.translate('password').toUpperCase()}</label></div>
-                <div><input id="pwd" type="password" onChange={this.handleChange} value={this.state.pwd} /></div>
-                <Link to='/recover' className='contrast'><div>{this.translate('register.recoverPwd')}</div></Link>
-                <div><div className={"submitBtn " + this.state.deactive } onClick={e => this.handleSubmit(e, this.login, this.onError)} >{this.translate('continue').toUpperCase()}</div></div>
-              </form>
-              <Link to='/'><div className="backPB" >{this.translate('back')}</div></Link>
+      <div className='mainContainer' >
+        <auth>
+          <div class='auth'>
+            <div className="basicOuter" >
+                <div className="basicInner">
+                  <h1>{this.translate('login')}</h1>
+                  <div><FBPB /></div>
+                  <div className="formOr" >------------------   {this.translate('register.or')}   ------------------</div>
+                  <form onSubmit={e => this.handleSubmit(e, this.login, this.onError)}>
+                    <div><label>{this.translate('email').toUpperCase()}</label></div>
+                    <div><input id="email" type="text"  onChange={this.handleChange} className={ this.state.emailClass} value={this.state.email} /></div>
+                    <div className="notValid_msg" >{this.state.emailValidation}</div>
+                    <div><label>{this.translate('password').toUpperCase()}</label></div>
+                    <div><input id="pwd" type="password" onChange={this.handleChange} value={this.state.pwd} /></div>
+                    <Link to='/recover' className='contrast'><div>{this.translate('register.recoverPwd')}</div></Link>
+                    <div><div className={"submitBtn " + this.state.deactive } onClick={e => this.handleSubmit(e, this.login, this.onError)} >{this.translate('continue').toUpperCase()}</div></div>
+                  </form>
+                  <Link to='/'><div className="backPB" >{this.translate('back')}</div></Link>
+              </div>
+            </div>
           </div>
-        </div>
-        <div>
-          <Modal show={this.state.isOpen} onClose={this.toggleModal} >
-              {this.translate(this.state.showedMsg)}
-            </Modal>
-        </div>
-      </auth>  
+          <div>
+            <Modal show={this.state.isOpen} onClose={this.toggleModal} >
+                {this.translate(this.state.showedMsg)}
+              </Modal>
+          </div>
+        </auth>
+      </div> 
     );
   }
 }
@@ -288,16 +294,18 @@ class Main extends React.Component {
     : null;
   }
   render() {
-    if( localStorage.getItem('app') ){
+    if( !localStorage.getItem('app') ){
 
       return (
-        <div>
+        <div className='mainContainer' >
           <Switch>
-            <Route exact path='/' component={localStorage.getItem('app') ? Home_web : Home}/>
+            <Route exact path='/' component={ Home_web }/>
             <Route exact path='/login' component={Login}/>
             <Route exact path='/logout' component={Logout}/>
             <Route exact path='/register' component={Register}/>
             <Route exact path='/terms' component={Terms}/>
+            <Route exact path='/info' component={Info}/>
+            <Route exact path='/info/*' component={Info}/>
             <Route path='/confirm' component={Confirm}/>
             <Route exact path='/recover' component={Recover} />
             <Route exact path='/recover/confirm' component={RecoverConfirm} />
@@ -319,10 +327,12 @@ class Main extends React.Component {
       return (
         <div>
           <Switch>
-            <Route exact path='/' component={localStorage.getItem('app') ? Home_web : Home}/>
+            <Route exact path='/' component={ Home }/>
             <Route exact path='/login' component={Login}/>
             <Route exact path='/logout' component={Logout}/>
             <Route exact path='/register' component={Register}/>
+            <Route exact path='/info' component={Info}/>
+            <Route exact path='/info/*' component={Info}/>
             <Route exact path='/terms' component={Terms}/>
             <Route path='/confirm' component={Confirm}/>
             <Route exact path='/recover' component={Recover} />

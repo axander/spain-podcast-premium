@@ -21,10 +21,16 @@ class Settings extends React.Component {
         this.clickHandler = this.clickHandler.bind(this);
         this.handleClickOutside = this.handleClickOutside.bind(this);
         this.changeToApp = this.changeToApp.bind(this);
+        this.changeTheme = this.changeTheme.bind(this);
     }
     changeToApp(e){
     	localStorage.getItem('app') ? localStorage.removeItem('app') : localStorage.setItem('app', true);
-    	window.location.href='./';
+    	location.reload();
+    }
+    changeTheme(e){
+    	localStorage.getItem('template') === 'dark' ? localStorage.setItem('template','light') : localStorage.setItem('template','dark');
+    	/*localStorage.setItem('app', true);*/
+    	location.reload();
     }
 	clickHandler(e){
 		if(!this.state.toogle || this.state.show === '' ){
@@ -99,6 +105,7 @@ class Settings extends React.Component {
 	      				<div className="scrollCont" >
 				    		<div className="scrollableCont" >
 				    			<div className="toApp" onClick={this.changeToApp} >App</div>
+				    			<div className="toApp" onClick={this.changeTheme} >Change Theme</div>
 				    			<Link to='/logout' id='logoutPB' className={this.state.logout} >Log Out</Link>
 				    			<TranslationPicker />
 				        		<Link to='/user'><div className={ Utils.checkScene('/user') ? 'opSelected' : 'opNoSelected' } >{this.translate('menu.user')}</div></Link>

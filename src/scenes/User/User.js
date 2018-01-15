@@ -13,6 +13,10 @@ class User extends React.Component {
   componentDidMount() {
     localStorage.getItem('proccess') ? localStorage.removeItem('proccess') : null;
   }
+  componentDidUpdate() {
+    Utils.scrollToTop(300);
+    // Will execute as normal
+  }
   render() {
     return (
       <div className="user">

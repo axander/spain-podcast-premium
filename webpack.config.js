@@ -16,7 +16,7 @@ module.exports = {
 	devServer: {
 		host: '0.0.0.0',
 		inline: true,
-		port: 3333
+		port: 3333,
 	},
 	resolve: {
 		"alias": {
@@ -97,6 +97,9 @@ module.exports = {
 			test: /\.(js|jsx)$/,
 			include: [/(src|test)/],
 			loader: 'babel'
+		},{ 
+			test: /\.json$/,
+			loader: "json-loader"
 		}]
 	},
 	postcss: function() {

@@ -16,10 +16,10 @@ import Shared from '../Shared/Shared.js'
 class MainContainer extends React.Component {
   render() {
     return (
-      <div>
+      <div className='mainContainer' >
         <maincontainer>
           <Switch>
-            <Route exact path='/' component={ localStorage.getItem('app') ? Home_web : Home } />
+            <Route exact path='/' component={ localStorage.getItem('app') ? Home : Home_web } />
             <Route path='/user' component={User} />
             <Route path='/content' component={Content}/>
             <Route path='/podcast' component={Podcast}/>

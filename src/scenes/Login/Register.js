@@ -35,13 +35,9 @@ class Register extends React.Component {
   componentWillUnmount(){
     
   }
-  componentDidUpdate(){
-    /*localStorage.getItem('error')
-    ? ( this.setState({
-          isOpen: true,
-          showedMsg: localStorage.getItem('error')
-      }) , localStorage.removeItem('error') )
-    :null;*/
+  componentDidUpdate() {
+    Utils.scrollToTop(300);
+    // Will execute as normal
   }
   onSuccess = (_response) => {
     _response.status === 'successfull'
@@ -148,31 +144,35 @@ class Register extends React.Component {
           )
       }
     return (
-      <auth>
-        <div className="basicOuter" >
-      	  	<div className="basicInner">
-      	    	<h1>{this.translate('create.account')}</h1>
-              <form onSubmit={this.handleSubmit} autocomplete="on" >
-                <div><label>{this.translate('email').toUpperCase()}</label></div>
-                <div><input id="email" type="text"  onChange={this.handleChange} className={ this.state.emailClass} value={this.state.email} /></div>
-                <div className="notValid_msg" >{this.state.emailValidation}</div>
-                <div><label>{this.translate('nick').toUpperCase()}</label></div>
-                <div><input id="nick" type="text"  onChange={this.handleChange} value={this.state.nick} /></div>
-                <div><label>{this.translate('password').toUpperCase()}</label></div>
-                <div><input id="pwd" type="password" onChange={this.handleChange} className={ this.state.pwdClass } value={this.state.pwd} /></div>
-                <div className="notValid_msg" >{this.state.passwordNotMatch}</div>
-                <div><label>{this.translate('password.repit').toUpperCase()}</label></div>
-                <div><input id="pwdRepit" type="password" onChange={this.handleChange} className={ this.state.pwdClass } value={this.state.pwdRepit} /></div>
-                <div><input id="terms" type="checkbox" onChange={this.handleChange}  checked={this.state.terms}  /><Link to='/terms' target="_blank" > {this.translate('user.terms').toUpperCase()}</Link></div>
-                <div><div className={"submitBtn " + this.state.deactive }  onClick={this.handleSubmit} >{this.translate('continue').toUpperCase()}</div></div>
-              </form>
-              <Link to='/'><div className="backPB" >{this.translate('back')}</div></Link>
-      		</div>
-    	  </div>
-        <Modal show={this.state.isOpen} onClose={this.toggleModal} >
-          {this.translate(this.state.showedMsg)}
-        </Modal>
-      </auth>  
+      <div className='mainContainer' >
+        <register>
+          <div class='register'>
+            <div className="basicOuter" >
+          	  	<div className="basicInner">
+          	    	<h1>{this.translate('create.account')}</h1>
+                  <form onSubmit={this.handleSubmit} autocomplete="on" >
+                    <div><label>{this.translate('email').toUpperCase()}</label></div>
+                    <div><input id="email" type="text"  onChange={this.handleChange} className={ this.state.emailClass} value={this.state.email} /></div>
+                    <div className="notValid_msg" >{this.state.emailValidation}</div>
+                    <div><label>{this.translate('nick').toUpperCase()}</label></div>
+                    <div><input id="nick" type="text"  onChange={this.handleChange} value={this.state.nick} /></div>
+                    <div><label>{this.translate('password').toUpperCase()}</label></div>
+                    <div><input id="pwd" type="password" onChange={this.handleChange} className={ this.state.pwdClass } value={this.state.pwd} /></div>
+                    <div className="notValid_msg" >{this.state.passwordNotMatch}</div>
+                    <div><label>{this.translate('password.repit').toUpperCase()}</label></div>
+                    <div><input id="pwdRepit" type="password" onChange={this.handleChange} className={ this.state.pwdClass } value={this.state.pwdRepit} /></div>
+                    <div><input id="terms" type="checkbox" onChange={this.handleChange}  checked={this.state.terms}  /><Link to='/terms' target="_blank" > {this.translate('user.terms').toUpperCase()}</Link></div>
+                    <div><div className={"submitBtn " + this.state.deactive }  onClick={this.handleSubmit} >{this.translate('continue').toUpperCase()}</div></div>
+                  </form>
+                  <Link to='/'><div className="backPB" >{this.translate('back')}</div></Link>
+          		</div>
+        	  </div>
+          </div>
+          <Modal show={this.state.isOpen} onClose={this.toggleModal} >
+            {this.translate(this.state.showedMsg)}
+          </Modal>
+        </register>
+      </div>  
     );
   }
 }

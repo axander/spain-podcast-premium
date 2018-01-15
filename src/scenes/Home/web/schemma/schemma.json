@@ -1,0 +1,19 @@
+{
+	"schemma":[
+		{
+			"name":"channel",
+			"component":"Channel",
+			"path":"Channel/Channel.js"
+		},
+		{
+			"name":"program",
+			"component":"Program",
+			"path":"Program/Program.js"
+		},
+		{
+			"name":"podcast",
+			"component":"Podcast",
+			"path":"Podcast/Podcast.js"
+		}
+	]
+}

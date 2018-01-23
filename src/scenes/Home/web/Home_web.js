@@ -12,6 +12,8 @@ const data = require('./schemma/schemma.json')
 class Home_web extends React.Component {
   constructor(props) {
     super(props);
+    console.log('props home web');
+    console.log(props)
     localStorage.setItem('lastState',props.location.pathname);
     this.state = {
       'template': localStorage.getItem('template'),
@@ -53,7 +55,7 @@ class Home_web extends React.Component {
                 <div className='section-container_web' >
                   <div className="section-container" >
                       <div className="section-contain">
-                        <Component>{p.component}</Component>
+                        <Component initplayer={this.props.initplayer} auth={this.props.auth} >{p.component}</Component>
                     </div>
                   </div>
                 </div>

@@ -34,20 +34,49 @@ import AddPropsToRoute from '../../components/AddPropsToRoute.js'
 
 
 const fakeAuth = {
-  isAuthenticated:false,
+  isAuthenticated: Logged.setAuthRefresh() ? true : false,
   authenticate(cb){
+    console.log('this.afterRequired');
+    console.log(this.afterRequired);
+    this.afterRequired ? this.afterRequired() : null;
+    this.afterRequired = null;
+    this.afterRequiredApp ? this.afterRequiredApp() : null;
+    this.afterRequiredApp = null;
     this.isAuthenticated = true;
     setTimeout(cb,100);
   },
   signout(cb){
     this.isAuthenticated = false;
+    this.resetUser();
     setTimeout(cb,100);
+  },
+  setUser(){
+    //it will be configured from Login_web
+  },
+  resetUser(){
+    //it will be configured from Login_web
+  },
+  required(){
+
+  },
+  afterRequired(){
+
+  },
+  afterRequiredApp(){
+
+  }
+}
+
+const player = {
+  play(){
+    //it will be configured from Login_web
   }
 }
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) =>(
     //props.isAuthenticated = fakeAuth.isAuthenticated,
+    fakeAuth.afterRequiredApp = null,
     localStorage.setItem('lastState',props.location.pathname),
     ( fakeAuth.isAuthenticated === true || Logged.getLogged(props) ) && !localStorage.getItem('error') 
           ? <Component {...props} />
@@ -84,6 +113,8 @@ class Login extends React.Component{
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.clickHandlerFB = this.clickHandlerFB.bind(this);
+
+    this.requireLogin  = this.requireLogin.bind(this);
   }
 
   handleChange(event) {
@@ -133,6 +164,7 @@ class Login extends React.Component{
       localStorage.setItem('email',_response.data.personalData.email),
       localStorage.setItem('client',JSON.stringify(_response.data)),
       localStorage.setItem('token',_response.token),
+      fakeAuth.setUser(),
       this.setLogged(_response)
     )
     : this.setState({
@@ -141,6 +173,7 @@ class Login extends React.Component{
       });
   }
   setLogged(){
+    fakeAuth.required = this.requireLogin;
     fakeAuth.authenticate(() => {
       this.setState(() => ({
         redirectToReferrer: true
@@ -173,9 +206,14 @@ class Login extends React.Component{
           showedMsg: localStorage.getItem('error')
       }) , localStorage.removeItem('error') )
     :null;
-    Utils.scrollToTop(300);
+    
   }
-
+  requireLogin(_exec){
+    fakeAuth.afterRequired = _exec;
+  }
+  componentDidMount() {
+    fakeAuth.required = this.requireLogin;
+  }
   clickHandlerFB(event){
     window.checkLoginState()
   }
@@ -196,7 +234,7 @@ class Login extends React.Component{
     return (
       <div className='mainContainer' >
         <auth>
-          <div class='auth'>
+          <div className='auth'>
             <div className="basicOuter" >
                 <div className="basicInner">
                   <h1>{this.translate('login')}</h1>
@@ -214,8 +252,6 @@ class Login extends React.Component{
                   <Link to='/'><div className="backPB" >{this.translate('back')}</div></Link>
               </div>
             </div>
-          </div>
-          <div>
             <Modal show={this.state.isOpen} onClose={this.toggleModal} >
                 {this.translate(this.state.showedMsg)}
               </Modal>
@@ -225,7 +261,14 @@ class Login extends React.Component{
     );
   }
 }
+
+
+
+
+
+
 TranslatedComponent(Login);
+
 
 
 class Main extends React.Component {
@@ -236,6 +279,7 @@ class Main extends React.Component {
         'statusSubscription':{},
         'lapsedSubscription':{},
         'codesData': {},
+        'resetUser': null
       };
   }
   updateSubscriptions(_subscriptionData, _email){
@@ -299,7 +343,9 @@ class Main extends React.Component {
       return (
         <div className='mainContainer' >
           <Switch>
-            <Route exact path='/' component={ Home_web }/>
+            <Route exact path='/' render={(props) => (
+              <Home_web {...props} initplayer={player} auth={fakeAuth} />
+            )}/>
             <Route exact path='/login' component={Login}/>
             <Route exact path='/logout' component={Logout}/>
             <Route exact path='/register' component={Register}/>
@@ -309,17 +355,28 @@ class Main extends React.Component {
             <Route path='/confirm' component={Confirm}/>
             <Route exact path='/recover' component={Recover} />
             <Route exact path='/recover/confirm' component={RecoverConfirm} />
-            <Route exact path='/program' component={Program} />
-            <Route exact path='/program/:channel' component={Program} />
-            <Route exact path='/podcast' component={Podcast} />
-            <Route exact path='/podcast/:program' component={Podcast} />
-            <Route exact path='/channel' component={Channel} />
+            <Route exact path='/podcast' render={(props) => (
+              <Podcast {...props} initplayer={player} auth={fakeAuth} />
+            )}/>
+            <Route exact path='/podcast/:program' render={(props) => (
+              <Podcast {...props} initplayer={player} auth={fakeAuth} />
+            )}/>
+            <Route exact path='/channel' render={(props) => (
+              <Channel {...props} auth={fakeAuth} />
+            )}/>
+            <Route exact path='/program' render={(props) => (
+              <Program {...props} auth={fakeAuth} />
+            )}/>
+            <Route exact path='/program/:channel' render={(props) => (
+              <Program {...props} auth={fakeAuth} />
+            )}/>
             <Route exact path='/SPP_DEV' component={Home}/>
             <PrivateRoute exact path='/*' component={MainContainer} />
           </Switch>
-          <Header_web />
+          <Header_web login={fakeAuth}  />
           <Footer_web />
-          <Settings logout={fakeAuth}  />
+          <Settings logout={fakeAuth} />
+          <ChannelMenu initplayer={player} auth={fakeAuth} />
           <Modal />
         </div>
       );
@@ -327,7 +384,9 @@ class Main extends React.Component {
       return (
         <div>
           <Switch>
-            <Route exact path='/' component={ Home }/>
+            <Route exact path='/' render={(props) => (
+              <Home {...props} initplayer={player}  auth={fakeAuth} />
+            )}/>
             <Route exact path='/login' component={Login}/>
             <Route exact path='/logout' component={Logout}/>
             <Route exact path='/register' component={Register}/>
@@ -337,18 +396,28 @@ class Main extends React.Component {
             <Route path='/confirm' component={Confirm}/>
             <Route exact path='/recover' component={Recover} />
             <Route exact path='/recover/confirm' component={RecoverConfirm} />
-            <Route exact path='/program' component={Program} />
-            <Route exact path='/program/:channel' component={Program} />
-            <Route exact path='/podcast' component={Podcast} />
-            <Route exact path='/podcast/:program' component={Podcast} />
-            <Route exact path='/channel' component={Channel} />
+            <Route exact path='/channel' render={(props) => (
+              <Channel {...props} auth={fakeAuth} />
+            )}/>
+            <Route exact path='/program' render={(props) => (
+              <Program {...props} auth={fakeAuth} />
+            )}/>
+            <Route exact path='/program/:channel' render={(props) => (
+              <Program {...props} auth={fakeAuth} />
+            )}/>
+            <Route exact path='/podcast' render={(props) => (
+              <Podcast {...props} initplayer={player}  auth={fakeAuth} />
+            )}/>
+            <Route exact path='/podcast/:program' render={(props) => (
+              <Podcast {...props} initplayer={player} auth={fakeAuth} />
+            )}/>
             <Route exact path='/SPP_DEV' component={Home}/>
             <PrivateRoute exact path='/*' component={MainContainer} />
           </Switch>
-          <ChannelMenu  />
+          <ChannelMenu initplayer={player}  auth={fakeAuth}  />
           <Menu />
           <IconMenu />
-          <Settings logout={fakeAuth}  />
+          <Settings logout={fakeAuth} />
           <Modal />
         </div>
       );

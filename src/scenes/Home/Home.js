@@ -17,6 +17,11 @@ class Home extends React.Component {
       'notLogged': localStorage.getItem('logged') ? 'hide' : 'basicBorderBtn inline',
       'nickName': JSON.parse(localStorage.getItem('client')) ? JSON.parse(localStorage.getItem('client')).personalData.nickName : null
     };
+    this.clickHandler = this.clickHandler.bind(this);
+  }
+
+  clickHandler(){
+    this.props.auth.afterRequiredApp = null;
   }
   componentDidMount() {
   }
@@ -36,7 +41,7 @@ class Home extends React.Component {
         <div>
   	    	<h1>{this.translate('welcome')}</h1>
           <div>
-            <Link to='/login' className='contrast'><div className={this.state.notLogged}>{this.translate('initSession')}</div></Link>
+            <Link to='/login' className='contrast'><div className={this.state.notLogged} onClick={this.clickHandler} >{this.translate('initSession') }</div></Link>
             <Link to='/user' className='contrast'><div className={this.state.loggedAs}>{this.translate('logged.as')}{this.state.nickName}</div></Link>
             <Link to='/register' className='contrast'><div className="basicBtn inline">{this.translate('create.account')}</div></Link>
           </div>
@@ -48,7 +53,7 @@ class Home extends React.Component {
             </div>
             <div className="section-container" >
               <div className="section-contain">
-                <Channel />
+                <Channel auth={this.props.auth} />
               </div>
             </div>
           </div>
@@ -58,7 +63,7 @@ class Home extends React.Component {
             </div>
             <div className="section-container" >
               <div className="section-contain">
-                <Program channel={localStorage.getItem('lastChannel') ? localStorage.getItem('lastChannel') : 'generic' } />
+                <Program channel={localStorage.getItem('lastChannel') ? localStorage.getItem('lastChannel') : 'generic' } auth={this.props.auth} />
               </div>
             </div>
           </div>
@@ -68,7 +73,7 @@ class Home extends React.Component {
             </div>
             <div className="section-container" >
               <div className="section-contain">
-                <Podcast program={localStorage.getItem('lastProgram') ? localStorage.getItem('lastProgram') : 'generic' }  />
+                <Podcast program={localStorage.getItem('lastProgram') ? localStorage.getItem('lastProgram') : 'generic' } auth={this.props.auth} initplayer={this.props.initplayer} />
               </div>
             </div>
           </div>

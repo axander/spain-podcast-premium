@@ -5,7 +5,7 @@ import display from '../../assets/images/display.png';
 class ChannelMenuPB extends React.Component {
   	render() {
 	  	return(
-	  		<channelMenuPB><img src={display} alt="channels" /></channelMenuPB>
+	  		<channelMenuPB className="channelMenuPB" ><img src={display} alt="channels" /></channelMenuPB>
 	  	)
 	  }
 

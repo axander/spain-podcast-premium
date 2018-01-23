@@ -12,7 +12,6 @@ var TranslationActionCreator = {
     // Where do we fetch from
     var path = document.body.getAttribute('base') || '';
     var url = window.location.origin + path + '/' + Constants.LANGUAGE_API_PATH + newLanguageCode + '.json';
-
     // Might be outsourced to a library if you got one
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {

@@ -79,28 +79,34 @@ class Recover extends React.Component {
   componentDidMount() {
     
   }
+  componentWillUnmount(){
+    Utils.scrollToTop(300);
+  }
 
   render() {
     return (
-      <auth>
-
-        <div className="basicOuter" >
-      	  	<div className="basicInner">
-      	    	<h1 className={ this.state.sended ? 'hide':''} >{this.translate('register.recoverPwd.rot')}</h1>
-              <h1 className={ !this.state.sended ? 'hide':''} >{this.translate('register.recoverPwd.sended.rot')}</h1>
-              <form className={this.state.sended ? 'hide':''}  onSubmit={this.handleSubmit}>
-                <div><label>{this.translate('email').toUpperCase()}</label></div>
-                <div><input id="email" type="text"  onChange={this.handleChange} className={ this.state.emailClass} value={this.state.email} /></div>
-                <div className="notValid_msg" >{this.state.emailValidation}</div>
-                <div><div  className={"submitBtn " + this.state.deactive } onClick={this.handleSubmit} >{this.translate('continue').toUpperCase()}</div></div>
-              </form>
-              <Link to='/login'><div className="backPB" >{this.translate('back')}</div></Link>
-      		</div>
-    	  </div>
-        <Modal show={this.state.isOpen} onClose={this.toggleModal} >
-          {this.translate(this.state.showedMsg)}
-        </Modal>
-      </auth>  
+      <div className='mainContainer' >
+        <recover>
+          <div className='recover'>
+              <div className="basicOuter" >
+            	  	<div className="basicInner">
+            	    	<h1 className={ this.state.sended ? 'hide':''} >{this.translate('register.recoverPwd.rot')}</h1>
+                    <h1 className={ !this.state.sended ? 'hide':''} >{this.translate('register.recoverPwd.sended.rot')}</h1>
+                    <form className={this.state.sended ? 'hide':''}  onSubmit={this.handleSubmit}>
+                      <div><label>{this.translate('email').toUpperCase()}</label></div>
+                      <div><input id="email" type="text"  onChange={this.handleChange} className={ this.state.emailClass} value={this.state.email} /></div>
+                      <div className="notValid_msg" >{this.state.emailValidation}</div>
+                      <div><div  className={"submitBtn " + this.state.deactive } onClick={this.handleSubmit} >{this.translate('continue').toUpperCase()}</div></div>
+                    </form>
+                    <Link to='/login'><div className="backPB" >{this.translate('back')}</div></Link>
+            		</div>
+          	  </div>
+              <Modal show={this.state.isOpen} onClose={this.toggleModal} >
+                {this.translate(this.state.showedMsg)}
+              </Modal>
+            </div>
+        </recover>  
+      </div>
     );
   }
 }

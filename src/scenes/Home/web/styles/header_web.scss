@@ -23,6 +23,7 @@ $template-size-2: 10px;
 	font-size: $template-size-1;
 	color: $template-dark-color-1;
 }
+
 .header_web_light{
     background: $template-light-bg;
 	font-size: $template-size-1;
@@ -30,6 +31,7 @@ $template-size-2: 10px;
 }
 .header_web{
 	position: fixed;
+	z-index:10;
     top: 0;
     left: 0;
     padding:10px;

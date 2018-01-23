@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { Link } from 'react-router-dom'
 import TranslatedComponent from '../../../utils/TranslatedComponent.js';
 import Login_web from './Login_web.js'
+import Search from '../../../components/Search/Search.js'
 import './styles/header_web.scss'
 
 class Header_web extends React.Component {
@@ -22,8 +23,8 @@ class Header_web extends React.Component {
         <Link to={'/'} ><div class='option left'>Logo</div></Link>
         <Link to={'/info/explore'} ><div class='option left'>{this.translate('header.explore').toUpperCase()}</div></Link>
         <Link to={'/info/premium'} ><div class='option left'>{this.translate('header.premium').toUpperCase()}</div></Link>
-        <div class='option left' >{this.translate('header.browse').toUpperCase()}</div>
-        <div class='right'><Login_web /></div>
+        <Search />
+        <div class='right'><Login_web login={this.props.login} /></div>
         <Link to={'/register'} ><div class='option right'>{this.translate('header.register').toUpperCase()}</div></Link>
       </div>  
     );

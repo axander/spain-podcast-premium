@@ -21,10 +21,9 @@ const SingleUserAPI = {
     { id:'Podcast02', name: "Podcast Op2", position: "P", sub:"/podcast"  },
     { id:'Podcast03', name: "Podcast Op3", position: "P", sub:"/podcast"  },
     { id:'Podcast04', name: "Podcast Op4", position: "P", sub:"/podcast"  },
-    { id:'Fav01', name: "Fav Op1", position: "F", sub:"/favourites"  },
-    { id:'Fav02', name: "Fav Op2", position: "F", sub:"/favourites"  },
-    { id:'Fav03', name: "Fav Op3", position: "F", sub:"/favourites"  },
-    { id:'Fav04', name: "Fav Op4", position: "F", sub:"/favourites"  }
+    { id:'channel', name: "channel", position: "F", sub:"/favourites"  },
+    { id:'program', name: "program", position: "F", sub:"/favourites"  },
+    { id:'podcast', name: "podcast", position: "F", sub:"/favourites"  }
   ],
   all: function() { return this.singleUsers},
   get: function(id) {

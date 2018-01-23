@@ -2,6 +2,13 @@ import Utils from '../utils/Utils.js'
 
 
 const Logged = {
+	setAuthRefresh : function(){
+		var set = false;
+		localStorage.getItem('logged') && JSON.parse(localStorage.getItem('client')).personalData.email === localStorage.getItem('email')
+		? set = true
+		: null;
+		return set
+	},
 	getLogged : function(_props){
 		if(localStorage.getItem('logged')){
 			return true

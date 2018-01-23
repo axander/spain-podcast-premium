@@ -149,8 +149,52 @@ const List = {
 		"service":"content/getListPro",
 		"method":"GET"
 	},
+		"getListProSP13NM2D31":{
+		"service":"content/getListProSP13NM2D31",
+		"method":"GET"
+	},
+		"getListProF4RB2S":{
+		"service":"content/getListProF4RB2S",
+		"method":"GET"
+	},
+		"getListProD2P4RT2":{
+		"service":"content/getListProD2P4RT2",
+		"method":"GET"
+	},
+		"getListProH3ST4R31":{
+		"service":"content/getListProH3ST4R31",
+		"method":"GET"
+	},
+		"getListProM1G1Z3N2":{
+		"service":"content/getListProM1G1Z3N2",
+		"method":"GET"
+	},
 	"getListPod":{
 		"service":"content/getListPod",
+		"method":"GET"
+	},
+	"getListPodFORBESDAILY":{
+		"service":"content/getListPodFORBESDAILY",
+		"method":"GET"
+	},
+	"getListPodFORBESEMPRENDE":{
+		"service":"content/getListPodFORBESEMPRENDE",
+		"method":"GET"
+	},
+	"getListPodFORBESPEOPLE":{
+		"service":"content/getListPodFORBESPEOPLE",
+		"method":"GET"
+	},
+	"getListPodFORBESREVIEW":{
+		"service":"content/getListPodFORBESREVIEW",
+		"method":"GET"
+	},
+	"getListPodFORBESSUMMIT30U30":{
+		"service":"content/getListPodFORBESSUMMIT30U30",
+		"method":"GET"
+	},
+	"getListPodFORBESSUMMITRS":{
+		"service":"content/getListPodFORBESSUMMITRS",
 		"method":"GET"
 	},
 	"search":{

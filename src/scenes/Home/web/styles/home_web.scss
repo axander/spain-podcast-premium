@@ -9,6 +9,14 @@ $template-dark-color: #fff;
 	min-height:100vh;
 	padding-top: 40px;
 }
+.home_web > div > div{
+	padding-right: 40px;
+    padding-left: 40px;
+	padding-top: 40px;
+}
+.home_web > div > div:first-child{
+	padding-top: 0;
+}
 .home_web h1{
 	text-align: center;
 }
@@ -23,13 +31,13 @@ $template-dark-color: #fff;
 	color: $template-dark-color;
 }
 .home_web .section-container_web{
-	transform: scale(.6);
-    position: relative;
-    margin-top: -170px;
-    top: 0;
+	height: 400px;
+    /* margin-bottom: -110px; */
+    border: 0;
+    border-bottom: 4px solid #fff;
 }
 .home_web .section-container{
-	height: 880px;
+	height: 400px;
 	margin-bottom: -110px;
 	border:0;
 	border-bottom:4px solid #fff;
@@ -38,7 +46,7 @@ $template-dark-color: #fff;
 	background:#000;
 }
 .home_web .section-container_web .item{
-	margin: 10px;
+	padding: 10px;
 }
 .home_web .section-container_web .app{
 	background:#fff !important;

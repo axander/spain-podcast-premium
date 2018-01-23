@@ -30,10 +30,9 @@ const UsuarioApi = {
       { id:"Podcast04", name: "podcast Op4", position: "P" , sub:"/podcast" }
     ],
     '/favourites':[
-      { id:"Fav01", name: "Fav Op1", position: "F" , sub:"/favourites" },
-      { id:"Fav02", name: "Fav Op2", position: "F" , sub:"/favourites" },
-      { id:"Fav03", name: "Fav Op3", position: "F" , sub:"/favourites" },
-      { id:"Fav04", name: "Fav Op4", position: "F" , sub:"/favourites" }
+      { id:"channel", name: "channel", position: "F" , sub:"/favourites" },
+      { id:"program", name: "program", position: "F" , sub:"/favourites" },
+      { id:"podcast", name: "podcast", position: "F" , sub:"/favourites" },
     ]
   },
   all: function(_op) { return this.options[_op]},

@@ -33,10 +33,10 @@ class Register extends React.Component {
        
   }
   componentWillUnmount(){
-    
+    Utils.scrollToTop(300);
   }
   componentDidUpdate() {
-    Utils.scrollToTop(300);
+    
     // Will execute as normal
   }
   onSuccess = (_response) => {
@@ -167,12 +167,12 @@ class Register extends React.Component {
                   <Link to='/'><div className="backPB" >{this.translate('back')}</div></Link>
           		</div>
         	  </div>
-          </div>
-          <Modal show={this.state.isOpen} onClose={this.toggleModal} >
-            {this.translate(this.state.showedMsg)}
-          </Modal>
-        </register>
-      </div>  
+            <Modal show={this.state.isOpen} onClose={this.toggleModal} >
+              {this.translate(this.state.showedMsg)}
+            </Modal>
+        </div>
+      </register>
+    </div>  
     );
   }
 }

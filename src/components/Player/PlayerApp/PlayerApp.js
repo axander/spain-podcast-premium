@@ -18,9 +18,32 @@ const MULTIPLE_SOURCES = [
 ]
 
 export default class PlayerApp extends Component {
+  constructor(props) {
+    super(props);
+    console.log('props');
+    console.log(props);
+    this.loadPodcast = this.loadPodcast.bind(this);
+  }
+  loadPodcast(_source, _id, _name){
+    localStorage.setItem('lastPodcast', _id);
+    localStorage.setItem('lastPodcastName', JSON.stringify(_name));
+    this.player.seekTo(0);
+    this.props.showplayer();
+    this.setState({ 
+      url: _source,
+      playing: false,
+      played: 0,
+      loaded: 0,
+      duration: 0,
+      playbackRate: 1.0
+    })
+  }
+   componentDidMount(){
+      typeof this.props.initplayer !== 'undefined' ? this.props.initplayer.play= this.loadPodcast : null ;
+   }
   state = {
     url: null,
-    playing: true,
+    playing: false,
     volume: 0.8,
     muted: false,
     played: 0,
@@ -100,6 +123,15 @@ export default class PlayerApp extends Component {
   ref = player => {
     this.player = player
   }
+  /*<td>
+      <button onClick={this.stop}>Stop</button>
+      <button onClick={this.playPause}>{playing ? 'Pause' : 'Play'}</button>
+      <button onClick={this.onClickFullscreen}>Fullscreen</button>
+      <button onClick={this.setPlaybackRate} value={1}>1</button>
+      <button onClick={this.setPlaybackRate} value={1.5}>1.5</button>
+      <button onClick={this.setPlaybackRate} value={2}>2</button>
+    </td>
+  */
   render () {
     const { url, playing, volume, muted, loop, played, loaded, duration, playbackRate } = this.state
     const SEPARATOR = ' · '
@@ -130,18 +162,14 @@ export default class PlayerApp extends Component {
               onProgress={this.onProgress}
               onDuration={this.onDuration}
             />
+
           </div>
 
           <table><tbody>
             <tr>
-              <th>Controls</th>
+              <th></th>
               <td>
-                <button onClick={this.stop}>Stop</button>
-                <button onClick={this.playPause}>{playing ? 'Pause' : 'Play'}</button>
-                <button onClick={this.onClickFullscreen}>Fullscreen</button>
-                <button onClick={this.setPlaybackRate} value={1}>1</button>
-                <button onClick={this.setPlaybackRate} value={1.5}>1.5</button>
-                <button onClick={this.setPlaybackRate} value={2}>2</button>
+                <button className="playPausePb" onClick={this.playPause}>{playing ? 'Pause' : 'Play'}</button>
               </td>
             </tr>
             <tr>

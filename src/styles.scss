@@ -8,6 +8,7 @@ html,body {
 	font-family: Lato, sans-serif;
 	margin:0;
 	width:100vw;
+    height:auto;
     overflow-x:hidden;
 	/*height:auto;
 	overflow:hidden;*/
@@ -60,6 +61,7 @@ h1{
 .app-wrapper_web{
     background-color: #698ab1;
     padding-top:53px;
+    height:auto;
 }
 .app-wrapper{
     background-color: #698ab1;
@@ -67,7 +69,7 @@ h1{
 }
 .mainContainer{
     background-color: #698ab1;
-    min-height: 100vh;
+    min-height: 100%;
     height:auto;
 }
 .left{
@@ -158,6 +160,10 @@ AuthButton {
     height:100vh;
     margin-top: -50px;
 }
+.recover{
+    height:100vh;
+    margin-top: -50px; 
+}
 .register{
     height:100vh;
     margin-top: -50px;
@@ -171,9 +177,18 @@ AuthButton {
 }
 .mainContainer .channel, .mainContainer .program, .mainContainer .podcast{
      padding-bottom:0;
+     min-height:100%;
+     background: #000;
+}
+.mainContainer .channel .row, .mainContainer .program .row, .mainContainer .podcast .row{
+     background: #000;
 }
 .channel, .program, .podcast{
+    background:#000;
     padding-bottom:80px;
+}
+.channel h1, .program h1, .podcast h1{
+    font-size:20px;
 }
 .channel a, .program a{
     color: #fff;
@@ -188,7 +203,7 @@ AuthButton {
 .channel > div, .program  > div, .podcast > div{
     height:auto;
     background:#fff;
-    padding-top:58px;
+    padding-top:42px;
 }
 .channel h1, .program h1, .podcast h1{
     text-align: center;
@@ -206,11 +221,10 @@ AuthButton {
 .item{
     cursor: pointer;
     padding: 10px;
-    /*margin: 10px;*/
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 50% 50%;
-    /* border-bottom: 1px dotted #fff; */
+    height: 300px;
     -webkit-transition: all .5s ease;
     transition: all .5s ease;
 }
@@ -221,18 +235,34 @@ AuthButton {
     pointer-events:none;
 }
 .program .rot, .channel .rot, .podcast .rot, .item .rot{
-    display: inline-block;
-    float: left;
+    position: absolute;
+    top:10px;
     padding:10px;
     font-size:20px;
     background:rgba(0, 0, 0, 0.5);
     text-align: center;
 }
-.program .desc, .channel .desc, .podcast .desc, .item .desc{
-    padding:10px;
-    font-size:12px;
-    background:rgba(0, 0, 0, 0.5);
+.podcast .rot{
+    font-size:16px;
 }
+.program .desc_cont, .channel .desc_cont, .podcast .desc_cont{
+    height:100%;
+}
+.program .desc, .channel .desc, .podcast .desc, .item .desc{
+    /*padding:10px;*/
+    /*background:rgba(0, 0, 0, 0.5);*/
+    position: absolute;
+    font-size: 55px;
+    bottom: 20px;
+    right: 20px;
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+    background: rgba(0, 0, 0, 0.51);
+    text-align: center;
+    padding-left: 7px;
+}
+
 .home > div {
     text-align:center;
 }
@@ -351,6 +381,9 @@ channelOptions nav {
 channelOptions nav div{
     display:block;
 }
+channelOptions nav .scrollCont{
+    width:100%;
+}
 channelOptions nav .scrollCont .scrollableCont a div{
     cursor:pointer;
     width:100%;
@@ -463,6 +496,7 @@ programOptions .opSelected{
 programOptions .item{
     margin:10px;
 }
+
 podcastOptions{
     position:fixed;
     z-index: 2004;
@@ -532,10 +566,10 @@ podcastOptions .item{
 podcastPlayer{
     position:fixed;
     z-index: 2004;
-    width:75%;
+    width:100%;
     height:100%;
     top:0;
-    left:-75%;
+    left:-100%;
     background:#ddd;
     color:#444;
     -webkit-box-shadow: 0;
@@ -575,7 +609,30 @@ podcastPlayer nav .scrollableCont{
 podcastPlayer nav div{
     display:block;
 }
-
+podcastPlayer .section:nth-child(2) table:first-child{
+    display:none;
+}
+podcastPlayer .playPausePb{
+    /*cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 230px;
+    width: 100px;
+    height: 100px;
+    border-radius: 100px;
+    background: #fff;
+    text-align: center;
+    line-height: 100px;*/
+    font-family: inherit;
+    font-size: 40px;
+    line-height: inherit;
+    float: right;
+    width: 200px;
+    margin: 10px;
+    position: absolute;
+    /* top: 400px; */
+    right: 20px;
+}
 .backContentPB{
     position: fixed;
     z-index: 1;
@@ -605,6 +662,12 @@ podcastPlayer nav div{
     color: #204671;
     font-size: 20px;
     padding: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* word-break: break-all; */
+    white-space: nowrap;
+    padding-left: 130px;
+    padding-right: 120px;
 }
 .contentSelected{
     opacity:.5;
@@ -727,7 +790,7 @@ MenuPB{
     -moz-transition: all .5s ease;
     transition: all .5s ease;
 }
-channelMenuPB{
+.app-wrapper .channelMenuPB{
     font-size: 25px;
     cursor: pointer;
     display: block;
@@ -736,8 +799,25 @@ channelMenuPB{
     font-weight: bold;
     /* background: #333; */
     padding: 10px;
-    right: 85px;
     top: -20px;
+    right: 85px;
+    position: fixed;
+    z-index: 2004;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
+}
+.app-wrapper_web .channelMenuPB{
+    font-size: 25px;
+    cursor: pointer;
+    display: block;
+    color: #fff;
+    font-size: 50px;
+    font-weight: bold;
+    /* background: #333; */
+    padding: 10px;
+    bottom: 0px;
+    right:10px;
     position: fixed;
     z-index: 2004;
     -webkit-transition: all .5s ease;
@@ -761,6 +841,7 @@ channelMenuPB{
     width: 100%;
     height: 300px !important;
     margin-bottom: 20px;
+    background: #000;
 }
 settingsPB{
     cursor: pointer;
@@ -779,10 +860,9 @@ SubmenuPB{
     z-index:2004;
 	line-height: 18px;
     word-break: break-all;
-    bottom: 0;
+    bottom: 70px;
     width: 15px;
-    right: 0;
-    bottom: -5px;
+    right: 15px;
     margin-left: 10px;
     /* margin-top: 10px; */
     padding: 20px;

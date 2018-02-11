@@ -360,6 +360,65 @@ menuOptions .opSelected{
     color: #fff;
 }
 
+listOptions{
+    position:fixed;
+    z-index: 2010;
+    width:350px;
+    height:100%;
+    top:0;
+    right:-350px;
+    background:#fff;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
+}
+listOptions h1{
+    color: #204671;
+}
+listOptions nav {
+    height:100%;
+}
+listOptions nav div{
+    display:block;
+}
+listOptions nav .scrollCont .scrollableCont a div{
+    cursor:pointer;
+    width:100%;
+    padding:10px;
+        font-size:30px;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
+}
+listOptions nav .scrollCont .scrollableCont a div:hover , listOptions nav .scrollCont .scrollableCont #logoutPB:hover{
+    width:100%;
+    background:#204671;
+    color:#fff;
+}
+listOptions nav .scrollCont{
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    margin-right: -15px;
+}
+listOptions nav .scrollableCont{
+    height:auto;
+}
+listOptions a, listOptions a:hover, listOptions nav .scrollCont .scrollableCont #logoutPB{
+    cursor:pointer;
+    color:#204671;
+    text-decoration:none;
+}
+listOptions a:visited{
+    color:#204671;
+    text-decoration:none;
+}
+listOptions .opSelected{
+    background: #204671;
+    color: #fff;
+}
+
+
 channelOptions{
     position:fixed;
     z-index: 2004;

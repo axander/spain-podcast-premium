@@ -55,7 +55,7 @@ class Home_web extends React.Component {
                 <div className='section-container_web' >
                   <div className="section-container" >
                       <div className="section-contain">
-                        <Component initplayer={this.props.initplayer} auth={this.props.auth} >{p.component}</Component>
+                        <Component initplayer={this.props.initplayer} initSchemma={this.props.initSchemma} auth={this.props.auth} >{p.component}</Component>
                     </div>
                   </div>
                 </div>

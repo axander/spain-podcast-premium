@@ -33,6 +33,16 @@ const UsuarioApi = {
       { id:"channel", name: "channel", position: "F" , sub:"/favourites" },
       { id:"program", name: "program", position: "F" , sub:"/favourites" },
       { id:"podcast", name: "podcast", position: "F" , sub:"/favourites" },
+    ],
+    '/later':[
+      { id:"channel", name: "channel", position: "F" , sub:"/later" },
+      { id:"program", name: "program", position: "F" , sub:"/later" },
+      { id:"podcast", name: "podcast", position: "F" , sub:"/later" },
+    ],
+    '/shared':[
+      { id:"channel", name: "channel", position: "F" , sub:"/shared" },
+      { id:"program", name: "program", position: "F" , sub:"/shared" },
+      { id:"podcast", name: "podcast", position: "F" , sub:"/shared" },
     ]
   },
   all: function(_op) { return this.options[_op]},

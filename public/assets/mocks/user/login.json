@@ -123,24 +123,71 @@
 		"listData":{							
 			"later":{											
 				"podcast":[
-					{"id":"", "col":[]}
+					{
+						"folder":"LATER",
+						"id":"ROOT",
+						"children":[]
+					}
 				],
 				"program":[
-					{"id":"", "col":[]}
+					{
+						"folder":"LATER",
+						"id":"ROOT",
+						"children":[]
+					}
 				],
-				"canal":[
-					{"id":"", "col":[]}
+				"channel":[
+					{
+						"folder":"LATER",
+						"id":"ROOT",
+						"children":[]
+					}
+				]
+			},
+			"share":{											
+				"podcast":[
+					{
+						"folder":"SHARE",
+						"id":"ROOT",
+						"children":[]
+					}
+				],
+				"program":[
+					{
+						"folder":"SHARE",
+						"id":"ROOT",
+						"children":[]
+					}
+				],
+				"channel":[
+					{
+						"folder":"SHARE",
+						"id":"ROOT",
+						"children":[]
+					}
 				]
 			},
 			"fav":{												
 				"podcast":[
-					{"id":"", "col":[]}
+					{
+						"folder":"FAVORITOS",
+						"id":"ROOT",
+						"children":[]
+					}
 				],
 				"program":[
-					{"id":"", "col":[]}
+					{
+						"folder":"FAVORITOS",
+						"id":"ROOT",
+						"children":[]
+					}
 				],
-				"canal":[
-					{"id":"", "col":[]}
+				"channel":[
+					{
+						"folder":"FAVORITOS",
+						"id":"ROOT",
+						"children":[]
+					}
 				]
 			},
 			"subscriptions":{									
@@ -166,7 +213,7 @@
 				"podcast":[
 					{"id":"", "col":[] }
 				],
-				"canal":[
+				"channel":[
 					{"id":"", "col":[]}
 				]
 			},

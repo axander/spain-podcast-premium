@@ -53,7 +53,7 @@ class Home extends React.Component {
             </div>
             <div className="section-container" >
               <div className="section-contain">
-                <Channel auth={this.props.auth} />
+                <Channel initSchemma={this.props.initSchemma} auth={this.props.auth} />
               </div>
             </div>
           </div>
@@ -63,7 +63,7 @@ class Home extends React.Component {
             </div>
             <div className="section-container" >
               <div className="section-contain">
-                <Program channel={localStorage.getItem('lastChannel') ? localStorage.getItem('lastChannel') : 'generic' } auth={this.props.auth} />
+                <Program channel={localStorage.getItem('lastChannel') ? localStorage.getItem('lastChannel') : 'generic' } initSchemma={this.props.initSchemma} auth={this.props.auth} />
               </div>
             </div>
           </div>
@@ -73,7 +73,7 @@ class Home extends React.Component {
             </div>
             <div className="section-container" >
               <div className="section-contain">
-                <Podcast program={localStorage.getItem('lastProgram') ? localStorage.getItem('lastProgram') : 'generic' } auth={this.props.auth} initplayer={this.props.initplayer} />
+                <Podcast program={localStorage.getItem('lastProgram') ? localStorage.getItem('lastProgram') : 'generic' } auth={this.props.auth} initplayer={this.props.initplayer} initSchemma={this.props.initSchemma}  />
               </div>
             </div>
           </div>

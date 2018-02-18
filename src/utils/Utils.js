@@ -19,6 +19,16 @@ const Utils = {
                 }
             }, 15);
     },
+    ltrim: function(str) {
+        //del left white spaces
+      if(str == null) return str;
+      return str.replace(/^\s+/g, '');
+    },
+    rtrim: function(str) {
+        //del right white spaces
+      if(str == null) return str;
+      return str.replace(/\s+$/g, '');
+    },
     formatGetParameters: function(_params) {
         var getParams = _params ?
             Object.keys(_params).map(function(key) {

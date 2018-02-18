@@ -24,9 +24,10 @@ export default class PlayerApp extends Component {
     console.log(props);
     this.loadPodcast = this.loadPodcast.bind(this);
   }
-  loadPodcast(_source, _id, _name){
+  loadPodcast(_source, _id, _name, _object){
     localStorage.setItem('lastPodcast', _id);
     localStorage.setItem('lastPodcastName', JSON.stringify(_name));
+    localStorage.setItem('podcastInfo', JSON.stringify(_object));
     this.player.seekTo(0);
     this.props.showplayer();
     this.setState({ 

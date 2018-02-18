@@ -21,14 +21,14 @@ class Favourites extends React.Component {
         <h1>{this.translate('user.favourites').toUpperCase()}</h1>
             {
               UsuarioApi.options[this.props.match.path].map(p => (
-                <Link key={p.number}  to={this.props.match.path+'/'+p.id} ><div className={ Utils.checkScene(this.props.match.path+'/'+p.id) ? 'submenuOp opSelected' : 'submenuOp' } >
+                <Link key={p.number}  to={this.props.match.path+'/'+p.id} ><div className={ Utils.checkScene(this.props.match.path+'/'+p.id) ? 'tabList tabListSelected' : 'tabList' } >
                   {p.name}
                 </div></Link>
               ))
             }
             
             <Route exact path={this.props.match.path+'/:id'} render={(props) => (
-              <SingleLayoutFav data={this.state.data} />
+              <SingleLayoutFav data={this.state.data} initplayer={this.props.initplayer} />
             )}/>
             
         <Submenu  sub={this.props.match.path}/> 

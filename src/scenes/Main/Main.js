@@ -8,6 +8,7 @@ import {
 import Logged from '../../services/Logged.js'
 import { Modal, API } from '../../services/Rest.js'
 import Settings from '../../components/Settings/Settings.js'
+import ListSchemma from '../../components/Lists/ListSchemma.js'
 import FBPB from '../../components/FBPB.js'
 /*import Dev from '../../components/Dev/Dev.js'*/
 import IconMenu from '../../components/IconMenu/IconMenu.js'
@@ -72,14 +73,19 @@ const player = {
     //it will be configured from Login_web
   }
 }
-
+const listSchemma = {
+  show(){
+    //it will be configured from Login_web
+  },
+  setSchemma:[]
+}
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) =>(
     //props.isAuthenticated = fakeAuth.isAuthenticated,
     fakeAuth.afterRequiredApp = null,
     localStorage.setItem('lastState',props.location.pathname),
     ( fakeAuth.isAuthenticated === true || Logged.getLogged(props) ) && !localStorage.getItem('error') 
-          ? <Component {...props} />
+          ? <Component {...props} initplayer={player} />
           : <Redirect to={{
             pathname: '/login',
             state:{ from: props.location }
@@ -344,7 +350,7 @@ class Main extends React.Component {
         <div className='mainContainer' >
           <Switch>
             <Route exact path='/' render={(props) => (
-              <Home_web {...props} initplayer={player} auth={fakeAuth} />
+              <Home_web {...props} initplayer={player} initSchemma={listSchemma} auth={fakeAuth} />
             )}/>
             <Route exact path='/login' component={Login}/>
             <Route exact path='/logout' component={Logout}/>
@@ -356,19 +362,19 @@ class Main extends React.Component {
             <Route exact path='/recover' component={Recover} />
             <Route exact path='/recover/confirm' component={RecoverConfirm} />
             <Route exact path='/podcast' render={(props) => (
-              <Podcast {...props} initplayer={player} auth={fakeAuth} />
+              <Podcast {...props} initSchemma={listSchemma} initplayer={player} auth={fakeAuth} />
             )}/>
             <Route exact path='/podcast/:program' render={(props) => (
-              <Podcast {...props} initplayer={player} auth={fakeAuth} />
+              <Podcast {...props} initSchemma={listSchemma}  initplayer={player} auth={fakeAuth} />
             )}/>
             <Route exact path='/channel' render={(props) => (
-              <Channel {...props} auth={fakeAuth} />
+              <Channel {...props} initSchemma={listSchemma}  auth={fakeAuth} />
             )}/>
             <Route exact path='/program' render={(props) => (
-              <Program {...props} auth={fakeAuth} />
+              <Program {...props} initSchemma={listSchemma}  auth={fakeAuth} />
             )}/>
             <Route exact path='/program/:channel' render={(props) => (
-              <Program {...props} auth={fakeAuth} />
+              <Program {...props} initSchemma={listSchemma}  auth={fakeAuth} />
             )}/>
             <Route exact path='/SPP_DEV' component={Home}/>
             <PrivateRoute exact path='/*' component={MainContainer} />
@@ -376,7 +382,8 @@ class Main extends React.Component {
           <Header_web login={fakeAuth}  />
           <Footer_web />
           <Settings logout={fakeAuth} />
-          <ChannelMenu initplayer={player} auth={fakeAuth} />
+          <ListSchemma initSchemma={listSchemma} initplayer={player} />
+          <ChannelMenu initSchemma={listSchemma} initplayer={player} auth={fakeAuth} />
           <Modal />
         </div>
       );
@@ -385,7 +392,7 @@ class Main extends React.Component {
         <div>
           <Switch>
             <Route exact path='/' render={(props) => (
-              <Home {...props} initplayer={player}  auth={fakeAuth} />
+              <Home {...props} initplayer={player} initSchemma={listSchemma} auth={fakeAuth} />
             )}/>
             <Route exact path='/login' component={Login}/>
             <Route exact path='/logout' component={Logout}/>
@@ -397,27 +404,28 @@ class Main extends React.Component {
             <Route exact path='/recover' component={Recover} />
             <Route exact path='/recover/confirm' component={RecoverConfirm} />
             <Route exact path='/channel' render={(props) => (
-              <Channel {...props} auth={fakeAuth} />
+              <Channel {...props} initSchemma={listSchemma} auth={fakeAuth} />
             )}/>
             <Route exact path='/program' render={(props) => (
-              <Program {...props} auth={fakeAuth} />
+              <Program {...props} initSchemma={listSchemma} auth={fakeAuth} />
             )}/>
             <Route exact path='/program/:channel' render={(props) => (
-              <Program {...props} auth={fakeAuth} />
+              <Program {...props} initSchemma={listSchemma} auth={fakeAuth} />
             )}/>
             <Route exact path='/podcast' render={(props) => (
-              <Podcast {...props} initplayer={player}  auth={fakeAuth} />
+              <Podcast {...props} initplayer={player} initSchemma={listSchemma} auth={fakeAuth} />
             )}/>
             <Route exact path='/podcast/:program' render={(props) => (
-              <Podcast {...props} initplayer={player} auth={fakeAuth} />
+              <Podcast {...props} initplayer={player} initSchemma={listSchemma} auth={fakeAuth} />
             )}/>
             <Route exact path='/SPP_DEV' component={Home}/>
             <PrivateRoute exact path='/*' component={MainContainer} />
           </Switch>
-          <ChannelMenu initplayer={player}  auth={fakeAuth}  />
           <Menu />
-          <IconMenu />
+          <IconMenu initplayer={player} />
           <Settings logout={fakeAuth} />
+          <ListSchemma initSchemma={listSchemma} initplayer={player} />
+          <ChannelMenu initplayer={player} initSchemma={listSchemma} auth={fakeAuth}  />
           <Modal />
         </div>
       );

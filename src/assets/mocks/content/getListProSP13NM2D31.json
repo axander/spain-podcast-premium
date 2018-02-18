@@ -3,7 +3,7 @@
 	"reason":"0001",
 	"data":[
 		{
-			"id":"XXXXX0",
+			"id":"FORBESDAILY",
 			"name":{
 				"es":"Spainmedia Lab",
 				"en":"Spainmedia Lab"
@@ -16,7 +16,7 @@
 			"type":"public"
 		},
 		{
-			"id":"XXXXX1",
+			"id":"FORBESDAILY",
 			"name":{
 				"es":"Tapas a media noche",
 				"en":"Tapas a media noche"
@@ -29,7 +29,7 @@
 			"type":"invited"
 		},
 		{
-			"id":"XXXXX2",
+			"id":"FORBESDAILY",
 			"name":{
 				"es":"Cuaderno de podcasting",
 				"en":"Cuaderno de podcasting"
@@ -42,7 +42,7 @@
 			"type":"premium"
 		},
 		{
-			"id":"XXXXX3",
+			"id":"FORBESDAILY",
 			"name":{
 				"es":"Cuéntame otra",
 				"en":"Cuéntame otra"
@@ -55,7 +55,7 @@
 			"type":"premium"
 		},
 		{
-			"id":"XXXXX4",
+			"id":"FORBESDAILY",
 			"name":{
 				"es":"Podcast de diseño",
 				"en":"Podcast de diseño"
@@ -68,7 +68,7 @@
 			"type":"premium"
 		},
 		{
-			"id":"XXXXX5",
+			"id":"FORBESDAILY",
 			"name":{
 				"es":"Hoja de Router",
 				"en":"Hoja de Router"
@@ -81,7 +81,7 @@
 			"type":"premium"
 		},
 		{
-			"id":"XXXXX6",
+			"id":"FORBESDAILY",
 			"name":{
 				"es":"Tal para cual.",
 				"en":"Tal para cual."
@@ -94,7 +94,7 @@
 			"type":"premium"
 		},
 		{
-			"id":"XXXXX7",
+			"id":"FORBESDAILY",
 			"name":{
 				"es":"Spainmedia Jazz.",
 				"en":"Spainmedia Jazz."

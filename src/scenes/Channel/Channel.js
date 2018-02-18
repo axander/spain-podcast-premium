@@ -15,7 +15,7 @@ import './channel.scss'
 class Channel extends React.Component {
   constructor(props) {
     super(props);
-    console.log('channel');
+    console.log('props channel');
     console.log(props);
     typeof props.location !== 'undefined'
     ? localStorage.setItem('lastState',props.location.pathname)
@@ -26,7 +26,10 @@ class Channel extends React.Component {
     this.clickHandler = this.clickHandler.bind(this);
     this.clickHandlerChannelLater = this.clickHandlerChannelLater.bind(this);
     this.clickHandlerChannelFav = this.clickHandlerChannelFav.bind(this);
-    this.clickHandlerChannelShare = this.clickHandlerChannelShare.bind(this);   
+    this.clickHandlerChannelShare = this.clickHandlerChannelShare.bind(this); 
+    this.setSchemmaFav = this.setSchemmaFav.bind(this);
+    this.setSchemmaLater = this.setSchemmaLater.bind(this);
+    this.setSchemmaShare = this.setSchemmaShare.bind(this);  
   }
   onSuccess = (_response) => {
     _response.status === 'successfull'
@@ -62,40 +65,53 @@ class Channel extends React.Component {
           isOpen: !this.state.isOpen
       });
    }
-  clickHandlerChannelLater(event,_channel){
+  setSchemmaLater(){
+    this.props.initSchemma.setSchemma = Lists.saveToList('channel','later',this.state.channel.id);
+    this.props.initSchemma.show('channel','later',this.state.channel);
+  }
+  clickHandlerChannelLater(event, _channel){
     event.stopPropagation();
-    console.log('this.props');
-    console.log(this.props);
+    this.state.channel = _channel;
     this.props.auth.isAuthenticated
-    ? Lists.saveToList('channels','later',_channel)
+    ? this.setSchemmaLater()
     : localStorage.getItem('app')
       ? (
-          this.props.auth.afterRequiredApp = function(){
-            Lists.saveToList('channels','later', _channel)
-          },
+          this.props.auth.afterRequiredApp = this.setSchemmaLater,
           window.location.href = './#/login'
         )
-      : this.props.auth.required(function(){
-        Lists.saveToList('channels','later', _channel)
-      })
+      : this.props.auth.required(this.setSchemmaLater)
+  }
+  setSchemmaFav(){
+    this.props.initSchemma.setSchemma = Lists.saveToList('channel','fav',this.state.channel.id);
+    this.props.initSchemma.show('channel','fav',this.state.channel);
   }
   clickHandlerChannelFav(event, _channel){
     event.stopPropagation();
+    this.state.channel = _channel;
     this.props.auth.isAuthenticated
-    ? Lists.saveToList('channels','fav',_channel)
+    ? this.setSchemmaFav()
     : localStorage.getItem('app')
       ? (
-          this.props.auth.afterRequiredApp = function(){
-            Lists.saveToList('channels','fav',_channel)
-          },
+          this.props.auth.afterRequiredApp = this.setSchemmaFav,
           window.location.href = './#/login'
         )
-      : this.props.auth.required(function(){
-        Lists.saveToList('channels','fav', _channel)
-      })
+      : this.props.auth.required(this.setSchemmaFav)
   }
-  clickHandlerChannelShare(event){
+  setSchemmaShare(){
+    this.props.initSchemma.setSchemma = Lists.saveToList('channel','share',this.state.channel.id);
+    this.props.initSchemma.show('channel','later',this.state.channel);
+  }
+  clickHandlerChannelShare(event, _channel){
     event.stopPropagation();
+    this.state.channel = _channel;
+    this.props.auth.isAuthenticated
+    ? this.setSchemmaShare()
+    : localStorage.getItem('app')
+      ? (
+          this.props.auth.afterRequiredApp = this.setSchemmaShare,
+          window.location.href = './#/login'
+        )
+      : this.props.auth.required(this.setSchemmaShare)
   }
   componentDidMount(){
     typeof localStorage.getItem('channels')!=='undefined'  && localStorage.getItem('channels')
@@ -137,9 +153,9 @@ class Channel extends React.Component {
                       </Link>
                     </div>
                       <div className="options" >
-                        <div><div><img id='later' src={later} alt="later" onClick={ (event, _channel) => this.clickHandlerChannelLater(event, p.id) } /></div></div>
-                        <div><div><img id='fav' src={fav} alt="fav" onClick={ (event, _channel) => this.clickHandlerChannelFav(event, p.id) } /></div></div>
-                        <div><div><img id='share' src={share} alt="share" onClick={ this.clickHandlerChannelShare } /></div></div>
+                        <div><div><img id='later' src={later} alt="later" onClick={ (event, _channel) => this.clickHandlerChannelLater(event, p) } /></div></div>
+                        <div><div><img id='fav' src={fav} alt="fav" onClick={ (event, _channel) => this.clickHandlerChannelFav(event, p) } /></div></div>
+                        <div><div><img id='share' src={share} alt="share" onClick={ (event, _channel) => this.clickHandlerChannelShare(event, p) } /></div></div>
                       </div>
                   </div>
               ))

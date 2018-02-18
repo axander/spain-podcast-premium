@@ -31,7 +31,11 @@ class IconMenu extends React.Component {
         this.handleClickOutside = this.handleClickOutside.bind(this);
     }
     clickHandler(e){
-		if(!this.state.toogle || this.state.show === '' ){
+    	console.log(e);
+    	var target = event.target.className;
+    	if( target.indexOf('submenuOp')>-1 || target.indexOf('folder')>-1 ){
+    		//do nothing
+    	}else if(!this.state.toogle || this.state.show === '' ){
 			this.state.toogle = true
 			this.setState({
 			    'show': 'showMenu'
@@ -66,7 +70,12 @@ class IconMenu extends React.Component {
 		  		<Link to="/history"><div className={ Utils.checkScene('/history') ? 'icoSelected' : 'icoNoSelected' } ><img src={history} alt="history" /></div></Link>
 		  		<Link to="/shared"><div className={ Utils.checkScene('/shared') ? 'icoSelected' : 'icoNoSelected' } ><img src={share} alt="shared" /></div></Link>
 		  		<Link to="/user"><div className={ Utils.checkScene('/user') ? 'icoSelected' : 'icoNoSelected' } ><img src={user} alt="user" /></div></Link>
-		  		<div onClick={ this.clickHandler }>
+		  		
+		  	</iconmenu>
+	  	)
+	  }
+}
+/*<div onClick={ this.clickHandler }>
 			  		<div className="pb" ><div className={ Utils.checkScene('/favourites') ? 'icoSelected' : 'icoNoSelected' } ><img src={fav} alt="fav" /></div></div>
 			  		<div className="pb" ><div className={ Utils.checkScene('/later') ? 'icoSelected' : 'icoNoSelected' } ><img src={later} alt="later" /></div></div>
 			  		<div  className="pb" ><div className={ Utils.checkScene('/shared') ? 'icoSelected' : 'icoNoSelected' } ><img src={share} alt="shared" /></div></div>
@@ -81,7 +90,9 @@ class IconMenu extends React.Component {
 		      				<div className="scrollCont" >
 					    		<div className="scrollableCont" >
 					        		<Switch>
-							          	<Route path='/favourites' component={Favourites} />
+							          	<Route path='/favourites' render={(props) => (
+							              <Favourites {...props} initplayer={this.props.initplayer}  />
+							            )}/>
 							            <Route path='/downloads' component={Downloads} />
 							            <Route path='/later' component={Later} />
 							            <Route path='/history' component={Historial} />
@@ -91,11 +102,7 @@ class IconMenu extends React.Component {
 					        </div>
 					    </nav>			    
 					</listOptions>
-			  	</div>
-		  	</iconmenu>
-	  	)
-	  }
-}
+			  	</div>*/
 IconMenu.propTypes = {
   //who: React.PropTypes.string.isRequired,
 };

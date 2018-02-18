@@ -23,11 +23,17 @@ class MainContainer extends React.Component {
             <Route path='/user' component={User} />
             <Route path='/content' component={Content}/>
             <Route path='/podcast' component={Podcast}/>
-            <Route path='/favourites' component={Favourites} />
+            <Route path='/favourites' render={(props) => (
+              <Favourites {...props} initplayer={this.props.initplayer} />
+            )}/>
             <Route path='/downloads' component={Downloads} />
-            <Route path='/later' component={Later} />
+            <Route path='/later' render={(props) => (
+              <Later {...props} initplayer={this.props.initplayer} />
+            )}/>
             <Route path='/history' component={Historial} />
-            <Route path='/shared' component={Shared} />
+            <Route path='/shared' render={(props) => (
+              <Shared {...props} initplayer={this.props.initplayer} />
+            )}/>
           </Switch>
         </maincontainer>
 

@@ -9,6 +9,7 @@ import Lists from '../../utils/Lists.js'
 import later from '../../assets/images/later.png';
 import fav from '../../assets/images/fav.png';
 import share from '../../assets/images/share.png';
+import ListSchemma from '../../components/Lists/ListSchemma.js'
 import './channelMenu.scss'
 // The Header creates links that can be used to navigate
 // between routes.
@@ -24,7 +25,7 @@ class ChannelMenu extends React.Component {
         	'show': '',
         	'showProgram':'',
         	'showPodcast':'',
-        	'state':'channels',
+        	'state':'channel',
         	'toogle':false,
         	'data':[],
         	'dataProgram':[],
@@ -50,13 +51,16 @@ class ChannelMenu extends React.Component {
         this.clickHandlerLater = this.clickHandlerLater.bind(this);
         this.clickHandlerFav = this.clickHandlerFav.bind(this);
         this.clickHandlerShare = this.clickHandlerShare.bind(this);
+        this.setSchemmaFav = this.setSchemmaFav.bind(this);
+	    this.setSchemmaLater = this.setSchemmaLater.bind(this);
+	    this.setSchemmaShare = this.setSchemmaShare.bind(this);
 
     }
 
 
 	clickHandler(event){
 		switch(this.state.state){
-			case 'channels':
+			case 'channel':
 				if(!this.state.toogle || this.state.show === '' ){
 					this.state.toogle = true;
 					this.setState({
@@ -73,7 +77,7 @@ class ChannelMenu extends React.Component {
 					document.getElementById('root').removeEventListener('click', this.handleClickOutside, true)
 				}
 			break;
-			case 'programs':
+			case 'program':
 				if(!this.state.toogle || this.state.showProgram === '' ){
 					this.state.toogle = true
 					this.setState({
@@ -90,7 +94,7 @@ class ChannelMenu extends React.Component {
 					document.getElementById('root').removeEventListener('click', this.handleClickOutside, true)
 				}
 			break;
-			case 'podcasts':
+			case 'podcast':
 				if(!this.state.toogle || this.state.showPodcast === '' ){
 					this.state.toogle = true
 					this.setState({
@@ -149,7 +153,7 @@ class ChannelMenu extends React.Component {
 		        'dataProgram':JSON.parse(localStorage.getItem('program')),
 		        'show': '',
 		        'showProgram': 'showContents',
-		        'state':'programs'
+		        'state':'program'
 		      }),
 	    	document.getElementById('root').addEventListener('click', this.handleClickOutside, true)
 	      )
@@ -176,7 +180,7 @@ class ChannelMenu extends React.Component {
 		        'show': '',
 		        'showProgram': '',
 		        'showPodcast': 'showContents',
-		        'state':'podcasts'
+		        'state':'podcast'
 		    }),
 	    	document.getElementById('root').addEventListener('click', this.handleClickOutside, true)
 	      )
@@ -191,7 +195,7 @@ class ChannelMenu extends React.Component {
 	      )
 	    ;
     }
-    clickHandlerPodcast(event, _source, _id, _name){
+    clickHandlerPodcast(event, _source, _id, _name, _podcastObject){
     	console.log(_name);
     	this.setState ({
 	      	'toogle':false,
@@ -203,7 +207,7 @@ class ChannelMenu extends React.Component {
 	        'state':'podcastPlayer'
 		});
 		document.getElementById('root').removeEventListener('click', this.handleClickOutside, true)
-		this.props.initplayer.play(_source, _id, _name);
+		this.props.initplayer.play(_source, _id, _name, _podcastObject);
     }
     showPlayer(event){
     	this.setState ({
@@ -218,7 +222,7 @@ class ChannelMenu extends React.Component {
     }
     backChannel(event){
 		this.setState({
-			'state':'channels',
+			'state':'channel',
 			'toogle':false,
 		    'show': '',
 		    'showProgram': ''
@@ -226,7 +230,7 @@ class ChannelMenu extends React.Component {
     }
     backProgram(event){
 		this.setState({
-			'state':'programs',
+			'state':'program',
 			'toogle':false,
 		    'show': '',
 		    'showProgram': 'showContents',
@@ -235,7 +239,7 @@ class ChannelMenu extends React.Component {
     }
     backPodcast(event){
 		this.setState({
-			'state':'podcasts',
+			'state':'podcast',
 			'toogle':false,
 			'show': '',
 		    'showProgram': '',
@@ -247,14 +251,14 @@ class ChannelMenu extends React.Component {
     forwardProgram(event){
     	typeof localStorage.getItem('program')!=='undefined'  && localStorage.getItem('program')
     	? this.setState({
-			'state':'programs',
+			'state':'program',
 			'toogle':false,
 		    'show': '',
 		    'showProgram': 'showContents',
 		    'dataProgram':JSON.parse(localStorage.getItem('program'))
 		 })
     	: this.setState({
-			'state':'programs',
+			'state':'program',
 			'toogle':false,
 		    'show': '',
 		    'showProgram': 'showContents',
@@ -262,7 +266,7 @@ class ChannelMenu extends React.Component {
     }
     forwardPodcast(event){
 		this.setState({
-			'state':'podcasts',
+			'state':'podcast',
 			'toogle':false,
 		    'show': '',
 		    'showProgram': '',
@@ -279,58 +283,83 @@ class ChannelMenu extends React.Component {
 		    'showPodcastPlayer': 'showContents'
 		 });
     }
-    clickHandlerLater(event, _id){
+    setSchemmaLater(){
+    	var what = this.state.state
+    	this.state.state === 'podcastPlayer'
+    	? what = 'podcast'
+    	: null;
+	    this.props.initSchemma.setSchemma = Lists.saveToList(what,'later',this.state.itemObject.id);
+	    this.props.initSchemma.show(what,'later',this.state.itemObject);
+	  }
+    clickHandlerLater(event, _itemObject){
+		typeof _itemObject === 'string'
+    	? _itemObject = JSON.parse(_itemObject)
+    	:null;
     	event.stopPropagation();
-    	var exec = function(){};
+    	this.state.state === 'podcastPlayer'
+    	? this.clickHandlerChannelPB()
+    	: this.clickHandler();
+	    this.state.itemObject = _itemObject
 	    this.props.auth.isAuthenticated
-	    ? Lists.saveToList(this.state.state,'later', _id)
-	    : ( 
-	    	this.setState ({
-		      	'toogle':false,
-		        'show': '',
-		        'showProgram': '',
-		        'showPodcast': '',
-		        'showPodcastPlayer': ''
-			}),
-			document.getElementById('root').removeEventListener('click', this.handleClickOutside, true),
-			exec = function(_state, _id){
-				return function(){ Lists.saveToList(_state,'later',_id)}
-			},
-	    	localStorage.getItem('app')
-		    ? 	(
-			        this.props.auth.afterRequiredApp = exec(this.state.state, _id),
-			        window.location.href = './#/login'
-		        )
-			: 	this.props.auth.required(exec(this.state.state, _id))
-		)
+	    ? this.setSchemmaLater()
+	    : localStorage.getItem('app')
+	      ? (
+	          this.props.auth.afterRequiredApp = this.setSchemmaLater,
+	          window.location.href = './#/login'
+	        )
+	      : this.props.auth.required(this.setSchemmaLater)
     }
-    clickHandlerFav(event, _id){
+    setSchemmaFav(){
+    	var what = this.state.state;
+    	this.state.state === 'podcastPlayer'
+    	? what = 'podcast'
+    	: null;
+	    this.props.initSchemma.setSchemma = Lists.saveToList(what,'fav',this.state.itemObject.id);
+	    this.props.initSchemma.show(what,'fav',this.state.itemObject);
+	  }
+    clickHandlerFav(event, _itemObject){
+    	typeof _itemObject === 'string'
+    	? _itemObject = JSON.parse(_itemObject)
+    	:null;
     	event.stopPropagation();
-    	var exec = function(){};
-    	this.props.auth.isAuthenticated
-	    ? Lists.saveToList(this.state.state,'fav',_id)
-	    : ( 
-	    	this.setState ({
-		      	'toogle':false,
-		        'show': '',
-		        'showProgram': '',
-		        'showPodcast': '',
-		        'showPodcastPlayer': ''
-			}),
-			document.getElementById('root').removeEventListener('click', this.handleClickOutside, true),
-			exec = function(_state, _id){
-				return function(){ Lists.saveToList(_state,'fav',_id)}
-			},
-	    	localStorage.getItem('app')
-		    ? 	(
-			        this.props.auth.afterRequiredApp = exec(this.state.state, _id),
-			        window.location.href = './#/login'
-		        )
-			: 	this.props.auth.required(exec(this.state.state, _id))
-		)
+    	this.state.state === 'podcastPlayer'
+    	? this.clickHandlerChannelPB()
+    	: this.clickHandler();
+	    this.state.itemObject = _itemObject
+	    this.props.auth.isAuthenticated
+	    ? this.setSchemmaFav()
+	    : localStorage.getItem('app')
+	      ? (
+	          this.props.auth.afterRequiredApp = this.setSchemmaFav,
+	          window.location.href = './#/login'
+	        )
+	      : this.props.auth.required(this.setSchemmaFav)
     }
-    clickHandlerShare(event){
+    setSchemmaShare(){
+    	var what = this.state.state
+    	this.state.state === 'podcastPlayer'
+    	? what = 'podcast'
+    	: null;
+	    this.props.initSchemma.setSchemma = Lists.saveToList(what,'share',this.state.itemObject.id);
+	    this.props.initSchemma.show(what,'share',this.state.itemObject);
+	  }
+    clickHandlerShare(event, _itemObject){
+		typeof _itemObject === 'string'
+    	? _itemObject = JSON.parse(_itemObject)
+    	:null;
     	event.stopPropagation();
+    	this.state.state === 'podcastPlayer'
+    	? this.clickHandlerChannelPB()
+    	: this.clickHandler();
+	    this.state.itemObject = _itemObject
+	    this.props.auth.isAuthenticated
+	    ? this.setSchemmaShare()
+	    : localStorage.getItem('app')
+	      ? (
+	          this.props.auth.afterRequiredApp = this.setSchemmaShare,
+	          window.location.href = './#/login'
+	        )
+	      : this.props.auth.required(this.setSchemmaShare)
     }
     componentDidMount() {
 	}
@@ -386,7 +415,7 @@ class ChannelMenu extends React.Component {
 	        'dataProgram':_response.data,
 	        'show': '',
 	        'showProgram': 'showContents',
-	        'state':'programs'
+	        'state':'program'
 	      }),
 	      localStorage.setItem('program', JSON.stringify(_response.data))
 	    )
@@ -405,7 +434,7 @@ class ChannelMenu extends React.Component {
 	        'show': '',
 	        'showProgram': '',
 	        'showPodcast': 'showContents',
-	        'state':'podcasts'
+	        'state':'podcast'
 	      }),
 	      localStorage.setItem('podcast', JSON.stringify(_response.data))
 	    )
@@ -460,7 +489,7 @@ class ChannelMenu extends React.Component {
 	*/
   	render() {
 	  	return(
-	  		<div onClick={ this.clickHandler } >
+	  		<div className="lateralChannelMenu" onClick={ this.clickHandler } >
 	  			<div onClick={ this.clickHandlerChannelPB } >
 		  			<ChannelMenuPB />
 		  		</div>
@@ -482,9 +511,9 @@ class ChannelMenu extends React.Component {
 							                    </div>
 							                </div>
 						                    <div className="options" >
-						                      <div><div><img id='later' src={later} alt="later" onClick={ (event, id) => this.clickHandlerLater(event, p.id)} /></div></div>
-						                      <div><div><img id='fav' src={fav} alt="fav" onClick={ (event, id) => this.clickHandlerFav(event, p.id)} /></div></div>
-						                      <div><div><img id='share' src={share} alt="share" onClick={ this.clickHandlerShare } /></div></div>
+						                      <div><div><img id='later' src={later} alt="later" onClick={ (event, id) => this.clickHandlerLater(event, p)} /></div></div>
+						                      <div><div><img id='fav' src={fav} alt="fav" onClick={ (event, id) => this.clickHandlerFav(event, p)} /></div></div>
+						                      <div><div><img id='share' src={share} alt="share" onClick={ (event, id) => this.clickHandlerShare(event, p)} /></div></div>
 						                  	</div>
 								        </div>
 						            ))
@@ -514,9 +543,9 @@ class ChannelMenu extends React.Component {
 					                        </div>
 			                      		</div>
 					                    <div className="options" >
-					                      	<div><div><img id='later' src={later} alt="later" onClick={ (event, id) => this.clickHandlerLater(event, p.id)} /></div></div>
-						                    <div><div><img id='fav' src={fav} alt="fav" onClick={ (event, id) => this.clickHandlerFav(event, p.id)} /></div></div>
-						                    <div><div><img id='share' src={share} alt="share" onClick={ this.clickHandlerShare } /></div></div>
+					                      	<div><div><img id='later' src={later} alt="later" onClick={ (event, id) => this.clickHandlerLater(event, p)} /></div></div>
+						                    <div><div><img id='fav' src={fav} alt="fav" onClick={ (event, id) => this.clickHandlerFav(event, p)} /></div></div>
+						                    <div><div><img id='share' src={share} alt="share" onClick={ (event, id) => this.clickHandlerShare(event, p)} /></div></div>
 					                  	</div>
 						              </div>
 						            ))
@@ -537,7 +566,7 @@ class ChannelMenu extends React.Component {
 						            {
 						            this.state.dataPodcast.map(p => (
 						              	<div className='row' >
-								            <div id={p.id} className={this.state.podcast === p.id ? 'item contentSelected' : 'item' } style={ 'background-image:url("' + p.image + '")' } onClick={ (event, _source, _id, _name) => this.clickHandlerPodcast(event, p.source, p.id, p.name)} >
+								            <div id={p.id} className={this.state.podcast === p.id ? 'item contentSelected' : 'item' } style={ 'background-image:url("' + p.image + '")' } onClick={ (event, _source, _id, _name, _podcastObject) => this.clickHandlerPodcast(event, p.source, p.id, p.name, p)} >
 								                <div className="rot">
 								                    {p.name[localStorage.getItem('language')]}
 								                </div>
@@ -546,9 +575,9 @@ class ChannelMenu extends React.Component {
 							                    </div>
 							                </div>
 						                    <div className="options" >
-						                      	<div><div><img id='later' src={later} alt="later" onClick={ (event, id) => this.clickHandlerLater(event, p.id)} /></div></div>
-						                      	<div><div><img id='fav' src={fav} alt="fav" onClick={ (event, id) => this.clickHandlerFav(event, p.id)} /></div></div>
-						                      	<div><div><img id='share' src={share} alt="share" onClick={ this.clickHandlerShare } /></div></div>
+						                      	<div><div><img id='later' src={later} alt="later" onClick={ (event, id) => this.clickHandlerLater(event, p)} /></div></div>
+						                      	<div><div><img id='fav' src={fav} alt="fav" onClick={ (event, id) => this.clickHandlerFav(event, p)} /></div></div>
+						                      	<div><div><img id='share' src={share} alt="share" onClick={ (event, id) => this.clickHandlerShare(event, p)} /></div></div>
 						                  	</div>
 								        </div>
 						            ))
@@ -569,9 +598,9 @@ class ChannelMenu extends React.Component {
 				    			<PlayerApp initplayer={this.props.initplayer} showplayer={this.showPlayer} />
 						    </div>
 			    			<div className="options" >
-		                      	<div><div><img id='later' src={later} alt="later" onClick={ (event, id) => this.clickHandlerLater(event, localStorage.getItem('lastPodcast'))} /></div></div>
-			                    <div><div><img id='fav' src={fav} alt="fav" onClick={ (event, id) => this.clickHandlerFav(event, localStorage.getItem('lastPodcast'))} /></div></div>
-			                    <div><div><img id='share' src={share} alt="share" onClick={ this.clickHandlerShare } /></div></div>
+		                      	<div><div><img id='later' src={later} alt="later" onClick={ (event, id) => this.clickHandlerLater(event, localStorage.getItem('podcastInfo') )} /></div></div>
+			                    <div><div><img id='fav' src={fav} alt="fav" onClick={ (event, id) => this.clickHandlerFav(event, localStorage.getItem('podcastInfo') )} /></div></div>
+			                    <div><div><img id='share' src={share} alt="share" onClick={ (event, id) => this.clickHandlerShare(event, localStorage.getItem('podcastInfo') )} /></div></div>
 		                  	</div>
 					    </div>
 				    </nav>

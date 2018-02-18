@@ -10,12 +10,14 @@ import { Link, Route } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js'
 import Utils from '../../utils/Utils.js'
 import Lists from '../../utils/Lists.js'
+import ListSchemma from '../../components/Lists/ListSchemma.js'
 import './program.scss';
 
 class Program extends React.Component {
   constructor(props) {
     super(props);
-
+    console.log('props program');
+    console.log(props);
     typeof props.location !== 'undefined'
     ? localStorage.setItem('lastState',props.location.pathname)
     : null;
@@ -27,6 +29,9 @@ class Program extends React.Component {
     this.clickHandlerProgramLater = this.clickHandlerProgramLater.bind(this);
     this.clickHandlerProgramFav = this.clickHandlerProgramFav.bind(this);
     this.clickHandlerProgramShare = this.clickHandlerProgramShare.bind(this);   
+    this.setSchemmaFav = this.setSchemmaFav.bind(this);
+    this.setSchemmaLater = this.setSchemmaLater.bind(this);
+    this.setSchemmaShare = this.setSchemmaShare.bind(this);
   }
   onSuccess = (_response) => {
     _response.status === 'successfull'
@@ -60,38 +65,53 @@ class Program extends React.Component {
           isOpen: !this.state.isOpen
       });
    }
+  setSchemmaLater(){
+    this.props.initSchemma.setSchemma = Lists.saveToList('program','later',this.state.program.id);
+    this.props.initSchemma.show('program','later',this.state.program);
+  }
   clickHandlerProgramLater(event, _program){
     event.stopPropagation();
+    this.state.program = _program;
     this.props.auth.isAuthenticated
-    ? Lists.saveToList('programs','later',_program)
+    ? this.setSchemmaLater()
     : localStorage.getItem('app')
       ? (
-          this.props.auth.afterRequiredApp = function(){
-            Lists.saveToList('programs','later',_program)
-          },
+          this.props.auth.afterRequiredApp = this.setSchemmaLater,
           window.location.href = './#/login'
         )
-      : this.props.auth.required(function(){
-        Lists.saveToList('programs','later',_program)
-      })
+      : this.props.auth.required(this.setSchemmaLater)
+  }
+  setSchemmaFav(){
+    this.props.initSchemma.setSchemma = Lists.saveToList('program','fav',this.state.program.id);
+    this.props.initSchemma.show('program','fav',this.state.program);
   }
   clickHandlerProgramFav(event, _program){
     event.stopPropagation();
+    this.state.program = _program;
     this.props.auth.isAuthenticated
-    ? Lists.saveToList('programs','fav',_program)
+    ? this.setSchemmaFav()
     : localStorage.getItem('app')
       ? (
-          this.props.auth.afterRequiredApp = function(){
-            Lists.saveToList('programs','fav',_program)
-          },
+          this.props.auth.afterRequiredApp = this.setSchemmaFav,
           window.location.href = './#/login'
         )
-      : this.props.auth.required(function(){
-        Lists.saveToList('programs','fav',_program)
-      })
+      : this.props.auth.required(this.setSchemmaFav)
   }
-  clickHandlerProgramShare(event){
+  setSchemmaShare(){
+    this.props.initSchemma.setSchemma = Lists.saveToList('program','share',this.state.program.id);
+    this.props.initSchemma.show('program','share',this.state.program);
+  }
+  clickHandlerProgramShare(event, _program){
     event.stopPropagation();
+    this.state.program = _program
+    this.props.auth.isAuthenticated
+    ? this.setSchemmaShare()
+    : localStorage.getItem('app')
+      ? (
+          this.props.auth.afterRequiredApp = this.setSchemmaShare,
+          window.location.href = './#/login'
+        )
+      : this.props.auth.required(this.setSchemmaShare)
   }
   componentDidMount(){
     Utils.scrollToTop(300);
@@ -138,9 +158,9 @@ class Program extends React.Component {
                     </Link>
                   </div>
                   <div className="options" >
-                    <div><div><img id='later' src={later} alt="later" onClick={ (event, _program) => this.clickHandlerProgramLater(event, p.id) }  /></div></div>
-                    <div><div><img id='fav' src={fav} alt="fav" onClick={ (event, _program) => this.clickHandlerProgramFav(event, p.id) } /></div></div>
-                    <div><div><img id='share' src={share} alt="share" onClick={ this.clickHandlerProgramShare } /></div></div>
+                    <div><div><img id='later' src={later} alt="later" onClick={ (event, _program) => this.clickHandlerProgramLater(event, p) }  /></div></div>
+                    <div><div><img id='fav' src={fav} alt="fav" onClick={ (event, _program) => this.clickHandlerProgramFav(event, p) } /></div></div>
+                    <div><div><img id='share' src={share} alt="share" onClick={ (event, _program) => this.clickHandlerProgramShare(event, p) }  /></div></div>
                   </div>
                 </div>
               ))

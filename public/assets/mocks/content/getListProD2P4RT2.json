@@ -3,7 +3,7 @@
 	"reason":"0001",
 	"data":[
 		{
-			"id":"XXXXX0",
+			"id":"FORBESDAILY",
 			"name":{
 				"es":"El Enganche",
 				"en":"El Enganche"
@@ -16,7 +16,7 @@
 			"type":"public"
 		},
 		{
-			"id":"XXXXX1",
+			"id":"FORBESDAILY",
 			"name":{
 				"es":"La Libreta de van Gaal",
 				"en":"La Libreta de van Gaal"
@@ -29,7 +29,7 @@
 			"type":"invited"
 		},
 		{
-			"id":"XXXXX2",
+			"id":"FORBESDAILY",
 			"name":{
 				"es":"Panenka. Boleyn Sound",
 				"en":"Panenka. Boleyn Sound"

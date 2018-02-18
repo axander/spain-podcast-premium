@@ -360,6 +360,25 @@ menuOptions .opSelected{
     color: #fff;
 }
 
+.tabList{
+    background: #7e99b9!important;
+    color: #fff;
+    display: inline-block;
+    padding: 10px;
+    margin: 4px;
+}
+.tabListSelected{
+    cursor:pointer;
+    display: inline-block;
+    padding: 10px;
+    margin:4px;
+    background: #fff !important;
+    color: #7e99b9!important;
+    -webkit-transition: all .5s ease;
+    transition: all .5s ease;
+    /* font-weight: bold; */
+}
+
 listOptions{
     position:fixed;
     z-index: 2010;
@@ -919,7 +938,7 @@ SubmenuPB{
     z-index:2004;
 	line-height: 18px;
     word-break: break-all;
-    bottom: 70px;
+    bottom: -5px;
     width: 15px;
     right: 15px;
     margin-left: 10px;

@@ -23,6 +23,11 @@ class Info extends React.Component {
     localStorage.setItem('lastState',props.location.pathname);
   }
   componentDidMount() {
+    this.setState({
+      'style':{
+        'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0'
+      }
+    })
     Utils.scrollToTop(300);
     // Will execute as normal
   }
@@ -32,7 +37,7 @@ class Info extends React.Component {
   }
   render() {
     return (
-      <div className='mainContainer' >
+      <div className='mainContainer' style={this.state.style}>
         <terms>
           <div className='info'>
             <div className="basicOuter" >

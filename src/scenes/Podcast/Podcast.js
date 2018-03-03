@@ -68,12 +68,15 @@ class Podcast extends React.Component {
     this.state.podcast = _podcast
     this.props.auth.isAuthenticated
     ? this.setSchemmaLater()
-    : localStorage.getItem('app')
+    : (
+      localStorage.setItem('savingList',true),
+      localStorage.getItem('app')
       ? (
           this.props.auth.afterRequiredApp = this.setSchemmaLater,
           window.location.href = './#/login'
         )
       : this.props.auth.required(this.setSchemmaLater)
+    )
   }
   setSchemmaFav(){
     this.props.initSchemma.setSchemma = Lists.saveToList('podcast','fav',this.state.podcast.id);
@@ -84,12 +87,15 @@ class Podcast extends React.Component {
     this.state.podcast = _podcast
     this.props.auth.isAuthenticated
     ? this.setSchemmaFav()
-    : localStorage.getItem('app')
+    : (
+      localStorage.setItem('savingList',true),
+      localStorage.getItem('app')
       ? (
           this.props.auth.afterRequiredApp = this.setSchemmaFav,
           window.location.href = './#/login'
         )
       : this.props.auth.required(this.setSchemmaFav)
+    )
   }
   setSchemmaShare(){
     this.props.initSchemma.setSchemma = Lists.saveToList('podcast','share',this.state.podcast.id);
@@ -100,14 +106,26 @@ class Podcast extends React.Component {
     this.state.podcast = _podcast
     this.props.auth.isAuthenticated
     ? this.setSchemmaShare()
-    : localStorage.getItem('app')
+    : (
+      localStorage.setItem('savingList',true),
+      localStorage.getItem('app')
       ? (
           this.props.auth.afterRequiredApp = this.setSchemmaShare,
           window.location.href = './#/login'
         )
       : this.props.auth.required(this.setSchemmaShare)
+    )
+  }
+  initPlayer(p){
+    window.location.href = window.location.href+'/'+p.id+'/'+p.name[localStorage.getItem('language')]
+    this.props.initplayer.play(p.source, p.id, p.name, p)
   }
   componentDidMount(){
+    this.setState({
+      'style':{
+        'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0'
+      }
+    })
     typeof localStorage.getItem('program')!=='undefined' && localStorage.getItem('program') && localStorage.getItem('lastProgram') === this.state.program
     ? this.setState ({
         'data':JSON.parse(localStorage.getItem('podcast'))
@@ -127,8 +145,8 @@ class Podcast extends React.Component {
   render() {
     Utils.scrollToTop(300);
     return (
-      <div className={ Utils.checkScene('/podcast') ? 'podcast' : 'podcast resetPaddingBottom' }>
-        <div className={ Utils.checkScene('/podcast') ? '' : 'hide' } >
+      <div className={ Utils.checkScene('/podcast') ? 'podcast' : 'podcast resetPaddingBottom' } style={this.state.style} >
+        <div className={ Utils.checkScene('/podcast') ? 'main' : 'hide' } >
           <h1>{this.translate('menu.podcast').toUpperCase() + ' ' + this.translate('program') + ' ' + ( localStorage.getItem('lastProgramName') ? JSON.parse(localStorage.getItem('lastProgramName'))[localStorage.getItem('language')] : '' ) }</h1>
         </div>
         
@@ -138,7 +156,7 @@ class Podcast extends React.Component {
               this.state.data.map(p => (
                 <div className="col-xs-6 col-md-3 col-lg-4" >
                   <div className={ p.id === localStorage.getItem('lastPodcast') ? "contentSelected" : "" } >
-                      <div id={p.id} className="row item" name={p.name[localStorage.getItem('language')]} style={ 'background-image:url("' + p.image + '")'} onClick={() => this.props.initplayer.play(p.source, p.id, p.name, p)} >
+                      <div id={p.id} className="row item" name={p.name[localStorage.getItem('language')]} style={ 'background-image:url("' + p.image + '")'} onClick={() => this.initPlayer(p)} >
                         <div className="col-xs-6 ">
                           <div className="rot">
                             {p.name[localStorage.getItem('language')]}

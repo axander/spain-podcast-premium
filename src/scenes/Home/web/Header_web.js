@@ -20,12 +20,15 @@ class Header_web extends React.Component {
   render() {
     return (
       <div className={ 'header_web header_web_'+localStorage.getItem('template') }>
-        <Link to={'/'} ><div class='option left'>Logo</div></Link>
-        <Link to={'/info/explore'} ><div class='option left'>{this.translate('header.explore').toUpperCase()}</div></Link>
-        <Link to={'/info/premium'} ><div class='option left'>{this.translate('header.premium').toUpperCase()}</div></Link>
-        <Search />
-        <div class='right'><Login_web login={this.props.login} /></div>
-        <Link to={'/register'} ><div class='option right'>{this.translate('header.register').toUpperCase()}</div></Link>
+        <div className='header_web_main'>
+          <Link to={'/channel'} ><div class='option left'>{this.translate('header.explore').toUpperCase()}</div></Link>
+          <Link to={'/info/premium'} ><div class='option left'>{this.translate('header.premium').toUpperCase()}</div></Link>
+          <Link to={'/'} ><div class='option logo'>Logo</div></Link>
+          
+          <div class='right'><Login_web login={this.props.login} /></div>
+          <Link to={'/register'} ><div class='option right'>{this.translate('header.register').toUpperCase()}</div></Link>
+          <Search />
+        </div>
       </div>  
     );
   }

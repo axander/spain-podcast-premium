@@ -1,5 +1,7 @@
 {
   "": null,
+  "INIT": "Home",
+  "EXPLORE": "Explore",
   "ERROR.loginExternal": "No ha sido posible logarte en estos momentos, vuelve a intentarlo en unos instantes.",
   "back": "Back",
   "bye": "See you soon!",
@@ -139,5 +141,9 @@
   "footer.privacity":"Privacity",
   "footer.cookies":"Cookies",
   "footer.adsInfo":"Info about ads",
-  "footer.copyright":"2017 © Spainmedia. All rights reserved"
+  "footer.copyright":"2017 © Spainmedia. All rights reserved",
+  "blocks.listened":"The most listened",
+  "blocks.listsBasic":"Your lists",
+  "blocks.allMyLists":"All my lists",
+  "blocks.getAll":"Get all"
 }

@@ -137,7 +137,8 @@ class Login_web extends React.Component {
       localStorage.setItem('email',_response.data.personalData.email),
       localStorage.setItem('client',JSON.stringify(_response.data)),
       localStorage.setItem('token',_response.token),
-      window.location.href='#/user',
+      //window.location.href='#/user',
+      //window.location.href='./',
       this.props.login.authenticate(),
       this.setState({
           logged: true,
@@ -145,7 +146,10 @@ class Login_web extends React.Component {
           loggedAs: true,
           notLogged: 'hide',
           nickName: _response.data.personalData.nickName 
-      })
+      }),
+      localStorage.getItem('savingList')
+      ? null
+      : window.location.reload()
     )
     : this.setState({
           isOpen: true,

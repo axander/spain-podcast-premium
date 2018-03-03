@@ -11,13 +11,14 @@ import Downloads from '../Downloads/Downloads.js'
 import Historial from '../History/History.js'
 import Later from '../Later/Later.js'
 import Shared from '../Shared/Shared.js'
+import './MainContainer.scss'
 
 
 class MainContainer extends React.Component {
   render() {
     return (
       <div className='mainContainer' >
-        <maincontainer>
+        <div className="main">
           <Switch>
             <Route exact path='/' component={ localStorage.getItem('app') ? Home : Home_web } />
             <Route path='/user' component={User} />
@@ -35,7 +36,7 @@ class MainContainer extends React.Component {
               <Shared {...props} initplayer={this.props.initplayer} />
             )}/>
           </Switch>
-        </maincontainer>
+        </div>
 
       </div>
     );

@@ -38,32 +38,50 @@ $template-size-2: 10px;
     min-width: 480px;
     width:100%;
 	text-align:center;
+	.header_web_main{
+	 	/*max-width: 990px;
+        width: 990px;
+        display: inline-block;
+        background:#000;*/
+	}
 }
-.header_web > div{
+@media screen and (max-width: 990px){
+   /*.header_web{
+        .header_web_main{
+            width: 100%;
+        }
+    }*/
+}
+.header_web .header_web_main > div{
 	cursor:pointer;
 	display:inline-block;
 	padding: 8px;
 }
-.header_web > div.option:hover{
+.header_web .header_web_main > div.option:hover{
 	opacity:.5;
 }
-.header_web > a > div{
+.header_web .header_web_main > a > div{
 	cursor:pointer;
 	display:inline-block;
 	padding: 8px;
 }
-.header_web > a > div.option:hover{
+.header_web .header_web_main > a > div.option:hover{
 	opacity:.5;
 }
-.header_web_dark  > a > div.option{
+.header_web_dark .header_web_main  > a > div.option{
 	color: $template-dark-color-1;
 }
-.header_web_light  > a > div.option{
+.header_web_light .header_web_main  > a > div.option{
 	color: $template-light-color-1;
 }
-.header_web .left{
+.header_web .header_web_main .left{
 	float:left;
 }
-.header_web .right{
+.header_web .header_web_main .right{
 	float:right;
+}
+.header_web .header_web_main .logo{
+    position: absolute;
+    width: auto;
+    left: 50%;
 }

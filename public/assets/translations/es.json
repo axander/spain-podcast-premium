@@ -1,5 +1,7 @@
 {
   "": null,
+  "INIT": "Inicio",
+  "EXPLORE": "Explorar",
   "ERROR.loginExternal": "There is a problem with your login, please try again.",
   "back": "Volver",
   "bye": "Hasta pronto !",
@@ -132,5 +134,9 @@
   "footer.privacity":"Privacidad",
   "footer.cookies":"Cookies",
   "footer.adsInfo":"Información de los anuncios",
-  "footer.copyright":"2017 © Spainmedia. Todos los derechos reservados"
+  "footer.copyright":"2017 © Spainmedia. Todos los derechos reservados",
+  "blocks.listened":"Los más escuchados",
+  "blocks.listsBasic":"Tus listas",
+  "blocks.allMyLists":"Ver todas mis listas",
+  "blocks.getAll":"Ver todos"
 }

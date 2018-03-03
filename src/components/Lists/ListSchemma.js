@@ -77,7 +77,12 @@ class ListSchemma extends React.Component {
     return <div>{child.id}</div>
   }
   hideSchemma(){
-    this.setState({
+    localStorage.getItem('savingList')
+    ? (
+        localStorage.removeItem('savingList'),
+        window.location.reload()
+      )
+    :this.setState({
         'show': false
       })
   }
@@ -579,12 +584,12 @@ class ListSchemma extends React.Component {
       case 'channel':
         this.hideSchemma();
         localStorage.setItem('lastChannelName',JSON.stringify(_data.name));
-        window.location.href = './#/program/'+_data.id;
+        window.location.href = './#/program/'+_data.id+'/'+_data.name[localStorage.getItem('language')];
       break;
       case 'program':
         this.hideSchemma();
         localStorage.setItem('lastProgramName',JSON.stringify(_data.name));
-        window.location.href = './#/podcast/'+_data.id;
+        window.location.href = './#/podcast/'+_data.id+'/'+_data.name[localStorage.getItem('language')];
       break;
       case 'podcast':
         this.props.initplayer.play(_data.source, _data.id, _data.name, _data);

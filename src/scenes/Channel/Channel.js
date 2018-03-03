@@ -74,12 +74,15 @@ class Channel extends React.Component {
     this.state.channel = _channel;
     this.props.auth.isAuthenticated
     ? this.setSchemmaLater()
-    : localStorage.getItem('app')
+    : (
+      localStorage.setItem('savingList',true),
+      localStorage.getItem('app')
       ? (
           this.props.auth.afterRequiredApp = this.setSchemmaLater,
           window.location.href = './#/login'
         )
       : this.props.auth.required(this.setSchemmaLater)
+    )
   }
   setSchemmaFav(){
     this.props.initSchemma.setSchemma = Lists.saveToList('channel','fav',this.state.channel.id);
@@ -90,12 +93,15 @@ class Channel extends React.Component {
     this.state.channel = _channel;
     this.props.auth.isAuthenticated
     ? this.setSchemmaFav()
-    : localStorage.getItem('app')
+    : (
+      localStorage.setItem('savingList',true),
+      localStorage.getItem('app')
       ? (
           this.props.auth.afterRequiredApp = this.setSchemmaFav,
           window.location.href = './#/login'
         )
       : this.props.auth.required(this.setSchemmaFav)
+    )
   }
   setSchemmaShare(){
     this.props.initSchemma.setSchemma = Lists.saveToList('channel','share',this.state.channel.id);
@@ -108,12 +114,18 @@ class Channel extends React.Component {
     ? this.setSchemmaShare()
     : localStorage.getItem('app')
       ? (
+          localStorage.setItem('savingList',true),
           this.props.auth.afterRequiredApp = this.setSchemmaShare,
           window.location.href = './#/login'
         )
       : this.props.auth.required(this.setSchemmaShare)
   }
   componentDidMount(){
+    this.setState({
+      'style':{
+        'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0'
+      }
+    })
     typeof localStorage.getItem('channels')!=='undefined'  && localStorage.getItem('channels')
     ? this.setState ({
         'data':JSON.parse(localStorage.getItem('channels'))
@@ -127,17 +139,17 @@ class Channel extends React.Component {
   /*{p.desc[localStorage.getItem('language')]}*/
   render() {
     return (
-      <div className={ Utils.checkScene('/channel') ? 'channel' : 'channel resetPaddingBottom' }>
-        <div className={ Utils.checkScene('/channel') ? '' : 'hide' } >
+      <div className={ Utils.checkScene('/channel') ? 'channel' : 'channel resetPaddingBottom' } style={this.state.style} >
+        <div className={ Utils.checkScene('/channel') ? 'main' : 'hide' } >
           <h1>{this.translate('menu.channel').toUpperCase()}</h1>
         </div>
         <div className={ Utils.checkScene('/channel') ? '' : 'resetPaddingTop' }>
-          <div class="row" >
+          <div class="row"  >
             {
               this.state.data.map(p => (
                   <div className="col-xs-6 col-md-3 col-lg-4" >
                     <div className={ p.id === localStorage.getItem('lastChannel') ? "contentSelected" : "" } >
-                      <Link to={'/program/'+p.id} >
+                      <Link to={'/program/'+p.id+'/'+p.name[localStorage.getItem('language')]} >
                         <div id={p.id} className="row item" name={p.name[localStorage.getItem('language')]} style={ 'background-image:url("' + p.image + '")'} onClick={ (event, _name) => this.clickHandler(event, p.name)} >
                           <div className="col-xs-6 ">
                             <div className="rot">

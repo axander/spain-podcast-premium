@@ -302,12 +302,15 @@ class ChannelMenu extends React.Component {
 	    this.state.itemObject = _itemObject
 	    this.props.auth.isAuthenticated
 	    ? this.setSchemmaLater()
-	    : localStorage.getItem('app')
+	    : (
+	      localStorage.setItem('savingList',true),
+	      localStorage.getItem('app')
 	      ? (
 	          this.props.auth.afterRequiredApp = this.setSchemmaLater,
 	          window.location.href = './#/login'
 	        )
 	      : this.props.auth.required(this.setSchemmaLater)
+	    )
     }
     setSchemmaFav(){
     	var what = this.state.state;
@@ -328,12 +331,15 @@ class ChannelMenu extends React.Component {
 	    this.state.itemObject = _itemObject
 	    this.props.auth.isAuthenticated
 	    ? this.setSchemmaFav()
-	    : localStorage.getItem('app')
+	    : (
+	      localStorage.setItem('savingList',true),
+	      localStorage.getItem('app')
 	      ? (
 	          this.props.auth.afterRequiredApp = this.setSchemmaFav,
 	          window.location.href = './#/login'
 	        )
 	      : this.props.auth.required(this.setSchemmaFav)
+	    )
     }
     setSchemmaShare(){
     	var what = this.state.state
@@ -354,12 +360,15 @@ class ChannelMenu extends React.Component {
 	    this.state.itemObject = _itemObject
 	    this.props.auth.isAuthenticated
 	    ? this.setSchemmaShare()
-	    : localStorage.getItem('app')
+	    : (
+	      localStorage.setItem('savingList',true),
+	      localStorage.getItem('app')
 	      ? (
 	          this.props.auth.afterRequiredApp = this.setSchemmaShare,
 	          window.location.href = './#/login'
 	        )
 	      : this.props.auth.required(this.setSchemmaShare)
+	    )
     }
     componentDidMount() {
 	}

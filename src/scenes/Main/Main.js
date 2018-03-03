@@ -28,6 +28,7 @@ import Program from '../Program/Program.js'
 import Channel from '../Channel/Channel.js'
 import Podcast from '../Podcast/Podcast.js'
 import Terms from '../Terms/Terms.js'
+import Breadcrumb from '../../components/Breadcrumb/Breadcrumb.js'
 import MainContainer from './MainContainer.js'
 import TranslatedComponent from '../../utils/TranslatedComponent.js'
 import Utils from '../../utils/Utils.js'
@@ -348,43 +349,52 @@ class Main extends React.Component {
 
       return (
         <div className='mainContainer' >
-          <Switch>
-            <Route exact path='/' render={(props) => (
-              <Home_web {...props} initplayer={player} initSchemma={listSchemma} auth={fakeAuth} />
-            )}/>
-            <Route exact path='/login' component={Login}/>
-            <Route exact path='/logout' component={Logout}/>
-            <Route exact path='/register' component={Register}/>
-            <Route exact path='/terms' component={Terms}/>
-            <Route exact path='/info' component={Info}/>
-            <Route exact path='/info/*' component={Info}/>
-            <Route path='/confirm' component={Confirm}/>
-            <Route exact path='/recover' component={Recover} />
-            <Route exact path='/recover/confirm' component={RecoverConfirm} />
-            <Route exact path='/podcast' render={(props) => (
-              <Podcast {...props} initSchemma={listSchemma} initplayer={player} auth={fakeAuth} />
-            )}/>
-            <Route exact path='/podcast/:program' render={(props) => (
-              <Podcast {...props} initSchemma={listSchemma}  initplayer={player} auth={fakeAuth} />
-            )}/>
-            <Route exact path='/channel' render={(props) => (
-              <Channel {...props} initSchemma={listSchemma}  auth={fakeAuth} />
-            )}/>
-            <Route exact path='/program' render={(props) => (
-              <Program {...props} initSchemma={listSchemma}  auth={fakeAuth} />
-            )}/>
-            <Route exact path='/program/:channel' render={(props) => (
-              <Program {...props} initSchemma={listSchemma}  auth={fakeAuth} />
-            )}/>
-            <Route exact path='/SPP_DEV' component={Home}/>
-            <PrivateRoute exact path='/*' component={MainContainer} />
-          </Switch>
+          <div className="main"> 
+            <Route path="/(register|terms|info|channel|program|podcast|SPP_DEV)/" render={(props) => (
+                <Breadcrumb {...props} auth={fakeAuth} />
+              )}/>
+            <Switch>
+              <Route exact path='/' render={(props) => (
+                <Home_web {...props} initplayer={player} initSchemma={listSchemma} auth={fakeAuth} />
+              )}/>
+              <Route exact path='/login' component={Login}/>
+              <Route exact path='/logout' component={Logout}/>
+              <Route exact path='/register' component={Register}/>
+              <Route exact path='/terms' component={Terms}/>
+              <Route exact path='/info' component={Info}/>
+              <Route exact path='/info/*' component={Info}/>
+              <Route path='/confirm' component={Confirm}/>
+              <Route exact path='/recover' component={Recover} />
+              <Route exact path='/recover/confirm' component={RecoverConfirm} />
+              <Route exact path='/podcast' render={(props) => (
+                <Podcast {...props} initSchemma={listSchemma} initplayer={player} auth={fakeAuth} />
+              )}/>
+              <Route exact path='/podcast/:program/:name' render={(props) => (
+                <Podcast {...props} initSchemma={listSchemma}  initplayer={player} auth={fakeAuth} />
+              )}/>
+              <Route exact path='/podcast/:program/:name/:podcast/:podcastname' render={(props) => (
+                <Podcast {...props} initSchemma={listSchemma}  initplayer={player} auth={fakeAuth} />
+              )}/>
+              <Route exact path='/channel' render={(props) => (
+                <Channel {...props} initSchemma={listSchemma}  auth={fakeAuth} />
+              )}/>
+              <Route exact path='/program' render={(props) => (
+                <Program {...props} initSchemma={listSchemma}  auth={fakeAuth} />
+              )}/>
+              <Route exact path='/program/:channel/:name' render={(props) => (
+                <Program {...props} initSchemma={listSchemma}  auth={fakeAuth} />
+              )}/>
+              <Route exact path='/SPP_DEV' component={Home}/>
+              <PrivateRoute exact path='/*' component={MainContainer} />
+            </Switch>
+            
+            <Settings logout={fakeAuth} />
+            <ListSchemma initSchemma={listSchemma} initplayer={player} />
+            <ChannelMenu initSchemma={listSchemma} initplayer={player} auth={fakeAuth} />
+            <Modal />
+          </div>
           <Header_web login={fakeAuth}  />
           <Footer_web />
-          <Settings logout={fakeAuth} />
-          <ListSchemma initSchemma={listSchemma} initplayer={player} />
-          <ChannelMenu initSchemma={listSchemma} initplayer={player} auth={fakeAuth} />
-          <Modal />
         </div>
       );
     }else {
@@ -409,13 +419,13 @@ class Main extends React.Component {
             <Route exact path='/program' render={(props) => (
               <Program {...props} initSchemma={listSchemma} auth={fakeAuth} />
             )}/>
-            <Route exact path='/program/:channel' render={(props) => (
+            <Route exact path='/program/:channel/:name' render={(props) => (
               <Program {...props} initSchemma={listSchemma} auth={fakeAuth} />
             )}/>
             <Route exact path='/podcast' render={(props) => (
               <Podcast {...props} initplayer={player} initSchemma={listSchemma} auth={fakeAuth} />
             )}/>
-            <Route exact path='/podcast/:program' render={(props) => (
+            <Route exact path='/podcast/:program/:name' render={(props) => (
               <Podcast {...props} initplayer={player} initSchemma={listSchemma} auth={fakeAuth} />
             )}/>
             <Route exact path='/SPP_DEV' component={Home}/>

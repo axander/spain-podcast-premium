@@ -16,6 +16,7 @@ class Home_web extends React.Component {
     console.log(props)
     localStorage.setItem('lastState',props.location.pathname);
     this.state = {
+      'client':JSON.parse(localStorage.getItem('client')),
       'template': localStorage.getItem('template'),
       'toogle':true,
       'show': 'hideMenu',
@@ -25,10 +26,13 @@ class Home_web extends React.Component {
     };
   }
   componentDidMount() {
-
+    this.setState({
+      'client':JSON.parse(localStorage.getItem('client'))
+    })
   }
   componentDidUpdate(){
     this.state = {
+      'client':JSON.parse(localStorage.getItem('client')),
       'toogle':true,
       'show': 'hideMenu',
       'loggedAs': localStorage.getItem('logged') ? 'basicBorderBtn inline' : 'hide',
@@ -39,31 +43,64 @@ class Home_web extends React.Component {
   }
 
   render() {
-
+    console.log('client data');
+    console.log(this.state.client);
+    let Component, Filtered;
+    this.props.auth.isAuthenticated
+    ? this.state.client.paymentData.subscription.type.premium.status === 1
+      ? Filtered = data.schemma.generic.premium
+      : this.state.client.paymentData.subscription.type.invited.status === 1
+        ? Filtered = data.schemma.generic.premium
+        : Filtered = data.schemma.generic.basic
+    : Filtered = data.schemma.generic.notLogged;
     return (
       <div className={ "home_web home_web_" + this.state.template } >
-        <div className="row">
-      
-          {data.schemma.map(p => {
-            let Component = require('scenes/'+p.path).default ;
-
-            return (
-              <div className="col-xs-12 col-md-12">
-                <div>
-                  <h1>{this.translate('menu.'+p.name).toUpperCase()}</h1>
+        <div className="main">
+          <div className="row">
+            {Filtered.map(p => {
+              switch(p.from){
+                  case 'scenes':
+                    Component = require('scenes/'+p.path).default;
+                  break;
+                  case 'blocks':
+                    Component = require('blocks/'+p.path).default;
+                  break;
+                  default:
+                  break;
+              }
+              return (
+                <div className="col-xs-12 col-md-12">
+                  <Component initplayer={this.props.initplayer} initSchemma={this.props.initSchemma} auth={this.props.auth} >{p.component}</Component>
                 </div>
-                <div className='section-container_web' >
-                  <div className="section-container" >
-                      <div className="section-contain">
-                        <Component initplayer={this.props.initplayer} initSchemma={this.props.initSchemma} auth={this.props.auth} >{p.component}</Component>
+              )
+            })}
+            {data.schemma.scenes.map(p => {
+              switch(p.from){
+                  case 'scenes':
+                    Component = require('scenes/'+p.path).default;
+                  break;
+                  case 'blocks':
+                    Component = require('blocks/'+p.path).default;
+                  break;
+                  default:
+                  break;
+              }
+              return (
+                <div className="col-xs-12 col-md-12">
+                  <div>
+                    <h1>{this.translate('menu.'+p.name).toUpperCase()}</h1>
+                  </div>
+                  <div className='section-container_web' >
+                    <div className="section-container" >
+                        <div className="section-contain">
+                          <Component initplayer={this.props.initplayer} initSchemma={this.props.initSchemma} auth={this.props.auth} >{p.component}</Component>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )
-          })}
-
-          
+              )
+            })}
+          </div>
         </div>
       </div>  
     );

@@ -74,12 +74,15 @@ class Program extends React.Component {
     this.state.program = _program;
     this.props.auth.isAuthenticated
     ? this.setSchemmaLater()
-    : localStorage.getItem('app')
+    : (
+      localStorage.setItem('savingList',true),
+      localStorage.getItem('app')
       ? (
           this.props.auth.afterRequiredApp = this.setSchemmaLater,
           window.location.href = './#/login'
         )
       : this.props.auth.required(this.setSchemmaLater)
+    )
   }
   setSchemmaFav(){
     this.props.initSchemma.setSchemma = Lists.saveToList('program','fav',this.state.program.id);
@@ -90,12 +93,15 @@ class Program extends React.Component {
     this.state.program = _program;
     this.props.auth.isAuthenticated
     ? this.setSchemmaFav()
-    : localStorage.getItem('app')
+    : (
+      localStorage.setItem('savingList',true),
+      localStorage.getItem('app')
       ? (
           this.props.auth.afterRequiredApp = this.setSchemmaFav,
           window.location.href = './#/login'
         )
       : this.props.auth.required(this.setSchemmaFav)
+    )
   }
   setSchemmaShare(){
     this.props.initSchemma.setSchemma = Lists.saveToList('program','share',this.state.program.id);
@@ -106,20 +112,29 @@ class Program extends React.Component {
     this.state.program = _program
     this.props.auth.isAuthenticated
     ? this.setSchemmaShare()
-    : localStorage.getItem('app')
+    : (
+      localStorage.setItem('savingList',true),
+      localStorage.getItem('app')
       ? (
           this.props.auth.afterRequiredApp = this.setSchemmaShare,
           window.location.href = './#/login'
         )
       : this.props.auth.required(this.setSchemmaShare)
+    )
   }
   componentDidMount(){
     Utils.scrollToTop(300);
+    this.setState({
+      'style':{
+        'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0'
+      }
+    })
     typeof localStorage.getItem('program')!=='undefined' && localStorage.getItem('program') && localStorage.getItem('lastChannel') === this.state.channel
     ? this.setState ({
         'data':JSON.parse(localStorage.getItem('program'))
       })
     : ( 
+      localStorage.setItem('lastChannel',this.state.channel),
       window.setSpinner(),
       API.action('getListPro'+this.state.channel, { 'channel' : this.state.channel }, this.onSuccess, this.onError, 'GET')
       )
@@ -132,8 +147,8 @@ class Program extends React.Component {
   render() {
 
     return (
-      <div className={ Utils.checkScene('/program') ? 'program' : 'program resetPaddingBottom' }>
-        <div className={ Utils.checkScene('/program') ? '' : 'hide' } >
+      <div className={ Utils.checkScene('/program') ? 'program' : 'program resetPaddingBottom' } style={this.state.style} >
+        <div className={ Utils.checkScene('/program') ? 'main' : 'hide' } >
           <h1>{this.translate('menu.program').toUpperCase() + ' ' + this.translate('channel') + ' ' + ( localStorage.getItem('lastChannelName') ? JSON.parse(localStorage.getItem('lastChannelName'))[localStorage.getItem('language')] : '' ) }</h1>
         </div>
         <div className={ Utils.checkScene('/program') ? '' : 'resetPaddingTop' }>
@@ -142,7 +157,7 @@ class Program extends React.Component {
               this.state.data.map(p => (
                 <div className="col-xs-6 col-md-3 col-lg-4" >
                   <div className={ p.id === localStorage.getItem('lastProgram') ? "contentSelected" : "" }>
-                    <Link to={'/podcast/'+p.id}  >
+                    <Link to={'/podcast/'+p.id+'/'+p.name[localStorage.getItem('language')]}  >
                       <div id={p.id} className="row item" style={ 'background-image:url("' + p.image + '")' } onClick={ (event, _name) => this.clickHandler(event, p.name)} >
                         <div className="col-xs-6 ">
                           <div className="rot">

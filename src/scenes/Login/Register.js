@@ -30,7 +30,11 @@ class Register extends React.Component {
     this.setState(this.baseState)
   }
   componentDidMount() {
-       
+    this.setState({
+      'style':{
+        'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0'
+      }
+    })
   }
   componentWillUnmount(){
     Utils.scrollToTop(300);
@@ -133,7 +137,7 @@ class Register extends React.Component {
   render() {
     if(this.state.success){
         return (
-          <auth>
+          <auth style={this.state.style} >
             <div className="basicOuter" >
               <div className="basicInner">
                   <div>{this.translate('register.successfull')}</div>
@@ -144,7 +148,7 @@ class Register extends React.Component {
           )
       }
     return (
-      <div className='mainContainer' >
+      <div className='mainContainer' style={this.state.style} >
         <register>
           <div class='register'>
             <div className="basicOuter" >

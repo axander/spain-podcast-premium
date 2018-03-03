@@ -252,6 +252,38 @@ const List = {
 	"setListPodOff":{
 		"service":"content/setListPodOff",
 		"method":"POST"
+	},
+	"getModelo":{
+		"service":"blocks/getModelo",
+		"method":"GET"
+	},
+	"getAdv":{
+		"service":"blocks/getAdv",
+		"method":"GET"
+	},
+	"getSlider":{
+		"service":"blocks/getSlider",
+		"method":"GET"
+	},
+	"getMostListened":{
+		"service":"blocks/getMostListened",
+		"method":"GET"
+	},
+	"getDownload":{
+		"service":"blocks/getDownload",
+		"method":"GET"
+	},
+	"getTravel":{
+		"service":"blocks/getTravel",
+		"method":"GET"
+	},
+	"getSubscription":{
+		"service":"blocks/getSubscription",
+		"method":"GET"
+	},
+	"getListsBasic":{
+		"service":"blocks/getListsBasic",
+		"method":"POST"
 	}
 }
 export default List

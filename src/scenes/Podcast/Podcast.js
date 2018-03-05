@@ -3,6 +3,10 @@ import { Modal, API } from '../../services/Rest.js'
 import PlayerApp from '../../components/Player/PlayerApp/PlayerApp.js'
 import Submenu from '../../components/Submenu/Submenu.js'
 import UsuarioApi from '../../services/api2.js'
+import Iteminfo from '../../components/Iteminfo/Iteminfo.js'
+import Opinion from '../../components/Opinion/Opinion.js'
+import Pages from '../../components/Pages/Pages.js'
+import StaticPlayer from '../../components/StaticPlayer/StaticPlayer.js'
 import SingleLayout from '../../components/SingleLayout/SingleLayout.js'
 import later from '../../assets/images/later.png'
 import fav from '../../assets/images/fav.png'
@@ -25,14 +29,18 @@ class Podcast extends React.Component {
       'schemmaShow':false,
       'schemma':[],
       'data':[ ],
-      'program': typeof this.props.match === 'undefined' ? 'FORBESDAILY' : typeof this.props.match.params.program === 'undefined' ? ( localStorage.getItem('lastProgram') ? localStorage.getItem('lastProgram') : 'FORBESDAILY' ) : this.props.match.params.program
+      'program': typeof this.props.match === 'undefined' ? 'FORBESDAILY' : typeof this.props.match.params.program === 'undefined' ? ( localStorage.getItem('lastProgram') ? localStorage.getItem('lastProgram') : 'FORBESDAILY' ) : this.props.match.params.program,
+      'options':[]
     }
+    this.options =[];
     this.clickHandlerPodcastLater = this.clickHandlerPodcastLater.bind(this);
     this.clickHandlerPodcastFav = this.clickHandlerPodcastFav.bind(this);
     this.clickHandlerPodcastShare = this.clickHandlerPodcastShare.bind(this);
     this.setSchemmaFav = this.setSchemmaFav.bind(this);
     this.setSchemmaLater = this.setSchemmaLater.bind(this);
     this.setSchemmaShare = this.setSchemmaShare.bind(this);
+    this.clickHandlerOpen = this.clickHandlerOpen.bind(this);
+    this.clickHandlerClose = this.clickHandlerClose.bind(this);
 
   }
   onSuccess = (_response) => {
@@ -116,9 +124,25 @@ class Podcast extends React.Component {
       : this.props.auth.required(this.setSchemmaShare)
     )
   }
+  clickHandlerClose(_option){
+    this.options[_option]= false;
+    this.setState({
+      'options':this.options
+    })
+  }
+  clickHandlerOpen(_option){
+    this.options[_option]= true;
+    this.setState({
+      'options':this.options
+    })
+  }
   initPlayer(p){
-    window.location.href = window.location.href+'/'+p.id+'/'+p.name[localStorage.getItem('language')]
-    this.props.initplayer.play(p.source, p.id, p.name, p)
+    //window.location.href = window.location.href+'/'+p.id+'/'+p.name[localStorage.getItem('language')];
+    this.props.initplayer.play(p.source, p.id, p.name, p);
+    this.setState({
+      'staticPlayer':true
+    })
+    window.location.href = './#/static/'+p.id+'/'+p.name[localStorage.getItem('language')];
   }
   componentDidMount(){
     this.setState({
@@ -146,40 +170,83 @@ class Podcast extends React.Component {
     Utils.scrollToTop(300);
     return (
       <div className={ Utils.checkScene('/podcast') ? 'podcast' : 'podcast resetPaddingBottom' } style={this.state.style} >
-        <div className={ Utils.checkScene('/podcast') ? 'main' : 'hide' } >
+        <div className={ Utils.checkScene('/podcast') ? 'hide' : 'hide' } >
           <h1>{this.translate('menu.podcast').toUpperCase() + ' ' + this.translate('program') + ' ' + ( localStorage.getItem('lastProgramName') ? JSON.parse(localStorage.getItem('lastProgramName'))[localStorage.getItem('language')] : '' ) }</h1>
         </div>
-        
+        <div className={this.state.staticPlayer ? 'hide' : 'row'} >
+          <div className="col-xs-12" >
+            <Iteminfo />
+          </div>
+        </div>
+        <div className={this.state.staticPlayer ? 'row' : 'hide'} >
+          <div className="col-xs-12" >
+            <StaticPlayer />
+          </div>
+        </div>
         <div className={ Utils.checkScene('/podcast') ? '' : 'resetPaddingTop' }>
           <div class="row" >
             {
-              this.state.data.map(p => (
-                <div className="col-xs-6 col-md-3 col-lg-4" >
-                  <div className={ p.id === localStorage.getItem('lastPodcast') ? "contentSelected" : "" } >
-                      <div id={p.id} className="row item" name={p.name[localStorage.getItem('language')]} style={ 'background-image:url("' + p.image + '")'} onClick={() => this.initPlayer(p)} >
-                        <div className="col-xs-6 ">
-                          <div className="rot">
-                            {p.name[localStorage.getItem('language')]}
+              this.state.data.map((p, index)  => (
+                <div className="col-xs-12 col-md-4" >
+                  <div className ={ (index-1)%3===0 ? 'item_container' : index%3===0 ? 'item_container_left' : 'item_container_right'} >
+                    <div className={ p.id === localStorage.getItem('lastPodcast') ? "contentSelected" : "" } >
+                        <div className="row item" >
+                          <div className="col-xs-12 ">
+                            <div className="rot">
+                              {p.name[localStorage.getItem('language')]}
+                            </div>
+                          </div>
+                          <div class="desc_cont">
+                            {/*<div className="options" >
+                              <div><div><img id='later' src={later} alt="later" onClick={ (event, _podcast) => this.clickHandlerPodcastLater(event, p) } /></div></div>
+                              <div><div><img id='fav' src={fav} alt="fav" onClick={ (event, _podcast) => this.clickHandlerPodcastFav(event, p) } /></div></div>
+                              <div><div><img id='share' src={share} alt="share" onClick={ (event, _podcast) => this.clickHandlerPodcastShare(event, p) } /></div></div>
+                            </div>*/}
+                            <div class="item_actions">
+                                <div class="item_actions_podcast" id={p.id} name={p.name[localStorage.getItem('language')]} onClick={() => this.initPlayer(p)} >
+                                  <div><div class='basicOuter'><div class='basicInner'>
+                                      <div className="item_desc" style={ 'background-image:url("' + p.image + '")'} >
+                                        
+                                      </div>
+                                  </div></div></div>
+                                  <div><div class='basicOuter'><div class='basicInner'>
+                                    <div class='item_actions_text' >
+                                      <div class="item_actions_play_PB"><div><div>►</div></div></div>
+                                      Reproducir
+                                    </div>
+                                  </div></div></div>
+                                </div>
+                                <div><div class='basicOuter'><div class='basicInner'>
+                                    <div class="item_actions_options" onClick={() => this.clickHandlerOpen(index)} >•••</div>
+                                </div></div></div>
+                            </div>
+                          </div>
+                          <div className={this.state.options[index] ? 'item_container_to_lists' : 'hide' }  >
+                            
+                            <div className='item_container_to_lists_item' id='fav' alt="fav" onClick={ (event, _podcast) => this.clickHandlerPodcastFav(event, p) } >{this.translate('user.toFavourites')}</div>
+                            <div className='item_container_to_lists_item' id='later' alt="later" onClick={ (event, _podcast) => this.clickHandlerPodcastLater(event, p) } >{this.translate('user.toLater')}</div>
+                            <div className='item_container_to_lists_item' id='share' onClick={ (event, _podcast) => this.clickHandlerPodcastShare(event, p) }>{this.translate('user.toSubscribe')}</div>
+                            <div className='item_container_to_lists_item' id='share' src={share} alt="share" onClick={ (event, _podcast) => this.clickHandlerPodcastShare(event, p) } >{this.translate('user.share')}</div>
+                            <div className='item_container_to_lists_close' onClick={() => this.clickHandlerClose(index)} >X</div>
                           </div>
                         </div>
-                        <div class="col-xs-6 desc_cont">
-                          <div className="desc">
-                            &#10095;
-                          </div>
-                        </div>
-                      </div>
-                  </div>
-                    <div className="options" >
-                      <div><div><img id='later' src={later} alt="later" onClick={ (event, _podcast) => this.clickHandlerPodcastLater(event, p) } /></div></div>
-                      <div><div><img id='fav' src={fav} alt="fav" onClick={ (event, _podcast) => this.clickHandlerPodcastFav(event, p) } /></div></div>
-                      <div><div><img id='share' src={share} alt="share" onClick={ (event, _podcast) => this.clickHandlerPodcastShare(event, p) } /></div></div>
                     </div>
+                  </div>
                 </div>
               ))
             }
+            </div>
+            <div class="row" >
+              <div className="col-xs-12" >
+                <Pages />
+              </div>
+            </div>
+            <div class="row" >
+              <div className="col-xs-12" >
+                <Opinion />
+              </div>
+            </div>
           </div>
-        </div>
-        
         <Modal show={this.state.isOpen} onClose={this.toggleModal} >
           {this.translate(this.state.showedMsg)}
         </Modal>

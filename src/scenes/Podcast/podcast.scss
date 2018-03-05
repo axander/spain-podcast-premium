@@ -8,12 +8,6 @@
 		}
 	}
 	.options{
-		position: absolute;
-    	top: 0;
-    	right: 0;
-    	background: rgba(0,0,0,.6);
-    	border-radius: 10px;
-    	margin: 10px;
 		div{
 			cursor:pointer;
 			display:inline-block;
@@ -26,6 +20,40 @@
 			;:hover{
 				opacity:.5;
 			}
+		}
+	}
+	.item_container_to_lists{
+		background: #222;
+	    height: 300px;
+	    padding-top: 40px;
+	    position: absolute;
+	    width: 100%;
+	    left:0;
+		.item_container_to_lists_item{	
+			cursor:pointer;
+			margin-left: 20px;
+		    margin-right: 20px;
+		    text-align: left;
+		    padding: 20px;
+		    color: #fff;
+		    border-bottom: 1px solid #444;
+		}
+		.item_container_to_lists_item:nth-child(4){	
+		    border-bottom: 0;
+		}
+		.item_container_to_lists_item:hover{
+			opacity:.5;
+		}
+		.item_container_to_lists_close{
+			cursor: pointer;
+		    position: absolute;
+		    top: 10px;
+		    right: 10px;
+		    padding: 10px;
+		    float: right;
+		}
+		.item_container_to_lists_close:hover{
+			opacity:.5;
 		}
 	}
 	.ListSchemma{

@@ -207,8 +207,8 @@ AuthButton {
 }
 .channel > div, .program  > div, .podcast > div{
     height:auto;
-    background:#fff;
-    padding-top:42px;
+    /*padding-top:42px;*/
+    padding-top:0;
 }
 .channel h1, .program h1, .podcast h1{
     text-align: center;
@@ -224,7 +224,7 @@ AuthButton {
     text-align: left;
 }
 .item{
-    cursor: pointer;
+    /*cursor: pointer;*/
     padding: 10px;
     background-repeat: no-repeat;
     background-size: cover;
@@ -234,38 +234,168 @@ AuthButton {
     transition: all .5s ease;
 }
 .item:hover{
+    /*opacity:.5;*/
+}
+.channel, .program, .podcast{
+     padding-bottom:0;
+     min-height:100%;
+     background: #000;
+}
+.channel .row .item, .program .row .item, .podcast .row .item{
+     background: #ddd;
+    color: #444;
+    position: relative;
+}
+
+.row .single_item{
+    cursor: pointer;
+}
+.row .single_item:hover {
     opacity:.5;
 }
-.item div{
-    pointer-events:none;
+.row .single_item .rot{
+    background: rgba( 0, 0, 0, .5);
 }
 .program .rot, .channel .rot, .podcast .rot, .item .rot{
     position: absolute;
-    top:10px;
-    padding:10px;
-    font-size:20px;
-    background:rgba(0, 0, 0, 0.5);
-    text-align: center;
+    top: 70px;
+    padding: 10px;
+    font-size: 20px;
+    text-align: left;
 }
 .podcast .rot{
     font-size:16px;
 }
-.program .desc_cont, .channel .desc_cont, .podcast .desc_cont{
-    height:100%;
-}
+
 .program .desc, .channel .desc, .podcast .desc, .item .desc{
-    /*padding:10px;*/
-    /*background:rgba(0, 0, 0, 0.5);*/
+    font-size: 55px;
+    bottom: 20px;
+    right: 20px;
+    height: 80px;
+    width: 80px;
+    background: rgba(0,0,0,.51);
+    text-align: center;
+    padding-left: 7px;
+    float: left;
+}
+.program .single_desc, .channel .single_desc, .podcast .single_desc, .item .single_desc{
     position: absolute;
     font-size: 55px;
     bottom: 20px;
     right: 20px;
-    width: 80px;
     height: 80px;
-    border-radius: 40px;
-    background: rgba(0, 0, 0, 0.51);
+    width: 80px;
+    background: rgba(0,0,0,.51);
     text-align: center;
     padding-left: 7px;
+    float: left;
+}
+
+.program .item_container, .channel .item_container, .podcast .item_container{
+    position: relative;
+    padding-right: 15px;
+    padding-left: 15px;
+    padding-top: 35px;
+}
+.program .item_container_left, .channel .item_container_left, .podcast .item_container_left{
+    position: relative;
+    padding-top: 35px;
+    padding-right: 20px;
+}
+.program .item_container_right, .channel .item_container_right, .podcast .item_container_right{
+    position: relative;
+    padding-top: 35px;
+    padding-left: 20px;
+}
+.program .item_actions_play_PB, .channel .item_actions_play_PB, .podcast .item_actions_play_PB{
+    display: inline-block;
+    border: 2px solid #444;
+    border-radius: 40px;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    padding-left: 2px;
+    margin-left: 4px;
+    margin-right: 14px;
+}
+.program .item_actions_go_list, .channel .item_actions_go_list, .podcast .item_actions_go_list{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    padding-left: 2px;
+    margin-left: 4px;
+    margin-right: 14px;
+}
+@media screen and (max-width: 992px){
+    .channel .row .item, .program .row .item, .podcast .row .item{
+        width: 300px;
+        display: inline-block;
+    }
+   .program .item_container, .channel .item_container, .podcast .item_container{
+        position: relative;
+        padding-right: 15px;
+        padding-left: 15px;
+        padding-top: 15px;
+    }
+    .program .item_container_left, .channel .item_container_left, .podcast .item_container_left{
+        position: relative;
+        padding-top: 15px;
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+    .program .item_container_right, .channel .item_container_right, .podcast .item_container_right{
+        position: relative;
+        padding-top: 15px;
+        padding-left: 20px;
+        padding-right: 15px;
+    }
+}
+.program .item .item_desc, .channel .item .item_desc, .podcast .item .item_desc{
+    height: 100%;
+    width: 60px;
+    background-size: cover;
+    background-position: center;
+}
+.program .item .desc_cont, .channel .item .desc_cont, .podcast .item .desc_cont{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.program .item .item_action, .channel .item .item_action, .podcast .item .item_action{
+    float:left;
+}
+.program .item .item_options, .channel .item .item_options, .podcast .item .item_options{
+    float:right;
+}
+.program .item .item_actions, .channel .item .item_actions, .podcast .item .item_actions{
+    width: 100%;
+    height: 60px;
+    background: #fff;
+    >div, a >div, .item_actions_podcast>div{
+        cursor:pointer;
+        display:inline-block;
+        height: 100%;
+        float:left;
+        color:#444;
+    }
+    >div:hover, a >div:hover, .item_actions_podcast>div:hover{
+        opacity:.5;
+    }
+    >div:nth-child(2){
+        cursor:pointer;
+        float:right;
+        .item_actions_options{
+            width: 14px;
+            word-break: break-all;
+            line-height: 7px;
+            padding-right:10px;
+        }
+    }
+}
+.program .item .item_actions .item_actions_text, .channel .item .item_actions .item_actions_text, .podcast .item .item_actions .item_actions_text{
+    padding-left:10px;
 }
 
 .home > div {

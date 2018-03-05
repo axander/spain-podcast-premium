@@ -284,6 +284,10 @@ const List = {
 	"getListsBasic":{
 		"service":"blocks/getListsBasic",
 		"method":"POST"
+	},
+	"getNews":{
+		"service":"blocks/getNews",
+		"method":"POST"
 	}
 }
 export default List

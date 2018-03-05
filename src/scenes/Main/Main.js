@@ -27,6 +27,7 @@ import Footer_web from '../Home/web/Footer_web.js'
 import Program from '../Program/Program.js'
 import Channel from '../Channel/Channel.js'
 import Podcast from '../Podcast/Podcast.js'
+import StaticPlayer from '../../components/StaticPlayer/StaticPlayer.js'
 import Terms from '../Terms/Terms.js'
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb.js'
 import MainContainer from './MainContainer.js'
@@ -350,7 +351,7 @@ class Main extends React.Component {
       return (
         <div className='mainContainer' >
           <div className="main"> 
-            <Route path="/(register|terms|info|channel|program|podcast|SPP_DEV)/" render={(props) => (
+            <Route path="/(register|terms|info|channel|program|podcast|static|SPP_DEV)/" render={(props) => (
                 <Breadcrumb {...props} auth={fakeAuth} />
               )}/>
             <Switch>
@@ -368,6 +369,9 @@ class Main extends React.Component {
               <Route exact path='/recover/confirm' component={RecoverConfirm} />
               <Route exact path='/podcast' render={(props) => (
                 <Podcast {...props} initSchemma={listSchemma} initplayer={player} auth={fakeAuth} />
+              )}/>
+              <Route exact path='/static/:podcast/:name' render={(props) => (
+                <StaticPlayer {...props} initSchemma={listSchemma}  initplayer={player} auth={fakeAuth} />
               )}/>
               <Route exact path='/podcast/:program/:name' render={(props) => (
                 <Podcast {...props} initSchemma={listSchemma}  initplayer={player} auth={fakeAuth} />
@@ -427,6 +431,9 @@ class Main extends React.Component {
             )}/>
             <Route exact path='/podcast/:program/:name' render={(props) => (
               <Podcast {...props} initplayer={player} initSchemma={listSchemma} auth={fakeAuth} />
+            )}/>
+            <Route exact path='/static/:podcast/:name' render={(props) => (
+              <StaticPlayer {...props} initSchemma={listSchemma}  initplayer={player} auth={fakeAuth} />
             )}/>
             <Route exact path='/SPP_DEV' component={Home}/>
             <PrivateRoute exact path='/*' component={MainContainer} />

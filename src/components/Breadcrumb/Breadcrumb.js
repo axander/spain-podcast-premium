@@ -89,6 +89,33 @@ class Breadcrumb extends React.Component {
         }
         
       break;
+      case 'static':
+        this.state.acumulate.length <=0
+        ?(
+          this.state.acumulate[0] ={
+            'text':this.translate('EXPLORE'),
+            'path':'/channel'
+          },
+          this.state.acumulate[1] ={
+            'text':JSON.parse(localStorage.getItem('lastChannelName'))[lan],
+            'path':'/program/'+localStorage.getItem('lastChannel')+'/'+JSON.parse(localStorage.getItem('lastChannelName'))[lan]
+          },
+          this.state.acumulate[2] ={
+            'text':JSON.parse(localStorage.getItem('lastProgramName'))[lan],
+            'path':'/podcast/'+localStorage.getItem('lastProgram')+'/'+JSON.parse(localStorage.getItem('lastProgramName'))[lan]
+          },
+          this.state.acumulate[3] ={
+            'text':JSON.parse(localStorage.getItem('lastPodcastName'))[lan],
+            'path':''
+          }
+        )
+        : null;
+        this.state.acumulate = this.state.acumulate.splice(0,4);
+        this.state.acumulate[3] ={
+          'text':sequence[2],
+          'path':this.props.location.pathname
+        }
+      break;
       default:
         this.state.acumulate=[];
         this.state.acumulate[0] ={
@@ -99,7 +126,7 @@ class Breadcrumb extends React.Component {
     }
     this.state.paths = sequence;
     let Ad;
-    this.props.auth.isAuthenticated && (this.state.client.paymentData.subscription.type.premium.status === 1 || this.state.client.paymentData.subscription.type.premium.status === 2)
+    this.props.auth.isAuthenticated && (this.state.client.paymentData.subscription.type.invited.status === 1 || this.state.client.paymentData.subscription.type.premium.status === 1 || this.state.client.paymentData.subscription.type.premium.status === 2)
     ? Ad = ''
     : Ad = <Ads />;
     return (

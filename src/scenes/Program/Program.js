@@ -3,6 +3,9 @@ import { Modal, API } from '../../services/Rest.js'
 import Submenu from '../../components/Submenu/Submenu.js'
 import UsuarioApi from '../../services/api2.js'
 import SingleLayout from '../../components/SingleLayout/SingleLayout.js'
+import Iteminfo from '../../components/Iteminfo/Iteminfo.js'
+import Opinion from '../../components/Opinion/Opinion.js'
+import Pages from '../../components/Pages/Pages.js'
 import later from '../../assets/images/later.png'
 import fav from '../../assets/images/fav.png'
 import share from '../../assets/images/share.png'
@@ -23,8 +26,10 @@ class Program extends React.Component {
     : null;
     this.state = {
       'data':[ ],
-      'channel': typeof this.props.match === 'undefined' ? 'F4RB2S' : typeof this.props.match.params.channel === 'undefined' ? ( localStorage.getItem('lastChannel') ? localStorage.getItem('lastChannel') : 'F4RB2S' ) : this.props.match.params.channel
+      'channel': typeof this.props.match === 'undefined' ? 'F4RB2S' : typeof this.props.match.params.channel === 'undefined' ? ( localStorage.getItem('lastChannel') ? localStorage.getItem('lastChannel') : 'F4RB2S' ) : this.props.match.params.channel,
+      'options':[]
     }
+    this.options =[];
     this.clickHandler = this.clickHandler.bind(this);
     this.clickHandlerProgramLater = this.clickHandlerProgramLater.bind(this);
     this.clickHandlerProgramFav = this.clickHandlerProgramFav.bind(this);
@@ -32,6 +37,8 @@ class Program extends React.Component {
     this.setSchemmaFav = this.setSchemmaFav.bind(this);
     this.setSchemmaLater = this.setSchemmaLater.bind(this);
     this.setSchemmaShare = this.setSchemmaShare.bind(this);
+    this.clickHandlerOpen = this.clickHandlerOpen.bind(this);
+    this.clickHandlerClose = this.clickHandlerClose.bind(this);
   }
   onSuccess = (_response) => {
     _response.status === 'successfull'
@@ -122,6 +129,18 @@ class Program extends React.Component {
       : this.props.auth.required(this.setSchemmaShare)
     )
   }
+  clickHandlerClose(_option){
+    this.options[_option]= false;
+    this.setState({
+      'options':this.options
+    })
+  }
+  clickHandlerOpen(_option){
+    this.options[_option]= true;
+    this.setState({
+      'options':this.options
+    })
+  }
   componentDidMount(){
     Utils.scrollToTop(300);
     this.setState({
@@ -148,38 +167,76 @@ class Program extends React.Component {
 
     return (
       <div className={ Utils.checkScene('/program') ? 'program' : 'program resetPaddingBottom' } style={this.state.style} >
-        <div className={ Utils.checkScene('/program') ? 'main' : 'hide' } >
+        <div className={ Utils.checkScene('/program') ? 'hide' : 'hide' } >
           <h1>{this.translate('menu.program').toUpperCase() + ' ' + this.translate('channel') + ' ' + ( localStorage.getItem('lastChannelName') ? JSON.parse(localStorage.getItem('lastChannelName'))[localStorage.getItem('language')] : '' ) }</h1>
+        </div>
+        <div class="row" >
+          <div className="col-xs-12" >
+            <Iteminfo />
+          </div>
         </div>
         <div className={ Utils.checkScene('/program') ? '' : 'resetPaddingTop' }>
           <div class="row" >
             {
-              this.state.data.map(p => (
-                <div className="col-xs-6 col-md-3 col-lg-4" >
-                  <div className={ p.id === localStorage.getItem('lastProgram') ? "contentSelected" : "" }>
-                    <Link to={'/podcast/'+p.id+'/'+p.name[localStorage.getItem('language')]}  >
-                      <div id={p.id} className="row item" style={ 'background-image:url("' + p.image + '")' } onClick={ (event, _name) => this.clickHandler(event, p.name)} >
-                        <div className="col-xs-6 ">
-                          <div className="rot">
-                            {p.name[localStorage.getItem('language')]}
+              this.state.data.map((p, index) => (
+                <div className="col-xs-12 col-md-4" >
+                    <div className ={ (index-1)%3===0 ? 'item_container' : index%3===0 ? 'item_container_left' : 'item_container_right'} >
+                      <div className={ p.id === localStorage.getItem('lastProgram') ? "contentSelected" : "" }>
+                          <div className="row item" >
+                            <div className="col-xs-12 ">
+                              <div className="rot">
+                                {p.name[localStorage.getItem('language')]}
+                              </div>
+                            </div>
+                            <div class="desc_cont">
+                              {/*<div className="options" >
+                                <div><div><img id='later' src={later} alt="later" onClick={ (event, _program) => this.clickHandlerProgramLater(event, p) }  /></div></div>
+                                <div><div><img id='fav' src={fav} alt="fav" onClick={ (event, _program) => this.clickHandlerProgramFav(event, p) } /></div></div>
+                                <div><div><img id='share' src={share} alt="share" onClick={ (event, _program) => this.clickHandlerProgramShare(event, p) }  /></div></div>
+                              </div>*/}
+                              <div class="item_actions">
+                                  <Link to={'/podcast/'+p.id+'/'+p.name[localStorage.getItem('language')]} id={p.id}  onClick={ (event, _name) => this.clickHandler(event, p.name)}  >
+                                    <div><div class='basicOuter'><div class='basicInner'>
+                                        <div className="item_desc" name={p.name[localStorage.getItem('language')]} style={ 'background-image:url("' + p.image + '")'} >
+                                          
+                                        </div>
+                                    </div></div></div>
+                                    <div><div class='basicOuter'><div class='basicInner'>
+                                      <div class='item_actions_text' >
+                                        Ver lista
+                                        <div class="item_actions_go_list"><div><div>❯</div></div></div>
+                                      </div>
+                                    </div></div></div>
+                                  </Link>
+                                  <div><div class='basicOuter'><div class='basicInner'>
+                                      <div class="item_actions_options" onClick={() => this.clickHandlerOpen(index)} >•••</div>
+                                  </div></div></div>
+                              </div>
+                            </div>
+                            <div className={this.state.options[index] ? 'item_container_to_lists' : 'hide' }  >
+                              <div className='item_container_to_lists_item' id='fav' onClick={ (event, _program) => this.clickHandlerProgramFav(event, p) } >{this.translate('user.toFavourites')}</div>
+                              <div className='item_container_to_lists_item' id='later' onClick={ (event, _program) => this.clickHandlerProgramLater(event, p) }  >{this.translate('user.toLater')}</div>
+                              <div className='item_container_to_lists_item' id='share' onClick={ (event, _program) => this.clickHandlerProgramShare(event, p) }  >{this.translate('user.toSubscribe')}</div>
+                              <div className='item_container_to_lists_item' id='share' onClick={ (event, _program) => this.clickHandlerProgramShare(event, p) }  >{this.translate('user.share')}</div>
+                              <div className='item_container_to_lists_close' onClick={() => this.clickHandlerClose(index)} >X</div>
+                            </div>
                           </div>
-                        </div>
-                        <div class="col-xs-6 desc_cont">
-                          <div className="desc">
-                            &#10095;
-                          </div>
-                        </div>
                       </div>
-                    </Link>
+                    </div>
                   </div>
-                  <div className="options" >
-                    <div><div><img id='later' src={later} alt="later" onClick={ (event, _program) => this.clickHandlerProgramLater(event, p) }  /></div></div>
-                    <div><div><img id='fav' src={fav} alt="fav" onClick={ (event, _program) => this.clickHandlerProgramFav(event, p) } /></div></div>
-                    <div><div><img id='share' src={share} alt="share" onClick={ (event, _program) => this.clickHandlerProgramShare(event, p) }  /></div></div>
-                  </div>
-                </div>
+                
               ))
             }
+          </div>
+          <div class="row" >
+            <div className="col-xs-12" >
+              <Pages />
+            </div>
+          </div>
+          <div class="row" >
+            <div className="col-xs-12" >
+              <Opinion />
+            </div>
           </div>
         </div>
         <Modal show={this.state.isOpen} onClose={this.toggleModal} >

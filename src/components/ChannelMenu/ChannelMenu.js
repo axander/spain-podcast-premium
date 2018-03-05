@@ -511,11 +511,11 @@ class ChannelMenu extends React.Component {
 						            {
 						            this.state.data.map(p => (
 						            	<div className='row' >
-								            <div id={p.id} className={this.state.channel === p.id ? 'item contentSelected' : 'item' } style={ 'background-image:url("' + p.image + '")' } onClick={ (event, _name) => this.clickHandlerChannel(event, p.name)} >
+								            <div id={p.id} className={this.state.channel === p.id ? 'item single_item contentSelected' : 'item single_item ' } style={ 'background-image:url("' + p.image + '")' } onClick={ (event, _name) => this.clickHandlerChannel(event, p.name)} >
 								                <div className="rot">
 								                    {p.name[localStorage.getItem('language')]}
 								                </div>
-							                    <div className="desc">
+							                    <div className="single_desc">
 							                        &#10095;
 							                    </div>
 							                </div>
@@ -543,11 +543,11 @@ class ChannelMenu extends React.Component {
 						            {
 						            this.state.dataProgram.map(p => (
 						              <div className='row' >
-						                <div id={p.id} className={this.state.program === p.id ? 'item contentSelected' : 'item' }  style={ 'background-image:url("' + p.image + '")' } onClick={ (event, _name) => this.clickHandlerProgram(event, p.name)}>
+						                <div id={p.id} className={this.state.program === p.id ? 'item single_item contentSelected' : 'item single_item ' }  style={ 'background-image:url("' + p.image + '")' } onClick={ (event, _name) => this.clickHandlerProgram(event, p.name)}>
 							                <div className="rot">
 							                    {p.name[localStorage.getItem('language')]}
 							                </div>
-							                <div className="desc">
+							                <div className="single_desc">
 					                          &#10095;
 					                        </div>
 			                      		</div>
@@ -575,11 +575,11 @@ class ChannelMenu extends React.Component {
 						            {
 						            this.state.dataPodcast.map(p => (
 						              	<div className='row' >
-								            <div id={p.id} className={this.state.podcast === p.id ? 'item contentSelected' : 'item' } style={ 'background-image:url("' + p.image + '")' } onClick={ (event, _source, _id, _name, _podcastObject) => this.clickHandlerPodcast(event, p.source, p.id, p.name, p)} >
+								            <div id={p.id} className={this.state.podcast === p.id ? 'item single_item contentSelected' : 'item single_item ' } style={ 'background-image:url("' + p.image + '")' } onClick={ (event, _source, _id, _name, _podcastObject) => this.clickHandlerPodcast(event, p.source, p.id, p.name, p)} >
 								                <div className="rot">
 								                    {p.name[localStorage.getItem('language')]}
 								                </div>
-							                    <div className="desc">
+							                    <div className="single_desc">
 							                        &#10095;
 							                    </div>
 							                </div>

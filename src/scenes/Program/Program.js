@@ -27,7 +27,9 @@ class Program extends React.Component {
     this.state = {
       'data':[ ],
       'channel': typeof this.props.match === 'undefined' ? 'F4RB2S' : typeof this.props.match.params.channel === 'undefined' ? ( localStorage.getItem('lastChannel') ? localStorage.getItem('lastChannel') : 'F4RB2S' ) : this.props.match.params.channel,
-      'options':[]
+      'options':[],
+      'phase': parseFloat(localStorage.getItem('phase_program_'+localStorage.getItem('lastChannel'))) || 0,
+      'total':0
     }
     this.options =[];
     this.clickHandler = this.clickHandler.bind(this);
@@ -39,12 +41,17 @@ class Program extends React.Component {
     this.setSchemmaShare = this.setSchemmaShare.bind(this);
     this.clickHandlerOpen = this.clickHandlerOpen.bind(this);
     this.clickHandlerClose = this.clickHandlerClose.bind(this);
+    this.setPhase = this.setPhase.bind(this);
   }
   onSuccess = (_response) => {
+    Utils.scrollToTop(300);
     _response.status === 'successfull'
     ? ( 
       this.setState ({
-        'data':_response.data
+        'data':_response.data,
+        'total':_response.total,
+        'phase':parseFloat(localStorage.getItem('phase_program_'+localStorage.getItem('lastChannel'))) || 0,
+        'perPhase':_response.perPhase
       }),
       localStorage.setItem('program', JSON.stringify(_response.data))
     )
@@ -141,6 +148,10 @@ class Program extends React.Component {
       'options':this.options
     })
   }
+  setPhase(_phase){
+    window.setSpinner();//,
+    API.action('getListPro'+this.state.channel, { 'channel' : this.state.channel , 'phase': parseFloat(localStorage.getItem('phase_program_'+localStorage.getItem('lastChannel'))) }, this.onSuccess, this.onError, 'GET');
+  }
   componentDidMount(){
     Utils.scrollToTop(300);
     this.setState({
@@ -148,15 +159,15 @@ class Program extends React.Component {
         'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0'
       }
     })
-    typeof localStorage.getItem('program')!=='undefined' && localStorage.getItem('program') && localStorage.getItem('lastChannel') === this.state.channel
+    /*typeof localStorage.getItem('program')!=='undefined' && localStorage.getItem('program') && localStorage.getItem('lastChannel') === this.state.channel
     ? this.setState ({
         'data':JSON.parse(localStorage.getItem('program'))
       })
-    : ( 
-      localStorage.setItem('lastChannel',this.state.channel),
-      window.setSpinner(),
-      API.action('getListPro'+this.state.channel, { 'channel' : this.state.channel }, this.onSuccess, this.onError, 'GET')
-      )
+    : ( */
+      localStorage.setItem('lastChannel',this.state.channel);//,
+      window.setSpinner();//,
+      API.action('getListPro'+this.state.channel, { 'channel' : this.state.channel , 'phase': parseFloat(localStorage.getItem('phase_program_'+localStorage.getItem('lastChannel'))) || 0 }, this.onSuccess, this.onError, 'GET');
+      //)
   }
    /*<div class="col-xs-6">
                         <div className="desc">
@@ -164,7 +175,10 @@ class Program extends React.Component {
                         </div>
                       </div>*/
   render() {
-
+    let PagesList;
+    if(this.state.total>0){
+      PagesList = <Pages total={this.state.total} perPhase={this.state.perPhase} setPhase= {this.setPhase} list="program" />
+    }
     return (
       <div className={ Utils.checkScene('/program') ? 'program' : 'program resetPaddingBottom' } style={this.state.style} >
         <div className={ Utils.checkScene('/program') ? 'hide' : 'hide' } >
@@ -185,7 +199,7 @@ class Program extends React.Component {
                           <div className="row item" >
                             <div className="col-xs-12 ">
                               <div className="rot">
-                                {p.name[localStorage.getItem('language')]}
+                                {index+1+this.state.phase*this.state.perPhase}. {p.name[localStorage.getItem('language')]}
                               </div>
                             </div>
                             <div class="desc_cont">
@@ -230,7 +244,7 @@ class Program extends React.Component {
           </div>
           <div class="row" >
             <div className="col-xs-12" >
-              <Pages />
+              {PagesList}
             </div>
           </div>
           <div class="row" >

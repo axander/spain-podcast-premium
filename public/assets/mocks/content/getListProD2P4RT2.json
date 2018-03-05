@@ -1,6 +1,8 @@
 {
 	"status":"successfull",
 	"reason":"0001",
+	"total":225,
+	"perPhase":10,
 	"data":[
 		{
 			"id":"FORBESDAILY",

@@ -23,7 +23,9 @@ class Channel extends React.Component {
     : null;
     this.state = {
       'data':[ ],
-      'options':[]
+      'options':[],
+      'phase': localStorage.getItem('phase_channel') || 0,
+      'total':0
     }
     this.options =[];
     this.clickHandler = this.clickHandler.bind(this);
@@ -35,12 +37,17 @@ class Channel extends React.Component {
     this.setSchemmaShare = this.setSchemmaShare.bind(this);  
     this.clickHandlerOpen = this.clickHandlerOpen.bind(this);
     this.clickHandlerClose = this.clickHandlerClose.bind(this);
+    this.setPhase = this.setPhase.bind(this);
   }
   onSuccess = (_response) => {
+    Utils.scrollToTop(300);
     _response.status === 'successfull'
     ? ( 
       this.setState ({
-        'data':_response.data
+        'data':_response.data,
+        'total':_response.total,
+        'phase':localStorage.getItem('phase_channel') || 0,
+        'perPhase':_response.perPhase
       }),
       localStorage.setItem('channels', JSON.stringify(_response.data))
     )
@@ -137,24 +144,32 @@ class Channel extends React.Component {
       'options':this.options
     })
   }
+  setPhase(_phase){
+    API.action('getListChan', { 'phase': localStorage.getItem('phase_channel') || 0 }, this.onSuccess, this.onError, 'GET');//,
+    window.setSpinner();
+  }
   componentDidMount(){
     this.setState({
       'style':{
         'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0'
       }
     })
-    typeof localStorage.getItem('channels')!=='undefined'  && localStorage.getItem('channels')
+    /*typeof localStorage.getItem('channels')!=='undefined'  && localStorage.getItem('channels')
     ? this.setState ({
         'data':JSON.parse(localStorage.getItem('channels'))
       })
-    : ( 
-      API.action('getListChan', {}, this.onSuccess, this.onError, 'get'),
-      window.setSpinner()
-      )
+    : ( */
+      API.action('getListChan', { 'phase': localStorage.getItem('phase_channel') || 0 }, this.onSuccess, this.onError, 'GET');//,
+      window.setSpinner();
+      //)
   }
 
   /*{p.desc[localStorage.getItem('language')]}*/
   render() {
+    let PagesList;
+    if(this.state.total>0){
+      PagesList = <Pages total={this.state.total} perPhase={this.state.perPhase} setPhase= {this.setPhase} list="channel" />
+    }
     return (
       <div className={ Utils.checkScene('/channel') ? 'channel' : 'channel resetPaddingBottom' } style={this.state.style} >
         <div className={ Utils.checkScene('/channel') ? 'hide' : 'hide' } >
@@ -170,7 +185,7 @@ class Channel extends React.Component {
                           <div className="row item" >
                             <div className="col-xs-12 ">
                               <div className="rot">
-                                {p.name[localStorage.getItem('language')]}
+                                {index+1+this.state.phase*this.state.perPhase}. {p.name[localStorage.getItem('language')]}
                               </div>
                             </div>
                             <div class="desc_cont">
@@ -213,11 +228,11 @@ class Channel extends React.Component {
           </div>
           <div class="row" >
             <div className="col-xs-12" >
-              <Pages />
+              {PagesList}
             </div>
           </div>
         </div>
-        <Modal show={this.state.isOpen} onClose={this.toggleModal} >
+        <Modal show={this.state.isOpen} onClose={this.toggleModal} setPhase={this.setPhase} >
           {this.translate(this.state.showedMsg)}
         </Modal>
       </div> 

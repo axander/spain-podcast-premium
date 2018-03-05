@@ -58,7 +58,7 @@
 				"buttons":[
 					{	
 						"externalLink":"",
-						"route":"podcast/FORBESDAILY",
+						"route":"podcast/FORBESDAILY/Nombre del programa",
 						"podcast":null,
 						"text":{
 							"es":"Ir a contenido",
@@ -127,7 +127,7 @@
 					},
 					{	
 						"externalLink":"",
-						"route":"podcast/FORBESDAILY",
+						"route":"podcast/FORBESDAILY/Nombre del programa",
 						"podcast":null,
 						"text":{
 							"es":"Ir a contenido",

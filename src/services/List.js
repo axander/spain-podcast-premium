@@ -143,59 +143,59 @@ const List = {
 	},
 	"getListChan":{
 		"service":"content/getListChan",
-		"method":"GET"
+		"method":"POST"
 	},
 	"getListPro":{
 		"service":"content/getListPro",
-		"method":"GET"
+		"method":"POST"
 	},
 		"getListProSP13NM2D31":{
 		"service":"content/getListProSP13NM2D31",
-		"method":"GET"
+		"method":"POST"
 	},
 		"getListProF4RB2S":{
 		"service":"content/getListProF4RB2S",
-		"method":"GET"
+		"method":"POST"
 	},
 		"getListProD2P4RT2":{
 		"service":"content/getListProD2P4RT2",
-		"method":"GET"
+		"method":"POST"
 	},
 		"getListProH3ST4R31":{
 		"service":"content/getListProH3ST4R31",
-		"method":"GET"
+		"method":"POST"
 	},
 		"getListProM1G1Z3N2":{
 		"service":"content/getListProM1G1Z3N2",
-		"method":"GET"
+		"method":"POST"
 	},
 	"getListPod":{
 		"service":"content/getListPod",
-		"method":"GET"
+		"method":"POST"
 	},
 	"getListPodFORBESDAILY":{
 		"service":"content/getListPodFORBESDAILY",
-		"method":"GET"
+		"method":"POST"
 	},
 	"getListPodFORBESEMPRENDE":{
 		"service":"content/getListPodFORBESEMPRENDE",
-		"method":"GET"
+		"method":"POST"
 	},
 	"getListPodFORBESPEOPLE":{
 		"service":"content/getListPodFORBESPEOPLE",
-		"method":"GET"
+		"method":"POST"
 	},
 	"getListPodFORBESREVIEW":{
 		"service":"content/getListPodFORBESREVIEW",
-		"method":"GET"
+		"method":"POST"
 	},
 	"getListPodFORBESSUMMIT30U30":{
 		"service":"content/getListPodFORBESSUMMIT30U30",
-		"method":"GET"
+		"method":"POST"
 	},
 	"getListPodFORBESSUMMITRS":{
 		"service":"content/getListPodFORBESSUMMITRS",
-		"method":"GET"
+		"method":"POST"
 	},
 	"search":{
 		"service":"content/search",

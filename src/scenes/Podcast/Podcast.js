@@ -30,7 +30,9 @@ class Podcast extends React.Component {
       'schemma':[],
       'data':[ ],
       'program': typeof this.props.match === 'undefined' ? 'FORBESDAILY' : typeof this.props.match.params.program === 'undefined' ? ( localStorage.getItem('lastProgram') ? localStorage.getItem('lastProgram') : 'FORBESDAILY' ) : this.props.match.params.program,
-      'options':[]
+      'options':[],
+      'phase': parseFloat(localStorage.getItem('phase_podcast_'+localStorage.getItem('lastProgram'))) || 0 ,
+      'total':0
     }
     this.options =[];
     this.clickHandlerPodcastLater = this.clickHandlerPodcastLater.bind(this);
@@ -41,13 +43,17 @@ class Podcast extends React.Component {
     this.setSchemmaShare = this.setSchemmaShare.bind(this);
     this.clickHandlerOpen = this.clickHandlerOpen.bind(this);
     this.clickHandlerClose = this.clickHandlerClose.bind(this);
-
+    this.setPhase = this.setPhase.bind(this);
   }
   onSuccess = (_response) => {
+    Utils.scrollToTop(300);
     _response.status === 'successfull'
     ? ( 
       this.setState ({
-        'data':_response.data
+        'data':_response.data,
+        'total':_response.total,
+        'phase': parseFloat(localStorage.getItem('phase_podcast_'+localStorage.getItem('lastProgram'))) || 0 ,
+        'perPhase':_response.perPhase
       }),
       localStorage.setItem('podcast', JSON.stringify(_response.data))
     )
@@ -136,6 +142,10 @@ class Podcast extends React.Component {
       'options':this.options
     })
   }
+  setPhase(_phase){
+    window.setSpinner();//,
+    API.action('getListPod'+this.state.program, { 'program' : this.state.program, 'phase': parseFloat(localStorage.getItem('phase_podcast_'+localStorage.getItem('lastProgram'))) || 0 }, this.onSuccess, this.onError, 'GET');
+  }
   initPlayer(p){
     //window.location.href = window.location.href+'/'+p.id+'/'+p.name[localStorage.getItem('language')];
     this.props.initplayer.play(p.source, p.id, p.name, p);
@@ -150,15 +160,15 @@ class Podcast extends React.Component {
         'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0'
       }
     })
-    typeof localStorage.getItem('program')!=='undefined' && localStorage.getItem('program') && localStorage.getItem('lastProgram') === this.state.program
+    /*typeof localStorage.getItem('program')!=='undefined' && localStorage.getItem('program') && localStorage.getItem('lastProgram') === this.state.program
     ? this.setState ({
         'data':JSON.parse(localStorage.getItem('podcast'))
       })
-    : ( 
-      localStorage.setItem('lastProgram',this.state.program ),
-      window.setSpinner(),
-      API.action('getListPod'+this.state.program, { 'program' : this.state.program }, this.onSuccess, this.onError, 'GET')
-      )
+    : ( */
+      localStorage.setItem('lastProgram',this.state.program );//,
+      window.setSpinner();//,
+      API.action('getListPod'+this.state.program, { 'program' : this.state.program, 'phase': parseFloat(localStorage.getItem('phase_podcast_'+localStorage.getItem('lastProgram'))) || 0 }, this.onSuccess, this.onError, 'GET');
+      //)
   }
   /*<div class="col-xs-6">
     <div className="desc">
@@ -167,7 +177,10 @@ class Podcast extends React.Component {
   </div>*/
   /*<PlayerApp />*/
   render() {
-    Utils.scrollToTop(300);
+    let PagesList;
+    if(this.state.total>0){
+      PagesList = <Pages total={this.state.total} perPhase={this.state.perPhase}  setPhase= {this.setPhase} list="podcast" />
+    }
     return (
       <div className={ Utils.checkScene('/podcast') ? 'podcast' : 'podcast resetPaddingBottom' } style={this.state.style} >
         <div className={ Utils.checkScene('/podcast') ? 'hide' : 'hide' } >
@@ -193,7 +206,7 @@ class Podcast extends React.Component {
                         <div className="row item" >
                           <div className="col-xs-12 ">
                             <div className="rot">
-                              {p.name[localStorage.getItem('language')]}
+                              {index+1+this.state.phase*this.state.perPhase}. {p.name[localStorage.getItem('language')]}
                             </div>
                           </div>
                           <div class="desc_cont">
@@ -238,7 +251,7 @@ class Podcast extends React.Component {
             </div>
             <div class="row" >
               <div className="col-xs-12" >
-                <Pages />
+                {PagesList}
               </div>
             </div>
             <div class="row" >

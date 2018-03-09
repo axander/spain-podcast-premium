@@ -6,6 +6,12 @@
 	"data":[
 		{
 			"id":"XXXXX0",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"TONI NADAL: ‘EL ESFUERZO DIARIO, EL QUERER SER LOS MEJORES, ES LO QUE ME HA HECHO FELIZ’",
 				"en":"TONI NADAL: ‘En Ingles’"
@@ -20,6 +26,12 @@
 		},
 		{
 			"id":"XXXXX1",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"VIOLENCIA, MAFIA Y TRÁFICO DE MUJERES",
 				"en":"VIOLENCIA, MAFIA Y TRÁFICO DE MUJERES"
@@ -34,6 +46,12 @@
 		},
 		{
 			"id":"XXXXX2",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"LA BURBUJA MUNDIAL DEL BITCOIN",
 				"en":"LA BURBUJA MUNDIAL DEL BITCOIN"
@@ -48,6 +66,12 @@
 		},
 		{
 			"id":"XXXXX3",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"FORBES PREDIJO EL CRACK DEL 29",
 				"en":"FORBES PREDIJO EL CRACK DEL 29"

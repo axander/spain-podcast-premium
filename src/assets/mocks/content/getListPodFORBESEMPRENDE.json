@@ -6,6 +6,12 @@
 	"data":[
 		{
 			"id":"XXXXX0",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"CÓMO COMPRAR O VENDER TU COCHE DE FORMA FÁCIL Y SEGURA CON UN SOLO CLIC",
 				"en":"CÓMO COMPRAR O VENDER TU COCHE DE FORMA FÁCIL Y SEGURA CON UN SOLO CLIC"
@@ -20,6 +26,12 @@
 		},
 		{
 			"id":"XXXXX1",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"EL PROGRAMA DE FP QUE TE ENSEÑA A SER EMPRENDEDOR",
 				"en":"EL PROGRAMA DE FP QUE TE ENSEÑA A SER EMPRENDEDOR"
@@ -34,6 +46,12 @@
 		},
 		{
 			"id":"XXXXX2",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"LA MOCHILA DE CUATRO EMPRENDEDORES QUE USA SARA CARBONERO",
 				"en":"LA MOCHILA DE CUATRO EMPRENDEDORES QUE USA SARA CARBONERO"
@@ -48,6 +66,12 @@
 		},
 		{
 			"id":"XXXXX3",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"VUELTA AL COLE: CÓMO MEJORAR EN MATEMÁTICAS",
 				"en":"VUELTA AL COLE: CÓMO MEJORAR EN MATEMÁTICAS"

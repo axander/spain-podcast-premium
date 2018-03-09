@@ -4,17 +4,22 @@ import Submenu from '../../components/Submenu/Submenu.js'
 import UsuarioApi from '../../services/api2.js'
 import SingleLayout from '../../components/SingleLayout/SingleLayout.js'
 import Iteminfo from '../../components/Iteminfo/Iteminfo.js'
-import Opinion from '../../components/Opinion/Opinion.js'
+import Opinion from '../../blocks/Opinion/Opinion.js'
 import Pages from '../../components/Pages/Pages.js'
 import later from '../../assets/images/later.png'
 import fav from '../../assets/images/fav.png'
 import share from '../../assets/images/share.png'
+import comments from '../../assets/images/comments.png'
+import date from '../../assets/images/date.png'
+import played from '../../assets/images/played.png'
+import like from '../../assets/images/like.png'
 import { Link, Route } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js'
 import Utils from '../../utils/Utils.js'
 import Lists from '../../utils/Lists.js'
 import ListSchemma from '../../components/Lists/ListSchemma.js'
 import './program.scss';
+
 
 class Program extends React.Component {
   constructor(props) {
@@ -165,6 +170,7 @@ class Program extends React.Component {
       })
     : ( */
       localStorage.setItem('lastChannel',this.state.channel);//,
+      localStorage.setItem('lastOpinion',this.state.channel);//,
       window.setSpinner();//,
       API.action('getListPro'+this.state.channel, { 'channel' : this.state.channel , 'phase': parseFloat(localStorage.getItem('phase_program_'+localStorage.getItem('lastChannel'))) || 0 }, this.onSuccess, this.onError, 'GET');
       //)
@@ -196,7 +202,11 @@ class Program extends React.Component {
                 <div className="col-xs-12 col-md-4" >
                     <div className ={ (index-1)%3===0 ? 'item_container' : index%3===0 ? 'item_container_left' : 'item_container_right'} >
                       <div className={ p.id === localStorage.getItem('lastProgram') ? "contentSelected" : "" }>
-                          <div className="row item" >
+                          <div className="row item" ><div className="col-xs-12 ">
+                            <div className="item_origen">
+                                Origen
+                              </div>
+                            </div>
                             <div className="col-xs-12 ">
                               <div className="rot">
                                 {index+1+this.state.phase*this.state.perPhase}. {p.name[localStorage.getItem('language')]}
@@ -208,8 +218,18 @@ class Program extends React.Component {
                                 <div><div><img id='fav' src={fav} alt="fav" onClick={ (event, _program) => this.clickHandlerProgramFav(event, p) } /></div></div>
                                 <div><div><img id='share' src={share} alt="share" onClick={ (event, _program) => this.clickHandlerProgramShare(event, p) }  /></div></div>
                               </div>*/}
+                              <div className="item_info" >
+                                <div><div><img id='like' src={like} alt="like" /></div></div>
+                                <div><div>{p.info.likes}</div></div>
+                                <div><div><img id='comments' src={comments} alt="comments" /></div></div>
+                                <div><div>{p.info.comments}</div></div>
+                                <div><div><img id='date' src={date} alt="date" /></div></div>
+                                <div><div>{p.info.date}</div></div>
+                                <div><div><img id='played' src={played} alt="played" /></div></div>
+                                <div><div>{p.info.played}</div></div>
+                              </div>
                               <div class="item_actions">
-                                  <Link to={'/podcast/'+p.id+'/'+p.name[localStorage.getItem('language')]} id={p.id}  onClick={ (event, _name) => this.clickHandler(event, p.name)}  >
+                                  <Link class="item_actions_program" to={'/podcast/'+p.id+'/'+p.name[localStorage.getItem('language')]} id={p.id}  onClick={ (event, _name) => this.clickHandler(event, p.name)}  >
                                     <div><div class='basicOuter'><div class='basicInner'>
                                         <div className="item_desc" name={p.name[localStorage.getItem('language')]} style={ 'background-image:url("' + p.image + '")'} >
                                           
@@ -217,7 +237,7 @@ class Program extends React.Component {
                                     </div></div></div>
                                     <div><div class='basicOuter'><div class='basicInner'>
                                       <div class='item_actions_text' >
-                                        Ver lista
+                                        {this.translate('goList')}
                                         <div class="item_actions_go_list"><div><div>❯</div></div></div>
                                       </div>
                                     </div></div></div>
@@ -248,8 +268,8 @@ class Program extends React.Component {
             </div>
           </div>
           <div class="row" >
-            <div className="col-xs-12" >
-              <Opinion />
+            <div className="col-xs-12 opinion_col" >
+              <Opinion origen={this.props.match.params.channel} />
             </div>
           </div>
         </div>

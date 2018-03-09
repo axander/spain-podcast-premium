@@ -6,6 +6,12 @@
 	"data":[
 		{
 			"id":"FORBESDAILY",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"FORBES DAILY Español",
 				"en":"FORBES DAILY Inglés"
@@ -19,6 +25,12 @@
 		},
 		{
 			"id":"FORBESREVIEW",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"FORBES REVIEW",
 				"en":"FORBES REVIEW"
@@ -32,6 +44,12 @@
 		},
 		{
 			"id":"FORBESEMPRENDE",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"FORBES EMPRENDE",
 				"en":"FORBES EMPRENDE"
@@ -45,6 +63,12 @@
 		},
 		{
 			"id":"FORBESPEOPLE",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"FORBES PEOPLE",
 				"en":"FORBES PEOPLE"
@@ -58,6 +82,12 @@
 		},
 		{
 			"id":"FORBESSUMMITRS",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"FORBES SUMMIT RS",
 				"en":"FORBES SUMMIT RS"
@@ -71,6 +101,12 @@
 		},
 		{
 			"id":"FORBESSUMMIT30U30",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"FORBES SUMMIT 30U30",
 				"en":"FORBES SUMMIT 30U30"

@@ -25,6 +25,9 @@ class Pages extends React.Component {
   returnPhasePerType(){
     var phase = null;
     switch(this.props.list){
+      case 'opinion':
+        phase = parseFloat(localStorage.getItem('phase_'+this.props.list+'_'+this.props.origen )) || 0;
+      break;
       case 'channel':
         phase = parseFloat(localStorage.getItem('phase_'+this.props.list)) || 0;
       break;
@@ -43,6 +46,9 @@ class Pages extends React.Component {
     this.phases[this.state.phaseBefore] = false;
     this.phases[_phase] = true;
     switch(this.props.list){
+        case 'opinion':
+          localStorage.setItem('phase_'+this.props.list+'_'+localStorage.getItem('lastOpinion'), _phase);
+        break;
         case 'channel':
           localStorage.setItem('phase_'+this.props.list, _phase);
         break;

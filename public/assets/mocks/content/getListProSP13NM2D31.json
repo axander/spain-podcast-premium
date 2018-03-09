@@ -6,6 +6,12 @@
 	"data":[
 		{
 			"id":"FORBESDAILY",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"Spainmedia Lab",
 				"en":"Spainmedia Lab"
@@ -19,6 +25,12 @@
 		},
 		{
 			"id":"FORBESDAILY",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"Tapas a media noche",
 				"en":"Tapas a media noche"
@@ -32,6 +44,12 @@
 		},
 		{
 			"id":"FORBESDAILY",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"Cuaderno de podcasting",
 				"en":"Cuaderno de podcasting"
@@ -45,6 +63,12 @@
 		},
 		{
 			"id":"FORBESDAILY",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"Cuéntame otra",
 				"en":"Cuéntame otra"
@@ -58,6 +82,12 @@
 		},
 		{
 			"id":"FORBESDAILY",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"Podcast de diseño",
 				"en":"Podcast de diseño"
@@ -71,6 +101,12 @@
 		},
 		{
 			"id":"FORBESDAILY",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"Hoja de Router",
 				"en":"Hoja de Router"
@@ -84,6 +120,12 @@
 		},
 		{
 			"id":"FORBESDAILY",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"Tal para cual.",
 				"en":"Tal para cual."
@@ -97,6 +139,12 @@
 		},
 		{
 			"id":"FORBESDAILY",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"Spainmedia Jazz.",
 				"en":"Spainmedia Jazz."

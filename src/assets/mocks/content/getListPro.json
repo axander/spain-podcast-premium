@@ -6,6 +6,12 @@
 	"data":[
 		{
 			"id":"XXXXX0",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"FORBES DAILY",
 				"en":"FORBES DAILY"
@@ -19,6 +25,12 @@
 		},
 		{
 			"id":"XXXXX1",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"FORBES REVIEW",
 				"en":"FORBES REVIEW"
@@ -32,6 +44,12 @@
 		},
 		{
 			"id":"XXXXX2",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"FORBES EMPRENDE",
 				"en":"FORBES EMPRENDE"
@@ -45,6 +63,12 @@
 		},
 		{
 			"id":"XXXXX2",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"FORBES PEOPLE",
 				"en":"FORBES PEOPLE"
@@ -58,6 +82,12 @@
 		},
 		{
 			"id":"XXXXX2",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"FORBES SUMMIT RS",
 				"en":"FORBES SUMMIT RS"
@@ -71,6 +101,12 @@
 		},
 		{
 			"id":"XXXXX2",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"FORBES SUMMIT 30U30",
 				"en":"FORBES SUMMIT 30U30"

@@ -6,6 +6,12 @@
 	"data":[
 		{
 			"id":"XXXXX0",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"ENRIQUE TELLADO",
 				"en":"ENRIQUE TELLADO"
@@ -20,6 +26,12 @@
 		},
 		{
 			"id":"XXXXX1",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"JOSEP PIQUÉ",
 				"en":"JOSEP PIQUÉ"
@@ -34,6 +46,12 @@
 		},
 		{
 			"id":"XXXXX2",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"EMILIO LAMO DE ESPINOSA",
 				"en":"EMILIO LAMO DE ESPINOSA"
@@ -48,6 +66,12 @@
 		},
 		{
 			"id":"XXXXX3",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"GLORIA LOMANA",
 				"en":"GLORIA LOMANA"

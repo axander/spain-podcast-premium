@@ -6,6 +6,12 @@
 	"data":[
 		{
 			"id":"SP13NM2D31",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"SPAINMEDIA",
 				"en":"SPAINMEDIA"
@@ -19,6 +25,12 @@
 		},
 		{
 			"id":"F4RB2S",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"FORBES español",
 				"en":"FORBES english"
@@ -32,6 +44,12 @@
 		},
 		{
 			"id":"D2P4RT2",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"DEPORTE",
 				"en":"DEPORTE"
@@ -45,6 +63,12 @@
 		},
 		{
 			"id":"H3ST4R31",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"HISTORIA Y MISTERIO",
 				"en":"HISTORIA Y MISTERIO"
@@ -58,6 +82,12 @@
 		},
 		{
 			"id":"M1G1Z3N2",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"T MAGAZINE.",
 				"en":"T MAGAZINE."

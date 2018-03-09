@@ -6,6 +6,12 @@
 	"data":[
 		{
 			"id":"XXXXX0",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"CRECIMIENTO INESPERADO DEL BITCOIN",
 				"en":"CRECIMIENTO INESPERADO DEL BITCOIN"
@@ -20,6 +26,12 @@
 		},
 		{
 			"id":"XXXXX1",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"LOS PLANES DE PENSIONES, UN INSTRUMENTO PARA EL FUTURO",
 				"en":"LOS PLANES DE PENSIONES, UN INSTRUMENTO PARA EL FUTURO"
@@ -34,6 +46,12 @@
 		},
 		{
 			"id":"XXXXX2",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"FACTORES GEOESTRATÉGICOS QUE IMPIDEN LA BAJADA DEL PRECIO DEL PETRÓLEO",
 				"en":"FACTORES GEOESTRATÉGICOS QUE IMPIDEN LA BAJADA DEL PRECIO DEL PETRÓLEO"
@@ -48,6 +66,12 @@
 		},
 		{
 			"id":"XXXXX3",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"LOS INVERSORES MILLENIAL ¿CÓMO SON?",
 				"en":"LOS INVERSORES MILLENIAL ¿CÓMO SON?"

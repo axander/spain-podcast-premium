@@ -6,6 +6,12 @@
 	"data":[
 		{
 			"id":"FORBESDAILY",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"Cómo se hace T Magazine",
 				"en":"Cómo se hace T Magazine"
@@ -19,6 +25,12 @@
 		},
 		{
 			"id":"FORBESDAILY",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"Influencia T",
 				"en":"Influencia T"

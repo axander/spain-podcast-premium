@@ -6,6 +6,12 @@
 	"data":[
 		{
 			"id":"FORBESDAILY",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"La Escóbula de la Brújula",
 				"en":"La Escóbula de la Brújula"
@@ -19,6 +25,12 @@
 		},
 		{
 			"id":"FORBESDAILY",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"Elena en el país de los horrores",
 				"en":"Elena en el país de los horrores"

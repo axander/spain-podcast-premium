@@ -1,6 +1,70 @@
 .staticplayer{
-	font-size:20px;
+	font-size:12px;
 	text-align:center;
 	padding-top:100px;
 	padding-bottom:100px;
+	.row{
+		margin:0;
+		padding:0;
+		[class*=' col-']{
+			margin:0;
+			padding:0;
+		}
+	}
+	staticPlayer{
+	    width:100%;
+	    height:100%;
+	    background:#ddd;
+	    color:#fff;
+	    -webkit-box-shadow: 0;
+	    box-shadow: 0;
+	    -webkit-transition: all .5s ease;
+	    -moz-transition: all .5s ease;
+	    transition: all .5s ease;
+	}
+	staticPlayer section{
+	    padding:10px;
+	}
+	staticPlayer section:first-child{
+	    padding:0px;
+	    padding-top: 8px;
+	}
+	staticPlayer section:first-child table{
+	    margin:10px;
+	}
+	staticPlayer nav {
+	    height:100%;
+	    overflow: hidden;
+	}
+	staticPlayer nav .scrollCont{
+	    height: 100%;
+	    overflow-x: hidden;
+	    overflow-y: scroll;
+	    -ms-overflow-style: none;  // IE 10+
+	    overflow: -moz-scrollbars-none;  // Firefox
+	}
+	staticPlayer nav .scrollCont::-webkit-scrollbar { 
+	    display: none;  // Safari and Chrome
+	}
+	staticPlayer nav .scrollableCont{
+	    height:auto;
+	    padding-top:40px;
+	}
+	staticPlayer nav div{
+	    display:block;
+	}
+	staticPlayer .section:nth-child(2) table:first-child{
+	    //display:none;
+	}
+	staticPlayer .playPausePb{
+	    font-family: inherit;
+	    color: #444;
+	    font-size: 40px;
+	    line-height: inherit;
+	    /* float: right; */
+	    width: 200px;
+	    margin: 10px;
+	    /* position: relative; */
+	    right: 20px;
+	}
 }

@@ -6,6 +6,12 @@
 	"data":[
 		{
 			"id":"XXXXX0",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"ENRIQUE CAT, CO FUNDADOR Y CO CEO DE NOSTOC BIOTECH",
 				"en":"ENRIQUE CAT, CO FUNDADOR Y CO CEO DE NOSTOC BIOTECH"
@@ -20,6 +26,12 @@
 		},
 		{
 			"id":"XXXXX1",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"PAU SENDRA, CEO Y FUNDADOR DE WAYNABOX",
 				"en":"PAU SENDRA, CEO Y FUNDADOR DE WAYNABOX"
@@ -34,6 +46,12 @@
 		},
 		{
 			"id":"XXXXX2",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"PEPA SALAZAR, DISEÑADORA",
 				"en":"PEPA SALAZAR, DISEÑADORA"
@@ -48,6 +66,12 @@
 		},
 		{
 			"id":"XXXXX3",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"PALOMA CANTERO-GÓMEZ, CEO DE YOUTHPROAKTIV",
 				"en":"PALOMA CANTERO-GÓMEZ, CEO DE YOUTHPROAKTIV"

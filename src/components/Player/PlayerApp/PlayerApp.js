@@ -1,6 +1,13 @@
 import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
 import screenfull from 'screenfull'
+import previous2 from '../../../assets/images/previous2.png'
+import play2 from '../../../assets/images/play2.png'
+import pause from '../../../assets/images/pause.png'
+import backward from '../../../assets/images/backward.png'
+import forward2 from '../../../assets/images/forward2.png'
+import volumeMedium from '../../../assets/images/volumeMedium.png'
+import './PlayerApp.scss'
 
 /*import './reset.scss'
 import './defaults.scss'
@@ -28,19 +35,32 @@ export default class PlayerApp extends Component {
     localStorage.setItem('lastPodcast', _id);
     localStorage.setItem('lastPodcastName', JSON.stringify(_name));
     localStorage.setItem('podcastInfo', JSON.stringify(_object));
+    localStorage.setItem('lastOpinion',_id);//,
     this.player.seekTo(0);
-    this.props.showplayer();
-    this.setState({ 
+    typeof this.props.initplayer !== 'undefined' 
+    ? (
+        this.props.showplayer(),
+        this.setState({ 
+          url: _source,
+          playing: false,
+          played: 0,
+          loaded: 0,
+          duration: 0,
+          playbackRate: 1.0
+        })
+      )
+    : this.setState({ 
       url: _source,
-      playing: false,
+      playing: true,
       played: 0,
       loaded: 0,
       duration: 0,
       playbackRate: 1.0
     })
+    
   }
    componentDidMount(){
-      typeof this.props.initplayer !== 'undefined' ? this.props.initplayer.play= this.loadPodcast : null ;
+      typeof this.props.initplayer !== 'undefined' ? this.props.initplayer.play= this.loadPodcast : this.props.fromStatic ? this.loadPodcast(this.props.data.source,this.props.data.id,this.props.data.name,this.props.data) : null;
    }
   state = {
     url: null,
@@ -166,11 +186,31 @@ export default class PlayerApp extends Component {
 
           </div>
 
+
+          <div className='player-face' >
+            <div className='previous2'  onClick={this.playPause}><img src={previous2} /></div>
+            <div className='play'  onClick={this.playPause}><img src={playing ? pause : play2} /></div>
+            <div className='backward'  onClick={this.playPause}><img src={backward} /></div>
+            <div className='forward2'  onClick={this.playPause}><img src={forward2} /></div>
+            <div className='time_played' ><Duration seconds={duration * played} /></div>
+            <div className='progression'><progress max={1} value={played} />
+              <input className='progression-seek'
+                  type='range' min={0} max={1} step='any'
+                  value={played}
+                  onMouseDown={this.onSeekMouseDown}
+                  onChange={this.onSeekChange}
+                  onMouseUp={this.onSeekMouseUp}
+                />
+            </div>
+            <div className='duration'><Duration seconds={duration} /></div>
+            <div className='volume'  onClick={this.playPause}><img src={volumeMedium} /></div>
+          </div>
+
           <table><tbody>
             <tr>
               <th></th>
               <td>
-                <button className="playPausePb" onClick={this.playPause}>{playing ? 'Pause' : 'Play'}</button>
+                
               </td>
             </tr>
             <tr>
@@ -209,7 +249,7 @@ export default class PlayerApp extends Component {
             </tr>
             <tr>
               <th>Played</th>
-              <td><progress max={1} value={played} /></td>
+              <td></td>
             </tr>
             <tr>
               <th>Loaded</th>
@@ -218,7 +258,7 @@ export default class PlayerApp extends Component {
           </tbody></table>
         </section>
         <section className='section'>
-          <table><tbody>
+          {/*<table><tbody>
             <tr>
               <th>YouTube</th>
               <td>
@@ -295,7 +335,7 @@ export default class PlayerApp extends Component {
                 <button onClick={() => this.setState({ url: this.urlInput.value })}>Load</button>
               </td>
             </tr>
-          </tbody></table>
+          </tbody></table>*/}
 
           <h2>State</h2>
 

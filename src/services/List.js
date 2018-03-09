@@ -288,6 +288,10 @@ const List = {
 	"getNews":{
 		"service":"blocks/getNews",
 		"method":"POST"
+	},
+	"getOpinion":{
+		"service":"blocks/getOpinion",
+		"method":"POST"
 	}
 }
 export default List

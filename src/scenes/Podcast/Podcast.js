@@ -4,13 +4,17 @@ import PlayerApp from '../../components/Player/PlayerApp/PlayerApp.js'
 import Submenu from '../../components/Submenu/Submenu.js'
 import UsuarioApi from '../../services/api2.js'
 import Iteminfo from '../../components/Iteminfo/Iteminfo.js'
-import Opinion from '../../components/Opinion/Opinion.js'
+import Opinion from '../../blocks/Opinion/Opinion.js'
 import Pages from '../../components/Pages/Pages.js'
 import StaticPlayer from '../../components/StaticPlayer/StaticPlayer.js'
 import SingleLayout from '../../components/SingleLayout/SingleLayout.js'
 import later from '../../assets/images/later.png'
 import fav from '../../assets/images/fav.png'
 import share from '../../assets/images/share.png'
+import comments from '../../assets/images/comments.png'
+import date from '../../assets/images/date.png'
+import played from '../../assets/images/played.png'
+import like from '../../assets/images/like.png'
 import { Link, Route } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js'
 import Utils from '../../utils/Utils.js'
@@ -147,11 +151,10 @@ class Podcast extends React.Component {
     API.action('getListPod'+this.state.program, { 'program' : this.state.program, 'phase': parseFloat(localStorage.getItem('phase_podcast_'+localStorage.getItem('lastProgram'))) || 0 }, this.onSuccess, this.onError, 'GET');
   }
   initPlayer(p){
+    Utils.scrollToTop(300);
     //window.location.href = window.location.href+'/'+p.id+'/'+p.name[localStorage.getItem('language')];
+    this.props.initplayer.data = p;
     this.props.initplayer.play(p.source, p.id, p.name, p);
-    this.setState({
-      'staticPlayer':true
-    })
     window.location.href = './#/static/'+p.id+'/'+p.name[localStorage.getItem('language')];
   }
   componentDidMount(){
@@ -166,6 +169,7 @@ class Podcast extends React.Component {
       })
     : ( */
       localStorage.setItem('lastProgram',this.state.program );//,
+      localStorage.setItem('lastOpinion',this.state.program);//,
       window.setSpinner();//,
       API.action('getListPod'+this.state.program, { 'program' : this.state.program, 'phase': parseFloat(localStorage.getItem('phase_podcast_'+localStorage.getItem('lastProgram'))) || 0 }, this.onSuccess, this.onError, 'GET');
       //)
@@ -186,14 +190,9 @@ class Podcast extends React.Component {
         <div className={ Utils.checkScene('/podcast') ? 'hide' : 'hide' } >
           <h1>{this.translate('menu.podcast').toUpperCase() + ' ' + this.translate('program') + ' ' + ( localStorage.getItem('lastProgramName') ? JSON.parse(localStorage.getItem('lastProgramName'))[localStorage.getItem('language')] : '' ) }</h1>
         </div>
-        <div className={this.state.staticPlayer ? 'hide' : 'row'} >
+        <div className='row' >
           <div className="col-xs-12" >
             <Iteminfo />
-          </div>
-        </div>
-        <div className={this.state.staticPlayer ? 'row' : 'hide'} >
-          <div className="col-xs-12" >
-            <StaticPlayer />
           </div>
         </div>
         <div className={ Utils.checkScene('/podcast') ? '' : 'resetPaddingTop' }>
@@ -205,6 +204,11 @@ class Podcast extends React.Component {
                     <div className={ p.id === localStorage.getItem('lastPodcast') ? "contentSelected" : "" } >
                         <div className="row item" >
                           <div className="col-xs-12 ">
+                            <div className="item_origen">
+                              Origen
+                            </div>
+                          </div>
+                          <div className="col-xs-12 ">
                             <div className="rot">
                               {index+1+this.state.phase*this.state.perPhase}. {p.name[localStorage.getItem('language')]}
                             </div>
@@ -215,6 +219,16 @@ class Podcast extends React.Component {
                               <div><div><img id='fav' src={fav} alt="fav" onClick={ (event, _podcast) => this.clickHandlerPodcastFav(event, p) } /></div></div>
                               <div><div><img id='share' src={share} alt="share" onClick={ (event, _podcast) => this.clickHandlerPodcastShare(event, p) } /></div></div>
                             </div>*/}
+                            <div className="item_info" >
+                              <div><div><img id='like' src={like} alt="like" /></div></div>
+                              <div><div>{p.info.likes}</div></div>
+                              <div><div><img id='comments' src={comments} alt="comments" /></div></div>
+                              <div><div>{p.info.comments}</div></div>
+                              <div><div><img id='date' src={date} alt="date" /></div></div>
+                              <div><div>{p.info.date}</div></div>
+                              <div><div><img id='played' src={played} alt="played" /></div></div>
+                              <div><div>{p.info.played}</div></div>
+                            </div>
                             <div class="item_actions">
                                 <div class="item_actions_podcast" id={p.id} name={p.name[localStorage.getItem('language')]} onClick={() => this.initPlayer(p)} >
                                   <div><div class='basicOuter'><div class='basicInner'>
@@ -225,7 +239,7 @@ class Podcast extends React.Component {
                                   <div><div class='basicOuter'><div class='basicInner'>
                                     <div class='item_actions_text' >
                                       <div class="item_actions_play_PB"><div><div>►</div></div></div>
-                                      Reproducir
+                                      {this.translate('listen')}
                                     </div>
                                   </div></div></div>
                                 </div>
@@ -255,8 +269,8 @@ class Podcast extends React.Component {
               </div>
             </div>
             <div class="row" >
-              <div className="col-xs-12" >
-                <Opinion />
+              <div className="col-xs-12 opinion_col" >
+                <Opinion origen={this.props.match.params.program} />
               </div>
             </div>
           </div>

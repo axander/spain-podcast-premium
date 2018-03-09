@@ -6,6 +6,12 @@
 	"data":[
 		{
 			"id":"XXXXX0",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"CARLOS ALONSO, BUSINESS DEVELOPMENT DIRECTOR EN SOPRA HR SOFTWARE",
 				"en":"CARLOS ALONSO, BUSINESS DEVELOPMENT DIRECTOR EN SOPRA HR SOFTWARE"
@@ -20,6 +26,12 @@
 		},
 		{
 			"id":"XXXXX1",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"MARK O’NEILL, FUNDADOR DE THEWINEPLACE.ES",
 				"en":"MARK O’NEILL, FUNDADOR DE THEWINEPLACE.ES"
@@ -34,6 +46,12 @@
 		},
 		{
 			"id":"XXXXX2",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"FABIAN GOSSELIN, CEO DE ALSEA, Y RAFAEL HERRERO, CEO DE ZENA",
 				"en":"FABIAN GOSSELIN, CEO DE ALSEA, Y RAFAEL HERRERO, CEO DE ZENA"
@@ -48,6 +66,12 @@
 		},
 		{
 			"id":"XXXXX3",
+			"info":{
+				"likes":32,
+				"comments":234,
+				"date":"24 sem",
+				"played":"345"
+			},
 			"name":{
 				"es":"VIRGINIA HUERTA, DIRECTORA DE TEXT 100 ESPAÑA",
 				"en":"VIRGINIA HUERTA, DIRECTORA DE TEXT 100 ESPAÑA"

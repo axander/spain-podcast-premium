@@ -28,6 +28,8 @@
   "channel": "Channel",
   "program": "Program",
   "podcast": "Podcast",
+  "goList":"Show list",
+  "listen":"Listen now",
   "intro.email":"Intro an email",
   "intro.code":"Intro a code",
   "menu.channel": "Channels",
@@ -149,5 +151,7 @@
   "blocks.listened":"The most listened",
   "blocks.listsBasic":"Your lists",
   "blocks.allMyLists":"All my lists",
-  "blocks.getAll":"Get all"
+  "blocks.getAll":"Get all",
+  "opinions":"Opinions",
+  "toComment":"Comentar"
 }

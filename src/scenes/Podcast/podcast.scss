@@ -7,11 +7,33 @@
 			padding:0;
 		}
 	}
+	.item_origen{
+		position: absolute;
+	    top: 30px;
+	    padding: 10px;
+	    font-size: 12px;
+	    text-align: left;
+	}
 	.options{
 		div{
 			cursor:pointer;
 			display:inline-block;
 			padding: 4px;
+			div{
+				img{
+					width:20px;
+				}
+			}
+			;:hover{
+				opacity:.5;
+			}
+		}
+	}
+	.item_info{
+		div{
+			display: inline-block;
+		    padding: 2px;
+		    padding-bottom: 6px;
 			div{
 				img{
 					width:20px;

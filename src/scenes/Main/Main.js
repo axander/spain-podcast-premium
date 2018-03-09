@@ -73,7 +73,8 @@ const fakeAuth = {
 const player = {
   play(){
     //it will be configured from Login_web
-  }
+  },
+  data : {}
 }
 const listSchemma = {
   show(){

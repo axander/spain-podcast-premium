@@ -10,15 +10,19 @@ import './styles/header_web.scss'
 class Header_web extends React.Component {
   constructor(props) {
     super(props);
+    this.state={
+      'registerHide':localStorage.getItem('logged')
+    }
+    this.showRegister=this.showRegister.bind(this);
   }
-  componentDidMount() {
-
-  }
-  componentDidUpdate(){
-    
+  showRegister(){
+    this.setState({
+      'registerHide':false
+    })
   }
 
   render() {
+    let registerHide = localStorage.getItem('logged');
     return (
       <div className={ 'header_web header_web_'+localStorage.getItem('template') }>
         <div className='header_web_main'>
@@ -26,8 +30,8 @@ class Header_web extends React.Component {
           <Link to={'/info/premium'} ><div class='option left'>{this.translate('header.premium').toUpperCase()}</div></Link>
           <Link to={'/'} ><div class='option logo'><Logo /></div></Link>
           
-          <div class='right'><Login_web login={this.props.login} /></div>
-          <Link to={'/register'} ><div class='option right'>{this.translate('header.register').toUpperCase()}</div></Link>
+          <div class='right'><Login_web login={this.props.login} showRegister={this.showRegister} /></div>
+          <Link to={'/register'} ><div className={ this.state.registerHide ?'hide' : 'option right' } >{this.translate('header.register').toUpperCase()}</div></Link>
           <Search />
         </div>
       </div>  

@@ -361,7 +361,9 @@ class Main extends React.Component {
               )}/>
               <Route exact path='/login' component={Login}/>
               <Route exact path='/logout' component={Logout}/>
-              <Route exact path='/register' component={Register}/>
+              <Route exact path='/register' render={(props) => (
+                <Register {...props} auth={fakeAuth} />
+              )}/>
               <Route exact path='/terms' component={Terms}/>
               <Route exact path='/info' component={Info}/>
               <Route exact path='/info/*' component={Info}/>

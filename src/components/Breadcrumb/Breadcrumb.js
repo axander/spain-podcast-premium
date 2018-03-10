@@ -23,6 +23,13 @@ class Breadcrumb extends React.Component {
     var sequence = this.props.location.pathname.split('/');
     sequence.shift();
     switch(sequence[0]){
+      case 'register':
+        this.state.acumulate=[];
+        this.state.acumulate[0] ={
+          'text':this.translate('register'),
+          'path':this.props.location.pathname
+        }
+      break;
       case 'channel':
         this.state.acumulate=[];
         this.state.acumulate[0] ={

@@ -1,11 +1,23 @@
-
+@font-face {
+  font-family: 'AlfaSlabOne';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./assets/fonts/AlfaSlabOne-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Avenir';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./assets/fonts/AvenirLTStd-Light.otf') format('truetype');
+}
 html,body {
     /*position:absolute*/;
     top:0;
     left:0;
 	background-color: #000;
 	color: #fff;
-	font-family: Lato, sans-serif;
+	font-family: Avenir, sans-serif;
+   
 	margin:0;
 	width:100vw;
     height:auto;
@@ -15,6 +27,10 @@ html,body {
     -ms-overflow-style: none;  // IE 10+
     overflow: -moz-scrollbars-none;  // Firefox
     /*-ms-touch-action: none;*/
+
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke: 0.45px;
+    
 }
 
 html::-webkit-scrollbar, body::-webkit-scrollbar { 
@@ -83,15 +99,6 @@ h1{
     
 }
 
-.left{
-    float:left;
-}
-.right{
-    float:right;
-}
-.pointerEventsDisable{
-    pointer-events:none;
-}
 .basicOuter{
 	display:table;
 	width: 100%;
@@ -236,6 +243,82 @@ AuthButton {
 .item:hover{
     /*opacity:.5;*/
 }
+//buttons and alignments
+.left{
+    float:left;
+}
+.right{
+    float:right;
+}
+.mt25{
+    margin-top:25px
+}
+.mt50{
+    margin-top:50px
+}
+.mb25{
+    margin-bottom:25px
+}
+.mb50{
+    margin-bottom:50px
+}
+.pointerEventsDisable{
+    pointer-events:none;
+}
+.greenPB{
+    cursor: pointer;
+    width: 245px;
+    border-radius: 52px;
+    background: #67b511!important;
+    color: #fff;
+    padding: 20px;
+    font-family: Avenir;
+    font-size: 20px;
+    font-weight: 900;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.85;
+    letter-spacing: normal;
+    color: #ffffff;
+}
+.greenPB:hover{
+    opacity:.5;
+}
+.neutralPB{
+    cursor: pointer;
+    width: 122px;
+    color: #fff;
+    padding: 20px;
+    text-decoration: underline;
+    font-family: Avenir;
+    font-size: 20px;
+    font-weight: 900;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.85;
+    letter-spacing: normal;
+    color: #ffffff;
+}
+.neutralPB:hover{
+    opacity:.5;
+}
+neutralPB:after {
+    content: '';
+
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 1px;
+
+    border-width: 0 0 1px;
+    border-style: solid;
+}
+.disabled{
+    pointer-events: none;
+    /*background: #365c86!important;*/
+    opacity: .5;
+}
+
 .channel, .program, .podcast{
      padding-bottom:0;
      min-height:100%;
@@ -1340,11 +1423,7 @@ input[type="text"], input[type="password"]{
     border: 1px solid #dd4b39 !important;
     background: #bfece5 !important;
 }
-.disabled{
-    pointer-events: none;
-    background: #365c86!important;
-    opacity: .5;
-}
+
 //Modal
 
 //scenes
@@ -1516,6 +1595,15 @@ sendInvitation{
 .opinion_col{
     padding-right: 0;
     padding-left: 0;
+}
+.option{
+    font-family: Avenir;
+    font-size: 14px;
+    font-weight: 900;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 1px;
 }
 
 

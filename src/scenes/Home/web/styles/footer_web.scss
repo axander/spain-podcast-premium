@@ -51,13 +51,21 @@ $template-size-2: 10px;
 	font-size:$template-size-1;
 }
 .footer_web_block h1{
-	color: $template-dark-color-2;
-	font-size:$template-size-1;
+	opacity: 0.5;
+	font-family: Avenir;
+	font-size: 14px;
+	font-weight: 900;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: 2.29;
+	letter-spacing: normal;
+	text-align: left;
+	color: #ffffff;
 }
 
 .footer_web_block_dark h1{
-	color: $template-dark-color-2;
-	font-size:$template-size-1;
+	/*color: $template-dark-color-2;
+	font-size:$template-size-1;*/
 }
 .footer_web_block > div > div > div > a > div{
     cursor:pointer;
@@ -67,7 +75,15 @@ $template-size-2: 10px;
 }
 
 .footer_web_block_dark > div > div > div > a > div{
-	color: $template-dark-color-1;
+	/*color: $template-dark-color-1;*/
+	font-family: Avenir;
+  	font-size: 14px;
+  	font-weight: normal;
+  	font-style: normal;
+  	font-stretch: normal;
+  	line-height: 2.14;
+  	letter-spacing: normal;
+  	color: #ffffff;
 }
 .footer_web_block_light > div > div > div > a > div{
     color: $template-light-color-1;
@@ -114,8 +130,17 @@ $template-size-2: 10px;
     opacity:.5;
 }
 .footer_web_generic_dark > a  > div{
-	font-size:$template-size-1;
-	color: $template-dark-color-1;
+	/*font-size:$template-size-1;
+	color: $template-dark-color-1;*/
+	font-family: Avenir;
+	font-size: 12px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: 2.92;
+	letter-spacing: normal;
+	text-align: left;
+	color: #f3f3f3;
 }
 
 .footer_web_generic_light > a  > div{
@@ -125,9 +150,18 @@ $template-size-2: 10px;
 
 .footer_web_copyright{}
 .footer_web_copyright_dark{
-	padding:10px;
+	/*padding:10px;
 	color: $template-dark-color-2;
-	font-size:$template-size-2;
+	font-size:$template-size-2;*/
+	opacity: 0.5;
+  	font-family: Avenir;
+  	font-size: 12px;
+  	font-weight: normal;
+  	font-style: normal;
+  	font-stretch: normal;
+  	line-height: 1.67;
+  	letter-spacing: 0.4px;
+  	color: #ffffff;
 }
 .footer_web img{
 	height: 25px;

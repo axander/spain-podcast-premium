@@ -25,8 +25,10 @@ class Login_web extends React.Component {
       'statusSubscription':{},
       'lapsedSubscription':{},
       'codesData': {},
+      'userOptions':'hide',
+      'avatar':JSON.parse(localStorage.getItem('client')) ? JSON.parse(localStorage.getItem('client')).personalData.avatar : '',
       'loggedAs': localStorage.getItem('logged') ? '' : 'hide',
-      'notLogged': localStorage.getItem('logged') ? 'hide' : '',
+      'notLogged': localStorage.getItem('logged') ? 'hide' : 'initSession',
       'nickName': JSON.parse(localStorage.getItem('client')) ? JSON.parse(localStorage.getItem('client')).personalData.nickName : null
     }
     this.toogle = this.toogle.bind(this);
@@ -38,6 +40,9 @@ class Login_web extends React.Component {
     this.setUser = this.setUser.bind(this);
     this.resetUser = this.resetUser.bind(this);
     this.requireLogin = this.requireLogin.bind(this);
+    this.showOptions = this.showOptions.bind(this);
+    this.logoutClicked = this.logoutClicked.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
 
   }
   toogle(e){
@@ -59,6 +64,7 @@ class Login_web extends React.Component {
           show: false,
           loggedAs: true,
           notLogged: 'hide',
+          avatar:JSON.parse(localStorage.getItem('client')) ?  JSON.parse(localStorage.getItem('client')).personalData.avatar : '',
           nickName: JSON.parse(localStorage.getItem('client')) ? JSON.parse(localStorage.getItem('client')).personalData.nickName : null
       })
   }
@@ -66,7 +72,8 @@ class Login_web extends React.Component {
     this.setState({
         'logged': false,
         'loggedAs': 'hide',
-        'notLogged': '',
+        'avatar':'',
+        'notLogged': 'initSession',
         'nickName': ''
       });
   }
@@ -190,17 +197,72 @@ class Login_web extends React.Component {
           isOpen: !this.state.isOpen
       });
    }
+   showOptions(){
+      if(this.state.userOptions === 'hide'){
+        document.getElementById('root').addEventListener('click', this.handleClickOutside, true);
+        this.setState({
+          'userOptions': 'userOptions'
+        })
+      }else{
+        document.getElementById('root').removeEventListener('click', this.handleClickOutside, true);
+        this.setState({
+          'userOptions': 'hide'
+        })
+      }
+   }
    register(e){
     this.state.show = false;
     window.location.href='/#/register';
    }
+   logoutClicked(){
+      window.setSpinner();
+      API.action('logout', this.state, this.logout, this.onError);
+   }
 
+  logout = (_response) => {
+    _response.status === 'successfull'
+    ? ( localStorage.removeItem('logged'), localStorage.removeItem('token'),
+      localStorage.removeItem('client'),
+      this.props.showRegister(),
+      typeof localStorage.getItem('extStatus') !== 'undefined' && JSON.parse(localStorage.getItem('extStatus')) && JSON.parse(localStorage.getItem('extStatus')).authResponse && JSON.parse(localStorage.getItem('extStatus')).authResponse.accessToken ? window.logoutFb() : null,
+      this.props.login.signout()
+    )
+    : this.setState({
+        isOpen: true,
+        showedMsg: 'user.logout.error.'+_response.reason
+      });
+  }
+  componentWillUnmount() {
+      document.getElementById('root').removeEventListener('click', this.handleClickOutside, true);
+  }
+  handleClickOutside(event) {
+      const domNode = ReactDOM.findDOMNode(this);
+      if (!domNode || !domNode.contains(event.target)) {
+          this.setState({
+            'userOptions':'hide'
+         });
+      }
+      document.getElementById('root').removeEventListener('click', this.handleClickOutside, true);
+  }
   render() {
     return (
       <div>
         <div onClick={this.toogle} className={this.state.notLogged} >{this.translate('header.initSession').toUpperCase()}</div>
-        <div onClick={this.toogle} className={this.state.loggedAs} >
-          <Link to='/user' className='contrast'><div >{this.translate('logged.as')}{this.state.nickName}</div></Link>
+        <div className={this.state.loggedAs} onClick={this.showOptions} >
+          {/*<Link to='/user' className='contrast'><div >{this.translate('logged.as')}{this.state.nickName}</div></Link>*/}
+          <div className='contrast userNick'>
+            <div className="userOptions_avatar" style={'background-image:url('+this.state.avatar+')'} ></div>
+            <div>{this.state.nickName}</div>
+            <div className="userOptions_avatar_deco" >▼</div>
+          </div>
+          <div className={this.state.userOptions} >
+            <div className="userOptions_deco" > ▲</div>
+            <Link to='/profile' ><div className="userOptions_item" >{this.translate('user.profile')}</div></Link>
+            <Link to='/lists' ><div className="userOptions_item" >{this.translate('user.lists')}</div></Link>
+            <Link to='/suscription' ><div className="userOptions_item" >{this.translate('user.subscription')}</div></Link>
+            <Link to='/bill' ><div className="userOptions_item" >{this.translate('user.bills')}</div></Link>
+            <Link to='/logout' ><div className="userOptions_item" onClick={this.logoutClicked} >{this.translate('user.logout')}</div></Link>
+          </div>
         </div>
         <auth_web className={ 'auth_web auth_web_'+localStorage.getItem('template') + (this.state.show ? ' auth_web_show' : '')} >
             <div className="authInner">

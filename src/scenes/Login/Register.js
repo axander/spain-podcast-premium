@@ -1,55 +1,134 @@
 import React from 'react'
 import TranslatedComponent from '../../utils/TranslatedComponent.js';
 import Utils from '../../utils/Utils.js';
-import { Link } from 'react-router-dom'
+import { Link, Route} from 'react-router-dom'
+import Intro from './Register/Intro.js'
+import Choose from './Register/Choose.js'
+import Data from './Register/Data.js'
+import Payment from './Register/Payment.js'
+import Validate from './Register/Validate.js'
 import { Modal, API } from '../../services/Rest.js'
-
+import './Register.scss'
 
 class Register extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-     'email':'',
-     'emailClass':'',
-     'emailValidation':'',
-     'nick':'',
-     'pwd':'',
-     'passwordNotMatch':'',
-     'pwdClass':'',
-     'pwdRepit':'',
-     'terms':false,
-     'showedMsg': localStorage.getItem('error'),
-     'isOpen': localStorage.getItem('error') ? true : false,
-     'deactive': 'disabled',
-     'success':false
-    };
-    this.handleChange = this.handleChange.bind(this);
+    this.state={
+      'tab':localStorage.getItem('logged') ? 'validate' : 'intro',
+      'intro':true,
+      'choose':false,
+      'data':false,
+      'payment':false,
+      'type':'basic',
+      'showedMsg': localStorage.getItem('error'),
+      'isOpen': localStorage.getItem('error') ? true : false,
+      'success':false
+    }
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.tabSelected= this.tabSelected.bind(this);
+    this.flow = this.flow.bind(this);
+    this.subscription = this.subscription.bind(this);
+    this.dataToSend = {};
   }
-  resetForm = () => {
-    this.setState(this.baseState)
+  tabSelected(_tab){
+    switch (_tab){
+        case 'intro':
+          this.setState({
+            'tab':'intro',
+            'choose':false,
+            'data':false,
+            'payment':false
+          })
+        break;
+        case 'choose':
+          this.setState({
+            'tab':'choose',
+            'data':false,
+            'payment':false
+          })
+        break;
+        case 'data':
+          this.setState({
+            'tab':'data',
+            'payment':false
+          })
+        break;
+        default:
+        break;
+    }
   }
-  componentDidMount() {
+  flow(_data,_tab){
+    Utils.scrollToTop(300);  
+    switch (_tab){
+        case 'intro':
+          this.dataToSend.user = _data.user;
+          this.dataToSend.name = _data.name;
+          this.dataToSend.surname = _data.surname;
+          this.dataToSend.email = _data.email;
+          this.dataToSend.pwd = _data.pwd;
+          this.setState({
+            'choose':true,
+            'tab':'choose'
+          })
+        break;
+        case 'choose':
+          this.dataToSend.type = _data.type;
+          this.setState({
+            'data':true,
+            'tab':'data'
+          })
+        break;
+        case 'data':
+          this.dataToSend.typeDoc = _data.typeDoc;
+          this.dataToSend.doc = _data.doc;
+          this.dataToSend.address = _data.address;
+          this.dataToSend.country = _data.country;
+          this.dataToSend.province = _data.province;
+          this.state.type === 'basic'
+          ? this.handleSubmit()
+          : this.setState({
+              'payment':true,
+              'tab':'payment'
+            });
+        break;
+        case 'payment':
+          this.dataToSend.cardNumber = _data.cardNumber;
+          this.dataToSend.month = _data.month;
+          this.dataToSend.year = _data.year;
+          this.dataToSend.cvv = _data.cvv;
+          this.dataToSend.code = _data.code;
+          this.handleSubmit();
+        break;
+        default:
+        break;
+    }
+  }
+  subscription(_type){
     this.setState({
-      'style':{
-        'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0'
-      }
+      'type':_type
     })
   }
-  componentWillUnmount(){
-    Utils.scrollToTop(300);
-  }
-  componentDidUpdate() {
-    
-    // Will execute as normal
+  login = (_response) => {
+    var subscriptionData = {};
+    _response.status === 'successfull'
+    ? (
+      localStorage.setItem('logged',true),
+      console.log(_response),
+      localStorage.setItem('email',_response.data.personalData.email),
+      localStorage.setItem('client',JSON.stringify(_response.data)),
+      localStorage.setItem('token',_response.token),
+      window.location.reload()
+    )
+    : this.setState({
+          isOpen: true,
+          showedMsg: 'login.error.' + _response.reason
+      });
   }
   onSuccess = (_response) => {
     _response.status === 'successfull'
-    ? this.setState({
-          isOpen: true,
-          showedMsg: 'register.successfull',
-          success: true
-      })
+    ? ( 
+        API.action('login', { 'email':this.dataToSend.email, 'pwd':this.dataToSend.pwd}, this.login, this.onError)
+      )
     : this.setState({
           isOpen: true,
           showedMsg: 'register.' + _response.reason
@@ -62,121 +141,60 @@ class Register extends React.Component {
       });
   }
   toggleModal = () => {
-      this.setState({
-          isOpen: !this.state.isOpen
-      });
-   }
-  handleChange(event) {
-    
-    switch(event.target.id){
-      case 'email':
-          this.setState({[event.target.id]:event.target.value});
-          !Utils.validateEmail(event.target.value)
-          ? this.setState({
-            'emailValidation':this.translate('register.emailNotValid'),
-            'emailClass':'notValid_input'
-          })
-          : this.setState({
-            'emailValidation':'',
-            'emailClass':''
-          })
-      break;
-      case 'pwd':
-          this.setState({[event.target.id]:event.target.value});
-          this.state.pwd !== this.state.pwdRepit
-          ? this.setState({
-            'passwordNotMatch':this.translate('register.passwordNotMatch'),
-            'pwdClass':'notValid_input'
-          })
-          : this.setState({
-            'passwordNotMatch':'',
-            'pwdClass':''
-          })
-      break;
-      case 'pwdRepit':
-          this.setState({[event.target.id]:event.target.value});
-          this.state.pwd !== this.state.pwdRepit
-          ? this.setState({
-            'passwordNotMatch':this.translate('register.passwordNotMatch'),
-            'pwdClass':'notValid_input'
-          })
-          : this.setState({
-            'passwordNotMatch':'',
-            'pwdClass':''
-          })
-      break;
-      case 'nick':
-          this.setState({[event.target.id]:event.target.value});
-      break;
-      case 'terms':
-          this.setState({[event.target.id]:event.target.checked});
-          this.setState({
-            'terms':event.target.checked
-          })
-      break;
-      default:
-          this.setState({[event.target.id]:event.target.value});
-      break
-    }
-    this.state.email !== '' && this.state.pwd !== '' && this.state.pwdRepit !== '' && this.state.nick !== ''
-    && this.state.emailValidation === '' && this.state.passwordNotMatch === '' && this.state.terms
-    ? this.state.deactive = ''
-    : this.state.deactive = 'disabled';
-    
-  }
-  handleSubmit(event) {
+    this.setState({
+        isOpen: !this.state.isOpen
+    });
+ }
+  handleSubmit() {
     window.setSpinner();
     this.setState(() => ({
         showedMsg: ''
       }))
-    event.preventDefault();
-    API.action('createAccount', this.state, this.onSuccess, this.onError);
+    API.action('createAccount', this.dataToSend , this.onSuccess, this.onError);
   }
-
-
-  render() {
-    if(this.state.success){
-        return (
-          <auth style={this.state.style} >
-            <div className="basicOuter" >
-              <div className="basicInner">
-                  <div>{this.translate('register.successfull')}</div>
-                  <Link to='/'><div className="backPB" >{this.translate('back')}</div></Link>
-              </div>
-            </div>
-          </auth> 
-          )
+  componentDidMount(){
+    this.setState({
+      'style':{
+        'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0'
       }
+    });
+    Utils.scrollToTop(300);   
+  }
+  componentWilldMount(){
+    this.state={
+      'tab':'intro',
+      'intro':true,
+      'choose':false,
+      'data':false,
+      'payment':false,
+      'showedMsg': localStorage.getItem('error'),
+      'isOpen': localStorage.getItem('error') ? true : false,
+      'success':false
+    }
+  }
+  
+  render() {
     return (
-      <div className='mainContainer' style={this.state.style} >
-        <register>
-          <div class='register'>
-            <div className="basicOuter" >
-          	  	<div className="basicInner">
-          	    	<h1>{this.translate('create.account')}</h1>
-                  <form onSubmit={this.handleSubmit} autocomplete="on" >
-                    <div><label>{this.translate('email').toUpperCase()}</label></div>
-                    <div><input id="email" type="text"  onChange={this.handleChange} className={ this.state.emailClass} value={this.state.email} /></div>
-                    <div className="notValid_msg" >{this.state.emailValidation}</div>
-                    <div><label>{this.translate('nick').toUpperCase()}</label></div>
-                    <div><input id="nick" type="text"  onChange={this.handleChange} value={this.state.nick} /></div>
-                    <div><label>{this.translate('password').toUpperCase()}</label></div>
-                    <div><input id="pwd" type="password" onChange={this.handleChange} className={ this.state.pwdClass } value={this.state.pwd} /></div>
-                    <div className="notValid_msg" >{this.state.passwordNotMatch}</div>
-                    <div><label>{this.translate('password.repit').toUpperCase()}</label></div>
-                    <div><input id="pwdRepit" type="password" onChange={this.handleChange} className={ this.state.pwdClass } value={this.state.pwdRepit} /></div>
-                    <div><input id="terms" type="checkbox" onChange={this.handleChange}  checked={this.state.terms}  /><Link to='/terms' target="_blank" > {this.translate('user.terms').toUpperCase()}</Link></div>
-                    <div><div className={"submitBtn " + this.state.deactive }  onClick={this.handleSubmit} >{this.translate('continue').toUpperCase()}</div></div>
-                  </form>
-                  <Link to='/'><div className="backPB" >{this.translate('back')}</div></Link>
-          		</div>
-        	  </div>
-            <Modal show={this.state.isOpen} onClose={this.toggleModal} >
-              {this.translate(this.state.showedMsg)}
-            </Modal>
+        <div className='register_container'  style={this.state.style}>
+          <div className={ this.state.tab === 'validate' ? 'hide' : '' } >
+            <div className='register_container_rot' >{this.translate('create.account')}</div>
+            <div className='mt25 register_container_descriptor' >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis rhoncus purus eu lorem egestas finibus.</div>
+          </div>
+          <div className={this.state.tab !== 'validate' ? 'mt25 register_container_buttons' : 'hide'} >
+            <div className={this.state.tab === 'intro' ? 'register_button register_button_selected' : 'register_button'}  onClick={() => this.tabSelected('intro')} >1. {this.translate('register.intro').toUpperCase()}</div>
+            <div className={ !this.state.choose ? 'register_button disabled' : this.state.tab === 'choose' ? 'register_button register_button_selected' : 'register_button'} onClick={() => this.tabSelected('choose')} >2. {this.translate('register.choose').toUpperCase()}</div>
+            <div className={ !this.state.data ? 'register_button disabled' : this.state.tab === 'data' ? 'register_button register_button_selected' : 'register_button'} onClick={() => this.tabSelected('data')} >3. {this.translate('register.data').toUpperCase()}</div>
+            <div className={ this.state.type === 'basic' ? 'hide' : !this.state.payment ? 'register_button disabled' : this.state.tab === 'payment' ? 'register_button register_button_selected' : 'register_button'} onClick={() => this.tabSelected('payment')} >4. {this.translate('register.payment').toUpperCase()}</div>
+          </div>
+          <div className={this.state.tab === 'intro' ? 'register_tab register_tab_selected' : 'register_tab'} ><Intro flow={this.flow} back={this.tabSelected} /></div>
+          <div className={this.state.tab === 'choose' ? 'register_tab register_tab_selected' : 'register_tab'}  ><Choose flow={this.flow} back={this.tabSelected} subscription={this.subscription} /></div>
+          <div className={this.state.tab === 'data' ? 'register_tab register_tab_selected' : 'register_tab'} ><Data flow={this.flow} back={this.tabSelected} type={this.state.type} /></div>
+          <div className={ this.state.tab === 'payment' ? 'register_tab register_tab_selected' : 'register_tab'} ><Payment flow={this.flow} back={this.tabSelected} /></div>
+          <div className={this.state.tab === 'validate' ? 'register_tab register_tab_selected' : 'register_tab'} ><Validate /></div>
+          <Modal show={this.state.isOpen} onClose={this.toggleModal} >
+            {this.translate(this.state.showedMsg)}
+          </Modal>
         </div>
-      </register>
-    </div>  
     );
   }
 }

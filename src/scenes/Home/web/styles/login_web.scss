@@ -32,6 +32,59 @@ auth_web{
     -moz-transition: all .5s ease;
     transition: all .5s ease;
 }
+.userOptions{
+    position: absolute;
+    right: 0;
+    padding: 10px;
+    background: #191919;
+    width: 200px;
+    height: auto;
+    margin: 10px;
+    margin-top: 25px;
+    .userOptions_item{
+        text-align: left;
+        padding: 10px;
+        cursor:pointer;
+        font-family: Avenir;
+        font-size: 14px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #ffffff;
+    }
+    .userOptions_deco{
+        position: absolute;
+        top: -21px;
+        right: 10px;
+        color: #191919;
+        font-size: 30px;
+    }
+    .userOptions_item:hover{
+        opacity:.5;
+    }
+}
+.userNick{
+    >div{
+        display:inline-block;
+    }
+    .userOptions_avatar{
+        width: 35px;
+        height: 35px;
+        background: #fff;
+        border-radius: 18px;
+        position: absolute;
+        top: 9px;
+        right: 130px;
+        background-size: cover;
+    }
+    .userOptions_avatar_deco{
+        font-size:10px;
+        margin-left:20px;
+    }
+}
+
 .auth_web_show{
 	top:0;
 }
@@ -41,7 +94,19 @@ auth_web{
 .auth_web_light{
     background: $template-light-bg;
 }
-
+.initSession{
+    cursor:pointer;
+    font-family: Avenir;
+    font-size: 14px;
+    font-weight: 900;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 1px;
+}
+.initSession:hover {
+    opacity:.5;
+}
 auth_web .authInner {
     display: inline-block;
     width: 60%;

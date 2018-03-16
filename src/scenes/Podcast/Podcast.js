@@ -6,15 +6,14 @@ import UsuarioApi from '../../services/api2.js'
 import Iteminfo from '../../components/Iteminfo/Iteminfo.js'
 import Opinion from '../../blocks/Opinion/Opinion.js'
 import Pages from '../../components/Pages/Pages.js'
-import StaticPlayer from '../../components/StaticPlayer/StaticPlayer.js'
 import SingleLayout from '../../components/SingleLayout/SingleLayout.js'
 import later from '../../assets/images/later.png'
 import fav from '../../assets/images/fav.png'
 import share from '../../assets/images/share.png'
-import comments from '../../assets/images/comments.png'
-import date from '../../assets/images/date.png'
-import played from '../../assets/images/played.png'
-import like from '../../assets/images/like.png'
+import Comment from '../../components/Stats/Comment.js'
+import Date from '../../components/Stats/Date.js'
+import Played from '../../components/Stats/Played.js'
+import Like from '../../components/Stats/Like.js'
 import { Link, Route } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js'
 import Utils from '../../utils/Utils.js'
@@ -151,6 +150,7 @@ class Podcast extends React.Component {
     API.action('getListPod'+this.state.program, { 'program' : this.state.program, 'phase': parseFloat(localStorage.getItem('phase_podcast_'+localStorage.getItem('lastProgram'))) || 0 }, this.onSuccess, this.onError, 'GET');
   }
   initPlayer(p){
+    localStorage.setItem('lastItemDatastatic',JSON.stringify(p));
     Utils.scrollToTop(300);
     //window.location.href = window.location.href+'/'+p.id+'/'+p.name[localStorage.getItem('language')];
     this.props.initplayer.data = p;
@@ -183,7 +183,7 @@ class Podcast extends React.Component {
   render() {
     let PagesList;
     if(this.state.total>0){
-      PagesList = <Pages total={this.state.total} perPhase={this.state.perPhase}  setPhase= {this.setPhase} list="podcast" />
+      PagesList = <Pages total={this.state.total} perPhase={this.state.perPhase}  setPhase= {this.setPhase} auth={this.props.auth} list="podcast" />
     }
     return (
       <div className={ Utils.checkScene('/podcast') ? 'podcast' : 'podcast resetPaddingBottom' } style={this.state.style} >
@@ -191,8 +191,8 @@ class Podcast extends React.Component {
           <h1>{this.translate('menu.podcast').toUpperCase() + ' ' + this.translate('program') + ' ' + ( localStorage.getItem('lastProgramName') ? JSON.parse(localStorage.getItem('lastProgramName'))[localStorage.getItem('language')] : '' ) }</h1>
         </div>
         <div className='row' >
-          <div className="col-xs-12" >
-            <Iteminfo />
+          <div>
+            <Iteminfo data={this.props.location.data} destiny={this.props.location.destiny} auth={this.props.auth} origen="program" initSchemma={this.props.initSchemma} />
           </div>
         </div>
         <div className={ Utils.checkScene('/podcast') ? '' : 'resetPaddingTop' }>
@@ -220,14 +220,10 @@ class Podcast extends React.Component {
                               <div><div><img id='share' src={share} alt="share" onClick={ (event, _podcast) => this.clickHandlerPodcastShare(event, p) } /></div></div>
                             </div>*/}
                             <div className="item_info" >
-                              <div><div><img id='like' src={like} alt="like" /></div></div>
-                              <div><div>{p.info.likes}</div></div>
-                              <div><div><img id='comments' src={comments} alt="comments" /></div></div>
-                              <div><div>{p.info.comments}</div></div>
-                              <div><div><img id='date' src={date} alt="date" /></div></div>
-                              <div><div>{p.info.date}</div></div>
-                              <div><div><img id='played' src={played} alt="played" /></div></div>
-                              <div><div>{p.info.played}</div></div>
+                              <Like num={p.info.likes} />
+                              <Comment num={p.info.comments} />
+                              <Date num={p.info.date} />
+                              <Played num={p.info.played} />
                             </div>
                             <div class="item_actions">
                                 <div class="item_actions_podcast" id={p.id} name={p.name[localStorage.getItem('language')]} onClick={() => this.initPlayer(p)} >
@@ -270,7 +266,7 @@ class Podcast extends React.Component {
             </div>
             <div class="row" >
               <div className="col-xs-12 opinion_col" >
-                <Opinion origen={this.props.match.params.program} />
+                <Opinion origen={this.props.match.params.program} auth={this.props.auth} />
               </div>
             </div>
           </div>

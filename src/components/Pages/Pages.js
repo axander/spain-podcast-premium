@@ -43,6 +43,7 @@ class Pages extends React.Component {
     return phase
   }
   setPhase(_phase){
+    this.props.auth.hide();
     this.phases[this.state.phaseBefore] = false;
     this.phases[_phase] = true;
     switch(this.props.list){

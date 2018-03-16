@@ -1,10 +1,12 @@
 .search{
 	float:right;
-	margin-right:70px;
+	margin-right: 10px;
 	.pb{
 		cursor:pointer;
 		padding-top: 4px;
     	padding-left: 10px;
+    	margin-right: 20px;
+    	margin-top: 3px;
     	float:left;
 		:hover{
 			opacity:.5;
@@ -15,11 +17,11 @@
 	}
 	.container{
 		position:absolute;
-		top:-40px;
+		top:-75px;
 		left:0;
 		padding:0;
 		width:100%;
-		height:40px;
+		height:75px;
 		background:#fff;
 		color: #444;
 		-webkit-transition: all .5s ease;
@@ -28,8 +30,8 @@
 
 	    div{
 			/*display:inline-block;*/
-			line-height:40px;
-			height:40px;
+			line-height:75px;
+			height:75px;
 		}
 	}.show{
 	    	top:0;
@@ -73,5 +75,12 @@
 			:hover{
 				opacity:.5 !important;
 			}
+	}
+}
+@media screen and (max-width: 764px){
+	.search{
+		.pb{
+	    	/*margin-right: 0 !important;*/
+	    }
 	}
 }

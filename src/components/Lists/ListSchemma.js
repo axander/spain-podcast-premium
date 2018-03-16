@@ -578,21 +578,28 @@ class ListSchemma extends React.Component {
       });
   }
   goTo(_data){
-    console.log(_data);
-    
     switch(this.state.what){
       case 'channel':
         this.hideSchemma();
+        localStorage.setItem('lastItemDataprogram',JSON.stringify(_data));
         localStorage.setItem('lastChannelName',JSON.stringify(_data.name));
+        history.pushState(null, './#/program/'+_data.id+'/'+_data.name[localStorage.getItem('language')]);
         window.location.href = './#/program/'+_data.id+'/'+_data.name[localStorage.getItem('language')];
+        window.location.reload();
       break;
       case 'program':
         this.hideSchemma();
+        localStorage.setItem('lastItemDatapodcast',JSON.stringify(_data));
         localStorage.setItem('lastProgramName',JSON.stringify(_data.name));
         window.location.href = './#/podcast/'+_data.id+'/'+_data.name[localStorage.getItem('language')];
+        window.location.reload();
       break;
       case 'podcast':
+        this.hideSchemma();
+        localStorage.setItem('lastItemDatastatic',JSON.stringify(_data));
         this.props.initplayer.play(_data.source, _data.id, _data.name, _data);
+        window.location.href = './#/static/'+_data.id+'/'+_data.name[localStorage.getItem('language')];
+        window.location.reload();
       break;
       default:
       break;

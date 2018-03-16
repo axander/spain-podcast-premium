@@ -5,6 +5,7 @@ import TranslatedComponent from '../../../utils/TranslatedComponent.js'
 import FBPB from '../../../components/FBPB.js'
 import { Modal, API } from '../../../services/Rest.js'
 import './styles/login_web.scss'
+import user from '../../../assets/images/user.png'
 import Utils from '../../../utils/Utils.js'
 
 
@@ -40,9 +41,13 @@ class Login_web extends React.Component {
     this.setUser = this.setUser.bind(this);
     this.resetUser = this.resetUser.bind(this);
     this.requireLogin = this.requireLogin.bind(this);
+    this.refreshNick = this.refreshNick.bind(this);
     this.showOptions = this.showOptions.bind(this);
     this.logoutClicked = this.logoutClicked.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
+    this.hide = this.hide.bind(this);
+    this.showMenuResponsive= this.showMenuResponsive.bind(this);
+    this.hideMenuResponsive= this.hideMenuResponsive.bind(this);
 
   }
   toogle(e){
@@ -83,10 +88,22 @@ class Login_web extends React.Component {
     });
     this.props.login.afterRequired = _exec
   }
+  hide(){
+    this.setState({
+      'show': false
+    });
+  }
+  refreshNick(){
+    this.setState({
+      'nickName': JSON.parse(localStorage.getItem('client')).personalData.nickName
+    });
+  }
   componentDidMount() {
+    this.props.login.hide = this.hide;
     this.props.login.required = this.requireLogin;
     this.props.login.setUser = this.setUser;
-    this.props.login.resetUser = this.resetUser
+    this.props.login.resetUser = this.resetUser;
+    this.props.login.refreshNick = this.refreshNick;
   }
   componentDidUpdate(){
     localStorage.getItem('error')
@@ -244,24 +261,43 @@ class Login_web extends React.Component {
       }
       document.getElementById('root').removeEventListener('click', this.handleClickOutside, true);
   }
+  hideMenuResponsive(){
+    this.setState({
+      'userOptionsResponsive':''
+    })
+  }
+  showMenuResponsive(){
+    this.setState({
+      'userOptionsResponsive':'userOptions_responsive_show'
+    })
+  }
   render() {
     return (
       <div>
-        <div onClick={this.toogle} className={this.state.notLogged} >{this.translate('header.initSession').toUpperCase()}</div>
+        <div onClick={this.toogle} className={this.state.notLogged} >
+          <div className="initSession_rot" >{this.translate('header.initSession').toUpperCase()}</div>
+          <div className="initSession_ico" ><img src={user} alt="user" /></div>
+        </div>
         <div className={this.state.loggedAs} onClick={this.showOptions} >
           {/*<Link to='/user' className='contrast'><div >{this.translate('logged.as')}{this.state.nickName}</div></Link>*/}
-          <div className='contrast userNick'>
-            <div className="userOptions_avatar" style={'background-image:url('+this.state.avatar+')'} ></div>
-            <div>{this.state.nickName}</div>
-            <div className="userOptions_avatar_deco" >▼</div>
-          </div>
-          <div className={this.state.userOptions} >
-            <div className="userOptions_deco" > ▲</div>
-            <Link to='/profile' ><div className="userOptions_item" >{this.translate('user.profile')}</div></Link>
-            <Link to='/lists' ><div className="userOptions_item" >{this.translate('user.lists')}</div></Link>
-            <Link to='/suscription' ><div className="userOptions_item" >{this.translate('user.subscription')}</div></Link>
-            <Link to='/bill' ><div className="userOptions_item" >{this.translate('user.bills')}</div></Link>
-            <Link to='/logout' ><div className="userOptions_item" onClick={this.logoutClicked} >{this.translate('user.logout')}</div></Link>
+          <div className='contrast userNick' onClick={this.showMenu}>
+            <div className="userOptions_avatar" style={'background-image:url('+this.state.avatar+')'} >
+              <div className="userOptions_avatar_responsive" onClick={this.showMenuResponsive} ></div>
+            </div>
+            <div className="userOptions_avatar_nickname" >{this.state.nickName}</div>
+            <div className="userOptions_avatar_deco" >
+              ▼
+              <div className="userOptions_container" >
+              <div className={this.state.userOptions} >
+                <div className="userOptions_deco" > ▲</div>
+                  <Link to='/profile' ><div className="userOptions_item" >{this.translate('user.profile')}</div></Link>
+                  <Link to='/lists' ><div className="userOptions_item" >{this.translate('user.lists')}</div></Link>
+                  <Link to='/subscription' ><div className="userOptions_item" >{this.translate('user.subscription')}</div></Link>
+                  <Link to='/bills' ><div className="userOptions_item" >{this.translate('user.bills')}</div></Link>
+                  <Link to='/logout' ><div className="userOptions_item" onClick={this.logoutClicked} >{this.translate('user.logout')}</div></Link>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <auth_web className={ 'auth_web auth_web_'+localStorage.getItem('template') + (this.state.show ? ' auth_web_show' : '')} >
@@ -274,16 +310,16 @@ class Login_web extends React.Component {
                 <div className="notValid_msg" >{this.state.emailValidation}</div>
                 <div><input id="pwd" type="password" onChange={this.handleChange} className={ 'input_web_'+localStorage.getItem('template')} value={this.state.pwd} placeholder={this.translate('password')} /></div>
                 <div class='row'>
-                  <div class='col-xs-6' ><Link to='/recover' onClick={this.toogle} className='forgotPwdBtn'><div>{this.translate('register.recoverPwd')}</div></Link></div>
-                  <div class='col-xs-6' ><div className={"initBtn " + this.state.deactive } onClick={e => this.handleSubmit(e, this.login, this.onError)} >{this.translate('header.initSession').toUpperCase()}</div></div>
+                  <div class='col-xs-12 col-md-6' ><Link to='/recover' onClick={this.toogle} className='forgotPwdBtn'><div>{this.translate('register.recoverPwd')}</div></Link></div>
+                  <div class='col-xs-12 col-md-6' ><div className={"initBtn " + this.state.deactive } onClick={e => this.handleSubmit(e, this.login, this.onError)} >{this.translate('header.initSession').toUpperCase()}</div></div>
                 </div>
               </form>
               <div class='row'>
-                  <div class='col-xs-6' ><div className='remember'>Recuérdame</div></div>
+                  <div class='col-xs-12 col-md-6' ><div className='remember'>Recuérdame</div></div>
               </div>
               <div class='row registerRow'>
-                  <div class='col-xs-6' ><div className={ 'noAccountRot noAccountRot_web_'+localStorage.getItem('template')}  >¿No tienes cuenta?</div></div>
-                  <div class='col-xs-6' ><div onClick={this.register} className='registerBtn' >Registrate ahora</div></div>
+                  <div class='col-xs-12 col-md-6' ><div className={ 'noAccountRot noAccountRot_web_'+localStorage.getItem('template')}  >¿No tienes cuenta?</div></div>
+                  <div class='col-xs-12 col-md-6' ><div onClick={this.register} className='registerBtn' >Registrate ahora</div></div>
               </div>
               <div className="closePB" onClick={this.toogle}>X</div>
             </div>
@@ -292,7 +328,17 @@ class Login_web extends React.Component {
                 {this.translate(this.state.showedMsg)}
               </Modal>
           </div>
-        </auth_web>  
+        </auth_web>
+        <div className={"userOptions_responsive " + this.state.userOptionsResponsive} onClick={this.hideMenuResponsive}>
+          <div className="userOptions_item_responsive" >
+              X
+          </div>
+          <div><Link to='/profile' ><div className="userOptions_item_responsive" >{this.translate('user.profile')}</div></Link></div>
+          <div><Link to='/lists' ><div className="userOptions_item_responsive" >{this.translate('user.lists')}</div></Link></div>
+          <div><Link to='/subscription' ><div className="userOptions_item_responsive" >{this.translate('user.subscription')}</div></Link></div>
+          <div><Link to='/bills' ><div className="userOptions_item_responsive" >{this.translate('user.bills')}</div></Link></div>
+          <div><Link to='/logout' ><div className="userOptions_item_responsive" onClick={this.logoutClicked} >{this.translate('user.logout')}</div></Link></div>
+        </div> 
       </div>
     );
   }

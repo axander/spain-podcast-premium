@@ -17,16 +17,76 @@ class Breadcrumb extends React.Component {
   componentDidMount(){
   }
   render() {
-    console.log('breadcrumb');
-    console.log(this.props);
     var lan = localStorage.getItem('language');
     var sequence = this.props.location.pathname.split('/');
     sequence.shift();
     switch(sequence[0]){
+      case 'info':
+        this.state.acumulate=[];
+        this.state.acumulate[0] ={
+          'text':this.translate('info'),
+          'path':this.props.location.pathname
+        }
+        this.state.acumulate[1] ={
+          'text':sequence[1],
+          'path':this.props.location.pathname
+        }
+      break;
       case 'register':
         this.state.acumulate=[];
         this.state.acumulate[0] ={
           'text':this.translate('register'),
+          'path':this.props.location.pathname
+        }
+      break;
+      case 'profile':
+        this.state.acumulate=[];
+        this.state.acumulate[0] ={
+          'text':this.translate('profile'),
+          'path':this.props.location.pathname
+        }
+      break;
+      case 'deleteAccount':
+        this.state.acumulate=[];
+        this.state.acumulate[0] ={
+          'text':this.translate('profile'),
+          'path':'/profile'
+        }
+        this.state.acumulate[1] ={
+          'text':this.translate('user.deleteAccount'),
+          'path':this.props.location.pathname
+        }
+      break;
+      case 'lists':
+        this.state.acumulate=[];
+        this.state.acumulate[0] ={
+          'text':this.translate('profile'),
+          'path':'/profile'
+        }
+        this.state.acumulate[1] ={
+          'text':this.translate('lists'),
+          'path':this.props.location.pathname
+        }
+      break;
+      case 'subscription':
+        this.state.acumulate=[];
+        this.state.acumulate[0] ={
+          'text':this.translate('profile'),
+          'path':'/profile'
+        }
+        this.state.acumulate[1] ={
+          'text':this.translate('subscription'),
+          'path':this.props.location.pathname
+        }
+      break;
+      case 'bills':
+        this.state.acumulate=[];
+        this.state.acumulate[0] ={
+          'text':this.translate('profile'),
+          'path':'/profile'
+        }
+        this.state.acumulate[1] ={
+          'text':this.translate('bills'),
           'path':this.props.location.pathname
         }
       break;
@@ -139,7 +199,7 @@ class Breadcrumb extends React.Component {
     return (
       <div className='breadcrumb' >
           <div>{Ad}</div>
-          <div>
+          <div className="breadcrumb_container">
             <Link to={'/'} ><div className='breadcrumb_item' >{this.translate('INIT')}<span className='breadcrumb_item_deco' >❯</span></div></Link>
             {this.state.acumulate.map(( p , index) => {
               return (

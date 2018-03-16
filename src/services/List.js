@@ -292,6 +292,14 @@ const List = {
 	"getOpinion":{
 		"service":"blocks/getOpinion",
 		"method":"POST"
+	},
+	"getBills":{
+		"service":"user/getBills",
+		"method":"POST"
+	},
+	"getSubscriptionList":{
+		"service":"user/getSubscriptionList",
+		"method":"POST"
 	}
 }
 export default List

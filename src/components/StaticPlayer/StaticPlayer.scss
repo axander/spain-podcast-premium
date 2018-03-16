@@ -1,8 +1,27 @@
 .staticplayer{
+	.item_info{
+		div{
+			display: inline-block;
+		    padding: 2px;
+		    padding-bottom: 6px;
+			div{
+				img{
+					width:20px;
+				}
+			}
+			;:hover{
+				opacity:.5;
+			}
+		}
+	}
+	.app{
+		height: 70px;
+	    overflow: hidden;
+	}
 	font-size:12px;
 	text-align:center;
-	padding-top:100px;
 	padding-bottom:100px;
+	padding-top:0;
 	.row{
 		margin:0;
 		padding:0;
@@ -24,6 +43,9 @@
 	}
 	staticPlayer section{
 	    padding:10px;
+	}
+	staticPlayer .react-player{
+		display:none;
 	}
 	staticPlayer section:first-child{
 	    padding:0px;

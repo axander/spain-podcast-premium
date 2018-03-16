@@ -23,7 +23,7 @@ auth_web{
     cursor:initial;
 	position:absolute;
 	z-index:1;
-	top:-680px;
+	top:-700px;
 	left: 0;
     width: 100%;
     padding-top: 50px;
@@ -32,38 +32,127 @@ auth_web{
     -moz-transition: all .5s ease;
     transition: all .5s ease;
 }
-.userOptions{
+.userOptions_container{
     position: absolute;
-    right: 0;
-    padding: 10px;
-    background: #191919;
-    width: 200px;
+    width: auto;
     height: auto;
-    margin: 10px;
-    margin-top: 25px;
-    .userOptions_item{
-        text-align: left;
+    margin-top: 15px;
+    margin-left: -200px;
+    .userOptions{
         padding: 10px;
-        cursor:pointer;
-        font-family: Avenir;
-        font-size: 14px;
-        font-weight: normal;
-        font-style: normal;
-        font-stretch: normal;
-        line-height: normal;
-        letter-spacing: normal;
-        color: #ffffff;
+        background: #191919;
+        width: 200px;
+        height: auto;
+        margin: 10px;
+        margin-top: 5px;
+        .userOptions_item{
+            text-align: left;
+            padding: 10px;
+            cursor:pointer;
+            /*font-family: Avenir;*/
+            font-size: 14px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #ffffff;
+        }
+        .userOptions_deco{
+            position: absolute;
+            top: -21px;
+            right: 10px;
+            color: #191919;
+            font-size: 30px;
+        }
+        .userOptions_item:hover{
+            opacity:.5;
+        }
     }
-    .userOptions_deco{
-        position: absolute;
-        top: -21px;
-        right: 10px;
-        color: #191919;
-        font-size: 30px;
+}
+@media screen and (max-width: 764px){
+   .userNick{
+        .userOptions_avatar_nickname, .userOptions_avatar_deco{
+            display:none;
+        }
     }
-    .userOptions_item:hover{
-        opacity:.5;
+    .initSession{
+        .initSession_rot{
+            display:none !important;
+        }
+        .initSession_ico{
+            display:inline-block !important;
+            position: relative;
+            top: -12px;
+            left: -14px;
+        }
     }
+    auth_web{
+        overflow-y: scroll;
+        max-height: 100vh;
+        -ms-overflow-style: none;  // IE 10+
+        overflow: -moz-scrollbars-none;  // Firefox
+    }
+    auth_web::-webkit-scrollbar{
+        display:none;
+    }
+    auth_web .authInner {
+        width: 100% !important;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .userOptions_responsive{
+        display: inline-block!important;
+        position: fixed;
+        width: 100%;
+        top:0;
+        right: -100%;
+        background: #000;
+        color: #fff !important;
+        -webkit-transition: right .5s ease;
+        -moz-transition: right .5s ease;
+        transition: right .5s ease;
+        overflow-y: scroll;
+        height: 100vh;
+        -ms-overflow-style: none;  // IE 10+
+        overflow: -moz-scrollbars-none;  // Firefox
+        .userOptions_item_responsive{
+            cursor: pointer;
+            color: #fff!important;
+            border-bottom: 1px solid #414141;
+            font-size: 14px;
+            font-weight: 900;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: 1px;
+            margin-left: 10px;
+            margin-right: 10px;
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+        .userOptions_item_responsive:hover{
+            opacity:.5;
+        }
+    }
+    .userOptions_responsive_show{
+        right: 0;
+    }
+    .userOptions_responsive::-webkit-scrollbar{
+        display:none;
+    }
+    .userNick{
+        .userOptions_avatar_responsive{
+            display: block !important;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border-radius: 50%;
+        }
+    }
+}
+.userOptions_responsive{
+    display:none;
 }
 .userNick{
     >div{
@@ -74,14 +163,20 @@ auth_web{
         height: 35px;
         background: #fff;
         border-radius: 18px;
-        position: absolute;
-        top: 9px;
-        right: 130px;
+        position: relative;
+        top: -10px;
+        left: 0;
         background-size: cover;
+        float: left;
+        margin-right: 10px;
+        .userOptions_avatar_responsive{
+            display:none;
+        }
     }
     .userOptions_avatar_deco{
         font-size:10px;
         margin-left:20px;
+        margin-right: 10px;
     }
 }
 
@@ -96,13 +191,20 @@ auth_web{
 }
 .initSession{
     cursor:pointer;
-    font-family: Avenir;
+    /*font-family: Avenir;*/
     font-size: 14px;
     font-weight: 900;
     font-style: normal;
     font-stretch: normal;
     line-height: normal;
     letter-spacing: 1px;
+    text-align:right;
+    .initSession_rot{
+        display:inline-block;
+    }
+    .initSession_ico{
+        display:none;
+    }
 }
 .initSession:hover {
     opacity:.5;

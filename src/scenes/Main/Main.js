@@ -27,10 +27,12 @@ import Footer_web from '../Home/web/Footer_web.js'
 import Program from '../Program/Program.js'
 import Channel from '../Channel/Channel.js'
 import Podcast from '../Podcast/Podcast.js'
+
 import StaticPlayer from '../../components/StaticPlayer/StaticPlayer.js'
 import Terms from '../Terms/Terms.js'
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb.js'
 import MainContainer from './MainContainer.js'
+import NeedLogin from './NeedLogin.js'
 import TranslatedComponent from '../../utils/TranslatedComponent.js'
 import Utils from '../../utils/Utils.js'
 import AddPropsToRoute from '../../components/AddPropsToRoute.js'
@@ -59,6 +61,9 @@ const fakeAuth = {
   resetUser(){
     //it will be configured from Login_web
   },
+  hide(){
+
+  },
   required(){
 
   },
@@ -67,6 +72,9 @@ const fakeAuth = {
   },
   afterRequiredApp(){
 
+  },
+  refreshNick(){
+    
   }
 }
 
@@ -82,17 +90,16 @@ const listSchemma = {
   },
   setSchemma:[]
 }
-const PrivateRoute = ({ component: Component, ...rest }) => (
+const PrivateRoute = ({ component: Component, needLogin : NeedLogin,  ...rest }) => (
   <Route {...rest} render={(props) =>(
-    //props.isAuthenticated = fakeAuth.isAuthenticated,
     fakeAuth.afterRequiredApp = null,
     localStorage.setItem('lastState',props.location.pathname),
     ( fakeAuth.isAuthenticated === true || Logged.getLogged(props) ) && !localStorage.getItem('error') 
-          ? <Component {...props} initplayer={player} />
-          : <Redirect to={{
-            pathname: '/login',
-            state:{ from: props.location }
-          }}/>
+          ? <Component {...props} initplayer={player} auth={fakeAuth} />
+          :( 
+            fakeAuth.required(),
+            <NeedLogin {...props} initplayer={player} auth={fakeAuth} />
+          )
     )}/>
 )
 
@@ -348,11 +355,11 @@ class Main extends React.Component {
   }
   render() {
     if( !localStorage.getItem('app') ){
-
+      fakeAuth.hide();
       return (
         <div className='mainContainer' >
           <div className="main"> 
-            <Route path="/(register|terms|info|channel|program|podcast|static|SPP_DEV)/" render={(props) => (
+            <Route path="/(register|terms|info|channel|program|podcast|static|profile|lists|subscription|bills|deleteAccount|SPP_DEV)/" render={(props) => (
                 <Breadcrumb {...props} auth={fakeAuth} />
               )}/>
             <Switch>
@@ -392,7 +399,8 @@ class Main extends React.Component {
                 <Program {...props} initSchemma={listSchemma}  auth={fakeAuth} />
               )}/>
               <Route exact path='/SPP_DEV' component={Home}/>
-              <PrivateRoute exact path='/*' component={MainContainer} />
+              <PrivateRoute exact path='/*' component={MainContainer} needLogin={NeedLogin} />
+
             </Switch>
             
             <Settings logout={fakeAuth} />
@@ -405,6 +413,7 @@ class Main extends React.Component {
         </div>
       );
     }else {
+      fakeAuth.hide();
       return (
         <div>
           <Switch>
@@ -439,7 +448,8 @@ class Main extends React.Component {
               <StaticPlayer {...props} initSchemma={listSchemma}  initplayer={player} auth={fakeAuth} />
             )}/>
             <Route exact path='/SPP_DEV' component={Home}/>
-            <PrivateRoute exact path='/*' component={MainContainer} />
+            <PrivateRoute exact path='/*' component={MainContainer} needLogin={NeedLogin} />
+
           </Switch>
           <Menu />
           <IconMenu initplayer={player} />

@@ -53,6 +53,12 @@ const Utils = {
        
      }, false)
     },
+    offset :function (el) {
+        var rect = el.getBoundingClientRect(),
+        scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+        scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        return { top: rect.top + scrollTop, left: rect.left + scrollLeft }
+    },
     scrollToTop: function(scrollDuration, _end) {
         var scrollHeight = window.scrollY || window.pageYOffset || document.documentElement.scrollTop,
             scrollStep = Math.PI / (scrollDuration / 15),
@@ -117,6 +123,63 @@ const Utils = {
         var x = (y % 100 === 0) ? (y % 400 === 0) : (y % 4 === 0);
         return x
     },
+    //+++++++++++++++++++++++++++
+    //+++++++++scroll blocks
+    //+++++++++++++++++++++++++++
+    //+++++++++++++++++++++++++++
+    scrollTo:function(_duration, _pos){
+      var blockCount = 0;
+      var position, time, start, finish, duration, increment, distance, handler, fps;
+      var dir = 1;
+      var easeInOutQuad = function(x, t, b, c, d) {
+        var calc;
+        ((t /= d / 2) < 1) ? calc = c / 2 * t * t + b : calc = -c / 2 * ((--t) * (t - 2) - 1) + b;
+        return calc
+      };
+      var endScroll = function(handler){
+        clearInterval(handler);
+        window.scrollTo(0, position);
+      };
+      var getLimitScrollY = function(){
+        return window.scrollY //Modern Way (Chrome, Firefox)
+        || window.pageYOffset //(Modern IE, including IE11
+        || document.documentElement.scrollTop ;//(Old IE, 6,7,8), // pixel
+      };
+      var getLimit = function(){
+        return Math.max( 
+          document.body.scrollHeight,
+          document.body.offsetHeight,
+          document.documentElement.clientHeight,
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight 
+        )
+      };
+      var lastScrollY;
+      var prevBlock = function(_duration,_pos){
+        dir === -1 ? blockCount-=1 : dir = -1;
+        clearInterval(handler);
+        start = getLimitScrollY();
+        finish = _pos,
+        distance = start -finish ,
+        position = start;
+        fps = 60,
+        duration = .5, // seconds
+        time = 0;
+        increment = -distance / (duration * fps),
+        handler = setInterval(moveUp, 1000 / fps);
+      };
+
+      var moveUp = function() {
+        position += increment;
+        time += 1 / fps;
+        position -= 1/easeInOutQuad(time * 100 / duration, time, finish, start, duration);
+        position <=  finish ? endScroll(handler) : null;
+        window.scrollTo(0, position);
+      };
+            prevBlock(_duration,_pos);
+
+    },
+
     checkSubscription: function(_data) {
         var typeSubscription = '';
         var subscription = {

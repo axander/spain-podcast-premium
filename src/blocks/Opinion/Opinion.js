@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, Route } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js';
+import Utils from '../../utils/Utils.js';
 import {API} from '../../services/Rest.js'
 import LocalSpinner from '../Common/LocalSpinner/LocalSpinner.js'
 import LocalError from '../Common/LocalError/LocalError.js'
@@ -22,6 +23,7 @@ class Opinion extends React.Component {
   onSuccess = (_response) => {
     _response.status === 'successfull'
     ? (
+        Utils.scrollTo(200,Utils.offset(document.querySelector('.opinion')).top-document.querySelector('.breadcrumb').offsetHeight),
         this.setState({
           'init':false,
           'loading':false,
@@ -60,7 +62,7 @@ class Opinion extends React.Component {
   render() {
     let PagesList, OpinionList ;
     if(this.state.total>0){
-      PagesList = <Pages total={this.state.total} perPhase={this.state.perPhase}  setPhase= {this.setPhase} list="opinion" origen={this.props.origen} />
+      PagesList = <Pages total={this.state.total} perPhase={this.state.perPhase}  setPhase= {this.setPhase} auth={this.props.auth} list="opinion" origen={this.props.origen} />
     }
     if(typeof this.state.data.collection !== 'undefined'){
       OpinionList = this.state.data.collection;

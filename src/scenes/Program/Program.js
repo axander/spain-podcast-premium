@@ -9,10 +9,10 @@ import Pages from '../../components/Pages/Pages.js'
 import later from '../../assets/images/later.png'
 import fav from '../../assets/images/fav.png'
 import share from '../../assets/images/share.png'
-import comments from '../../assets/images/comments.png'
-import date from '../../assets/images/date.png'
-import played from '../../assets/images/played.png'
-import like from '../../assets/images/like.png'
+import Comment from '../../components/Stats/Comment.js'
+import Date from '../../components/Stats/Date.js'
+import Played from '../../components/Stats/Played.js'
+import Like from '../../components/Stats/Like.js'
 import { Link, Route } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js'
 import Utils from '../../utils/Utils.js'
@@ -183,7 +183,7 @@ class Program extends React.Component {
   render() {
     let PagesList;
     if(this.state.total>0){
-      PagesList = <Pages total={this.state.total} perPhase={this.state.perPhase} setPhase= {this.setPhase} list="program" />
+      PagesList = <Pages total={this.state.total} perPhase={this.state.perPhase} setPhase= {this.setPhase} auth={this.props.auth} list="program" />
     }
     return (
       <div className={ Utils.checkScene('/program') ? 'program' : 'program resetPaddingBottom' } style={this.state.style} >
@@ -191,8 +191,8 @@ class Program extends React.Component {
           <h1>{this.translate('menu.program').toUpperCase() + ' ' + this.translate('channel') + ' ' + ( localStorage.getItem('lastChannelName') ? JSON.parse(localStorage.getItem('lastChannelName'))[localStorage.getItem('language')] : '' ) }</h1>
         </div>
         <div class="row" >
-          <div className="col-xs-12" >
-            <Iteminfo />
+          <div>
+            <Iteminfo data={this.props.location.data} destiny={this.props.location.destiny} auth={this.props.auth} origen="channel" initSchemma={this.props.initSchemma} />
           </div>
         </div>
         <div className={ Utils.checkScene('/program') ? '' : 'resetPaddingTop' }>
@@ -219,17 +219,20 @@ class Program extends React.Component {
                                 <div><div><img id='share' src={share} alt="share" onClick={ (event, _program) => this.clickHandlerProgramShare(event, p) }  /></div></div>
                               </div>*/}
                               <div className="item_info" >
-                                <div><div><img id='like' src={like} alt="like" /></div></div>
-                                <div><div>{p.info.likes}</div></div>
-                                <div><div><img id='comments' src={comments} alt="comments" /></div></div>
-                                <div><div>{p.info.comments}</div></div>
-                                <div><div><img id='date' src={date} alt="date" /></div></div>
-                                <div><div>{p.info.date}</div></div>
-                                <div><div><img id='played' src={played} alt="played" /></div></div>
-                                <div><div>{p.info.played}</div></div>
+                                <Like num={p.info.likes} />
+                                <Comment num={p.info.comments} />
+                                <Date num={p.info.date} />
+                                <Played num={p.info.played} />
                               </div>
                               <div class="item_actions">
-                                  <Link class="item_actions_program" to={'/podcast/'+p.id+'/'+p.name[localStorage.getItem('language')]} id={p.id}  onClick={ (event, _name) => this.clickHandler(event, p.name)}  >
+                                  <Link class="item_actions_program" to={
+                                    {
+                                      pathname:'/podcast/'+p.id+'/'+p.name[localStorage.getItem('language')],
+                                      data:p,
+                                      'destiny':'podcast',
+                                      'schemma':this.props.initSchemma
+                                    }
+                                  }   id={p.id}  onClick={ (event, _name) => this.clickHandler(event, p.name)}  >
                                     <div><div class='basicOuter'><div class='basicInner'>
                                         <div className="item_desc" name={p.name[localStorage.getItem('language')]} style={ 'background-image:url("' + p.image + '")'} >
                                           
@@ -269,7 +272,7 @@ class Program extends React.Component {
           </div>
           <div class="row" >
             <div className="col-xs-12 opinion_col" >
-              <Opinion origen={this.props.match.params.channel} />
+              <Opinion origen={this.props.match.params.channel} auth={this.props.auth} />
             </div>
           </div>
         </div>

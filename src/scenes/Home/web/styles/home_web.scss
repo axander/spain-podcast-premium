@@ -18,6 +18,9 @@ $template-dark-color: #fff;
 	}*/
 }
 @media screen and (max-width: 990px){
+	[class*="col-"] {
+	    padding:0;
+	}
    .home_web{
 		.main{
 		    width: 100%;

@@ -16,7 +16,7 @@ html,body {
     left:0;
 	background-color: #000;
 	color: #fff;
-	font-family: Avenir, sans-serif;
+	font-family: Avenir, Lato, sans-serif !important;
    
 	margin:0;
 	width:100vw;
@@ -40,10 +40,12 @@ label {
     margin-top: 5px;
 }
 spinner{
-    position:fixed;
-    background:rgba(32, 70, 113, 0.82);
+    position: fixed;
+    background: rgba(0,0,0,.82);
     width: 100%;
     height: 100%;
+    z-index: 20;
+    top: 0;
 }
 a, a:hover, a:visited, a:link{
     text-decoration:none;
@@ -76,8 +78,10 @@ h1{
     display: none;  // Safari and Chrome
 }
 .app-wrapper_web{
+    display: table;
+    margin: 0 auto;
     background-color: #000;
-    padding-top: 53px;
+    padding-top: 75px;
     height: auto;
     text-align: center;
     .main{
@@ -243,12 +247,21 @@ AuthButton {
 .item:hover{
     /*opacity:.5;*/
 }
-//buttons and alignments
+//sizes buttons and alignments
+.font20{
+    font-size: 20px !important;
+}
+.font_med_grey{
+    color:#444 !important;
+}
 .left{
     float:left;
 }
 .right{
     float:right;
+}
+.pr20{
+    padding-right:20px;
 }
 .mt25{
     margin-top:25px
@@ -272,7 +285,7 @@ AuthButton {
     background: #67b511!important;
     color: #fff;
     padding: 20px;
-    font-family: Avenir;
+    /*font-family: Avenir;*/
     font-size: 20px;
     font-weight: 900;
     font-style: normal;
@@ -286,11 +299,11 @@ AuthButton {
 }
 .neutralPB{
     cursor: pointer;
-    width: 122px;
+    
     color: #fff;
-    padding: 20px;
+
     text-decoration: underline;
-    font-family: Avenir;
+    /*font-family: Avenir;*/
     font-size: 20px;
     font-weight: 900;
     font-style: normal;
@@ -302,16 +315,8 @@ AuthButton {
 .neutralPB:hover{
     opacity:.5;
 }
-neutralPB:after {
-    content: '';
-
-    width: 100%;
-    position: absolute;
-    left: 0;
-    bottom: 1px;
-
-    border-width: 0 0 1px;
-    border-style: solid;
+.neutralPB{
+    
 }
 .disabled{
     pointer-events: none;
@@ -412,26 +417,20 @@ neutralPB:after {
 }
 @media screen and (max-width: 992px){
     .channel .row .item, .program .row .item, .podcast .row .item{
-        width: 300px;
+        width: 100%;
         display: inline-block;
     }
    .program .item_container, .channel .item_container, .podcast .item_container{
         position: relative;
-        padding-right: 15px;
-        padding-left: 15px;
-        padding-top: 15px;
+        padding: 0;
     }
     .program .item_container_left, .channel .item_container_left, .podcast .item_container_left{
         position: relative;
-        padding-top: 15px;
-        padding-right: 15px;
-        padding-left: 15px;
+        padding: 0;
     }
     .program .item_container_right, .channel .item_container_right, .podcast .item_container_right{
         position: relative;
-        padding-top: 15px;
-        padding-left: 20px;
-        padding-right: 15px;
+        padding:0;
     }
 }
 .program .item .item_desc, .channel .item .item_desc, .podcast .item .item_desc{
@@ -668,7 +667,7 @@ channelOptions{
     width:75%;
     height:100%;
     top:0;
-    left:-75%;
+    left:-100%;
     background:#fff;
     -webkit-box-shadow: 0;
     box-shadow: 0;
@@ -739,7 +738,7 @@ programOptions{
     width:75%;
     height:100%;
     top:0;
-    left:-75%;
+    left:-100%;
     background:#fff;
     -webkit-box-shadow: 0;
     box-shadow: 0;
@@ -805,7 +804,7 @@ podcastOptions{
     width:75%;
     height:100%;
     top:0;
-    left:-75%;
+    left:-100%;
     background:#fff;
     -webkit-box-shadow: 0;
     box-shadow: 0;
@@ -1153,6 +1152,7 @@ settingsPB{
     left: 15px;
     bottom: 15px;
     position: fixed;
+    z-index:300;
     -webkit-transition: all .5s ease;
     -moz-transition: all .5s ease;
     transition: all .5s ease;
@@ -1379,10 +1379,11 @@ input[type="text"], input[type="password"]{
 //Modal
 .backdropContainer{
     position: fixed;
+    z-index:200;
     top:0;
     left:0;
     display: table;
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(0,0,0,0.8);
     width: 100%;
     height: 100%;
     color: #204671;
@@ -1597,7 +1598,7 @@ sendInvitation{
     padding-left: 0;
 }
 .option{
-    font-family: Avenir;
+    /*font-family: Avenir;*/
     font-size: 14px;
     font-weight: 900;
     font-style: normal;

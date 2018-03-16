@@ -52,6 +52,7 @@ class Slider extends React.Component {
   }
   
   handleResize() {
+    document.querySelector('.slider').style.width=document.querySelector('.header_web_main').offsetWidth + 'px';
     document.getElementById('slider_content_container').style.width = document.getElementById('slider_content').offsetWidth * this.state.data.collection.length + 'px';     
     this.setState({
       'itemStyle':{
@@ -129,6 +130,7 @@ class Slider extends React.Component {
     var lan = localStorage.getItem('language');
     if(typeof this.state.data.collection !== 'undefined'){
       var collection = this.state.data.collection;
+      document.querySelector('.slider').style.width=document.querySelector('.header_web_main').offsetWidth + 'px';
       document.getElementById('slider_content_container').style.width = document.getElementById('slider_content').offsetWidth * this.state.data.collection.length + 'px';     
     }else{
       collection = [];

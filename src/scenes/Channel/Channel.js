@@ -7,10 +7,10 @@ import SingleLayout from '../../components/SingleLayout/SingleLayout.js'
 import later from '../../assets/images/later.png'
 import fav from '../../assets/images/fav.png'
 import share from '../../assets/images/share.png'
-import comments from '../../assets/images/comments.png'
-import date from '../../assets/images/date.png'
-import played from '../../assets/images/played.png'
-import like from '../../assets/images/like.png'
+import Comment from '../../components/Stats/Comment.js'
+import Date from '../../components/Stats/Date.js'
+import Played from '../../components/Stats/Played.js'
+import Like from '../../components/Stats/Like.js'
 import { Link, Route } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js'
 import Utils from '../../utils/Utils.js'
@@ -121,7 +121,7 @@ class Channel extends React.Component {
   }
   setSchemmaShare(){
     this.props.initSchemma.setSchemma = Lists.saveToList('channel','share',this.state.channel.id);
-    this.props.initSchemma.show('channel','later',this.state.channel);
+    this.props.initSchemma.show('channel','share',this.state.channel);
   }
   clickHandlerChannelShare(event, _channel){
     event.stopPropagation();
@@ -172,7 +172,7 @@ class Channel extends React.Component {
   render() {
     let PagesList;
     if(this.state.total>0){
-      PagesList = <Pages total={this.state.total} perPhase={this.state.perPhase} setPhase= {this.setPhase} list="channel" />
+      PagesList = <Pages total={this.state.total} perPhase={this.state.perPhase} setPhase= {this.setPhase} auth={this.props.auth} list="channel" />
     }
     return (
       <div className={ Utils.checkScene('/channel') ? 'channel' : 'channel resetPaddingBottom' } style={this.state.style} >
@@ -204,17 +204,20 @@ class Channel extends React.Component {
                                 <div><div><img id='share' src={share} alt="share" onClick={ (event, _channel) => this.clickHandlerChannelShare(event, p) } /></div></div>
                               </div>*/}
                               <div className="item_info" >
-                                <div><div><img id='like' src={like} alt="like" /></div></div>
-                                <div><div>{p.info.likes}</div></div>
-                                <div><div><img id='comments' src={comments} alt="comments" /></div></div>
-                                <div><div>{p.info.comments}</div></div>
-                                <div><div><img id='date' src={date} alt="date" /></div></div>
-                                <div><div>{p.info.date}</div></div>
-                                <div><div><img id='played' src={played} alt="played" /></div></div>
-                                <div><div>{p.info.played}</div></div>
+                                <Like num={p.info.likes} />
+                                <Comment num={p.info.comments} />
+                                <Date num={p.info.date} />
+                                <Played num={p.info.played} />
                               </div>
                               <div class="item_actions">
-                                  <Link class="item_actions_channel" to={'/program/'+p.id+'/'+p.name[localStorage.getItem('language')]} id={p.id}  onClick={ (event, _name) => this.clickHandler(event, p.name)} >
+                                  <Link class="item_actions_channel" to={
+                                    {
+                                      pathname:'/program/'+p.id+'/'+p.name[localStorage.getItem('language')],
+                                      data:p, 
+                                      'destiny':'program',
+                                      'schemma':this.props.initSchemma
+                                    }
+                                  } id={p.id}  data={p} onClick={ (event, _name) => this.clickHandler(event, p.name)} >
                                     <div><div class='basicOuter'><div class='basicInner'>
                                         <div className="item_desc" name={p.name[localStorage.getItem('language')]}  style={ 'background-image:url("' + p.image + '")'} >
                                         </div>

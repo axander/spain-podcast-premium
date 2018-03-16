@@ -3,6 +3,7 @@ import { Link, Route } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js';
 import PlayerApp from '../Player/PlayerApp/PlayerApp.js'
 import Opinion from '../../blocks/Opinion/Opinion.js';
+import Iteminfo from '../../components/Iteminfo/Iteminfo.js'
 import StaticPlayerDescription from './StaticPlayerDescription.js';
 import News from '../../blocks/News/News.js'
 import './StaticPlayer.scss'
@@ -11,6 +12,9 @@ class StaticPlayer extends React.Component {
   constructor(props) {
     super(props);
     console.log(this.props);
+    typeof props.location !== 'undefined'
+    ? localStorage.setItem('lastState',props.location.pathname)
+    : null;
   }
   componentDidMount() {
     this.setState({
@@ -18,6 +22,7 @@ class StaticPlayer extends React.Component {
         'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0'
       }
     });
+
   }
   render() {
     let podcast;
@@ -29,9 +34,14 @@ class StaticPlayer extends React.Component {
     }
     return (
       <div className='staticplayer' style={this.state.style}>
+        <div class="row" >
+            <div>
+              <Iteminfo data={this.props.location.data} destiny={this.props.location.destiny} auth={this.props.auth}  origen="podcast" initSchemma={this.props.initSchemma}/>
+            </div>
+        </div>
           <staticPlayer ><PlayerApp data={podcast} fromStatic={true} /></staticPlayer>
           <StaticPlayerDescription />
-          <Opinion />
+          <Opinion origen={this.props.match.params.podcast} auth={this.props.auth} />
           <News />
       </div>
     );

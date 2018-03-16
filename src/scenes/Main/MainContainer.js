@@ -11,6 +11,11 @@ import Downloads from '../Downloads/Downloads.js'
 import Historial from '../History/History.js'
 import Later from '../Later/Later.js'
 import Shared from '../Shared/Shared.js'
+import Profile from '../Profile/Profile.js'
+import Lists from '../Lists/Lists.js'
+import Subscription from '../Subscription/Subscription.js'
+import Bills from '../Bills/Bills.js'
+import DeleteAccount from '../User/DeleteAccount.js'
 import './MainContainer.scss'
 
 
@@ -35,6 +40,23 @@ class MainContainer extends React.Component {
             <Route path='/shared' render={(props) => (
               <Shared {...props} initplayer={this.props.initplayer} />
             )}/>
+            <Route path='/profile' render={(props) => (
+              <Profile {...props}  auth={this.props.auth} />
+            )}/>
+            <Route path='/lists' render={(props) => (
+              <Lists {...props} auth={this.props.auth} />
+            )}/>
+            <Route path='/subscription' render={(props) => (
+              <Subscription {...props} auth={this.props.auth} />
+            )}/>
+            <Route path='/bills' render={(props) => (
+              <Bills {...props} auth={this.props.auth} />
+            )}/>
+            <Route path='/deleteAccount' render={(props) => (
+              <DeleteAccount {...props} auth={this.props.auth} />
+            )}/>
+
+
           </Switch>
         </div>
 

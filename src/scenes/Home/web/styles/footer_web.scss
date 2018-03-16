@@ -19,12 +19,15 @@ $template-size-2: 10px;
 
 
 .footer_web{
-	/*position: absolute;*/
+    display: table;
+    margin: 0 auto;
+	max-width: 990px;
+    width: 990px;
 	bottom:0;
-	width:100%;
 	padding:10px;
 	text-align:center;
 	font-size:$template-size-1;
+    background: #000;
 }
 .footer_web_dark{
     background: $template-dark-bg;
@@ -35,12 +38,62 @@ $template-size-2: 10px;
 	color: $template-light-color-1;
 }
 
+@media screen and (max-width: 992px){
+	.row{
+		margin:0;
+	}
+	.footer_web{
+		width:100%;
+	}
+	.footer_web_block{
+		padding-left:20px;
+		> div{
+			text-align: left;
+		    display: inline-block;
+		    >div{
+		    	width:50%;
+		    }
+		}
+	}
+	.footer_web_block:nth-child(2){
+		margin-bottom:50px;
+	}
+	.footer_web_block:last-child{
+		>div{
+			float:none !important;
+		}
+	}
+	.row_social .footer_web_block{
+		padding-left:0;
 
+	}
+	.social_container_rot{
+		display:none;
+	}
+	.social_container{
+		width:100% !important;
+	    .social {
+		    cursor: pointer;
+		    display: inline-block;
+		    margin-right: 0;
+		    padding: 8px;
+		    margin-bottom: 8px;
+		    font-size: 10px;
+		    width: 25%;
+		    text-align: center;
+		}
+	}
+}
 
 .footer_web_block{
     margin-top: 10px;
     margin-bottom: 10px;
 	text-align:center;
+}
+.footer_web_block:last-child{
+	>div{
+		float:right
+	}
 }
 .footer_web_block > div{
 	text-align: left;
@@ -52,7 +105,7 @@ $template-size-2: 10px;
 }
 .footer_web_block h1{
 	opacity: 0.5;
-	font-family: Avenir;
+	/*font-family: Avenir;*/
 	font-size: 14px;
 	font-weight: 900;
 	font-style: normal;
@@ -76,7 +129,7 @@ $template-size-2: 10px;
 
 .footer_web_block_dark > div > div > div > a > div{
 	/*color: $template-dark-color-1;*/
-	font-family: Avenir;
+	/*font-family: Avenir;*/
   	font-size: 14px;
   	font-weight: normal;
   	font-style: normal;
@@ -95,7 +148,10 @@ $template-size-2: 10px;
 .footer_web_block > div > div > .footer_app > div:hover{
     opacity:1 !important;
 }
-
+.social_adjust_responsive{
+	width: 350px;
+    float: right;
+}
 .social{
 	cursor:pointer;
 	display:inline-block;
@@ -132,7 +188,7 @@ $template-size-2: 10px;
 .footer_web_generic_dark > a  > div{
 	/*font-size:$template-size-1;
 	color: $template-dark-color-1;*/
-	font-family: Avenir;
+	/*font-family: Avenir;*/
 	font-size: 12px;
 	font-weight: normal;
 	font-style: normal;
@@ -154,7 +210,7 @@ $template-size-2: 10px;
 	color: $template-dark-color-2;
 	font-size:$template-size-2;*/
 	opacity: 0.5;
-  	font-family: Avenir;
+  	/*font-family: Avenir;*/
   	font-size: 12px;
   	font-weight: normal;
   	font-style: normal;

@@ -104,6 +104,7 @@ class Settings extends React.Component {
 	      			<nav>
 	      				<div className="scrollCont" >
 				    		<div className="scrollableCont" >
+				    			<div className="toApp">X</div>
 				    			<div className="toApp" onClick={this.changeToApp} >App</div>
 				    			<div className="toApp" onClick={this.changeTheme} >Change Theme</div>
 				    			<Link to='/logout' id='logoutPB' className={this.state.logout} >Log Out</Link>

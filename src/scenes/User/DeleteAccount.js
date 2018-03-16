@@ -56,12 +56,17 @@ class DeleteAccount extends React.Component {
           isOpen: !this.state.isOpen
       });
    }
-  componentDidMount() {
-    // Will execute as normal
+  componentDidMount(){
+    this.setState({
+      'style':{
+        'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0'
+      }
+    })
   }
   render() {
     return (
-      <deleteAccount>
+      <div className="delete" style={this.state.style} >
+        <h1>{this.translate('user.deleteAccount')}</h1>
         <div className="container" >
           <form onSubmit={this.handleSubmit}>
             <div><div className="submitBtn" onClick={this.handleSubmit} >{this.translate('continue').toUpperCase()}</div></div>
@@ -70,7 +75,7 @@ class DeleteAccount extends React.Component {
         <Modal show={this.state.isOpen} onClose={this.toggleModal} >
           {this.translate(this.state.showedMsg)}
         </Modal>
-      </deleteAccount> 
+      </div> 
     );
   }
 }

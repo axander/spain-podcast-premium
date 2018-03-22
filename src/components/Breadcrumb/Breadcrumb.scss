@@ -52,5 +52,9 @@
 @media screen and (max-width: 990px){
    .breadcrumb{
 		width: 100%;
+        position:relative;
+        .breadcrumb_container{
+            display:none;
+        }
 	}
 }

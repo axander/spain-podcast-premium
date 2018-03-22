@@ -33,7 +33,7 @@ class PodcastSingleList extends React.Component {
                   <div className="podcastSingleList_rot" >{Title}</div>
                 </div>
                 <div class="col-xs-2">
-                    <Link to={'/'+All}><div className="podcastSingleList_all" >{this.translate('blocks.getAll')}</div></Link>
+                    <Link to={'/lists/'+this.props.destiny}><div className="podcastSingleList_all" >{this.translate('blocks.getAll')}</div></Link>
                 </div>
               </div>
               <div>

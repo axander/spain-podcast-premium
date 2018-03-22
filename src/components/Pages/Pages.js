@@ -38,6 +38,7 @@ class Pages extends React.Component {
         phase = parseFloat(localStorage.getItem('phase_'+this.props.list+'_'+ localStorage.getItem('lastProgram'))) || 0;
       break;
       default:
+        phase = parseFloat(localStorage.getItem('phase_'+this.props.list)) || 0;
       break;
     }
     return phase
@@ -60,6 +61,7 @@ class Pages extends React.Component {
           localStorage.setItem('phase_'+this.props.list+'_'+ localStorage.getItem('lastProgram'), _phase);
         break;
         default:
+          localStorage.setItem('phase_'+this.props.list, _phase);
         break;
     }
     

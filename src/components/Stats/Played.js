@@ -1,6 +1,5 @@
 import React from 'react'
 import TranslatedComponent from '../../utils/TranslatedComponent.js'
-import played from '../../assets/images/played.png'
 import './Played.scss'
 
 class Played extends React.Component {
@@ -9,9 +8,21 @@ class Played extends React.Component {
 	 }
 	render() {
 	    return (
-	    	<div>
-		    	<div><div><img id='played' src={played} alt="played" /></div></div>
-	            <div><div>{this.props.num}</div></div>
+	        <div>
+		    	<div>
+			    	<div class='basicOuter'>
+			            <div class='basicInner'>
+			              <span class="icon-headphones"></span>
+			            </div>
+			        </div>
+			    </div>
+			   	<div>
+			    	<div class='basicOuter'>
+			            <div class='basicInner'>
+			              {this.props.num}
+			            </div>
+			        </div>	
+	        	</div>
 	        </div>
 	    )
 	}

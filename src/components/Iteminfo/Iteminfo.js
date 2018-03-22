@@ -1,10 +1,7 @@
 import React from 'react'
 import { Link, Route } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js';
-import Comment from '../Stats/Comment.js'
-import Date from '../Stats/Date.js'
-import Played from '../Stats/Played.js'
-import Like from '../Stats/Like.js'
+import Stats from '../Stats/Stats.js'
 import Lists from '../../utils/Lists.js'
 import './Iteminfo.scss'
 
@@ -24,12 +21,15 @@ class Iteminfo extends React.Component {
     this.setSchemmaFav = this.setSchemmaFav.bind(this);
     this.setSchemmaLater = this.setSchemmaLater.bind(this);
     this.setSchemmaShare = this.setSchemmaShare.bind(this);  
+    this.showMenuResponsive= this.showMenuResponsive.bind(this);
+    this.hideMenuResponsive= this.hideMenuResponsive.bind(this);
   }
   setSchemmaLater(){
     this.props.initSchemma.setSchemma = Lists.saveToList(this.state.origen,'later',this.state.data.id);
     this.props.initSchemma.show(this.state.origen,'later',this.state.data);
   }
   clickHandlerChannelLater(event, _channel){
+    this.hideMenuResponsive();
     event.stopPropagation();
     this.state.channel = _channel;
     this.props.auth.isAuthenticated
@@ -67,6 +67,7 @@ class Iteminfo extends React.Component {
     this.props.initSchemma.show(this.state.origen,'later',this.state.data);
   }
   clickHandlerChannelShare(event){
+    this.hideMenuResponsive();
     event.stopPropagation();
     this.props.auth.isAuthenticated
     ? this.setSchemmaShare()
@@ -77,6 +78,16 @@ class Iteminfo extends React.Component {
           window.location.href = './#/login'
         )
       : this.props.auth.required(this.setSchemmaShare)
+  }
+  hideMenuResponsive(){
+    this.setState({
+      'menuResponsive':''
+    })
+  }
+  showMenuResponsive(){
+    this.setState({
+      'menuResponsive':'menu_responsive_show'
+    })
   }
   componentDidMount() {
     // Will execute as normal
@@ -97,31 +108,46 @@ class Iteminfo extends React.Component {
       ? (
           <div className='iteminfo'>
               <div>
-                <div className="iteminfo_image_container">
+                <div className={'iteminfo_image_container_'+this.props.origen} >
                   <div className ="iteminfo_image" style={"background-image:url('"+this.state.data.image+"')"} ></div>
                 </div>
                 <div class="iteminfo_container" >
+                  <Link to={typeof this.props.dataOrigenLink !== 'undefined' ? this.props.dataOrigenLink : '/channel' }><div className="iteminfo_origen" >
+                    {typeof this.props.dataOrigen !== 'undefined' ? JSON.parse(this.props.dataOrigen)[lan] : this.translate('header.explore')}
+                  </div></Link>
                   <div className="iteminfo_name" >
                     {this.state.data.name[lan]}
                   </div>
+                </div>
+              </div>
+              <div>
+                <div className={'iteminfo_image_container_wrapper_'+this.props.origen} >
+                </div>
+                <div class="iteminfo_container_desc" >
                   <div className="iteminfo_desc">
                     {this.state.data.desc[lan]}
                   </div>
                   <div>
-                    <div className="item_info" >
-                      <Like num={this.state.data.info.likes} />
-                      <Comment num={this.state.data.info.comments} />
-                      <Date num={this.state.data.info.date} />
-                      <Played num={this.state.data.info.played} />
-                    </div>
+                    <Stats data={this.state.data.info} />
                   </div>
-                  <div className='item_info_container_to_lists' >
+                  <div className='item_info_container_to_lists mb25' >
                     <div className='item_info_container_to_lists_item' id='fav' onClick={ (event) => this.clickHandlerChannelFav(event)  }  >{this.translate('user.toFavourites')}</div>
                     <div className='item_info_container_to_lists_item' id='later' onClick={ (event, _item) => this.clickHandlerChannelLater(event, this.state.data) } >{this.translate('user.toLater')}</div>
                     <div className='item_info_container_to_lists_item' id='share' onClick={ (event, _item) => this.clickHandlerChannelShare(event, this.state.data) } >{this.translate('user.toSubscribe')}</div>
                     <div className='item_info_container_to_lists_item' id='share' onClick={ (event, _item) => this.clickHandlerChannelShare(event, this.state.data) } >{this.translate('user.share')}</div>
+                    <div className='item_info_container_to_lists_item' id='share'  onClick={this.showMenuResponsive} >
+                      <span class="icon-more-horizontal"></span>
+                      <span>{this.translate('more')}</span>
+                    </div>
                   </div>
                 </div>
+              </div>
+              <div className={"menu_responsive " + this.state.menuResponsive} onClick={this.hideMenuResponsive} >
+                <div className="menu_responsive_option" >
+                  <span class="icon-x"></span>
+                </div>
+                <div><div className="menu_responsive_option" onClick={ (event, _item) => this.clickHandlerChannelLater(event, this.state.data) } >{this.translate('user.toLater')}</div></div>
+                <div><div className="menu_responsive_option" onClick={ (event, _item) => this.clickHandlerChannelShare(event, this.state.data) } >{this.translate('user.share')}</div></div>
               </div>
           </div>
       )

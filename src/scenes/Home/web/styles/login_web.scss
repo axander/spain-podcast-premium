@@ -70,7 +70,7 @@ auth_web{
         }
     }
 }
-@media screen and (max-width: 764px){
+@media screen and (max-width: 992px){
    .userNick{
         .userOptions_avatar_nickname, .userOptions_avatar_deco{
             display:none;
@@ -83,8 +83,10 @@ auth_web{
         .initSession_ico{
             display:inline-block !important;
             position: relative;
-            top: -12px;
+            top: -10px;
             left: -14px;
+            font-size: 30px;
+            margin-left: 15px;
         }
     }
     auth_web{
@@ -104,6 +106,7 @@ auth_web{
     .userOptions_responsive{
         display: inline-block!important;
         position: fixed;
+        z-index:20;
         width: 100%;
         top:0;
         right: -100%;
@@ -131,6 +134,10 @@ auth_web{
             padding-top: 30px;
             padding-bottom: 30px;
         }
+        >div:last-child .userOptions_item_responsive{
+            border:0;
+        }
+        >div
         .userOptions_item_responsive:hover{
             opacity:.5;
         }
@@ -159,12 +166,12 @@ auth_web{
         display:inline-block;
     }
     .userOptions_avatar{
-        width: 35px;
-        height: 35px;
+        width: 40px;
+        height: 40px;
         background: #fff;
-        border-radius: 18px;
+        border-radius: 20px;
         position: relative;
-        top: -10px;
+        top: -13px;
         left: 0;
         background-size: cover;
         float: left;
@@ -223,7 +230,7 @@ auth_web .authInner {
     position: absolute;
     top: 0;
     right: 0;
-    width: 40px;
+    width: 50px;
     background: #292929;
     font-size: 16px;
     color: #fff;

@@ -7,6 +7,7 @@ import LocalSpinner from '../Common/LocalSpinner/LocalSpinner.js'
 import LocalError from '../Common/LocalError/LocalError.js'
 import './Slider.scss'
 
+
 class Slider extends React.Component {
   constructor(props) {
     super(props);

@@ -8,6 +8,9 @@ import LocalError from '../Common/LocalError/LocalError.js'
 import Pages from '../../components/Pages/Pages.js'
 import './Opinion.scss'
 
+const opinionData = {
+  response : {}
+};
 
 class Opinion extends React.Component {
   constructor(props) {
@@ -23,17 +26,12 @@ class Opinion extends React.Component {
   onSuccess = (_response) => {
     _response.status === 'successfull'
     ? (
+        opinionData.response = _response,
         Utils.scrollTo(200,Utils.offset(document.querySelector('.opinion')).top-document.querySelector('.breadcrumb').offsetHeight),
         this.setState({
           'init':false,
           'loading':false,
-          'error':false,
           'lan':localStorage.getItem('language'),
-          'data':_response.data,
-          'advice':_response.data.advice,
-          'adviceEmail':_response.data.adviceEmail,
-          'total':_response.total,
-          'perPhase':_response.perPhase,
           'phase':parseFloat(localStorage.getItem('phase_opinion_'+this.props.origen)) || 0
         })
       )
@@ -59,7 +57,22 @@ class Opinion extends React.Component {
   componentDidMount(){
       API.action('getOpinion', {'id' : this.props.origen, 'phase': 0 }, this.onSuccess, this.onError, 'GET');
   }
+  componentWillUpdate(){
+    !this.state.loading
+    ? this.setState({
+          'error':false,
+          'lan':localStorage.getItem('language'),
+          'data':opinionData.response.data,
+          'advice':opinionData.response.data.advice,
+          'adviceEmail':opinionData.response.data.adviceEmail,
+          'total':opinionData.response.total,
+          'perPhase':opinionData.response.perPhase
+        })
+    : null;
+  }
   render() {
+    if(this.state.loading)
+      return
     let PagesList, OpinionList ;
     if(this.state.total>0){
       PagesList = <Pages total={this.state.total} perPhase={this.state.perPhase}  setPhase= {this.setPhase} auth={this.props.auth} list="opinion" origen={this.props.origen} />
@@ -72,10 +85,10 @@ class Opinion extends React.Component {
     return (
       <div className='opinion' >
         <div className='row'>
-          <div className='col-xs-6'>
+          <div className='col-xs-12 col-md-6'>
             <div className='opinion_count' >{this.state.total} {this.translate('opinions')}</div>
           </div>
-          <div className='col-xs-6'>
+          <div className='col-xs-12 col-md-6'>
             <div className='opinion_advice' >{typeof this.state.advice !=='undefined' ? this.state.advice[this.state.lan] : ''}<a href={this.state.adviceEmail} className='opinion_advice_email' >{this.state.adviceEmail}</a></div>
           </div>
         </div>
@@ -90,7 +103,10 @@ class Opinion extends React.Component {
                       <div className='opinion_author_data_name' >{p.author.name}</div>
                       <div className='opinion_author_data_date'>{ (new Date(p.author.date)).toLocaleDateString() }</div>
                     </div>
-                    <div className='opinion_author_deco'>◀</div>
+                    <div className='opinion_author_deco'>
+                      <span class="icon-chevron-up_2"></span>
+                    </div>
+                    <div className='opinion_author_deco_responsive'><span class="icon-chevron-up_2"></span></div>
                   </div>
                 </div>
                 <div className='col-xs-12 col-md-9'>
@@ -103,7 +119,6 @@ class Opinion extends React.Component {
             )
           })}
           
-
         <div class="row" >
           <div className="col-xs-12" >
             {PagesList}

@@ -126,7 +126,7 @@ export const defaultProps = {
   onStart: function () {},
   onPlay: function () {},
   onPause: function () {},
-  onBuffer: function () {},
+  onBuffer: function () {alert('buffering')},
   onEnded: function () {},
   onError: function () {},
   onDuration: function () {},

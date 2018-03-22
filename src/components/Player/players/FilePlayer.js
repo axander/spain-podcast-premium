@@ -136,6 +136,8 @@ export default class FilePlayer extends Component {
     return this.player.currentTime
   }
   getSecondsLoaded () {
+    console.log(this.player.buffered.length);
+    console.log(this.player.buffered.end(0));
     if (this.player.buffered.length === 0) return 0
     return this.player.buffered.end(0)
   }
@@ -158,6 +160,7 @@ export default class FilePlayer extends Component {
     const useHLS = this.shouldUseHLS(url)
     const useDASH = this.shouldUseDASH(url)
     const Element = useAudio ? 'audio' : 'video'
+
     const src = url instanceof Array || useHLS || useDASH ? undefined : url
     const style = {
       width: !width || width === 'auto' ? width : '100%',

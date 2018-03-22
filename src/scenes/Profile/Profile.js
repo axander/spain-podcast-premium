@@ -167,13 +167,13 @@ class Profile extends React.Component {
                   <div className="profile_avatar mb25" style={"background-image:url('"+this.state.avatar+"')"}>
                     <div className="profile_avatar_rot" >{this.translate('user.uploadImage')}</div>
                   </div>
-                  <div><input id="user" type="text"  onChange={(value) => this.handleChange(value) } value={this.state.user} placeholder={this.translate('user')} /></div>
-                  <div><input id="name" type="text"  onChange={(value) => this.handleChange(value) } value={this.state.name} placeholder={this.translate('name')} /></div>
-                  <div><input id="surname" type="text"  onChange={(value) => this.handleChange(value) } value={this.state.surname} placeholder={this.translate('surname')} /></div>
-                  <div><input id="pwd" type="password" onChange={(value) => this.handleChange(value) } className={ this.state.pwdClass } value={this.state.pwd} placeholder={this.translate('password')}/></div>
+                  <div class="profile_input" ><input id="user" type="text"  onChange={(value) => this.handleChange(value) } value={this.state.user} placeholder={this.translate('user')} /></div>
+                  <div class="profile_input" ><input id="name" type="text"  onChange={(value) => this.handleChange(value) } value={this.state.name} placeholder={this.translate('name')} /></div>
+                  <div class="profile_input" ><input id="surname" type="text"  onChange={(value) => this.handleChange(value) } value={this.state.surname} placeholder={this.translate('surname')} /></div>
+                  <div class="profile_input" ><input id="pwd" type="password" onChange={(value) => this.handleChange(value) } className={ this.state.pwdClass } value={this.state.pwd} placeholder={this.translate('password')}/></div>
                   <div className="notValid_msg" >{this.state.passwordNotMatch}</div>
-                  <div><input id="pwdRepit" type="password" onChange={(value) => this.handleChange(value) } className={ this.state.pwdClass } value={this.state.pwdRepit} placeholder={this.translate('password.repit')} /></div>
-                  <div className="mt50 right" ><div className={"greenPB " + this.state.deactive }  onClick={(event) => this.handleSubmit(event)} >{this.translate('save')}</div></div>
+                  <div class="profile_input" ><input id="pwdRepit" type="password" onChange={(value) => this.handleChange(value) } className={ this.state.pwdClass } value={this.state.pwdRepit} placeholder={this.translate('password.repit')} /></div>
+                  <div className="mt50 right profile_save" ><div className={"greenPB " + this.state.deactive }  onClick={(event) => this.handleSubmit(event)} >{this.translate('save')}</div></div>
                 </form>
         </div>
         <DeleteAccount />

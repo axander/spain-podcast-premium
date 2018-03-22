@@ -300,6 +300,35 @@ const List = {
 	"getSubscriptionList":{
 		"service":"user/getSubscriptionList",
 		"method":"POST"
+	},
+	"getListLater":{
+		"service":"user/getListLater",
+		"method":"POST"
+	},
+	"getListSuscribed":{
+		"service":"user/getListSuscribed",
+		"method":"POST"
+	},
+	"getListDownload":{
+		"service":"user/getListDownload",
+		"method":"POST"
+	},
+	"getListFavourite":{
+		"service":"user/getListFavourite",
+		"method":"POST"
+	},
+	"getListHistorial":{
+		"service":"user/getListHistorial",
+		"method":"POST"
+	},
+	"getListShared":{
+		"service":"user/getListShared",
+		"method":"POST"
 	}
+
+
+
+
+
 }
 export default List

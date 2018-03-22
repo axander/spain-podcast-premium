@@ -67,6 +67,68 @@ class Breadcrumb extends React.Component {
           'text':this.translate('lists'),
           'path':this.props.location.pathname
         }
+        if(typeof sequence[1] !== 'undefined'){
+          this.state.acumulate[1] ={
+            'text':this.translate('lists'),
+            'path':'/lists'
+          };
+          switch(sequence[1]){
+            case 'favourites':
+              this.state.acumulate[2] ={
+                'text':this.translate('user.favourites'),
+                'path':this.props.location.pathname
+              }
+            break;
+            case 'later':
+              this.state.acumulate[2] ={
+                'text':this.translate('user.later'),
+                'path':this.props.location.pathname
+              }
+            break;
+            case 'shared':
+              this.state.acumulate[2] ={
+                'text':this.translate('user.shared'),
+                'path':this.props.location.pathname
+              }
+            break;
+            case 'subscribes':
+              this.state.acumulate[2] ={
+                'text':this.translate('user.subscribes'),
+                'path':this.props.location.pathname
+              }
+            break;
+            case 'history':
+              this.state.acumulate[2] ={
+                'text':this.translate('user.history'),
+                'path':this.props.location.pathname
+              }
+            break;
+            case 'downloads':
+              this.state.acumulate[2] ={
+                'text':this.translate('user.downloads'),
+                'path':this.props.location.pathname
+              }
+            break;
+            default:
+
+            break;
+          }
+        }
+      break;
+      case 'favourites':
+        this.state.acumulate=[];
+        this.state.acumulate[0] ={
+          'text':this.translate('profile'),
+          'path':'/profile'
+        }
+        this.state.acumulate[1] ={
+          'text':this.translate('lists'),
+          'path':'/lists'
+        }
+        this.state.acumulate[2] ={
+          'text':this.translate('user.favourites'),
+          'path':this.props.location.pathname
+        }
       break;
       case 'subscription':
         this.state.acumulate=[];

@@ -9,10 +9,7 @@ import Pages from '../../components/Pages/Pages.js'
 import later from '../../assets/images/later.png'
 import fav from '../../assets/images/fav.png'
 import share from '../../assets/images/share.png'
-import Comment from '../../components/Stats/Comment.js'
-import Date from '../../components/Stats/Date.js'
-import Played from '../../components/Stats/Played.js'
-import Like from '../../components/Stats/Like.js'
+import Stats from '../../components/Stats/Stats.js'
 import { Link, Route } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js'
 import Utils from '../../utils/Utils.js'
@@ -34,8 +31,10 @@ class Program extends React.Component {
       'channel': typeof this.props.match === 'undefined' ? 'F4RB2S' : typeof this.props.match.params.channel === 'undefined' ? ( localStorage.getItem('lastChannel') ? localStorage.getItem('lastChannel') : 'F4RB2S' ) : this.props.match.params.channel,
       'options':[],
       'phase': parseFloat(localStorage.getItem('phase_program_'+localStorage.getItem('lastChannel'))) || 0,
-      'total':0
+      'total':0,
+      'origenData':{}
     }
+    localStorage.setItem('lastChannelLink',this.props.location.pathname);
     this.options =[];
     this.clickHandler = this.clickHandler.bind(this);
     this.clickHandlerProgramLater = this.clickHandlerProgramLater.bind(this);
@@ -47,6 +46,7 @@ class Program extends React.Component {
     this.clickHandlerOpen = this.clickHandlerOpen.bind(this);
     this.clickHandlerClose = this.clickHandlerClose.bind(this);
     this.setPhase = this.setPhase.bind(this);
+    this.handleResize = this.handleResize.bind(this);
   }
   onSuccess = (_response) => {
     Utils.scrollToTop(300);
@@ -158,12 +158,14 @@ class Program extends React.Component {
     API.action('getListPro'+this.state.channel, { 'channel' : this.state.channel , 'phase': parseFloat(localStorage.getItem('phase_program_'+localStorage.getItem('lastChannel'))) }, this.onSuccess, this.onError, 'GET');
   }
   componentDidMount(){
+    window.addEventListener('resize', this.handleResize);
     Utils.scrollToTop(300);
     this.setState({
       'style':{
         'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0'
       }
     })
+
     /*typeof localStorage.getItem('program')!=='undefined' && localStorage.getItem('program') && localStorage.getItem('lastChannel') === this.state.channel
     ? this.setState ({
         'data':JSON.parse(localStorage.getItem('program'))
@@ -174,6 +176,16 @@ class Program extends React.Component {
       window.setSpinner();//,
       API.action('getListPro'+this.state.channel, { 'channel' : this.state.channel , 'phase': parseFloat(localStorage.getItem('phase_program_'+localStorage.getItem('lastChannel'))) || 0 }, this.onSuccess, this.onError, 'GET');
       //)
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  }
+  handleResize() {
+    this.setState({
+      'style':{
+        'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0'
+      }
+    })
   }
    /*<div class="col-xs-6">
                         <div className="desc">
@@ -213,41 +225,52 @@ class Program extends React.Component {
                               </div>
                             </div>
                             <div class="desc_cont">
-                              {/*<div className="options" >
-                                <div><div><img id='later' src={later} alt="later" onClick={ (event, _program) => this.clickHandlerProgramLater(event, p) }  /></div></div>
-                                <div><div><img id='fav' src={fav} alt="fav" onClick={ (event, _program) => this.clickHandlerProgramFav(event, p) } /></div></div>
-                                <div><div><img id='share' src={share} alt="share" onClick={ (event, _program) => this.clickHandlerProgramShare(event, p) }  /></div></div>
-                              </div>*/}
-                              <div className="item_info" >
-                                <Like num={p.info.likes} />
-                                <Comment num={p.info.comments} />
-                                <Date num={p.info.date} />
-                                <Played num={p.info.played} />
-                              </div>
+                              <Stats data={p.info} />
                               <div class="item_actions">
-                                  <Link class="item_actions_program" to={
-                                    {
-                                      pathname:'/podcast/'+p.id+'/'+p.name[localStorage.getItem('language')],
-                                      data:p,
-                                      'destiny':'podcast',
-                                      'schemma':this.props.initSchemma
-                                    }
-                                  }   id={p.id}  onClick={ (event, _name) => this.clickHandler(event, p.name)}  >
-                                    <div><div class='basicOuter'><div class='basicInner'>
+                                <Link class="item_actions_program" to={
+                                      {
+                                        pathname:'/podcast/'+p.id+'/'+p.name[localStorage.getItem('language')],
+                                        data:p,
+                                        'destiny':'podcast',
+                                        'schemma':this.props.initSchemma
+                                      }
+                                    }   id={p.id}  onClick={ (event, _name) => this.clickHandler(event, p.name)}  >
+                                  <div>
+                                    <div class='basicOuter'>
+                                      <div class='basicInner'>
                                         <div className="item_desc" name={p.name[localStorage.getItem('language')]} style={ 'background-image:url("' + p.image + '")'} >
-                                          
                                         </div>
-                                    </div></div></div>
-                                    <div><div class='basicOuter'><div class='basicInner'>
-                                      <div class='item_actions_text' >
-                                        {this.translate('goList')}
-                                        <div class="item_actions_go_list"><div><div>❯</div></div></div>
                                       </div>
-                                    </div></div></div>
-                                  </Link>
-                                  <div><div class='basicOuter'><div class='basicInner'>
-                                      <div class="item_actions_options" onClick={() => this.clickHandlerOpen(index)} >•••</div>
-                                  </div></div></div>
+                                    </div>
+                                  </div>
+                                  <div class="item_action_rot" >
+                                    <div>
+                                      <div class='basicOuter'>
+                                        <div class='basicInner'>
+                                          <div class='item_actions_text' >
+                                            {this.translate('goList')}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div>
+                                      <div class='basicOuter'>
+                                        <div class='basicInner'>
+                                          <span class="icon-chevron-right"></span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </Link>
+                                <div>
+                                  <div class='basicOuter'>
+                                    <div class='basicInner'>
+                                      <div class="item_actions_options" onClick={() => this.clickHandlerOpen(index)} >
+                                        <span class="icon-more-vertical"></span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                             <div className={this.state.options[index] ? 'item_container_to_lists' : 'hide' }  >
@@ -255,7 +278,7 @@ class Program extends React.Component {
                               <div className='item_container_to_lists_item' id='later' onClick={ (event, _program) => this.clickHandlerProgramLater(event, p) }  >{this.translate('user.toLater')}</div>
                               <div className='item_container_to_lists_item' id='share' onClick={ (event, _program) => this.clickHandlerProgramShare(event, p) }  >{this.translate('user.toSubscribe')}</div>
                               <div className='item_container_to_lists_item' id='share' onClick={ (event, _program) => this.clickHandlerProgramShare(event, p) }  >{this.translate('user.share')}</div>
-                              <div className='item_container_to_lists_close' onClick={() => this.clickHandlerClose(index)} >X</div>
+                              <div className='item_container_to_lists_close' onClick={() => this.clickHandlerClose(index)} ><span class="icon-x"></span></div>
                             </div>
                           </div>
                       </div>

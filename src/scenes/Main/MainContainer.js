@@ -7,10 +7,17 @@ import User from '../User/User.js'
 import Content from '../Content/Content.js'
 import Podcast from '../Podcast/Podcast.js'
 import Favourites from '../Favourites/Favourites.js'
+import Favourites_web from '../Favourites/Favourites_web.js'
 import Downloads from '../Downloads/Downloads.js'
-import Historial from '../History/History.js'
+import Downloads_web from '../Downloads/Downloads_web.js'
+import Historial from '../Historial/Historial.js'
+import Historial_web from '../Historial/Historial_web.js'
 import Later from '../Later/Later.js'
+import Later_web from '../Later/Later_web.js'
+import Subscribes from '../Subscribes/Subscribes.js'
+import Subscribes_web from '../Subscribes/Subscribes_web.js'
 import Shared from '../Shared/Shared.js'
+import Shared_web from '../Shared/Shared_web.js'
 import Profile from '../Profile/Profile.js'
 import Lists from '../Lists/Lists.js'
 import Subscription from '../Subscription/Subscription.js'
@@ -29,30 +36,62 @@ class MainContainer extends React.Component {
             <Route path='/user' component={User} />
             <Route path='/content' component={Content}/>
             <Route path='/podcast' component={Podcast}/>
-            <Route path='/favourites' render={(props) => (
+
+            <Route exact path='/favourites' render={(props) => (
               <Favourites {...props} initplayer={this.props.initplayer} />
             )}/>
-            <Route path='/downloads' component={Downloads} />
-            <Route path='/later' render={(props) => (
+            <Route exact path='/lists/favourites' render={(props) => (
+              <Favourites_web {...props} auth={this.props.auth} initplayer={this.props.initplayer} />
+            )}/>
+
+            <Route exact path='/downloads' render={(props) => (
+              <Downloads {...props} initplayer={this.props.initplayer} />
+            )}/>
+            <Route exact path='/lists/downloads' render={(props) => (
+              <Downloads_web {...props} auth={this.props.auth} initplayer={this.props.initplayer} />
+            )}/>
+
+            <Route exact path='/later' render={(props) => (
               <Later {...props} initplayer={this.props.initplayer} />
             )}/>
-            <Route path='/history' component={Historial} />
-            <Route path='/shared' render={(props) => (
+            <Route exact path='/lists/later' render={(props) => (
+              <Later_web {...props} auth={this.props.auth} initplayer={this.props.initplayer} />
+            )}/>
+
+            <Route exact path='/history' render={(props) => (
+              <Historial {...props} initplayer={this.props.initplayer} />
+            )}/>
+            <Route exact path='/lists/history' render={(props) => (
+              <Historial_web {...props} auth={this.props.auth} initplayer={this.props.initplayer} />
+            )}/>
+           
+            <Route exact path='/subscribes' render={(props) => (
+              <Subscribes {...props} initplayer={this.props.initplayer} />
+            )}/>
+            <Route exact path='/lists/subscribes' render={(props) => (
+              <Subscribes_web {...props} auth={this.props.auth} initplayer={this.props.initplayer} />
+            )}/>
+
+            <Route exact path='/shared' render={(props) => (
               <Shared {...props} initplayer={this.props.initplayer} />
             )}/>
-            <Route path='/profile' render={(props) => (
+            <Route exact path='/lists/shared' render={(props) => (
+              <Shared_web {...props} auth={this.props.auth} initplayer={this.props.initplayer} />
+            )}/>
+
+            <Route exact path='/profile' render={(props) => (
               <Profile {...props}  auth={this.props.auth} />
             )}/>
-            <Route path='/lists' render={(props) => (
-              <Lists {...props} auth={this.props.auth} />
+            <Route exact path='/lists' render={(props) => (
+              <Lists {...props} auth={this.props.auth} initplayer={this.props.initplayer} />
             )}/>
-            <Route path='/subscription' render={(props) => (
+            <Route exact path='/subscription' render={(props) => (
               <Subscription {...props} auth={this.props.auth} />
             )}/>
-            <Route path='/bills' render={(props) => (
+            <Route exact path='/bills' render={(props) => (
               <Bills {...props} auth={this.props.auth} />
             )}/>
-            <Route path='/deleteAccount' render={(props) => (
+            <Route exact path='/deleteAccount' render={(props) => (
               <DeleteAccount {...props} auth={this.props.auth} />
             )}/>
 

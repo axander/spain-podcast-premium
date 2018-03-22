@@ -60,7 +60,8 @@ const Utils = {
         return { top: rect.top + scrollTop, left: rect.left + scrollLeft }
     },
     scrollToTop: function(scrollDuration, _end) {
-        var scrollHeight = window.scrollY || window.pageYOffset || document.documentElement.scrollTop,
+      window.scrollTo(0, 0);
+        /*var scrollHeight = window.scrollY || window.pageYOffset || document.documentElement.scrollTop,
             scrollStep = Math.PI / (scrollDuration / 15),
             cosParameter = scrollHeight / 2;
         var scrollCount = 0,
@@ -77,7 +78,7 @@ const Utils = {
                         _end();
                     }
                 }
-            }, 15);
+            }, 15);*/
     },
     ltrim: function(str) {
         //del left white spaces

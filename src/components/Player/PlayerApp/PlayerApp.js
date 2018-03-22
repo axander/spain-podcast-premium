@@ -1,12 +1,6 @@
 import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
 import screenfull from 'screenfull'
-import previous2 from '../../../assets/images/previous2.png'
-import play2 from '../../../assets/images/play2.png'
-import pause from '../../../assets/images/pause.png'
-import backward from '../../../assets/images/backward.png'
-import forward2 from '../../../assets/images/forward2.png'
-import volumeMedium from '../../../assets/images/volumeMedium.png'
 import './PlayerApp.scss'
 
 /*import './reset.scss'
@@ -27,9 +21,11 @@ const MULTIPLE_SOURCES = [
 export default class PlayerApp extends Component {
   constructor(props) {
     super(props);
-    console.log('props');
+    console.log('props player');
     console.log(props);
     this.loadPodcast = this.loadPodcast.bind(this);
+    this.playPause = this.playPause.bind(this);
+    
   }
   loadPodcast(_source, _id, _name, _object){
     localStorage.setItem('lastPodcast', _id);
@@ -39,29 +35,27 @@ export default class PlayerApp extends Component {
     this.player.seekTo(0);
     typeof this.props.initplayer !== 'undefined' 
     ? (
-        this.props.showplayer(),
+        /*this.props.showplayer(),*/
         this.setState({ 
           url: _source,
           playing: false,
           played: 0,
           loaded: 0,
           duration: 0,
-          playbackRate: 1.0
+          playbackRate: 1.0,
         })
       )
     : this.setState({ 
       url: _source,
-      playing: true,
+      playing: false,
       played: 0,
       loaded: 0,
       duration: 0,
-      playbackRate: 1.0
+      playbackRate: 1.0,
     })
     
   }
-   componentDidMount(){
-      typeof this.props.initplayer !== 'undefined' ? this.props.initplayer.play= this.loadPodcast : this.props.fromStatic ? this.loadPodcast(this.props.data.source,this.props.data.id,this.props.data.name,this.props.data) : null;
-   }
+
   state = {
     url: null,
     playing: false,
@@ -71,7 +65,7 @@ export default class PlayerApp extends Component {
     loaded: 0,
     duration: 0,
     playbackRate: 1.0,
-    loop: false
+    loop: false,
   }
   load = url => {
     this.setState({
@@ -81,7 +75,11 @@ export default class PlayerApp extends Component {
     })
   }
   playPause = () => {
-    this.setState({ playing: !this.state.playing })
+    this.setState({ playing: !this.state.playing });
+    this.props.delegate.tooglePlay(this.state.playing)
+  }
+  tooglePlay = () => {
+    return this.state.playing
   }
   stop = () => {
     this.setState({ url: null, playing: false })
@@ -118,6 +116,7 @@ export default class PlayerApp extends Component {
   }
   onProgress = state => {
     console.log('onProgress', state)
+    this.props.delegate.onProgress(state)
     // We only want to update time slider if we are not currently seeking
     if (!this.state.seeking) {
       this.setState(state)
@@ -144,6 +143,12 @@ export default class PlayerApp extends Component {
   ref = player => {
     this.player = player
   }
+  onReady(){
+    this.props.delegate.ready();
+  }
+  onBuffer(){
+    alert('buffer');
+  }
   /*<td>
       <button onClick={this.stop}>Stop</button>
       <button onClick={this.playPause}>{playing ? 'Pause' : 'Play'}</button>
@@ -153,10 +158,18 @@ export default class PlayerApp extends Component {
       <button onClick={this.setPlaybackRate} value={2}>2</button>
     </td>
   */
+  componentDidMount(){
+    typeof this.props.delegate !== 'undefined' 
+    ?  this.props.delegate.play = this.playPause
+    : null;
+    typeof this.props.delegate !== 'undefined' 
+    ?  this.props.delegate.loading = this.onReady
+    : null;
+    typeof this.props.initplayer !== 'undefined' ? this.props.initplayer.play= this.loadPodcast : this.props.fromStatic ? this.loadPodcast(this.props.data.source,this.props.data.id,this.props.data.name,this.props.data) : null;
+  }
   render () {
     const { url, playing, volume, muted, loop, played, loaded, duration, playbackRate } = this.state
     const SEPARATOR = ' · '
-
     return (
       <div className='app'>
         <section className='section'>
@@ -172,11 +185,11 @@ export default class PlayerApp extends Component {
               playbackRate={playbackRate}
               volume={volume}
               muted={muted}
-              onReady={() => console.log('onReady')}
+              onReady={() => this.onReady() }
               onStart={() => console.log('onStart')}
               onPlay={this.onPlay}
               onPause={this.onPause}
-              onBuffer={() => console.log('onBuffer')}
+              onBuffer={() => this.onBuffer}
               onSeek={e => console.log('onSeek', e)}
               onEnded={this.onEnded}
               onError={e => console.log('onError', e)}
@@ -188,22 +201,28 @@ export default class PlayerApp extends Component {
 
 
           <div className='player-face' >
-            <div className='previous2'  onClick={this.playPause}><img src={previous2} /></div>
-            <div className='play'  onClick={this.playPause}><img src={playing ? pause : play2} /></div>
-            <div className='backward'  onClick={this.playPause}><img src={backward} /></div>
-            <div className='forward2'  onClick={this.playPause}><img src={forward2} /></div>
-            <div className='time_played' ><Duration seconds={duration * played} /></div>
-            <div className='progression'><progress max={1} value={played} />
-              <input className='progression-seek'
-                  type='range' min={0} max={1} step='any'
-                  value={played}
-                  onMouseDown={this.onSeekMouseDown}
-                  onChange={this.onSeekChange}
-                  onMouseUp={this.onSeekMouseUp}
-                />
+            <div className="player-face-1" >
+              <div className='previous2'  onClick={this.playPause}><span class="icon-skip-back"></span></div>
+              <div className='play'  onClick={this.playPause}><span class={playing ? "icon-pause-circle" : "icon-play-circle" } ></span></div>
+              <div className='backward'  onClick={this.playPause}><span class="icon-rewind"></span></div>
+              <div className='forward2'  onClick={this.playPause}><span class="icon-fast-forward"></span></div>
+              <div className='time_played' ><Duration seconds={duration * played} /></div>
             </div>
-            <div className='duration'><Duration seconds={duration} /></div>
-            <div className='volume'  onClick={this.playPause}><img src={volumeMedium} /></div>
+            <div className="player-face-2">
+              <div className='progression'><progress max={1} value={played} />
+                <input className='progression-seek'
+                    type='range' min={0} max={1} step='any'
+                    value={played}
+                    onMouseDown={this.onSeekMouseDown}
+                    onChange={this.onSeekChange}
+                    onMouseUp={this.onSeekMouseUp}
+                  />
+              </div>
+            </div>
+            <div className="player-face-3">
+              <div className='duration'><Duration seconds={duration} /></div>
+              <div className='volume'  onClick={this.toggleMuted}><span class={this.state.muted ? "icon-volume-x" : "icon-volume-2" }></span></div>
+            </div>
           </div>
 
           <table><tbody>

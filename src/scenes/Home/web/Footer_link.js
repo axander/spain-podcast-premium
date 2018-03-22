@@ -21,7 +21,7 @@ class Footer_link extends React.Component {
         <h1>{this.translate('footer.links').toUpperCase()}</h1>
         <Link to={'/info/explore'} ><div>{this.translate('footer.explore')}</div></Link>
         <Link to={'/info/player'} ><div>{this.translate('footer.player')}</div></Link>
-        <Link to={'/info/list'} ><div>{this.translate('footer.list')}</div></Link>
+        <Link to={'/lists'} ><div>{this.translate('footer.list')}</div></Link>
       </div>  
     );
   }

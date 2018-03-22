@@ -33,6 +33,11 @@ class Header_web extends React.Component {
       'menuResponsive':'menu_responsive_show'
     })
   }
+  componentDidMount(){
+    /*document.querySelector('menu').addEventListener('touchmove', function(e) {
+        e.preventDefault();
+    }, false);*/
+  }
   render() {
     let registerHide = localStorage.getItem('logged');
     return (
@@ -49,25 +54,14 @@ class Header_web extends React.Component {
           <div class='avatar right'><Login_web login={this.props.login} showRegister={this.showRegister} /></div>
           <div className={ this.state.registerHide ?'hide' : 'header_web_register option right' } ><Link to={'/register'} ><div>{this.translate('header.register').toUpperCase()}</div></Link></div>
           <Search />
-          <div className={"menu_responsive " + this.state.menuResponsive} onClick={this.hideMenuResponsive} >
+          <div id="menu" className={"menu_responsive " + this.state.menuResponsive} onClick={this.hideMenuResponsive} >
             <div className="menu_responsive_option" >
-              X
+              <span class="icon-x"></span>
             </div>
-            <Link to={'/channel'} >
-              <div className="menu_responsive_option" >
-                <div class=''>{this.translate('header.explore').toUpperCase()}</div>
-              </div >
-            </Link>
-            <Link to={'/info/premium'} >
-              <div className="menu_responsive_option" >
-                <div class=''>{this.translate('header.premium').toUpperCase()}</div>
-              </div>
-            </Link>
-            <Link to={'/register'} >
-              <div className={ this.state.registerHide ?'hide' : 'menu_responsive_option' }  >
-                <div><div>{this.translate('header.register').toUpperCase()}</div></div>
-              </div>
-            </Link>
+            <div><Link to='/channel' ><div className="menu_responsive_option" >{this.translate('header.explore').toUpperCase()}</div></Link></div>
+            <div><Link to='/info/premium' ><div className="menu_responsive_option" >{this.translate('header.premium').toUpperCase()}</div></Link></div>
+            <div className={ this.state.registerHide ?'hide' : 'menu_responsive_option' } ><Link to='/register' ><div  >{this.translate('header.register').toUpperCase()}</div></Link></div>
+            
           </div>
         </div>
       </div>  

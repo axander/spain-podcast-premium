@@ -1,0 +1,23 @@
+.item_stats{
+	padding-bottom:5px;
+	>div{
+		display:inline-block;
+		height:40px;
+		>div{
+			display:inline-block;
+			padding-left:4px;
+			padding-right:4px;
+			height: 100%;
+		}
+		>div:nth-child(2){
+			font-size:12px;
+			line-height:12px;
+		}
+	}
+}
+@media screen and (max-width: 992px){
+   .item_stats{
+   		width: 100%;
+    	text-align: center;
+   }
+}

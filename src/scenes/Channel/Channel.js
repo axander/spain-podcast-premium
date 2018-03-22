@@ -7,10 +7,7 @@ import SingleLayout from '../../components/SingleLayout/SingleLayout.js'
 import later from '../../assets/images/later.png'
 import fav from '../../assets/images/fav.png'
 import share from '../../assets/images/share.png'
-import Comment from '../../components/Stats/Comment.js'
-import Date from '../../components/Stats/Date.js'
-import Played from '../../components/Stats/Played.js'
-import Like from '../../components/Stats/Like.js'
+import Stats from '../../components/Stats/Stats.js'
 import { Link, Route } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js'
 import Utils from '../../utils/Utils.js'
@@ -31,6 +28,7 @@ class Channel extends React.Component {
       'phase': localStorage.getItem('phase_channel') || 0,
       'total':0
     }
+    localStorage.setItem('lastprogramLink',this.props.location.pathname);
     this.options =[];
     this.clickHandler = this.clickHandler.bind(this);
     this.clickHandlerChannelLater = this.clickHandlerChannelLater.bind(this);
@@ -42,6 +40,7 @@ class Channel extends React.Component {
     this.clickHandlerOpen = this.clickHandlerOpen.bind(this);
     this.clickHandlerClose = this.clickHandlerClose.bind(this);
     this.setPhase = this.setPhase.bind(this);
+    this.handleResize = this.handleResize.bind(this);
   }
   onSuccess = (_response) => {
     Utils.scrollToTop(300);
@@ -153,6 +152,7 @@ class Channel extends React.Component {
     window.setSpinner();
   }
   componentDidMount(){
+    window.addEventListener('resize', this.handleResize);
     this.setState({
       'style':{
         'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0'
@@ -167,7 +167,16 @@ class Channel extends React.Component {
       window.setSpinner();
       //)
   }
-
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  }
+  handleResize() {
+    this.setState({
+      'style':{
+        'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0'
+      }
+    })
+  }
   /*{p.desc[localStorage.getItem('language')]}*/
   render() {
     let PagesList;
@@ -186,60 +195,72 @@ class Channel extends React.Component {
                   <div className="col-xs-12 col-md-4" >
                     <div className ={ (index-1)%3===0 ? 'item_container' : index%3===0 ? 'item_container_left' : 'item_container_right'} >
                       <div className={ p.id === localStorage.getItem('lastChannel') ? "contentSelected" : "" } >
-                          <div className="row item" >
-                            <div className="col-xs-12 ">
-                              <div className="item_origen">
-                                Origen
-                              </div>
+                        <div className="row item" >
+                          <div className="col-xs-12 ">
+                            <div className="item_origen">
+                              Origen
                             </div>
-                            <div className="col-xs-12 ">
-                              <div className="rot">
-                                {index+1+this.state.phase*this.state.perPhase}. {p.name[localStorage.getItem('language')]}
-                              </div>
+                          </div>
+                          <div className="col-xs-12 ">
+                            <div className="rot">
+                              {index+1+this.state.phase*this.state.perPhase}. {p.name[localStorage.getItem('language')]}
                             </div>
-                            <div class="desc_cont">
-                              {/*<div className="options" >
-                                <div><div><img id='later' src={later} alt="later" onClick={ (event, _channel) => this.clickHandlerChannelLater(event, p) } /></div></div>
-                                <div><div><img id='fav' src={fav} alt="fav" onClick={ (event, _channel) => this.clickHandlerChannelFav(event, p) } /></div></div>
-                                <div><div><img id='share' src={share} alt="share" onClick={ (event, _channel) => this.clickHandlerChannelShare(event, p) } /></div></div>
-                              </div>*/}
-                              <div className="item_info" >
-                                <Like num={p.info.likes} />
-                                <Comment num={p.info.comments} />
-                                <Date num={p.info.date} />
-                                <Played num={p.info.played} />
-                              </div>
-                              <div class="item_actions">
-                                  <Link class="item_actions_channel" to={
-                                    {
-                                      pathname:'/program/'+p.id+'/'+p.name[localStorage.getItem('language')],
-                                      data:p, 
-                                      'destiny':'program',
-                                      'schemma':this.props.initSchemma
-                                    }
-                                  } id={p.id}  data={p} onClick={ (event, _name) => this.clickHandler(event, p.name)} >
-                                    <div><div class='basicOuter'><div class='basicInner'>
-                                        <div className="item_desc" name={p.name[localStorage.getItem('language')]}  style={ 'background-image:url("' + p.image + '")'} >
-                                        </div>
-                                    </div></div></div>
-                                    <div><div class='basicOuter'><div class='basicInner'>
-                                      <div class='item_actions_text' >
-                                        {this.translate('goList')}
-                                        <div class="item_actions_go_list"><div><div>❯</div></div></div>
+                          </div>
+                          <div class="desc_cont">
+                            <Stats data={p.info} />
+                            <div class="item_actions">
+                              <Link class="item_actions_channel" to={
+                                          {
+                                            pathname:'/program/'+p.id+'/'+p.name[localStorage.getItem('language')],
+                                            data:p, 
+                                            'destiny':'program',
+                                            'schemma':this.props.initSchemma
+                                          }
+                                        } id={p.id}  data={p} onClick={ (event, _name) => this.clickHandler(event, p.name)} >
+                                <div>
+                                  <div class='basicOuter'>
+                                    <div class='basicInner'>
+                                      <div className="item_desc" name={p.name[localStorage.getItem('language')]}  style={ 'background-image:url("' + p.image + '")'} >
                                       </div>
-                                    </div></div></div>
-                                  </Link>
-                                  <div><div class='basicOuter'><div class='basicInner'>
-                                      <div class="item_actions_options" onClick={() => this.clickHandlerOpen(index)} >•••</div>
-                                  </div></div></div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="item_action_rot" >
+                                  <div>
+                                    <div class='basicOuter'>
+                                      <div class='basicInner'>
+                                        <div class='item_actions_text' >
+                                          {this.translate('goList')}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <div class='basicOuter'>
+                                      <div class='basicInner'>
+                                        <span class="icon-chevron-right"></span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </Link>
+                              <div>
+                                <div class='basicOuter'>
+                                  <div class='basicInner'>
+                                    <div class="item_actions_options" onClick={() => this.clickHandlerOpen(index)} >
+                                      <span class="icon-more-vertical"></span>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
                             </div>
+                          </div>
                             <div className={this.state.options[index] ? 'item_container_to_lists' : 'hide' }  >
                               <div className='item_container_to_lists_item' id='fav' onClick={ (event, _channel) => this.clickHandlerChannelFav(event, p) } >{this.translate('user.toFavourites')}</div>
                               <div className='item_container_to_lists_item' id='later' onClick={ (event, _channel) => this.clickHandlerChannelLater(event, p) }  >{this.translate('user.toLater')}</div>
                               <div className='item_container_to_lists_item' id='share' onClick={ (event, _channel) => this.clickHandlerChannelShare(event, p) }  >{this.translate('user.toSubscribe')}</div>
                               <div className='item_container_to_lists_item' id='share' onClick={ (event, _channel) => this.clickHandlerChannelShare(event, p) }  >{this.translate('user.share')}</div>
-                              <div className='item_container_to_lists_close' onClick={() => this.clickHandlerClose(index)} >X</div>
+                              <div className='item_container_to_lists_close' onClick={() => this.clickHandlerClose(index)} ><span class="icon-x"></span></div>
                             </div>
                           </div>
                       </div>

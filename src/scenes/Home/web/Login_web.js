@@ -5,7 +5,6 @@ import TranslatedComponent from '../../../utils/TranslatedComponent.js'
 import FBPB from '../../../components/FBPB.js'
 import { Modal, API } from '../../../services/Rest.js'
 import './styles/login_web.scss'
-import user from '../../../assets/images/user.png'
 import Utils from '../../../utils/Utils.js'
 
 
@@ -276,7 +275,7 @@ class Login_web extends React.Component {
       <div>
         <div onClick={this.toogle} className={this.state.notLogged} >
           <div className="initSession_rot" >{this.translate('header.initSession').toUpperCase()}</div>
-          <div className="initSession_ico" ><img src={user} alt="user" /></div>
+          <span className="icon-user initSession_ico"></span>
         </div>
         <div className={this.state.loggedAs} onClick={this.showOptions} >
           {/*<Link to='/user' className='contrast'><div >{this.translate('logged.as')}{this.state.nickName}</div></Link>*/}
@@ -321,7 +320,7 @@ class Login_web extends React.Component {
                   <div class='col-xs-12 col-md-6' ><div className={ 'noAccountRot noAccountRot_web_'+localStorage.getItem('template')}  >¿No tienes cuenta?</div></div>
                   <div class='col-xs-12 col-md-6' ><div onClick={this.register} className='registerBtn' >Registrate ahora</div></div>
               </div>
-              <div className="closePB" onClick={this.toogle}>X</div>
+              <div className="closePB" onClick={this.toogle}><span class="icon-x"></span></div>
             </div>
           <div>
             <Modal show={this.state.isOpen} onClose={this.toggleModal} >
@@ -331,7 +330,7 @@ class Login_web extends React.Component {
         </auth_web>
         <div className={"userOptions_responsive " + this.state.userOptionsResponsive} onClick={this.hideMenuResponsive}>
           <div className="userOptions_item_responsive" >
-              X
+              <span class="icon-x"></span>
           </div>
           <div><Link to='/profile' ><div className="userOptions_item_responsive" >{this.translate('user.profile')}</div></Link></div>
           <div><Link to='/lists' ><div className="userOptions_item_responsive" >{this.translate('user.lists')}</div></Link></div>

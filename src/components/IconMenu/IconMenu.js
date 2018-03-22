@@ -6,14 +6,13 @@ import download from '../../assets/images/download.png';
 import fav from '../../assets/images/fav.png';
 import history from '../../assets/images/history.png';
 import share from '../../assets/images/share.png';
-import user from '../../assets/images/user.png';
 import TranslatedComponent from '../../utils/TranslatedComponent.js';
 import Utils from '../../utils/Utils.js';
 import './IconMenu.scss'
 
 import Favourites from '../../scenes/Favourites/Favourites.js'
 import Downloads from '../../scenes/Downloads/Downloads.js'
-import Historial from '../../scenes/History/History.js'
+import Historial from '../../scenes/Historial/Historial.js'
 import Later from '../../scenes/Later/Later.js'
 import Shared from '../../scenes/Shared/Shared.js'
 
@@ -69,8 +68,7 @@ class IconMenu extends React.Component {
 		  		<Link to="/later"><div className={ Utils.checkScene('/later') ? 'icoSelected' : 'icoNoSelected' } ><img src={later} alt="later" /></div></Link>
 		  		<Link to="/history"><div className={ Utils.checkScene('/history') ? 'icoSelected' : 'icoNoSelected' } ><img src={history} alt="history" /></div></Link>
 		  		<Link to="/shared"><div className={ Utils.checkScene('/shared') ? 'icoSelected' : 'icoNoSelected' } ><img src={share} alt="shared" /></div></Link>
-		  		<Link to="/user"><div className={ Utils.checkScene('/user') ? 'icoSelected' : 'icoNoSelected' } ><img src={user} alt="user" /></div></Link>
-		  		
+		  		<Link to="/user"><div className={ Utils.checkScene('/user') ? 'icoSelected' : 'icoNoSelected' } ><span class="icon-user"></span></div></Link>
 		  	</iconmenu>
 	  	)
 	  }

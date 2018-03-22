@@ -29,21 +29,7 @@
 			}
 		}
 	}
-	.item_info{
-		div{
-			display: inline-block;
-		    padding: 2px;
-		    padding-bottom: 6px;
-			div{
-				img{
-					width:20px;
-				}
-			}
-			;:hover{
-				opacity:.5;
-			}
-		}
-	}
+
 	.item_container_to_lists{
 		background: #222;
 	    height: 300px;
@@ -73,6 +59,7 @@
 		    right: 10px;
 		    padding: 10px;
 		    float: right;
+		    color:#fff;
 		}
 		.item_container_to_lists_close:hover{
 			opacity:.5;

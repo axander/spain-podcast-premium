@@ -21,9 +21,10 @@
 		opacity:.5;
 	}
 
-@media screen and (max-width: 764px){
+@media screen and (max-width: 992px){
    .ads{
    		min-height:100px !important;
     	height:100px !important;
+    	margin-bottom: 10px;
    }
 }

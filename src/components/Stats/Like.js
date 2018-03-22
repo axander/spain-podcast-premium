@@ -1,6 +1,5 @@
 import React from 'react'
 import TranslatedComponent from '../../utils/TranslatedComponent.js'
-import like from '../../assets/images/like.png'
 import './Like.scss'
 
 class Like extends React.Component {
@@ -9,9 +8,21 @@ class Like extends React.Component {
 	 }
 	render() {
 	    return (
-	    	<div>
-		    	<div><div><img id='like' src={like} alt="like" /></div></div>
-	            <div><div>{this.props.num}</div></div>
+	        <div>
+		    	<div>
+			    	<div class='basicOuter'>
+			            <div class='basicInner'>
+			              <span class="icon-thumbs-up"></span>
+			            </div>
+			        </div>
+			    </div>
+			   	<div>
+			    	<div class='basicOuter'>
+			            <div class='basicInner'>
+			              {this.props.num}
+			            </div>
+			        </div>	
+	        	</div>
 	        </div>
 	    )
 	}

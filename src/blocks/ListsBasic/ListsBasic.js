@@ -68,9 +68,9 @@ class ListsBasic extends React.Component {
                 <h1>{this.translate('blocks.listsBasic')}</h1>
                 <div className="row">
                   <div className="col-xs-12 col-sm-7">
-                    <div><PodcastSingleList data={later} initplayer={this.props.initplayer} /></div>
-                    <div><PodcastSingleList data={subscriptions} initplayer={this.props.initplayer} /></div>
-                    <Link to={'/lists/all'} ><div className="lists_basic_all" >{this.translate('blocks.allMyLists')}</div></Link>
+                    <div><PodcastSingleList data={later} initplayer={this.props.initplayer} destiny='later' /></div>
+                    <div><PodcastSingleList data={subscriptions} initplayer={this.props.initplayer} destiny='subscribes' /></div>
+                    <Link to={'/lists'} ><div className="lists_basic_all" >{this.translate('blocks.allMyLists')}</div></Link>
                   </div>
                   <div className="col-xs-12 col-sm-5">
                     <a href={adv.externalLink} target='_blank' className={ typeof this.state.data === 'undefined' || !adv.externalLink || adv.externalLink.length<=0  ? 'hide':'' } ><div className='lists_basic_ads' style={adv.style}></div></a>

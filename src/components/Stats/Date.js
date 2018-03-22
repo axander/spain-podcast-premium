@@ -1,6 +1,5 @@
 import React from 'react'
 import TranslatedComponent from '../../utils/TranslatedComponent.js'
-import date from '../../assets/images/date.png'
 import './Date.scss'
 
 class Date extends React.Component {
@@ -9,9 +8,21 @@ class Date extends React.Component {
 	 }
 	render() {
 	    return (
-	    	<div>
-		    	<div><div><img id='date' src={date} alt="date" /></div></div>
-	            <div><div>{this.props.num}</div></div>
+	        <div>
+		    	<div>
+			    	<div class='basicOuter'>
+			            <div class='basicInner'>
+			              <span class="icon-calendar"></span>
+			            </div>
+			        </div>
+			    </div>
+			   	<div>
+			    	<div class='basicOuter'>
+			            <div class='basicInner'>
+			              {this.props.num}
+			            </div>
+			        </div>	
+	        	</div>
 	        </div>
 	    )
 	}

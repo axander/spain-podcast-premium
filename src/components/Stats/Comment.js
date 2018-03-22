@@ -1,6 +1,5 @@
 import React from 'react'
 import TranslatedComponent from '../../utils/TranslatedComponent.js'
-import comments from '../../assets/images/comments.png'
 import './Comment.scss'
 
 class Comment extends React.Component {
@@ -10,8 +9,20 @@ class Comment extends React.Component {
 	render() {
 	    return (
 	    	<div>
-		    	<div><div><img id='comments' src={comments} alt="comments" /></div></div>
-	            <div><div>{this.props.num}</div></div>
+		    	<div>
+			    	<div class='basicOuter'>
+			            <div class='basicInner'>
+			              <span class="icon-message-square"></span>
+			            </div>
+			        </div>
+			    </div>
+			   	<div>
+			    	<div class='basicOuter'>
+			            <div class='basicInner'>
+			              {this.props.num}
+			            </div>
+			        </div>	
+	        	</div>
 	        </div>
 	    )
 	}

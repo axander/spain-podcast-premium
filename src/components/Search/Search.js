@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Link } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js'
-import search from '../../assets/images/search.png'
 import './search.scss'
 
 class Search extends React.Component {
@@ -28,7 +27,7 @@ class Search extends React.Component {
   render() {
     return (
       <search className="search" >
-        <div className="pb" onClick={this.clickHandler} ><img src={search} alt="search" /></div>
+        <div className="pb" onClick={this.clickHandler} ><span class="icon-search"></span></div>
         <div className={ this.state.toogle ? 'container show' : 'container' } >
           <div className="logo" >LOGO</div>
           <div className="filters" >FILTROS</div>

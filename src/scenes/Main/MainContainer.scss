@@ -9,3 +9,8 @@ maincontainer{
     min-height: 100%;
     height:auto;
 }
+@media screen and (max-width: 992px){
+	.mainContainer{
+	    width: 100vw;
+	}
+}

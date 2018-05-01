@@ -2,23 +2,46 @@ import React from 'react'
 import { Link, Route } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js';
 import Ads from '../../blocks/Ads/Ads.js'
+import Slider from '../../blocks/Slider/Slider.js'
 import './Breadcrumb.scss'
 
 class Breadcrumb extends React.Component {
   constructor(props) {
     super(props);
     this.state={
-        'client':JSON.parse(localStorage.getItem('client')),
+        'client':JSON.parse(localStorage.getItem('client')) || null,
         'paths':[],
         'acumulate':[],
-        'podcastActive':null
+        'episodeActive':null
     }
   }
+  keepBreadCrumb(){
+    /*document.querySelector('.breadcrumb') && document.querySelector('.breadcrumb_container') && window.getComputedStyle(document.querySelector('.breadcrumb_container')).display !== 'none'
+    ? window.scrollY > document.querySelector('.breadcrumb').offsetHeight - document.querySelector('.header_web_main').offsetHeight + 20
+      ? document.querySelector('.breadcrumb').style.top = window.scrollY - document.querySelector('.breadcrumb').offsetHeight + document.querySelector('.breadcrumb_container').offsetHeight + document.querySelector('.header_web_main').offsetHeight +'px'
+      : document.querySelector('.breadcrumb').style.top = ''
+    : document.querySelector('.breadcrumb').style.top = '';*/
+  }
   componentDidMount(){
+    // nonstandard: Chrome, IE, Opera, Safari
+    window.addEventListener("scroll", this.keepBreadCrumb, false); 
+    // nonstandard: Firefox
+    window.addEventListener("DOMMouseScroll", this.keepBreadCrumb, false);
+   
+  }
+  componentWillUpdate(){
+    document.querySelector('.breadcrumb').style.top = '';
+  }
+  componentWillUnmount(){
+    // nonstandard: Chrome, IE, Opera, Safari
+    window.removeEventListener("scroll", this.keepBreadCrumb, false); 
+    // nonstandard: Firefox
+    window.removeEventListener("DOMMouseScroll", this.keepBreadCrumb, false);
+   
   }
   render() {
-    var lan = localStorage.getItem('language');
     var sequence = this.props.location.pathname.split('/');
+    var section = '';
     sequence.shift();
     switch(sequence[0]){
       case 'info':
@@ -28,7 +51,14 @@ class Breadcrumb extends React.Component {
           'path':this.props.location.pathname
         }
         this.state.acumulate[1] ={
-          'text':sequence[1],
+          'text':this.translate('footer.'+sequence[1]),
+          'path':this.props.location.pathname
+        }
+      break;
+      case 'search':
+        this.state.acumulate=[];
+        this.state.acumulate[0] ={
+          'text':this.translate('search'),
           'path':this.props.location.pathname
         }
       break;
@@ -43,6 +73,20 @@ class Breadcrumb extends React.Component {
         this.state.acumulate=[];
         this.state.acumulate[0] ={
           'text':this.translate('profile'),
+          'path':this.props.location.pathname
+        }
+      break;
+      case 'premium':
+        this.state.acumulate=[];
+        this.state.acumulate[0] ={
+          'text':this.translate('user.premium'),
+          'path':this.props.location.pathname
+        }
+      break;
+      case 'promotional':
+        this.state.acumulate=[];
+        this.state.acumulate[0] ={
+          'text':this.translate('user.promotional'),
           'path':this.props.location.pathname
         }
       break;
@@ -82,6 +126,18 @@ class Breadcrumb extends React.Component {
             case 'later':
               this.state.acumulate[2] ={
                 'text':this.translate('user.later'),
+                'path':this.props.location.pathname
+              }
+            break;
+            case 'like':
+              this.state.acumulate[2] ={
+                'text':this.translate('user.later'),
+                'path':this.props.location.pathname
+              }
+            break;
+            case 'listened':
+              this.state.acumulate[2] ={
+                'text':this.translate('episodes.Listened'),
                 'path':this.props.location.pathname
               }
             break;
@@ -152,18 +208,19 @@ class Breadcrumb extends React.Component {
           'path':this.props.location.pathname
         }
       break;
-      case 'channel':
+      case 'explorar':
         this.state.acumulate=[];
         this.state.acumulate[0] ={
           'text':this.translate('EXPLORE'),
           'path':this.props.location.pathname
         }
+        section = 'explore';
       break;
-      case 'program':
+      case 'podcast':
         this.state.acumulate.length <=0
         ? this.state.acumulate[0] ={
             'text':this.translate('EXPLORE'),
-            'path':'/channel'
+            'path':'/explorar'
           }
         : null;
         this.state.acumulate = this.state.acumulate.splice(0,2);
@@ -175,21 +232,20 @@ class Breadcrumb extends React.Component {
             'path':this.props.location.pathname
           }
         }
-        
       break;
-      case 'podcast':
-        this.state.acumulate.length <=0
-        ?(
+      case 'episode':
+        /*this.state.acumulate.length <=0
+        ?(*/
           this.state.acumulate[0] ={
             'text':this.translate('EXPLORE'),
-            'path':'/channel'
-          },
+            'path':'/explorar'
+          };
           this.state.acumulate[1] ={
-            'text':JSON.parse(localStorage.getItem('lastChannelName'))[lan],
-            'path':'/program/'+localStorage.getItem('lastChannel')+'/'+JSON.parse(localStorage.getItem('lastChannelName'))[lan]
-          }
-        )
-        : null;
+            'text':localStorage.getItem('lastChannelName'),
+            'path':'/podcast/'+localStorage.getItem('lastChannel')+'/'+localStorage.getItem('lastChannelName')
+          };
+        /*)
+        : null;*/
         this.state.acumulate = this.state.acumulate.splice(0,3);
         this.state.acumulate[2] ={
           'text':sequence[2],
@@ -204,41 +260,42 @@ class Breadcrumb extends React.Component {
               'path':''
             });
             
-            if(!this.state.podcastActive){
+            if(!this.state.episodeActive){
               window.location.href = window.location.href.substring(0,window.location.href.indexOf(sequence[3])-1);
-              this.state.podcastActive = sequence[4];
+              this.state.episodeActive = sequence[4];
             }
-          }else if(this.state.podcastActive){
+          }else if(this.state.episodeActive){
             this.state.acumulate.push({
-              'text':this.state.podcastActive,
+              'text':this.state.episodeActive,
               'path':''
             });
-            this.state.podcastActive = null;
+            this.state.episodeActive = null;
           }
         }
         
       break;
       case 'static':
-        this.state.acumulate.length <=0
-        ?(
+
+        /*this.state.acumulate.length <=0
+        ?(*/
           this.state.acumulate[0] ={
             'text':this.translate('EXPLORE'),
-            'path':'/channel'
+            'path':'/explorar'
           },
           this.state.acumulate[1] ={
-            'text':JSON.parse(localStorage.getItem('lastChannelName'))[lan],
-            'path':'/program/'+localStorage.getItem('lastChannel')+'/'+JSON.parse(localStorage.getItem('lastChannelName'))[lan]
+            'text':localStorage.getItem('lastChannelName'),
+            'path':'/podcast/'+localStorage.getItem('lastChannel')+'/'+localStorage.getItem('lastChannelName')
           },
           this.state.acumulate[2] ={
-            'text':JSON.parse(localStorage.getItem('lastProgramName'))[lan],
-            'path':'/podcast/'+localStorage.getItem('lastProgram')+'/'+JSON.parse(localStorage.getItem('lastProgramName'))[lan]
+            'text':localStorage.getItem('lastpodcastName'),
+            'path':'/episode/'+localStorage.getItem('lastpodcast')+'/'+localStorage.getItem('lastpodcastName')
           },
           this.state.acumulate[3] ={
-            'text':JSON.parse(localStorage.getItem('lastPodcastName'))[lan],
+            'text':localStorage.getItem('lastepisodeName'),
             'path':''
           }
-        )
-        : null;
+        /*)
+        : null;*/
         this.state.acumulate = this.state.acumulate.splice(0,4);
         this.state.acumulate[3] ={
           'text':sequence[2],
@@ -255,13 +312,18 @@ class Breadcrumb extends React.Component {
     }
     this.state.paths = sequence;
     let Ad;
-    this.props.auth.isAuthenticated && (this.state.client.paymentData.subscription.type.invited.status === 1 || this.state.client.paymentData.subscription.type.premium.status === 1 || this.state.client.paymentData.subscription.type.premium.status === 2)
+    this.props.auth.isAuthenticated && this.state.client && this.state.client.personalData.type !== 'basic'
     ? Ad = ''
     : Ad = <Ads />;
+    let Carousel;
+    section === 'explore'
+    ? Carousel = <Slider explorer="active" />
+    : Carousel = ''
     return (
       <div className='breadcrumb' >
           <div>{Ad}</div>
-          <div className="breadcrumb_container">
+          <div>{Carousel}</div>
+          <div class="breadcrumb_container">
             <Link to={'/'} ><div className='breadcrumb_item' >{this.translate('INIT')}<span className='breadcrumb_item_deco' >❯</span></div></Link>
             {this.state.acumulate.map(( p , index) => {
               return (

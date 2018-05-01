@@ -2,8 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Link, Route } from 'react-router-dom'
 import TranslatedComponent from '../../../utils/TranslatedComponent.js';
+import { Modal, API } from '../../../services/Rest.js';
 import Utils from '../../../utils/Utils.js';
-
 import './styles/home_web.scss'
 
 const data = require('./schemma/schemma.json')
@@ -25,10 +25,35 @@ class Home_web extends React.Component {
       'nickName': JSON.parse(localStorage.getItem('client')) ? JSON.parse(localStorage.getItem('client')).personalData.nickName : null
     };
   }
+  onSuccess = (_response) => {
+    Utils.scrollToTop(300);
+    _response.status === 'success'
+    ? (
+        this.props.statics.data = _response.result,
+        localStorage.setItem('statics',JSON.stringify(_response.result))
+      )
+    : this.setState({
+        isOpen: true,
+        showedMsg: 'episode.' + _response.reason
+    });
+  }
+  onError = (_response, _error) =>{
+    this.setState({
+          isOpen: true,
+          showedMsg: _error
+      });
+  }
+  toggleModal = () => {
+      this.setState({
+          isOpen: !this.state.isOpen
+      });
+   }
   componentDidMount() {
     this.setState({
       'client':JSON.parse(localStorage.getItem('client'))
-    })
+    }) 
+    window.setSpinner();//,
+    API.action('getStatic', {}, this.onSuccess, this.onError, 'GET', false, true);
   }
   componentDidUpdate(){
     this.state = {
@@ -47,9 +72,9 @@ class Home_web extends React.Component {
     console.log(this.state.client);
     let Component, Filtered;
     this.props.auth.isAuthenticated
-    ? this.state.client.paymentData.subscription.type.premium.status === 1
+    ? this.state.client.personalData.type !== 'basic'
       ? Filtered = data.schemma.generic.premium
-      : this.state.client.paymentData.subscription.type.invited.status === 1
+      : this.state.client.personalData.type === 'invited'
         ? Filtered = data.schemma.generic.premium
         : Filtered = data.schemma.generic.basic
     : Filtered = data.schemma.generic.notLogged;

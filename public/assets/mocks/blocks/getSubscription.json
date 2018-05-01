@@ -17,7 +17,7 @@
 		"collection":[
 			{
 				"externalLink":"",
-				"route":"favourites",
+				"route":"register",
 				"user":{
 					"en":"Basic User",
 					"es":"Usuario Básico"
@@ -60,19 +60,11 @@
 					"style":{
 						"background-color":"green"
 					}
-				},
-				"style":{
-					"background":"#fff",
-					"height":"400px",
-					"background-image":"",
-				    "background-repeat": "no-repeat",
-				    "background-size": "cover",
-				    "background-position": "center center"
 				}
 			},
 			{
 				"externalLink":"",
-				"route":"program/M1G1Z3N2",
+				"route":"register",
 				"user":{
 					"en":"Premium User",
 					"es":"Usuario Premium"
@@ -122,14 +114,6 @@
 					"style":{
 						"background-color":"#444"
 					}
-				},
-				"style":{
-					"background":"#fff",
-					"height":"400px",
-					"background-image":"",
-				    "background-repeat": "no-repeat",
-				    "background-size": "cover",
-				    "background-position": "center center"
 				}
 			}
 		]

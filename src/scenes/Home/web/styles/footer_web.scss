@@ -18,6 +18,7 @@ $template-size-1: 12px;
 $template-size-2: 10px;
 
 
+
 .footer_web{
     display: table;
     margin: 0 auto;
@@ -25,10 +26,46 @@ $template-size-2: 10px;
     width: 990px;
 	bottom:0;
 	padding:10px;
+	padding-bottom:72px;
 	text-align:center;
 	font-size:$template-size-1;
     background: #000;
+    a{
+		display: inline-block;
+	}
+	a>div{
+		display:inline-block;
+	}
+	.logo {
+	    position: relative;
+	    img {
+		    width: 295px;
+		    right: 0;
+		    margin-top: 20px;
+		    position: relative;
+		}
+	}
+	.logo:hover{
+		opacity:.5;
+	}
 }
+.footer-init-session{
+    >div{
+    	display:inline-block;
+    	cursor:pointer;
+		font-size: 14px;
+	    font-weight: 400;
+	    font-style: normal;
+	    font-stretch: normal;
+	    line-height: 2.14;
+	    letter-spacing: normal;
+	    color: #fff;
+    }
+    >div:hover{
+    	opacity:.5;
+    }
+}
+
 .footer_web_dark{
     background: $template-dark-bg;
 	color: $template-dark-color-1;
@@ -44,6 +81,7 @@ $template-size-2: 10px;
 	}
 	.footer_web{
 		width:100%;
+		padding:0;
 	}
 	.footer_web_block{
 		padding-left:20px;
@@ -54,6 +92,10 @@ $template-size-2: 10px;
 		    	width:50%;
 		    }
 		}
+	}
+	.footer_web_generic{
+		margin: 0 !important;
+		padding:0 !important;
 	}
 	.footer_web_block:nth-child(2){
 		margin-bottom:50px;
@@ -120,14 +162,14 @@ $template-size-2: 10px;
 	/*color: $template-dark-color-2;
 	font-size:$template-size-1;*/
 }
-.footer_web_block > div > div > div > a > div{
+.footer_web_block > div > div > div > div > a > div{
     cursor:pointer;
 }
-.footer_web_block > div > div > div > a > div:hover{
+.footer_web_block > div > div > div > div > a > div:hover{
     opacity:.5;
 }
 
-.footer_web_block_dark > div > div > div > a > div{
+.footer_web_block_dark > div > div > div > div > a > div{
 	/*color: $template-dark-color-1;*/
 	/*font-family: Avenir;*/
   	font-size: 14px;
@@ -137,8 +179,9 @@ $template-size-2: 10px;
   	line-height: 2.14;
   	letter-spacing: normal;
   	color: #ffffff;
+  	white-space: nowrap;
 }
-.footer_web_block_light > div > div > div > a > div{
+.footer_web_block_light > div > div > div > div > a > div{
     color: $template-light-color-1;
 }
 
@@ -182,7 +225,7 @@ $template-size-2: 10px;
 	display:inline-block;
 	padding:10px;
 }
-.footer_web_generic > a > div:hover{
+.footer_web_generic > div > a > div:hover{
     opacity:.5;
 }
 .footer_web_generic_dark > a  > div{

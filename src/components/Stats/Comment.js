@@ -8,7 +8,7 @@ class Comment extends React.Component {
 	 }
 	render() {
 	    return (
-	    	<div>
+	    	<div className="comment" >
 		    	<div>
 			    	<div class='basicOuter'>
 			            <div class='basicInner'>

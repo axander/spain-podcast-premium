@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
+import { Modal, API } from '../../../services/Rest.js'
+import TranslatedComponent from '../../../utils/TranslatedComponent.js';
 import screenfull from 'screenfull'
 import './PlayerApp.scss'
 
@@ -17,28 +19,39 @@ const MULTIPLE_SOURCES = [
   { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv', type: 'video/ogv' },
   { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm', type: 'video/webm' }
 ]
-
-export default class PlayerApp extends Component {
+const itemToPlay = {
+  data:{}
+}
+class PlayerApp extends Component {
   constructor(props) {
     super(props);
     console.log('props player');
     console.log(props);
-    this.loadPodcast = this.loadPodcast.bind(this);
+    this.state ={
+      'url':'',
+      'init':false
+    }
+    this.loadepisode = this.loadepisode.bind(this);
     this.playPause = this.playPause.bind(this);
-    
+    this.waitToPlay = this.waitToPlay.bind(this);
+    this.getFileSuccess = this.getFileSuccess.bind(this);
+    this.getFileError = this.getFileError.bind(this);
+    this.getFile = this.getFile.bind(this);
+    this.reset = this.reset.bind(this);
   }
-  loadPodcast(_source, _id, _name, _object){
-    localStorage.setItem('lastPodcast', _id);
-    localStorage.setItem('lastPodcastName', JSON.stringify(_name));
-    localStorage.setItem('podcastInfo', JSON.stringify(_object));
-    localStorage.setItem('lastOpinion',_id);//,
+  waitToPlay(){
+    API.action('saveToList', { 'id_item' : itemToPlay.data._id , 'type_item':'episode', 'list':'listened', 'value':true }, null, null, 'GET', false, true)
+    this.load(JSON.parse(localStorage.getItem('config')).cms+itemToPlay.data.source);
     this.player.seekTo(0);
+    this.props.initplayer.init = true;
     typeof this.props.initplayer !== 'undefined' 
     ? (
         /*this.props.showplayer(),*/
         this.setState({ 
-          url: _source,
-          playing: false,
+          init:true,
+          urlPath : JSON.parse(localStorage.getItem('config')).cms+itemToPlay.data.source,
+          url: JSON.parse(localStorage.getItem('config')).cms+itemToPlay.data.source,
+          playing: this.props.auth.isAuthenticated ? true : false,
           played: 0,
           loaded: 0,
           duration: 0,
@@ -46,14 +59,73 @@ export default class PlayerApp extends Component {
         })
       )
     : this.setState({ 
-      url: _source,
-      playing: false,
+      init:true,
+      urlPath : JSON.parse(localStorage.getItem('config')).cms+itemToPlay.data.source,
+      url: JSON.parse(localStorage.getItem('config')).cms+itemToPlay.data.source,
+      playing: this.props.auth.isAuthenticated ? true : false,
       played: 0,
       loaded: 0,
       duration: 0,
       playbackRate: 1.0,
     })
-    
+    this.props.auth.isAuthenticated
+    ? this.props.delegate.tooglePlay(true)
+    : null
+  }
+  getFileSuccess = (_response) => {
+    _response.status === 'success'
+    ? (
+        itemToPlay.data.source = _response.result,
+        this.waitToPlay()
+      )
+    : this.setState({
+        isOpen: true,
+        showedMsg: 'episode.' + _response.reason
+    });
+  }
+  getFileError = (_response, _error) =>{
+    this.setState({
+          isOpen: true,
+          showedMsg: _error
+      });
+  }
+  toggleModal = () => {
+    this.state.isOpen
+    ? localStorage.removeItem('goPremium')
+    : null;
+    this.setState({
+        isOpen: !this.state.isOpen
+    });
+  }
+  getFile(){
+    ( this.props.auth.typeUser !== 'premium' && !JSON.parse(localStorage.getItem('lastItemDatapodcast')).premium  ) || this.props.auth.typeUser === 'premium' 
+    ? (
+      window.setSpinner(),
+      API.action('getFile', { 'id' : itemToPlay.data._id }, this.getFileSuccess, this.getFileError, 'GET', false, true)
+    )
+    : (
+        this.props.delegate.tooglePlay(false),
+        localStorage.setItem('goPremium',true),
+        this.setState({
+            isOpen: true,
+            showedMsg: 'user.premium.content'
+        })
+      )
+  }
+  loadepisode(_source, _id, _name, _object){
+    localStorage.setItem('lastepisode', _id);
+    localStorage.setItem('lastepisodeName', _name);
+    localStorage.setItem('episodeInfo', JSON.stringify(_object));
+    localStorage.setItem('lastOpinion',_id);//,
+    itemToPlay.data = {
+      'source': _source,
+      '_id': _id,
+      '_name': _name,
+      '_object': _object
+    }
+    this.setState({
+      'init':false
+    })
   }
 
   state = {
@@ -75,8 +147,19 @@ export default class PlayerApp extends Component {
     })
   }
   playPause = () => {
-    this.setState({ playing: !this.state.playing });
-    this.props.delegate.tooglePlay(this.state.playing)
+    if(!this.props.initplayer.init){
+      this.props.auth.isAuthenticated
+        ? this.getFile()
+        : (
+          localStorage.setItem('savingList',true),
+          localStorage.getItem('app')
+          ? null
+          : this.props.auth.required(this.getFile)
+        )
+    }else{
+      this.setState({ playing: !this.state.playing });
+      this.props.delegate.tooglePlay(this.state.playing);
+    }
   }
   tooglePlay = () => {
     return this.state.playing
@@ -116,7 +199,7 @@ export default class PlayerApp extends Component {
   }
   onProgress = state => {
     console.log('onProgress', state)
-    this.props.delegate.onProgress(state)
+    typeof this.props.delegate !== 'undefined' ? this.props.delegate.onProgress(state) : null;
     // We only want to update time slider if we are not currently seeking
     if (!this.state.seeking) {
       this.setState(state)
@@ -127,7 +210,7 @@ export default class PlayerApp extends Component {
     this.setState({ playing: this.state.loop })
   }
   onDuration = (duration) => {
-    console.log('onDuration', duration)
+    console.log('onDuration', duration);
     this.setState({ duration })
   }
   onClickFullscreen = () => {
@@ -144,10 +227,20 @@ export default class PlayerApp extends Component {
     this.player = player
   }
   onReady(){
-    this.props.delegate.ready();
+    typeof this.props.delegate !== 'undefined' ? this.props.delegate.ready() : null;
   }
   onBuffer(){
     alert('buffer');
+  }
+  reset(){
+    this.props.initplayer.init = false;
+    this.props.delegate.tooglePlay(false);
+    this.setState({
+      'played':0,
+      'duration':0,
+      'urlPath':'',
+      'playing':false
+    })
   }
   /*<td>
       <button onClick={this.stop}>Stop</button>
@@ -165,8 +258,19 @@ export default class PlayerApp extends Component {
     typeof this.props.delegate !== 'undefined' 
     ?  this.props.delegate.loading = this.onReady
     : null;
-    typeof this.props.initplayer !== 'undefined' ? this.props.initplayer.play= this.loadPodcast : this.props.fromStatic ? this.loadPodcast(this.props.data.source,this.props.data.id,this.props.data.name,this.props.data) : null;
+    typeof this.props.delegate !== 'undefined' 
+    ?  this.props.delegate.duration = this.onDuration
+    : null;
+    typeof this.props.initplayer !== 'undefined' 
+    ? (
+      this.props.initplayer.play= this.loadepisode,
+      this.props.initplayer.reset = this.reset
+    ) 
+    : this.props.fromStatic 
+      ? this.loadepisode(this.props.data.file,this.props.data.id,this.props.data.name,this.props.data) 
+      : null;
   }
+  
   render () {
     const { url, playing, volume, muted, loop, played, loaded, duration, playbackRate } = this.state
     const SEPARATOR = ' · '
@@ -179,7 +283,7 @@ export default class PlayerApp extends Component {
               className='react-player'
               width='100%'
               height='100%'
-              url={url}
+              url={this.state.url}
               playing={playing}
               loop={loop}
               playbackRate={playbackRate}
@@ -203,21 +307,28 @@ export default class PlayerApp extends Component {
           <div className='player-face' >
             <div className="player-face-1" >
               <div className='previous2'  onClick={this.playPause}><span class="icon-skip-back"></span></div>
-              <div className='play'  onClick={this.playPause}><span class={playing ? "icon-pause-circle" : "icon-play-circle" } ></span></div>
-              <div className='backward'  onClick={this.playPause}><span class="icon-rewind"></span></div>
-              <div className='forward2'  onClick={this.playPause}><span class="icon-fast-forward"></span></div>
+              <div className='play'  onClick={this.playPause}><span class={playing ? (!duration || duration<=0) ? "icon-more-horizontal" : "icon-pause-circle" : "icon-play-circle" } ></span></div>
+              <div className={this.props.previousDis ? 'backward disabled' : 'backward'}   onClick={this.props.previous}><span class="icon-rewind"></span></div>
+              <div className={this.props.nextDis ? 'forward2 disabled' : 'forward2'}  onClick={this.props.next}><span class="icon-fast-forward"></span></div>
               <div className='time_played' ><Duration seconds={duration * played} /></div>
             </div>
             <div className="player-face-2">
+              <div className="player-face-url" >{this.state.urlPath}</div>
               <div className='progression'><progress max={1} value={played} />
                 <input className='progression-seek'
                     type='range' min={0} max={1} step='any'
                     value={played}
                     onMouseDown={this.onSeekMouseDown}
                     onChange={this.onSeekChange}
-                    onMouseUp={this.onSeekMouseUp}
-                  />
+                    onMouseUp={this.onSeekMouseUp}/>
               </div>
+            </div>
+            <div className="player-face-1-1" >
+              <div className='previous2'  onClick={this.playPause}><span class="icon-skip-back"></span></div>
+              <div className='play'  onClick={this.playPause}><span class={playing ? (!duration || duration<=0) ? "icon-more-horizontal" : "icon-pause-circle" : "icon-play-circle" } ></span></div>
+              <div className={this.props.previousDis ? 'backward disabled' : 'backward'}   onClick={this.props.previous}><span class="icon-rewind"></span></div>
+              <div className={this.props.nextDis ? 'forward2 disabled' : 'forward2'}  onClick={this.props.next}><span class="icon-fast-forward"></span></div>
+              <div className='time_played' ><Duration seconds={duration * played} /></div>
             </div>
             <div className="player-face-3">
               <div className='duration'><Duration seconds={duration} /></div>
@@ -371,15 +482,15 @@ export default class PlayerApp extends Component {
             </tr>
             <tr>
               <th>volume</th>
-              <td>{volume.toFixed(3)}</td>
+              <td>{typeof volume !== 'undefined' && volume ? volume.toFixed(3) : '' }</td>
             </tr>
             <tr>
               <th>played</th>
-              <td>{played.toFixed(3)}</td>
+              <td>{typeof played !== 'undefined' && played ? played.toFixed(3) : ''}</td>
             </tr>
             <tr>
               <th>loaded</th>
-              <td>{loaded.toFixed(3)}</td>
+              <td>{typeof loaded !== 'undefined' && loaded ? loaded.toFixed(3) : ''}</td>
             </tr>
             <tr>
               <th>duration</th>
@@ -395,7 +506,18 @@ export default class PlayerApp extends Component {
             </tr>
           </tbody></table>
         </section>
+      <Modal show={this.state.isOpen} onClose={this.toggleModal} >
+        {this.translate(this.state.showedMsg)}
+      </Modal>
       </div>
     )
   }
 }
+PlayerApp.propTypes = {
+  //who: React.PropTypes.string.isRequired,
+};
+
+
+// Returns nothing because it mutates the class
+TranslatedComponent(PlayerApp);
+export default PlayerApp;

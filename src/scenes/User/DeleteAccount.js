@@ -2,6 +2,7 @@ import React from 'react'
 import TranslatedComponent from '../../utils/TranslatedComponent.js';
 import Utils from '../../utils/Utils.js';
 import { Modal, API } from '../../services/Rest.js'
+import './deleteAccount.scss'
 
 class DeleteAccount extends React.Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class DeleteAccount extends React.Component {
       'nickName':client.nickName
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleResize = this.handleResize.bind(this);
   }
   handleSubmit(event) {
     window.setSpinner();
@@ -21,10 +23,10 @@ class DeleteAccount extends React.Component {
         showedMsg: ''
       }))
     event.preventDefault();
-    API.action('deleteAccount', {'email':this.state.email} , this.onSuccess, this.onError);
+    API.action('deleteAccount', {} , this.onSuccess, this.onError, 'GET', false, true);
   }
   onSuccess = (_response) => {
-      _response.status === 'successfull'
+      _response.status === 'success'
       ? ( 
         localStorage.removeItem('logged'), 
         localStorage.removeItem('token'),
@@ -57,20 +59,31 @@ class DeleteAccount extends React.Component {
       });
    }
   componentDidMount(){
+    window.addEventListener('resize', this.handleResize);
     this.setState({
       'style':{
         'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0'
       }
     })
   }
+  handleResize() {
+    this.setState({
+      'style':{
+        'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0'
+      }
+    })
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  }
   render() {
     return (
       <div className="delete" style={this.state.style} >
         <h1>{this.translate('user.deleteAccount')}</h1>
-        <div className="container" >
-          <form onSubmit={this.handleSubmit}>
+        <div>{this.translate('user.deleteAccountMessage')}</div>
+        <div>{this.translate('user.deleteAccountConfirm')}</div>
+        <div>
             <div><div className="submitBtn" onClick={this.handleSubmit} >{this.translate('continue').toUpperCase()}</div></div>
-          </form>
         </div>
         <Modal show={this.state.isOpen} onClose={this.toggleModal} >
           {this.translate(this.state.showedMsg)}

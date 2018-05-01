@@ -101,12 +101,6 @@
 					"component":"Travel",
 					"from":"blocks",
 					"path":"Travel/Travel.js"
-				},
-				{
-					"name":"modelo",
-					"component":"Modelo",
-					"from":"blocks",
-					"path":"Modelo/Modelo.js"
 				}
 			]
 		},

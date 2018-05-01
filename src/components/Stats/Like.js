@@ -8,18 +8,18 @@ class Like extends React.Component {
 	 }
 	render() {
 	    return (
-	        <div>
+	        <div class='like' >
 		    	<div>
 			    	<div class='basicOuter'>
 			            <div class='basicInner'>
-			              <span class="icon-thumbs-up"></span>
+			              <span className={this.props.data.isLiked ? "icon-thumbs-up icon-thumbs-up-red" : "icon-thumbs-up" } ></span>
 			            </div>
 			        </div>
 			    </div>
 			   	<div>
 			    	<div class='basicOuter'>
 			            <div class='basicInner'>
-			              {this.props.num}
+			              {this.props.data.info.likes}
 			            </div>
 			        </div>	
 	        	</div>

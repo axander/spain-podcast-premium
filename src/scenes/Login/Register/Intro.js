@@ -20,6 +20,7 @@ class Intro extends React.Component {
      'pwdRepit':'',
      'terms':false,
      'deactive': 'disabled',
+     'oneStep':true
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -43,6 +44,17 @@ class Intro extends React.Component {
       break;
       case 'pwd':
           this.setState({[event.target.id]:event.target.value});
+          this.state.pwd.length < 8
+          ? this.setState({
+            'passwordLength':this.translate('register.passwordLength'),
+            'pwdClass':'notValid_input',
+            'length':false
+          })
+          : this.setState({
+            'passwordLength':'',
+            'pwdClass':'',
+            'length':true
+          })
           this.state.pwd !== this.state.pwdRepit
           ? this.setState({
             'passwordNotMatch':this.translate('register.passwordNotMatch'),
@@ -50,7 +62,7 @@ class Intro extends React.Component {
           })
           : this.setState({
             'passwordNotMatch':'',
-            'pwdClass':''
+            'pwdClass': !this.state.length ? 'notValid_input' : ''
           })
       break;
       case 'pwdRepit':
@@ -62,7 +74,7 @@ class Intro extends React.Component {
           })
           : this.setState({
             'passwordNotMatch':'',
-            'pwdClass':''
+            'pwdClass':!this.state.length ? 'notValid_input' : ''
           })
       break;
       case 'user':
@@ -84,12 +96,13 @@ class Intro extends React.Component {
           this.setState({[event.target.id]:event.target.value});
       break
     }
-    this.state.email !== '' && this.state.pwd !== '' && this.state.pwdRepit !== '' && this.state.user !== '' && this.state.name !== '' && this.state.surname !== ''
+    this.state.email !== '' && this.state.length && this.state.pwd !== '' && this.state.pwdRepit !== '' && this.state.user !== '' && this.state.name !== '' && this.state.surname !== ''
     && this.state.emailValidation === '' && this.state.passwordNotMatch === '' && this.state.terms
     ? this.state.deactive = ''
     : this.state.deactive = 'disabled';
     
   }
+ 
   render() {
     return (
       <div style={this.state.style} >
@@ -103,10 +116,11 @@ class Intro extends React.Component {
                     <div><input id="email" type="text"  onChange={this.handleChange} className={ this.state.emailClass} value={this.state.email} placeholder={this.translate('email')} /></div>
                     <div className="notValid_msg" >{this.state.emailValidation}</div>
                     <div><input id="pwd" type="password" onChange={this.handleChange} className={ this.state.pwdClass } value={this.state.pwd} placeholder={this.translate('password')}/></div>
+                    <div className="notValid_msg" >{this.state.passwordLength}</div>
                     <div className="notValid_msg" >{this.state.passwordNotMatch}</div>
                     <div><input id="pwdRepit" type="password" onChange={this.handleChange} className={ this.state.pwdClass } value={this.state.pwdRepit} placeholder={this.translate('password.repit')} /></div>
-                    <div className="mt25 left" ><input id="terms" type="checkbox" onChange={this.handleChange}  checked={this.state.terms}  /><Link className='aTerms' to='/terms' target="_blank" > {this.translate('user.terms')}</Link></div>
-                    <div className="mt50 right" ><div className={"greenPB " + this.state.deactive }  onClick={() => this.props.flow(this.state,'intro')} >{this.translate('register.continue')}</div></div>
+                    <div className="mt25 left intro_accept" ><input id="terms" type="checkbox" onChange={this.handleChange}  checked={this.state.terms}  />{this.translate('user.accept')}<Link className='aTerms' to='/info/about' target="_blank" > {this.translate('user.terms')}</Link>.</div>
+                    <div className="mt50 right intro_continue" ><div className={"greenPB " + this.state.deactive }  onClick={() => this.props.flow(this.state,'intro')} >{this.state.oneStep ? this.translate('register.finalize') : this.translate('register.continue')}</div></div>
                   </form>
           </div>
         </register>

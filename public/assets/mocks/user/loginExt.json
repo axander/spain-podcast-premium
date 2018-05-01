@@ -19,23 +19,25 @@
 			"date":"2017-12-12",						
 			"mili":0,					
 			"status":1,								
-			"avatar":"xxxxxx.png",					
+			"avatar":"https://t2.ea.ltmcdn.com/es/images/4/2/1/img_el_erizo_como_mascota_2124_600.jpg",					
 			"email":"xxx@xx.xx",				
-			"name":"",
-			"nickName":"NICKNAME",
-			"password":"",
-			"surname":"",
+			"name":"John",
+			"nickName":"John Grant",
+			"password":"asdf234",
+			"surname":"Grant",
 			"phone":"",
-			"address":"",
+			"address":"Addres Tal",
 			"number":"xxxxxxx",						
 			"floor":8,								
 			"door":"",							
 			"apartment":304,						
 			"city":"",
 			"country":"",
-			"cp":0,							
+			"cp":28012,							
 			"zip":"xxxxx",						
-			"countryCode":""				
+			"countryCode":"",
+			"country":"Spain",
+			"province":"Malaga"				
 		},
 		"sessionData":{		
 											
@@ -49,16 +51,52 @@
 			},
 			"codesTo":[											
 				{ 
-					"id":"",
-					"status":0,						
-					"deferred":"xxx@xx.xx"		
-
+					"id":"xxxxxxx1",
+					"code":"qwe1234qq",
+					"status":0,
+					"date":1234123412341234,						
+					"deferred":""
+				},
+				{ 
+					"id":"xxxxxxx1",
+					"code":"sdf551re4q",
+					"status":1,
+					"date":1234123412341234,					
+					"deferred":"asdf@asdf.com"
 				}
 			],
-			"payments":[										
+			"codesFrom":[											
 				{ 
-					"id":"", 
-					"status":""
+					"id":"zzzzzzzzz1",
+					"code":"we234wwa",
+					"status":0,
+					"date":1234123412341234,							
+					"deferred":"xxx@xx.xx",
+					"activationDate":null		
+				},
+				{ 
+					"id":"xxxxxxx1",
+					"code":"asd22qwer3qw",
+					"status":0,
+					"date":1234123412341234,							
+					"deferred":"xxx@xx.xx",
+					"activationDate":1514923506008			
+				},
+				{ 
+					"id":"xxxxxxx1",
+					"code":"asd223qw",
+					"status":1,
+					"date":1234123412341234,							
+					"deferred":"xxx@xx.xx",
+					"activationDate":1515254832318			
+				},
+				{ 
+					"id":"xxxxxxx1",
+					"code":"23fhkc3455",
+					"status":2,
+					"date":6789123412341234,							
+					"deferred":"zzz@zz.zz"	,
+					"activationDate":1514923506008		
 				}
 			],
 			"subscription":{
@@ -66,22 +104,19 @@
 					"basic":{ 
 						"id":"",
 						"status":1,					
-						"date":"2017-12-12",			
-						"mili":0,			
+						"activationDate":1515254832318,				
 						"code":""					
 					},
 					"invited":{
 						"id":"",
 						"status":0,					
-						"date":"2017-12-12",			
-						"mili":0,			
-						"code":""					
+						"activationDate":151525483,						
+						"code":"asd223qw"					
 					},
 					"premium":{
 						"id":"",
 						"status":0,					
-						"date":"2017-12-12",			
-						"mili":0,		
+						"activationDate":151525483,				
 						"code":""					
 					}
 				}
@@ -89,29 +124,76 @@
 		},
 		"listData":{							
 			"later":{											
-				"podcast":[
-					{"id":"", "col":[]}
+				"episode":[
+					{
+						"folder":"LATER",
+						"id":"ROOT",
+						"children":[]
+					}
 				],
 				"program":[
-					{"id":"", "col":[]}
+					{
+						"folder":"LATER",
+						"id":"ROOT",
+						"children":[]
+					}
 				],
-				"canal":[
-					{"id":"", "col":[]}
+				"channel":[
+					{
+						"folder":"LATER",
+						"id":"ROOT",
+						"children":[]
+					}
+				]
+			},
+			"share":{											
+				"episode":[
+					{
+						"folder":"SHARE",
+						"id":"ROOT",
+						"children":[]
+					}
+				],
+				"program":[
+					{
+						"folder":"SHARE",
+						"id":"ROOT",
+						"children":[]
+					}
+				],
+				"channel":[
+					{
+						"folder":"SHARE",
+						"id":"ROOT",
+						"children":[]
+					}
 				]
 			},
 			"fav":{												
-				"podcast":[
-					{"id":"", "col":[]}
+				"episode":[
+					{
+						"folder":"FAVORITOS",
+						"id":"ROOT",
+						"children":[]
+					}
 				],
 				"program":[
-					{"id":"", "col":[]}
+					{
+						"folder":"FAVORITOS",
+						"id":"ROOT",
+						"children":[]
+					}
 				],
-				"canal":[
-					{"id":"", "col":[]}
+				"channel":[
+					{
+						"folder":"FAVORITOS",
+						"id":"ROOT",
+						"children":[]
+					}
 				]
 			},
 			"subscriptions":{									
-				"podcast":[
+				"episode":[
 					{"id":"", "col":[]}
 				],
 				"program":[
@@ -122,7 +204,7 @@
 				]
 			},
 			"history":{											
-				"podcast":[
+				"episode":[
 					{"id":"", "col":[]}
 				],
 				"program":[
@@ -130,10 +212,10 @@
 				]
 			},
 			"download":{										
-				"podcast":[
+				"episode":[
 					{"id":"", "col":[] }
 				],
-				"canal":[
+				"channel":[
 					{"id":"", "col":[]}
 				]
 			},

@@ -25,17 +25,20 @@ class Pages extends React.Component {
   returnPhasePerType(){
     var phase = null;
     switch(this.props.list){
+      case 'new':
+        phase = parseFloat(localStorage.getItem('phase_'+this.props.list+'_'+this.props.origen )) || 0;
+      break;
       case 'opinion':
         phase = parseFloat(localStorage.getItem('phase_'+this.props.list+'_'+this.props.origen )) || 0;
       break;
       case 'channel':
         phase = parseFloat(localStorage.getItem('phase_'+this.props.list)) || 0;
       break;
-      case 'program':
+      case 'podcast':
         phase = parseFloat(localStorage.getItem('phase_'+this.props.list+'_'+ localStorage.getItem('lastChannel'))) || 0;
       break;
-      case 'podcast':
-        phase = parseFloat(localStorage.getItem('phase_'+this.props.list+'_'+ localStorage.getItem('lastProgram'))) || 0;
+      case 'episode':
+        phase = parseFloat(localStorage.getItem('phase_'+this.props.list+'_'+ localStorage.getItem('lastpodcast'))) || 0;
       break;
       default:
         phase = parseFloat(localStorage.getItem('phase_'+this.props.list)) || 0;
@@ -48,17 +51,20 @@ class Pages extends React.Component {
     this.phases[this.state.phaseBefore] = false;
     this.phases[_phase] = true;
     switch(this.props.list){
+        case 'new':
+          localStorage.setItem('phase_'+this.props.list+'_'+localStorage.getItem('lastNew'), _phase);
+        break;
         case 'opinion':
           localStorage.setItem('phase_'+this.props.list+'_'+localStorage.getItem('lastOpinion'), _phase);
         break;
         case 'channel':
           localStorage.setItem('phase_'+this.props.list, _phase);
         break;
-        case 'program':
+        case 'podcast':
           localStorage.setItem('phase_'+this.props.list+'_'+ localStorage.getItem('lastChannel'), _phase);
         break;
-        case 'podcast':
-          localStorage.setItem('phase_'+this.props.list+'_'+ localStorage.getItem('lastProgram'), _phase);
+        case 'episode':
+          localStorage.setItem('phase_'+this.props.list+'_'+ localStorage.getItem('lastpodcast'), _phase);
         break;
         default:
           localStorage.setItem('phase_'+this.props.list, _phase);
@@ -80,7 +86,7 @@ class Pages extends React.Component {
         'phaseBefore':_phase
       })
     }
-    this.props.setPhase(_phase);
+    this.props.setPhase(_phase,true);//second parameter indicate is triggered from pages component
   }
   rewindPages(){
     if(this.state.phase-1>(this.state.phases.length-1)-this.state.phasePage){
@@ -121,6 +127,7 @@ class Pages extends React.Component {
   componentDidMount() {
     // Will execute as normal
     this.phases = Array.apply(null, {length: Math.ceil(this.props.total/this.props.perPhase)}).map(Boolean);
+    console.log(this.phases);
     this.setState({
       'phases': this.phases
     })
@@ -145,9 +152,32 @@ class Pages extends React.Component {
     //this.setPhase(parseFloat(localStorage.getItem('phase_'+this.props.list)))
     
   }
+  componentWillUpdate(){
+    var _phase ;
+    typeof this.props.numElem !== 'undefined' && !this.props.numElem
+    ? this.rewindPages()
+    : (
+      this.phases[this.state.phaseBefore] = false,
+      _phase = this.returnPhasePerType(),
+      this.phases[_phase] = true,
+        _phase>=(this.state.phases.length-1)-this.state.phasePage
+        ? this.setState({
+          'phase':_phase,
+          'acumulate':(this.state.phases.length-1)-this.state.phasePage,
+          'phases': this.phases,
+          'phaseBefore':_phase
+        })
+        : this.setState({
+          'phase':_phase,
+          'acumulate':_phase,
+          'phases': this.phases,
+          'phaseBefore':_phase
+        })
+    )
+  }
   render() {
     return (
-      <div className='pages'  >
+      <div className={this.state.phases.length >=2 ? 'pages' : 'hide' }  >
           <div className={ this.state.phases.length <= this.state.phasePage || this.state.acumulate === 0 ? 'hide' : "item_page" }  onClick={this.rewindPages} >
             ❮
           </div>

@@ -8,7 +8,7 @@ class Played extends React.Component {
 	 }
 	render() {
 	    return (
-	        <div>
+	        <div className="played" >
 		    	<div>
 			    	<div class='basicOuter'>
 			            <div class='basicInner'>

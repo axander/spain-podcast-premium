@@ -78,8 +78,8 @@ class Payment extends React.Component {
                     <div className="payment_input_50_1">{this.translate('what')}</div>
                     <div className="mb25 mt25 left">{this.translate('haveCode')}</div>
                     <div><input id="code" type="password" onChange={this.handleChange} className={ this.state.code } value={this.state.code} placeholder={this.translate('code')}/></div>
-                  	<div className="mt50 right" ><div className={"greenPB " + this.state.deactive } onClick={() => this.props.flow(this.state,'payment')} >{this.translate('register.finalize')}</div></div>
-	        		<div className="mt50 left" ><div className="neutralPB" onClick={() => this.props.back('data')} >{this.translate('register.cancel')}</div></div>
+                    <div className="mt50 right payment_finalize" ><div className={"greenPB " + this.state.deactive } onClick={() => this.props.flow(this.state,'payment')} >{this.translate('register.finalize')}</div></div>
+                    <div className="mt50 left payment_cancel" ><div className="neutralPB" onClick={() => this.props.back('data')} >{this.translate('register.cancel')}</div></div>
                   </form>
           </div>
         </payment>

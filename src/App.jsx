@@ -32,7 +32,16 @@ class App extends React.Component {
           config:true
       	});
 	}
+	hasChange(){
+		/*typeof window.gtag !== 'undefined'
+		? window.gtag('config', 'GA_TRACKING_ID', {
+			  'page_title' : 'Spain Premium Podcast',
+			  'page_path': location.hash
+			})
+		: null;*/
+	}
 	componentDidMount() {
+		window.addEventListener("hashchange", this.hasChange, false);
     	!localStorage.getItem('template') ? localStorage.setItem('template','dark') : null;
   	}
   	render() {

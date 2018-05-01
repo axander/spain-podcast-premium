@@ -118,7 +118,7 @@
 		},
 		"listData":{							
 			"later":{											
-				"podcast":[
+				"episode":[
 					{"id":"", "col":[]}
 				],
 				"program":[
@@ -129,7 +129,7 @@
 				]
 			},
 			"fav":{												
-				"podcast":[
+				"episode":[
 					{"id":"", "col":[]}
 				],
 				"program":[
@@ -140,7 +140,7 @@
 				]
 			},
 			"subscriptions":{									
-				"podcast":[
+				"episode":[
 					{"id":"", "col":[]}
 				],
 				"program":[
@@ -151,7 +151,7 @@
 				]
 			},
 			"history":{											
-				"podcast":[
+				"episode":[
 					{"id":"", "col":[]}
 				],
 				"program":[
@@ -159,7 +159,7 @@
 				]
 			},
 			"download":{										
-				"podcast":[
+				"episode":[
 					{"id":"", "col":[] }
 				],
 				"canal":[

@@ -37,7 +37,7 @@ class Footer_web extends React.Component {
         <div class='row row-eq-height' >
           <div className={'col-xs-6 col-md-3 footer_web_block footer_web_block_'+localStorage.getItem('template')}><div><div><Footer_about /></div></div></div>
           <div className={'col-xs-6 col-md-3 footer_web_block footer_web_block_'+localStorage.getItem('template')}><div><div><Footer_account /></div></div></div>
-          <div className={'col-xs-6 col-md-3 footer_web_block footer_web_block_'+localStorage.getItem('template')}><div><div><Footer_link /></div></div></div>
+          <div className={'col-xs-6 col-md-3 footer_web_block footer_web_block_'+localStorage.getItem('template')}><div><div><Footer_link header={this.props.header} /></div></div></div>
           <div className={'col-xs-6 col-md-3 footer_web_block footer_web_block_'+localStorage.getItem('template')}><div><div><Footer_app /></div></div></div>
         </div>
         <div class='row row_social'> 

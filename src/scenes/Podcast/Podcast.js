@@ -1,12 +1,13 @@
 import React from 'react'
 import { Modal, API } from '../../services/Rest.js'
-import PlayerApp from '../../components/Player/PlayerApp/PlayerApp.js'
 import Submenu from '../../components/Submenu/Submenu.js'
 import UsuarioApi from '../../services/api2.js'
+import SingleLayout from '../../components/SingleLayout/SingleLayout.js'
 import Iteminfo from '../../components/Iteminfo/Iteminfo.js'
 import Opinion from '../../blocks/Opinion/Opinion.js'
+import Claim from '../../blocks/Claim/Claim.js'
+import NewChannel from '../../components/New/NewChannel.js'
 import Pages from '../../components/Pages/Pages.js'
-import SingleLayout from '../../components/SingleLayout/SingleLayout.js'
 import later from '../../assets/images/later.png'
 import fav from '../../assets/images/fav.png'
 import share from '../../assets/images/share.png'
@@ -15,30 +16,44 @@ import { Link, Route } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js'
 import Utils from '../../utils/Utils.js'
 import Lists from '../../utils/Lists.js'
-import './podcast.scss'
+import ListSchemma from '../../components/Lists/ListSchemma.js'
+import './podcast.scss';
+
+const _Opinion ={
+  refresh(){
+
+  }
+}
 
 class Podcast extends React.Component {
   constructor(props) {
+
     super(props);
-    console.log('props origen');
-    console.log(this.props.location.origen);
+    console.log('props podcast');
+    console.log(props);
     typeof props.location !== 'undefined'
     ? localStorage.setItem('lastState',props.location.pathname)
     : null;
     this.state = {
-      'schemmaShow':false,
-      'schemma':[],
+      'cms':JSON.parse(localStorage.getItem('config')).cms,
       'data':[ ],
-      'program': typeof this.props.match === 'undefined' ? 'FORBESDAILY' : typeof this.props.match.params.program === 'undefined' ? ( localStorage.getItem('lastProgram') ? localStorage.getItem('lastProgram') : 'FORBESDAILY' ) : this.props.match.params.program,
+      'channel': typeof this.props.match === 'undefined' ? 'F4RB2S' : typeof this.props.match.params.channel === 'undefined' ? ( localStorage.getItem('lastChannel') ? localStorage.getItem('lastChannel') : 'F4RB2S' ) : this.props.match.params.channel,
       'options':[],
-      'phase': parseFloat(localStorage.getItem('phase_podcast_'+localStorage.getItem('lastProgram'))) || 0 ,
-      'total':0
+      'phase': parseFloat(localStorage.getItem('phase_podcast_'+localStorage.getItem('lastChannel'))) || 0,
+      'total':0,
+      'origenData':{}
     }
-    localStorage.setItem('lastProgramLink',this.props.location.pathname);
+    localStorage.setItem('lastChannelLink',this.props.location.pathname);
     this.options =[];
-    this.clickHandlerPodcastLater = this.clickHandlerPodcastLater.bind(this);
-    this.clickHandlerPodcastFav = this.clickHandlerPodcastFav.bind(this);
-    this.clickHandlerPodcastShare = this.clickHandlerPodcastShare.bind(this);
+    this.clickHandler = this.clickHandler.bind(this);
+    this.clickHandlerpodcastLater = this.clickHandlerpodcastLater.bind(this);
+    this.clickHandlerpodcastFav = this.clickHandlerpodcastFav.bind(this);
+    this.saveToListFav = this.saveToListFav.bind(this);
+    this.onSuccessFav = this.onSuccessFav.bind(this);
+    this.clickHandlerpodcastShare = this.clickHandlerpodcastShare.bind(this); 
+    this.clickHandlerpodcastSubscribe = this.clickHandlerpodcastSubscribe.bind(this);     
+    this.saveToListSubscribe = this.saveToListSubscribe.bind(this);
+    this.onSuccessSubscribe = this.onSuccessSubscribe.bind(this);
     this.setSchemmaFav = this.setSchemmaFav.bind(this);
     this.setSchemmaLater = this.setSchemmaLater.bind(this);
     this.setSchemmaShare = this.setSchemmaShare.bind(this);
@@ -49,20 +64,46 @@ class Podcast extends React.Component {
   }
   onSuccess = (_response) => {
     Utils.scrollToTop(300);
-    _response.status === 'successfull'
+    _response.status === 'success'
     ? ( 
       this.setState ({
-        'data':_response.data,
+        'data':_response.result,
         'total':_response.total,
-        'phase': parseFloat(localStorage.getItem('phase_podcast_'+localStorage.getItem('lastProgram'))) || 0 ,
+        'phase':parseFloat(localStorage.getItem('phase_podcast_'+localStorage.getItem('lastChannel'))) || 0,
         'perPhase':_response.perPhase
       }),
-      localStorage.setItem('podcast', JSON.stringify(_response.data))
+      localStorage.setItem('podcast', JSON.stringify(_response.result))
     )
     : this.setState({
         isOpen: true,
         showedMsg: 'podcast.' + _response.reason
     });
+  }
+  onSuccessOrigen = (_response) => {
+    _response.status === 'successfull'
+    ? ( 
+      localStorage.setItem('lastChannel',_response.data.channel.id),
+      localStorage.setItem('lastChannelLink','/podcast/'+_response.data.channel.id+'/'+_response.data.channel.name),
+      localStorage.setItem('lastChannelName',JSON.stringify(_response.data.channel.name)),
+      window.location.href = './#/podcast/'+_response.data.channel.id+'/'+_response.data.channel.name
+    )
+    : this.setState({
+        isOpen: true,
+        showedMsg: 'podcast.' + _response.reason
+    });
+  }
+  getOrigen(_origen){
+    API.action('getChannelOrigen', { 'podcast' : _origen }, this.onSuccessOrigen, this.onError, 'GET');
+  }
+  clickHandler(event, _p){
+    
+    event.target.id !== localStorage.getItem('lastpodcast')
+    ? (
+        localStorage.setItem('lastItemDataepisode', JSON.stringify(_p)),
+        localStorage.setItem('lastpodcastName', _p.name),
+        localStorage.removeItem('lastepisode')
+      )
+    : null;
   }
   onError = (_response, _error) =>{
     this.setState({
@@ -79,9 +120,9 @@ class Podcast extends React.Component {
     this.props.initSchemma.setSchemma = Lists.saveToList('podcast','later',this.state.podcast.id);
     this.props.initSchemma.show('podcast','later',this.state.podcast);
   }
-  clickHandlerPodcastLater(event, _podcast){
+  clickHandlerpodcastLater(event, _podcast){
     event.stopPropagation();
-    this.state.podcast = _podcast
+    this.state.podcast = _podcast;
     this.props.auth.isAuthenticated
     ? this.setSchemmaLater()
     : (
@@ -98,9 +139,19 @@ class Podcast extends React.Component {
     this.props.initSchemma.setSchemma = Lists.saveToList('podcast','fav',this.state.podcast.id);
     this.props.initSchemma.show('podcast','fav',this.state.podcast);
   }
-  clickHandlerPodcastFav(event, _podcast){
+  clickHandlerpodcastFav(event, _podcast){
     event.stopPropagation();
-    this.state.podcast = _podcast
+    this.state.podcast = _podcast;
+    this.props.auth.isAuthenticated
+    ? this.saveToListFav()
+    : localStorage.getItem('app')
+      ? null
+      : (
+        localStorage.setItem('scrollY', window.scrollY),
+        this.props.auth.required(this.saveToListFav)
+     )
+
+    /*
     this.props.auth.isAuthenticated
     ? this.setSchemmaFav()
     : (
@@ -110,14 +161,49 @@ class Podcast extends React.Component {
           this.props.auth.afterRequiredApp = this.setSchemmaFav,
           window.location.href = './#/login'
         )
-      : this.props.auth.required(this.setSchemmaFav)
+      : this.props.auth.required(this.setSchemmaFav);
     )
+    */
+  }
+  saveToListFav(){
+    window.setSpinner(),//,
+    this.setState({
+      'refreshing':true
+    })
+    this.state.podcast.isFavorite
+    ? API.action('saveToList', { 'id_item' : this.state.podcast.id , 'type_item':'podcast', 'list':'fav', 'value':false }, this.onSuccessFav, this.onError, 'GET', false, true)
+    : API.action('saveToList', { 'id_item' : this.state.podcast.id , 'type_item':'podcast', 'list':'fav', 'value':true }, this.onSuccessFav, this.onError, 'GET', false, true)
+  }
+  onSuccessFav(){
+    var lastSearch = JSON.parse(localStorage.getItem('lastSearch'));
+    if(lastSearch){
+      for( var j in lastSearch['podcasts'].result){
+        lastSearch['podcasts'].result[j].id === this.state.podcast.id
+        ? lastSearch['podcasts'].result[j].isFavorite = !lastSearch['podcasts'].result[j].isFavorite
+        : null
+      }
+      localStorage.setItem('lastSearch', JSON.stringify(lastSearch));
+    }
+    var lastItemDataepisode = JSON.parse(localStorage.getItem('lastItemDataepisode'));
+    lastItemDataepisode
+    ? ( 
+      lastItemDataepisode.isFavorite = !lastItemDataepisode.isFavorite,
+      localStorage.setItem('lastItemDataepisode', JSON.stringify(lastItemDataepisode))
+      )
+    :null;
+    this.state.podcast.isFavorite = !this.state.podcast.isFavorite;
+    this.setState({
+      'refreshing':false
+    })
+    localStorage.getItem('scrollY')
+    ? localStorage.removeItem('scrollY')
+    :null
   }
   setSchemmaShare(){
     this.props.initSchemma.setSchemma = Lists.saveToList('podcast','share',this.state.podcast.id);
     this.props.initSchemma.show('podcast','share',this.state.podcast);
   }
-  clickHandlerPodcastShare(event, _podcast){
+  clickHandlerpodcastShare(event, _podcast){
     event.stopPropagation();
     this.state.podcast = _podcast
     this.props.auth.isAuthenticated
@@ -131,6 +217,52 @@ class Podcast extends React.Component {
         )
       : this.props.auth.required(this.setSchemmaShare)
     )
+  }
+  clickHandlerpodcastSubscribe(event, _podcast){
+    event.stopPropagation();
+    this.state.podcast = _podcast
+    this.props.auth.isAuthenticated
+    ? this.saveToListSubscribe()
+    : localStorage.getItem('app')
+      ? null
+      : (
+        localStorage.setItem('scrollY', window.scrollY),
+        this.props.auth.required(this.saveToListSubscribe)
+      )
+  }
+  saveToListSubscribe(){
+    window.setSpinner(),//,
+    this.setState({
+      'refreshing':true
+    })
+    this.state.podcast.isSubscribed
+    ? API.action('saveToList', { 'id_item' : this.state.podcast.id , 'type_item':'podcast', 'list':'subscribe', 'value':false }, this.onSuccessSubscribe, this.onError, 'GET', false, true)
+    : API.action('saveToList', { 'id_item' : this.state.podcast.id , 'type_item':'podcast', 'list':'subscribe', 'value':true }, this.onSuccessSubscribe, this.onError, 'GET', false, true)
+  }
+  onSuccessSubscribe(){
+    var lastSearch = JSON.parse(localStorage.getItem('lastSearch'));
+    if(lastSearch){
+      for( var j in lastSearch['podcasts'].result){
+        lastSearch['podcasts'].result[j].id === this.state.podcast.id
+        ? lastSearch['podcasts'].result[j].isSubscribed = !lastSearch['podcasts'].result[j].isSubscribed
+        : null
+      }
+      localStorage.setItem('lastSearch', JSON.stringify(lastSearch));
+    }
+    var lastItemDataepisode = JSON.parse(localStorage.getItem('lastItemDataepisode'));
+    lastItemDataepisode
+    ? ( 
+      lastItemDataepisode.isSubscribed = !lastItemDataepisode.isSubscribed,
+      localStorage.setItem('lastItemDataepisode', JSON.stringify(lastItemDataepisode))
+      )
+    :null;
+    this.state.podcast.isSubscribed = !this.state.podcast.isSubscribed;
+    this.setState({
+      'refreshing':false
+    })
+    localStorage.getItem('scrollY')
+    ? localStorage.removeItem('scrollY')
+    :null
   }
   clickHandlerClose(_option){
     this.options[_option]= false;
@@ -146,32 +278,27 @@ class Podcast extends React.Component {
   }
   setPhase(_phase){
     window.setSpinner();//,
-    API.action('getListPod'+this.state.program, { 'program' : this.state.program, 'phase': parseFloat(localStorage.getItem('phase_podcast_'+localStorage.getItem('lastProgram'))) || 0 }, this.onSuccess, this.onError, 'GET');
-  }
-  initPlayer(p){
-    localStorage.setItem('lastItemDatastatic',JSON.stringify(p));
-    Utils.scrollToTop(300);
-    //window.location.href = window.location.href+'/'+p.id+'/'+p.name[localStorage.getItem('language')];
-    this.props.initplayer.data = p;
-    this.props.initplayer.play(p.source, p.id, p.name, p);
-    window.location.href = './#/static/'+p.id+'/'+p.name[localStorage.getItem('language')];
+    API.action('getListPod', { 'id' : this.state.channel , 'phase': parseFloat(localStorage.getItem('phase_podcast_'+localStorage.getItem('lastChannel'))) }, this.onSuccess, this.onError, 'GET', false, true);
   }
   componentDidMount(){
+    //window.googletag.cmd.push(function() { window.googletag.display('right1'); }) 
     window.addEventListener('resize', this.handleResize);
+    Utils.scrollToTop(300);
     this.setState({
       'style':{
         'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0'
       }
     })
-    /*typeof localStorage.getItem('program')!=='undefined' && localStorage.getItem('program') && localStorage.getItem('lastProgram') === this.state.program
+
+    /*typeof localStorage.getItem('podcast')!=='undefined' && localStorage.getItem('podcast') && localStorage.getItem('lastChannel') === this.state.channel
     ? this.setState ({
         'data':JSON.parse(localStorage.getItem('podcast'))
       })
     : ( */
-      localStorage.setItem('lastProgram',this.state.program );//,
-      localStorage.setItem('lastOpinion',this.state.program);//,
+      localStorage.setItem('lastChannel',this.state.channel);//,
+      localStorage.setItem('lastOpinion',this.state.channel);//,
       window.setSpinner();//,
-      API.action('getListPod'+this.state.program, { 'program' : this.state.program, 'phase': parseFloat(localStorage.getItem('phase_podcast_'+localStorage.getItem('lastChannelName'))) || 0 }, this.onSuccess, this.onError, 'GET');
+      API.action('getListPod', { 'id' : this.state.channel , 'phase': parseFloat(localStorage.getItem('phase_podcast_'+localStorage.getItem('lastChannel'))) || 0 }, this.onSuccess, this.onError, 'GET', false, true);
       //)
   }
   componentWillUnmount() {
@@ -184,112 +311,160 @@ class Podcast extends React.Component {
       }
     })
   }
-  /*<div class="col-xs-6">
-    <div className="desc">
-      {p.desc[localStorage.getItem('language')]}
-    </div>
-  </div>*/
-  /*<PlayerApp />*/
+   /*<div class="col-xs-6">
+                        <div className="desc">
+                          {p.desc[localStorage.getItem('language')]}
+                        </div>
+                      </div>*/
   render() {
+    let lan = localStorage.getItem('language');
     let PagesList;
     if(this.state.total>0){
-      PagesList = <Pages total={this.state.total} perPhase={this.state.perPhase}  setPhase= {this.setPhase} auth={this.props.auth} list="podcast" />
+      PagesList = <Pages total={this.state.total} perPhase={this.state.perPhase} setPhase= {this.setPhase} auth={this.props.auth} list="podcast" />
     }
+    let ClaimDiv;
+    this.props.auth.typeUser !== 'premium'
+    ? ClaimDiv = <div className="col-xs-12 col-sm-4" >
+                <div id='right1' >
+                  
+                </div>
+                <Claim />
+              </div>
+    : ClaimDiv = '';
     return (
       <div className={ Utils.checkScene('/podcast') ? 'podcast' : 'podcast resetPaddingBottom' } style={this.state.style} >
         <div className={ Utils.checkScene('/podcast') ? 'hide' : 'hide' } >
-          <h1>{this.translate('menu.podcast').toUpperCase() + ' ' + this.translate('program') + ' ' + ( localStorage.getItem('lastProgramName') ? JSON.parse(localStorage.getItem('lastProgramName'))[localStorage.getItem('language')] : '' ) }</h1>
+          <h1>{this.translate('menu.podcast').toUpperCase() + ' ' + this.translate('channel') + ' ' + ( localStorage.getItem('lastChannelName') ? localStorage.getItem('lastChannelName') : ''  ) }</h1>
         </div>
-        <div className='row' >
+        <div class="row" >
           <div>
-            <Iteminfo data={this.props.location.data} destiny={this.props.location.destiny} auth={this.props.auth} origen="program" dataOrigenLink={localStorage.getItem('lastChannelLink')} dataOrigen={localStorage.getItem('lastChannelName')} initSchemma={this.props.initSchemma} />
+            <Iteminfo data={JSON.parse(localStorage.getItem('lastChannelData'))} destiny='podcast' auth={this.props.auth} origen="channel" initSchemma={this.props.initSchemma} />
           </div>
         </div>
         <div className={ Utils.checkScene('/podcast') ? '' : 'resetPaddingTop' }>
-          <div class="row" >
-            {
-              this.state.data.map((p, index)  => (
-                <div className="col-xs-12 col-md-4" >
-                  <div className ={ (index-1)%3===0 ? 'item_container' : index%3===0 ? 'item_container_left' : 'item_container_right'} >
-                    <div className={ p.id === localStorage.getItem('lastPodcast') ? "contentSelected" : "" } >
-                        <div className="row item" >
-                          <div className="col-xs-12 ">
-                            <div className="item_origen">
-                              Origen
-                            </div>
-                          </div>
-                          <div className="col-xs-12 ">
-                            <div className="rot">
-                              {index+1+this.state.phase*this.state.perPhase}. {p.name[localStorage.getItem('language')]}
-                            </div>
-                          </div>
-                          <div class="desc_cont">
-                            <Stats data={p.info} />
-                            <div class="item_actions">
-                              <div class="item_actions_podcast" id={p.id} name={p.name[localStorage.getItem('language')]} onClick={() => this.initPlayer(p)} >
-                                <div>
-                                  <div class='basicOuter'>
-                                    <div class='basicInner'>
-                                      <div className="item_desc" style={ 'background-image:url("' + p.image + '")'} >
-                                      </div>
-                                    </div>
+          <div class="row">
+            <div className={this.props.auth.typeUser !=='premium' ? "col-xs-12 col-sm-8" : "col-xs-12" } >
+              <div className="podcast_rot" >
+                {this.translate('menu.podcast').toUpperCase() }
+              </div>
+              <div className={!this.state.data.length ? '':'hide'} >{this.translate('user.listEmpty')}</div>
+              <div class="row" >
+                {
+                  this.state.data.map((p, index) => (
+                    <div className={this.props.auth.typeUser !=='premium' ? "col-xs-12 col-md-6" : "col-xs-12 col-md-4" }>
+                        <div className ={this.props.auth.typeUser  !=='premium' ? 'item_container' : (index-1)%3===0 ? 'item_container' : index%3===0 ? 'item_container_left' : 'item_container_right'} >
+                          <div className={ p.id === localStorage.getItem('lastpodcast') ? "contentSelected" : "" }>
+                              <div className="row item" ><div className="col-xs-12 ">
+                                {/*<div className="col-xs-12 ">
+                                  <div className="item_origen" onClick={() => this.getOrigen(p.origen.id)}>
+                                    {p.origen.name[lan]}
+                                  </div>
+                                </div>*/}
+                                </div>
+                                <div className="col-xs-12 ">
+                                  <div className="rot">
+                                    <Link class="item_actions_podcast" to={
+                                          {
+                                            pathname:'/episode/'+p.id+'/'+p.name,
+                                            data:p,
+                                            'destiny':'episode',
+                                            'schemma':this.props.initSchemma
+                                          }
+                                        }   id={p.id}  onClick={ (event, _name) => this.clickHandler(event, p)}  >
+                                      {index+1+this.state.phase*this.state.perPhase}. {p.name}
+                                    </Link>
                                   </div>
                                 </div>
-                                <div class="item_action_rot" >
-                                  <div>
-                                    <div class='basicOuter'>
-                                      <div class='basicInner'>
-                                        <span class="icon-play-circle"></span>
+                                <div class="desc_cont">
+                                  <Stats data={p} origen='podcast' auth={this.props.auth} />
+                                  <div class="item_actions">
+                                    <Link class="item_actions_podcast" to={
+                                          {
+                                            pathname:'/episode/'+p.id+'/'+p.name,
+                                            data:p,
+                                            'destiny':'episode',
+                                            'schemma':this.props.initSchemma
+                                          }
+                                        }   id={p.id}  onClick={ (event, _name) => this.clickHandler(event, p)}  >
+                                      <div>
+                                        <div class='basicOuter'>
+                                          <div class='basicInner'>
+                                            <div className="item_desc" name={p.name} style={ 'background-image:url("' + this.state.cms + p.image + '")'} >
+                                            </div>
+                                          </div>
+                                        </div>
                                       </div>
-                                    </div>
-                                  </div>
-                                  <div>
-                                    <div class='basicOuter'>
-                                      <div class='basicInner'>
-                                        <div class='item_actions_text' >
-                                          {this.translate('listen')}
+                                      <div class="item_action_rot" >
+                                        <div>
+                                          <div class='basicOuter'>
+                                            <div class='basicInner'>
+                                              <div class='item_actions_text' >
+                                                {this.translate('goList')}
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div>
+                                          <div class='basicOuter'>
+                                            <div class='basicInner'>
+                                              <span class="icon-chevron-right"></span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </Link>
+                                    <div>
+                                      <div class='basicOuter'>
+                                        <div class='basicInner'>
+                                          <div class="item_actions_options" onClick={() => this.clickHandlerOpen(index)} >
+                                            <span class="icon-more-vertical"></span>
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
-                              <div>
-                                <div class='basicOuter'>
-                                  <div class='basicInner'>
-                                    <div class="item_actions_options" onClick={() => this.clickHandlerOpen(index)} >
-                                      <span class="icon-more-vertical"></span>
-                                    </div>
-                                  </div>
+                                <div className={this.state.options[index] ? 'item_container_to_lists' : 'hide' }  >
+                                  <div className={ p.isFavorite ? 'item_container_to_lists_item item_container_to_lists_item_true' : 'item_container_to_lists_item' }   id='fav' fav={p.isFavorite} onClick={ (event, _podcast) => this.clickHandlerpodcastFav(event, p) } >{p.isFavorite ? this.translate('user.favourite') : this.translate('user.toFavourites')}</div>
+                                  {/*<div className='item_container_to_lists_item' id='later' onClick={ (event, _podcast) => this.clickHandlerpodcastLater(event, p) }  >{this.translate('user.toLater')}</div>*/}
+                                  <div className={ p.isSubscribed ? 'item_container_to_lists_item item_container_to_lists_item_true' : 'item_container_to_lists_item' }  id='share' subscribed={p.isSubscribed} onClick={ (event, _podcast) => this.clickHandlerpodcastSubscribe(event, p) }  >{p.isSubscribed ? this.translate('user.subscribed') : this.translate('user.toSubscribe')}</div>
+                                  <div className='item_container_to_lists_item' id='share' onClick={ (event, _podcast) => this.clickHandlerpodcastShare(event, p) }  >{this.translate('user.share')}</div>
+                                  <div className='item_container_to_lists_close' onClick={() => this.clickHandlerClose(index)} ><span class="icon-x"></span></div>
                                 </div>
                               </div>
-                            </div>
-                          </div>
-                          <div className={this.state.options[index] ? 'item_container_to_lists' : 'hide' }  >
-                            <div className='item_container_to_lists_item' id='fav' alt="fav" onClick={ (event, _podcast) => this.clickHandlerPodcastFav(event, p) } >{this.translate('user.toFavourites')}</div>
-                            <div className='item_container_to_lists_item' id='later' alt="later" onClick={ (event, _podcast) => this.clickHandlerPodcastLater(event, p) } >{this.translate('user.toLater')}</div>
-                            <div className='item_container_to_lists_item' id='share' onClick={ (event, _podcast) => this.clickHandlerPodcastShare(event, p) }>{this.translate('user.toSubscribe')}</div>
-                            <div className='item_container_to_lists_item' id='share' src={share} alt="share" onClick={ (event, _podcast) => this.clickHandlerPodcastShare(event, p) } >{this.translate('user.share')}</div>
-                            <div className='item_container_to_lists_close' onClick={() => this.clickHandlerClose(index)} ><span class="icon-x"></span></div>
                           </div>
                         </div>
-                    </div>
-                  </div>
+                        {
+                          p.canal.premium
+                          ? <div className="flag_premium" >
+                              <div className="flag_premium_ico" ><span class="icon-award" ></span></div>
+                            </div>
+                          : ''
+                        }
+                      </div>
+                    
+                  ))
+                }
+              </div>
+              <div class="row" >
+                <div className="col-xs-12" >
+                  {/*{PagesList}*/}
                 </div>
-              ))
-            }
-            </div>
-            <div class="row" >
-              <div className="col-xs-12" >
-                {PagesList}
               </div>
             </div>
-            <div class="row" >
-              <div className="col-xs-12 opinion_col" >
-                <Opinion origen={this.props.match.params.program} auth={this.props.auth} />
-              </div>
+            {ClaimDiv} 
+          </div>
+          <div class="row" >
+            <div className="col-xs-12 opinion_col" >
+              <Opinion origen={this.props.match.params.channel} auth={this.props.auth} update={_Opinion} type='channel' />
             </div>
           </div>
+          <div class="row" >
+            <div className="col-xs-12 opinion_col" >
+              <NewChannel origen={localStorage.getItem('lastChannel')} auth={this.props.auth} initplayer={this.props.initplayer} />
+            </div>
+          </div>
+        </div>
         <Modal show={this.state.isOpen} onClose={this.toggleModal} >
           {this.translate(this.state.showedMsg)}
         </Modal>
@@ -297,7 +472,7 @@ class Podcast extends React.Component {
     );
   }
 }
-//<div className={this.state.schemmaShow ? 'ListSchemma show':'ListSchemma' } ><ListSchemma schemma={this.state.schemma} /></div>
+
 Podcast.propTypes = {
   //who: React.PropTypes.string.isRequired,
 };

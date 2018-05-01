@@ -18,11 +18,11 @@ class SingleLayoutShare extends React.Component {
             <Route exact path='/shared/channel' render={(props) => (
               <List {...props} data={this.props.data.channel} what='channel' where='share' />
             )}/>
-            <Route exact path='/shared/program' render={(props) => (
-              <List {...props} data={this.props.data.program} what='program' where='share' />
-            )}/>
             <Route exact path='/shared/podcast' render={(props) => (
-              <List {...props} data={this.props.data.podcast} initplayer={this.props.initplayer} what='podcast' where='share' />
+              <List {...props} data={this.props.data.podcast} what='podcast' where='share' />
+            )}/>
+            <Route exact path='/shared/episode' render={(props) => (
+              <List {...props} data={this.props.data.episode} initplayer={this.props.initplayer} what='episode' where='share' />
             )}/>
         </Switch>
         

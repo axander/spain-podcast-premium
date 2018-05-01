@@ -9,26 +9,15 @@
 					"en":"Example 3"
 				},
 				"subtitle":{
-					"es":"Color de fondo sin imagen, mostrando player con podcast.",
-					"en":"Backgroun color, no image. Routing to a podcast player."
+					"es":"Color de fondo sin imagen, mostrando player con episode.",
+					"en":"Backgroun color, no image. Routing to a episode player."
 				},
 				"buttons":[
 					{	
 						"externalLink":"",
 						"route":"",
-						"podcast":{
-							"id":"XXXXX0",
-							"name":{
-								"es":"TONI NADAL: ‘EL ESFUERZO DIARIO, EL QUERER SER LOS MEJORES, ES LO QUE ME HA HECHO FELIZ’",
-								"en":"TONI NADAL: ‘En Ingles’"
-							},
-							"desc":{
-								"es":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",	
-								"en":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."	
-							},
-							"image":"https://source.unsplash.com/2073x696/?nature",
-							"source":"http://clipbloc.com/SPP_DEV/static/FORBES DAILY MEDIALAB PRADO.mp3",
-							"type":"public"
+						"episode":{
+							"id":"XXXXX0"
 						},
 						"text":{
 							"es":"Escuchar ahora",
@@ -38,12 +27,7 @@
 				],
 				"style":{
 					"background":"blue",
-					"height":"100%",
-					"background-image":"",
-					"height": "470px",
-				    "background-repeat": "no-repeat",
-				    "background-size": "cover",
-				    "background-position": "center center"
+					"background-image":""
 				}
 			},
 			{
@@ -52,28 +36,23 @@
 					"en":"Example 1"
 				},
 				"subtitle":{
-					"es":"Color de fondo sin imagen, enrutando al listado de podcasts de un programa.",
-					"en":"Backgroun color, no image. Routing to a program podcast list."
+					"es":"Color de fondo sin imagen, enrutando al listado de episodes de un programa.",
+					"en":"Backgroun color, no image. Routing to a program episode list."
 				},
 				"buttons":[
 					{	
 						"externalLink":"",
-						"route":"podcast/FORBESDAILY/Nombre del programa",
-						"podcast":null,
+						"route":"episode/FORBESDAILY/Nombre del programa",
+						"episode":null,
 						"text":{
-							"es":"Ir a contenido",
-							"en":"Get the content"
+							"es":"Ir a episode",
+							"en":"Get the episode"
 						}
 					}
 				],
 				"style":{
 					"background":"red",
-					"height":"470px",
-					"background-image":"",
-					"height": "470px",
-				    "background-repeat": "no-repeat",
-				    "background-size": "cover",
-				    "background-position": "center center"
+					"background-image":""
 				}
 			},
 			{	
@@ -89,7 +68,7 @@
 					{	
 						"externalLink":"https://mauiwhalefestival.org",
 						"route":"",
-						"podcast":null,
+						"episode":null,
 						"text":{
 							"es":"Ir a la web",
 							"en":"Visit web"
@@ -98,12 +77,7 @@
 				],
 				"style":{
 					"background":"blue",
-					"height":"100%",
-					"background-image":"url(https://mauiwhalefestival.org/sites/mauiwhalefestival.org/files/imagecache/homepage_slide/MWF-2018_Website_Homepage-Banner-web.jpg)",
-					"height": "470px",
-				    "background-repeat": "no-repeat",
-				    "background-size": "cover",
-				    "background-position": "center center"
+					"background-image":"url(https://mauiwhalefestival.org/sites/mauiwhalefestival.org/files/imagecache/homepage_slide/MWF-2018_Website_Homepage-Banner-web.jpg)"
 				}
 			},
 			{	
@@ -119,7 +93,7 @@
 					{	
 						"externalLink":"https://mauiwhalefestival.org",
 						"route":"",
-						"podcast":null,
+						"episode":null,
 						"text":{
 							"es":"Ir a web",
 							"en":"Go Link"
@@ -127,8 +101,8 @@
 					},
 					{	
 						"externalLink":"",
-						"route":"podcast/FORBESDAILY/Nombre del programa",
-						"podcast":null,
+						"route":"episode/FORBESDAILY/Nombre del programa",
+						"episode":null,
 						"text":{
 							"es":"Ir a contenido",
 							"en":"Get the content"
@@ -137,12 +111,7 @@
 				],
 				"style":{
 					"background":"",
-					"height":"100%",
-					"background-image":"url(http://yourshot.nationalgeographic.com/u/fQYSUbVfts-T7odkrFJckdiFeHvab0GWOfzhj7tYdC0uglagsDQj7Qij_WMs1yiPiHoBvJoB9wzaXIaKKw6NCjrra0ZohLV4TKlAhdymm5Itun_41jU3ilG8iQgTrN4UHLadhlXzYSgXAlRVXJfH5jGMt_beuNjG6xJoT97yLqvNDDoNc_ISqlRfeBzds1TGFleBZ7OD2AsqxBlJtyIiesDm/)",
-					"height": "470px",
-				    "background-repeat": "no-repeat",
-				    "background-size": "cover",
-				    "background-position": "center center"
+					"background-image":"url(http://yourshot.nationalgeographic.com/u/fQYSUbVfts-T7odkrFJckdiFeHvab0GWOfzhj7tYdC0uglagsDQj7Qij_WMs1yiPiHoBvJoB9wzaXIaKKw6NCjrra0ZohLV4TKlAhdymm5Itun_41jU3ilG8iQgTrN4UHLadhlXzYSgXAlRVXJfH5jGMt_beuNjG6xJoT97yLqvNDDoNc_ISqlRfeBzds1TGFleBZ7OD2AsqxBlJtyIiesDm/)"
 				}
 			},
 			{	
@@ -158,7 +127,7 @@
 					{	
 						"externalLink":"",
 						"route":"favourites",
-						"podcast":null,
+						"episode":null,
 						"text":{
 							"es":"Ir a contenido",
 							"en":"Get the content"
@@ -167,12 +136,7 @@
 				],
 				"style":{
 					"background":"",
-					"height":"100%",
-					"background-image":"url(http://yourshot.nationalgeographic.com/u/fQYSUbVfts-T7odkrFJckdiFeHvab0GWOfzhj7tYdC0uglagsDQi-5dzrH-aVjSaZjwLRVS9TeEgCnSdTLx04bqwof7scDe0pez8XsGAkVi-Z4FdpLn5-eJIv-s9_e9DuaupLabv3XZTTHacYf3gl3UCafPUi01vTQYfGaeOSkp1fY_7U24jzLnH8t1komDsfOOQMs-mXFaASqlCffW5LAw_/)",
-					"height": "470px",
-				    "background-repeat": "no-repeat",
-				    "background-size": "cover",
-				    "background-position": "center center"
+					"background-image":"url(http://yourshot.nationalgeographic.com/u/fQYSUbVfts-T7odkrFJckdiFeHvab0GWOfzhj7tYdC0uglagsDQi-5dzrH-aVjSaZjwLRVS9TeEgCnSdTLx04bqwof7scDe0pez8XsGAkVi-Z4FdpLn5-eJIv-s9_e9DuaupLabv3XZTTHacYf3gl3UCafPUi01vTQYfGaeOSkp1fY_7U24jzLnH8t1komDsfOOQMs-mXFaASqlCffW5LAw_/)"
 				}
 			},
 			{	
@@ -188,7 +152,7 @@
 					{	
 						"externalLink":"",
 						"route":"favourites",
-						"podcast":null,
+						"episode":null,
 						"text":{
 							"es":"Ir a contenido",
 							"en":"Get the content"
@@ -197,12 +161,7 @@
 				],
 				"style":{
 					"background":"",
-					"height":"100%",
-					"background-image":"url(https://mauiwhalefestival.org/sites/mauiwhalefestival.org/files/imagecache/homepage_slide/MWF-2018_Website_Homepage-Banner-web.jpg)",
-					"height": "470px",
-				    "background-repeat": "no-repeat",
-				    "background-size": "cover",
-				    "background-position": "center center"
+					"background-image":"url(https://mauiwhalefestival.org/sites/mauiwhalefestival.org/files/imagecache/homepage_slide/MWF-2018_Website_Homepage-Banner-web.jpg)"
 				}
 			},
 			{	
@@ -218,7 +177,7 @@
 					{	
 						"externalLink":"",
 						"route":"favourites",
-						"podcast":null,
+						"episode":null,
 						"text":{
 							"es":"Ir a contenido",
 							"en":"Get the content"
@@ -227,12 +186,7 @@
 				],
 				"style":{
 					"background":"",
-					"height":"100%",
-					"background-image":"url(https://d3jkudlc7u70kh.cloudfront.net/amazing-blue-whale-fact.jpg)",
-					"height": "470px",
-				    "background-repeat": "no-repeat",
-				    "background-size": "cover",
-				    "background-position": "center center"
+					"background-image":"url(https://d3jkudlc7u70kh.cloudfront.net/amazing-blue-whale-fact.jpg)"
 				}
 			},
 			{	
@@ -248,7 +202,7 @@
 					{	
 						"externalLink":"",
 						"route":"favourites",
-						"podcast":null,
+						"episode":null,
 						"text":{
 							"es":"Ir a contenido",
 							"en":"Get the content"
@@ -257,12 +211,7 @@
 				],
 				"style":{
 					"background":"",
-					"height":"100%",
-					"background-image":"url(https://d3jkudlc7u70kh.cloudfront.net/fun-whale-breaching-fact.jpg)",
-					"height": "470px",
-				    "background-repeat": "no-repeat",
-				    "background-size": "cover",
-				    "background-position": "center center"
+					"background-image":"url(https://d3jkudlc7u70kh.cloudfront.net/fun-whale-breaching-fact.jpg)"
 				}
 			}
 		]

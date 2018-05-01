@@ -23,7 +23,6 @@ class Favourites_web extends React.Component {
         'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0'
       }
     })
-    
   }
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
@@ -38,8 +37,10 @@ class Favourites_web extends React.Component {
   render() {
     return (
       <div className='favourite_web' style={this.state.style} >
-                <h1>Favourites</h1>
-                <List_web type="Favourite" auth={this.props.auth} initplayer={this.props.initplayer}  />
+                <h1>{this.translate('content.episodes')} {this.translate('user.favourites')}</h1>
+                <List_web list="fav" item="episode" auth={this.props.auth} initplayer={this.props.initplayer}  />
+                <h1>{this.translate('menu.podcast')} {this.translate('user.favourites')}</h1>
+                <List_web list="fav" item="podcast" auth={this.props.auth} initplayer={this.props.initplayer}  />
       </div>
     );
   }

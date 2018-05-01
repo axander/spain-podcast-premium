@@ -3,9 +3,11 @@ import { polyfill } from 'es6-promise'; polyfill();
 import React from 'react'
 import List from './List.js'
 import Utils from '../utils/Utils.js'
+import { Link } from 'react-router-dom'
+import TranslatedComponent from '../utils/TranslatedComponent.js'
 
 const API = {
-	action: function(_path, _params, _onSuccess, _onError, _singleMethod, _singleMock){
+	action: function(_path, _params, _onSuccess, _onError, _singleMethod, _singleMock, _singleReal, _param){
 		//
 		var fullUrl = _path.indexOf('http');
 		var url = '';
@@ -13,33 +15,43 @@ const API = {
 			url = List[_path].service + '.json';//get config
 			var _method  = List[_path].method;
 		}else{
+			var extraParam = '';
+			_param
+			? extraParam = '/'+_param.param
+			: null;
 			var config = JSON.parse(localStorage.getItem('config'));
 			fullUrl >= 0 
 			? url = _path
-			: url =  config.mocks || _singleMock
+			: url =  !_singleReal && ( config.mocks || _singleMock )
 						? config.mocksPath+List[_path].service+'.json'
-						: config.endpoint+config.partialPath+List[_path].service;
-			_singleMethod
+						: config.endpoint+config.partialPath+List[_path].service+extraParam;
+			_singleMethod && !_singleReal
 			? _method = _singleMethod
-			: _method  = ( config.mocks || _singleMock ) ? 'GET' :List[_path].method;
+			: _method  = ( !_singleReal && ( config.mocks || _singleMock ) ) ? 'GET' :List[_path].method;
 		};
-
+		//_method === 'GET' && List[_path].service !== 'config' ? url+"?"+Utils.formatGetParameters(_params) : url , 
 		fetch(
 			_method === 'GET' && List[_path].service !== 'config' ? url+"?"+Utils.formatGetParameters(_params) : url , 
 			{
 				/*mode: 'no-cors',*/
 		      	method: _method,
-		      	headers: localStorage.getItem('token') && fullUrl < 0 ? new Headers({
+		      	headers: localStorage.getItem('api_key') && fullUrl < 0 ? new Headers({
+		      			'Access-Control-Allow-Origin': '*',
+		      			'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
 		      			'Cache-Control': 'cache',
 		      			'Accept':'*/*',
-		                'Content-Type': 'application/x-www-form-urlencoded', // <-- Specifying the Content-Type
-		                'Authorization': 'Bearer ' + localStorage.getItem('token') ,
+		                'Content-Type': '*/*', // <-- Specifying the Content-Type
+		                'Authorization': localStorage.getItem('api_key'),
+		                'Content-Type': 'application/json'
 		        }) : new Headers({
+		        		'Access-Control-Allow-Origin': '*',
+		        		'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
 		        		'Cache-Control': 'cache',
 		        		'Accept':'*/*',
-		                'Content-Type': 'application/x-www-form-urlencoded', // <-- Specifying the Content-Type
+		                'Content-Type': '*/*', // <-- Specifying the Content-Type
+		                'Content-Type': 'application/json'
 		        }),
-		      	body: _method === 'POST' ? Utils.formatGetParameters(_params) : undefined // <-- Post parameters
+		      	body: _method === 'POST' ? JSON.stringify(_params) : undefined // <-- Post parameters
 		    }
 		)
 	    .then(function(response) {
@@ -53,10 +65,24 @@ const API = {
 			if(typeof List[_path] !== 'undefined' && List[_path].service === 'config'){
 				data.data.token ? localStorage.setItem('token',data.data.token) : null;
 				localStorage.setItem('config',JSON.stringify(data.data));
+				console.log('response service1');
+				console.log(data);
 				_onSuccess(data);	
 			}else{
-				window.setSpinner();
-		    	_onSuccess(data);				
+				console.log('response service2');
+				console.log(data);
+				data.error !== "Unauthorized"
+				? (
+					window.setSpinner(),
+		    		_onSuccess(data)	
+		    	)
+		    	: (
+		    		localStorage.clear(),
+		    		localStorage.setItem('sesion','timeout'),
+		    		window.logoutFb(),
+		    		window.location.href = '#/'/*,
+		    		window.location.reload()*/
+		    	)
 			}
 
 		})
@@ -74,6 +100,17 @@ class Modal extends React.Component {
     if(!this.props.show) {
       return null;
     }
+    let  goPremium
+    localStorage.getItem('goPremium')
+    ? (
+    	goPremium = <Link to='/premium' >
+	    				<button className='goPremium'>
+			                {this.translate('user.toPremium')}
+			            </button>
+			        </Link>
+    	
+    )
+    : goPremium = ''
 
     return (
       <div className="backdropContainer" onClick={this.props.onClose}>
@@ -83,8 +120,9 @@ class Modal extends React.Component {
               <p>{this.props.children}</p>
             </div>
             <div className="modal-footer">
-              <button>
-                Close
+             {goPremium}
+              <button className={localStorage.getItem('goPremium') ? 'resetClose' : ''} >
+                {this.translate('continue')}
               </button>
             </div>
           </div>
@@ -93,6 +131,15 @@ class Modal extends React.Component {
     );
   }
 }
+
+Modal.propTypes = {
+  //who: React.PropTypes.string.isRequired,
+};
+
+
+// Returns nothing because it mutates the class
+TranslatedComponent(Modal);
+
 
 module.exports = {
   Modal,

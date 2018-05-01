@@ -243,6 +243,10 @@ h1{
 }
 .hide{
     display:none;
+    pointer-events:none;
+}
+.hidden{
+    pointer-events:none;
 }
 .resetPaddingTop{
     padding-top: 1px!important;
@@ -271,6 +275,11 @@ AuthButton {
     padding:20px;
     padding-top:100px;
     padding-bottom: 100px;
+}
+#right1{
+    height: 600px;
+    width: 300px;
+    float: right;
 }
 .section-container{
     position:relative;
@@ -311,21 +320,25 @@ AuthButton {
     height: 100vh;
     margin-top: -50px;
 }
+.registered{
+    height: 100vh;
+    margin-top: -50px;
+}
 .terms{
     
 }
 
-.channel, .program, .podcast{
+.channel, .podcast, .episode{
     background:#000;
     padding-bottom:80px;
 }
-.channel h1, .program h1, .podcast h1{
+.channel h1, .podcast h1, .episode h1{
     font-size:20px;
 }
-.channel a, .program a{
+.channel a, .podcast a{
     color: #fff;
 }
-.channel > div:first-child, .program > div:first-child, .podcast > div:first-child{
+.channel > div:first-child, .podcast > div:first-child, .episode > div:first-child{
     position: fixed;
     z-index: 10;
     width: 100%;
@@ -333,12 +346,12 @@ AuthButton {
     background: transparent;
     display: block;
 }
-.channel > div, .program  > div, .podcast > div{
+.channel > div, .podcast  > div, .episode > div{
     height:auto;
     /*padding-top:42px;*/
     padding-top:0;
 }
-.channel h1, .program h1, .podcast h1{
+.channel h1, .podcast h1, .episode h1{
     text-align: center;
     top: 0;
     left: 0;
@@ -348,7 +361,7 @@ AuthButton {
     margin: 0;
     padding: 10px;
 }
-.program h1, .podcast h1{
+.podcast h1, .episode h1{
     text-align: left;
 }
 .item{
@@ -374,8 +387,14 @@ AuthButton {
 .left{
     float:left;
 }
+.center{
+    display:inline-block;
+}
 .right{
     float:right;
+}
+.text_left{
+    text-align: left;
 }
 .pr20{
     padding-right:20px;
@@ -410,9 +429,12 @@ AuthButton {
     line-height: 1.85;
     letter-spacing: normal;
     color: #ffffff;
+    -webkit-transition: background .5s ease;
+    -moz-transition: background .5s ease;
+    transition: background .5s ease;
 }
 .greenPB:hover{
-    opacity:.5;
+    background: #168d40!important;
 }
 .neutralPB{
     cursor: pointer;
@@ -436,7 +458,7 @@ AuthButton {
     cursor: pointer;
     padding: 20px;
     padding: 20px;
-    min-width: 140px;
+    min-width: 200px;
     display: inline-block;
     text-align: center;
     margin: 4px;
@@ -455,6 +477,12 @@ AuthButton {
 .neutralPB_bordered:hover{
     opacity:.5;
 }
+.greenTextPB{
+    color: #67b511 !important;
+}
+.greenFont{
+    color: #67b511 !important;
+}
 
 .disabled{
     pointer-events: none;
@@ -462,12 +490,12 @@ AuthButton {
     opacity: .5;
 }
 
-.channel, .program, .podcast{
+.channel, .podcast, .episode{
      padding-bottom:0;
      min-height:100%;
      background: #000;
 }
-.channel .row .item, .program .row .item, .podcast .row .item{
+.channel .row .item, .podcast .row .item, .episode .row .item, .staticplayer .row .item{
      background: #ddd;
     color: #444;
     position: relative;
@@ -482,18 +510,25 @@ AuthButton {
 .row .single_item .rot{
     background: rgba( 0, 0, 0, .5);
 }
-.program .rot, .channel .rot, .podcast .rot, .item .rot{
+.podcast .rot, .channel .rot, .episode .rot, .item .rot{
     position: absolute;
+    cursor:pointer;
     top: 70px;
     padding: 10px;
     font-size: 20px;
     text-align: left;
 }
-.podcast .rot{
+.episode .rot{
     font-size:16px;
 }
+.podcast .rot:hover, .channel .rot:hover, .episode .rot:hover, .item .rot:hover{
+    opacity:.5;
+}
+.podcast .rot a, .channel .rot a, .episode .rot a, .item .rot a{
+    color: #444 !important;
+}
 
-.program .desc, .channel .desc, .podcast .desc, .item .desc{
+.podcast .desc, .channel .desc, .episode .desc, .item .desc{
     font-size: 55px;
     bottom: 20px;
     right: 20px;
@@ -504,7 +539,7 @@ AuthButton {
     padding-left: 7px;
     float: left;
 }
-.program .single_desc, .channel .single_desc, .podcast .single_desc, .item .single_desc{
+.podcast .single_desc, .channel .single_desc, .episode .single_desc, .item .single_desc{
     position: absolute;
     font-size: 55px;
     bottom: 20px;
@@ -517,23 +552,23 @@ AuthButton {
     float: left;
 }
 
-.program .item_container, .channel .item_container, .podcast .item_container{
+.podcast .item_container, .channel .item_container, .episode .item_container, .staticplayer .item_container{
     position: relative;
     padding-right: 15px;
     padding-left: 15px;
     padding-top: 35px;
 }
-.program .item_container_left, .channel .item_container_left, .podcast .item_container_left{
+.podcast .item_container_left, .channel .item_container_left, .episode .item_container_left, .staticplayer .item_container_left{
     position: relative;
     padding-top: 35px;
     padding-right: 20px;
 }
-.program .item_container_right, .channel .item_container_right, .podcast .item_container_right{
+.podcast .item_container_right, .channel .item_container_right, .episode .item_container_right, .staticplayer .item_container_right{
     position: relative;
     padding-top: 35px;
     padding-left: 20px;
 }
-.program .item_actions_play_PB, .channel .item_actions_play_PB, .podcast .item_actions_play_PB{
+.podcast .item_actions_play_PB, .channel .item_actions_play_PB, .episode .item_actions_play_PB, .staticplayer .item_actions_play_PB{
     display: inline-block;
     border: 2px solid #444;
     border-radius: 40px;
@@ -544,7 +579,7 @@ AuthButton {
     margin-left: 4px;
     margin-right: 14px;
 }
-.program .item_actions_go_list, .channel .item_actions_go_list, .podcast .item_actions_go_list{
+.podcast .item_actions_go_list, .channel .item_actions_go_list, .episode .item_actions_go_list, .staticplayer .item_actions_go_list{
     display: inline-block;
     width: 20px;
     height: 20px;
@@ -554,33 +589,31 @@ AuthButton {
     margin-right: 14px;
 }
 
-.program .item .item_desc, .channel .item .item_desc, .podcast .item .item_desc{
+.podcast .item .item_desc, .channel .item .item_desc, .episode .item .item_desc, .staticplayer .item .item_desc{
     height: 100%;
     width: 60px;
     background-size: cover;
     background-position: center;
 }
-.program .item .desc_cont, .channel .item .desc_cont, .podcast .item .desc_cont{
+.podcast .item .desc_cont, .channel .item .desc_cont, .episode .item .desc_cont, .staticplayer .item .desc_cont{
     position: absolute;
     bottom: 0;
     width: 100%;
 }
 
-.program .item .item_action, .channel .item .item_action, .podcast .item .item_action{
+.podcast .item .item_action, .channel .item .item_action, .episode .item .item_action, .staticplayer .item .item_action{
     float:left;
 }
-.program .item .item_options, .channel .item .item_options, .podcast .item .item_options{
+.podcast .item .item_options, .channel .item .item_options, .episode .item .item_options, .staticplayer .item .item_options{
     float:right;
 }
 
-.program .item .item_info, .program .item .item_info, .program .item .item_info{
-    
-}
-
-.program .item .item_actions, .channel .item .item_actions, .podcast .item .item_actions{
+.podcast .item .item_actions, .channel .item .item_actions, .episode .item .item_actions, .staticplayer .item .item_actions{
     width: 100%;
     height: 60px;
     background: #fff;
+    position: absolute;
+    bottom: 0;
     .item_action_rot{
         >div{
             padding-left:10px;
@@ -591,17 +624,17 @@ AuthButton {
         }
     }
 
-    >div, a >div, .item_actions_podcast>div{
+    >div, a >div, .item_actions_episode>div{
         cursor:pointer;
         display:inline-block;
         height: 100%;
         float:left;
         color:#444;
     }
-    >div:hover, a >div:hover, .item_actions_podcast>div:hover{
+    >div:hover, a >div:hover, .item_actions_episode>div:hover{
         opacity:.5;
     }
-    .item_actions_channel>div:nth-child(2), .item_actions_program>div:nth-child(2), .item_actions_podcast>div:nth-child(2){
+    .item_actions_channel>div:nth-child(2), .item_actions_podcast>div:nth-child(2), .item_actions_episode>div:nth-child(2){
         width:186px;
 
     }
@@ -615,6 +648,8 @@ AuthButton {
         cursor:pointer;
         float:right;
         padding: 10px;
+        /*position:absolute;*/
+        margin-left:-20px;
         .item_actions_options{
             span{
                 font-size:25px !important;
@@ -627,7 +662,7 @@ AuthButton {
 .home > div {
     text-align:center;
 }
-main, auth, confirm, logout{
+main, auth, confirm, logout, registered{
 	/*position:absolute;
 	width:100%;
 	min-height:100%;
@@ -870,72 +905,6 @@ channelOptions .item{
     margin:10px;
 }
 
-programOptions{
-    position:fixed;
-    z-index: 2004;
-    width:75%;
-    height:100%;
-    top:0;
-    left:-100%;
-    background:#fff;
-    -webkit-box-shadow: 0;
-    box-shadow: 0;
-    -webkit-transition: all .5s ease;
-    -moz-transition: all .5s ease;
-    transition: all .5s ease;
-}
-programOptions nav {
-    height:100%;
-    overflow: hidden;
-}
-programOptions nav div{
-    display:block;
-}
-programOptions nav .scrollCont .scrollableCont a div{
-    cursor:pointer;
-    width:100%;
-    padding:10px;
-    font-size:30px;
-    -webkit-transition: all .5s ease;
-    -moz-transition: all .5s ease;
-    transition: all .5s ease;
-}
-programOptions nav .scrollCont .scrollableCont a div:hover{
-    width:100%;
-    background:#204671;
-    color:#fff;
-}
-programOptions nav .scrollCont{
-    height: 100%;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    -ms-overflow-style: none;  // IE 10+
-    overflow: -moz-scrollbars-none;  // Firefox
-}
-programOptions nav .scrollCont::-webkit-scrollbar { 
-    display: none;  // Safari and Chrome
-}
-programOptions nav .scrollableCont{
-    height:auto;
-    padding-top:40px;
-}
-programOptions a, programOptions a:hover{
-    cursor:pointer;
-    color:#204671;
-    text-decoration:none;
-}
-programOptions a:visited{
-    color:#204671;
-    text-decoration:none;
-}
-programOptions .opSelected{
-    background: #204671;
-    color: #fff;
-}
-programOptions .item{
-    margin:10px;
-}
-
 podcastOptions{
     position:fixed;
     z-index: 2004;
@@ -1002,7 +971,73 @@ podcastOptions .item{
     margin:10px;
 }
 
-podcastPlayer{
+episodeOptions{
+    position:fixed;
+    z-index: 2004;
+    width:75%;
+    height:100%;
+    top:0;
+    left:-100%;
+    background:#fff;
+    -webkit-box-shadow: 0;
+    box-shadow: 0;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
+}
+episodeOptions nav {
+    height:100%;
+    overflow: hidden;
+}
+episodeOptions nav div{
+    display:block;
+}
+episodeOptions nav .scrollCont .scrollableCont a div{
+    cursor:pointer;
+    width:100%;
+    padding:10px;
+    font-size:30px;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
+}
+episodeOptions nav .scrollCont .scrollableCont a div:hover{
+    width:100%;
+    background:#204671;
+    color:#fff;
+}
+episodeOptions nav .scrollCont{
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  // IE 10+
+    overflow: -moz-scrollbars-none;  // Firefox
+}
+episodeOptions nav .scrollCont::-webkit-scrollbar { 
+    display: none;  // Safari and Chrome
+}
+episodeOptions nav .scrollableCont{
+    height:auto;
+    padding-top:40px;
+}
+episodeOptions a, episodeOptions a:hover{
+    cursor:pointer;
+    color:#204671;
+    text-decoration:none;
+}
+episodeOptions a:visited{
+    color:#204671;
+    text-decoration:none;
+}
+episodeOptions .opSelected{
+    background: #204671;
+    color: #fff;
+}
+episodeOptions .item{
+    margin:10px;
+}
+
+episodePlayer{
     position:fixed;
     z-index: 2004;
     width:100%;
@@ -1017,41 +1052,41 @@ podcastPlayer{
     -moz-transition: all .5s ease;
     transition: all .5s ease;
 }
-podcastPlayer section{
+episodePlayer section{
     padding:10px;
 }
-podcastPlayer section:first-child{
+episodePlayer section:first-child{
     padding:0px;
     padding-top: 8px;
 }
-podcastPlayer section:first-child table{
+episodePlayer section:first-child table{
     margin:10px;
 }
-podcastPlayer nav {
+episodePlayer nav {
     height:100%;
     overflow: hidden;
 }
-podcastPlayer nav .scrollCont{
+episodePlayer nav .scrollCont{
     height: 100%;
     overflow-x: hidden;
     overflow-y: scroll;
     -ms-overflow-style: none;  // IE 10+
     overflow: -moz-scrollbars-none;  // Firefox
 }
-podcastPlayer nav .scrollCont::-webkit-scrollbar { 
+episodePlayer nav .scrollCont::-webkit-scrollbar { 
     display: none;  // Safari and Chrome
 }
-podcastPlayer nav .scrollableCont{
+episodePlayer nav .scrollableCont{
     height:auto;
     padding-top:40px;
 }
-podcastPlayer nav div{
+episodePlayer nav div{
     display:block;
 }
-podcastPlayer .section:nth-child(2) table:first-child{
+episodePlayer .section:nth-child(2) table:first-child{
     display:none;
 }
-podcastPlayer .playPausePb{
+episodePlayer .playPausePb{
     /*cursor: pointer;
     position: absolute;
     right: 20px;
@@ -1247,6 +1282,7 @@ MenuPB{
     transition: all .5s ease;
 }
 .app-wrapper_web .channelMenuPB{
+    opacity:0;
     font-size: 25px;
     cursor: pointer;
     display: block;
@@ -1263,17 +1299,17 @@ MenuPB{
     -moz-transition: all .5s ease;
     transition: all .5s ease;
 }
-.podcast .app {
+.episode .app {
     background: #ddd;
     color: #444 ;
 }
-.podcast .app section{
+.episode .app section{
     padding:10px;
 }
-.podcast .app section:first-child{
+.episode .app section:first-child{
     padding:0px;
 }
-.podcast .app section:first-child table{
+.episode .app section:first-child table{
     margin:10px;
 }
 .react-player{
@@ -1283,6 +1319,7 @@ MenuPB{
     background: #000;
 }
 settingsPB{
+    opacity:0;
     cursor: pointer;
     display: block;
     color: #fff;
@@ -1359,14 +1396,18 @@ SubmenuPB{
 input[type="text"], input[type="password"]{
     display: inline-block;
     background: #fff;
-    color: #204670;
+    color: #000 !important;
     height: 35px;
-    margin: 5px;
+    margin: 5px auto;
     border: none;
     padding: 22px !important;
     font: inherit;
     cursor: pointer;
     outline: inherit !important;
+    background: #ddd;
+    border-radius: 4px;
+    color: #aaa;
+    padding: 22px!important;
 }
 .backPB a{
 	color:#204671;
@@ -1451,8 +1492,15 @@ input[type="text"], input[type="password"]{
     padding: 10px !important;
     margin: 20px;
     width: 184px;
-    background: #dd4b39 !important;
+    border-radius:20px;
+    background: #dd4b39 ;
     color: #fff !important;
+    -webkit-transition: background .5s ease;
+    -moz-transition: background .5s ease;
+    transition: background .5s ease;
+}
+.submitBtn:hover{
+    background: #90291d  !important;
 }
 .loginBtn:before {
   content: "";
@@ -1478,9 +1526,12 @@ input[type="text"], input[type="password"]{
 .loginBtn--facebook {
   cursor:pointer;
   background-color: #4C69BA;
-  background-image: linear-gradient(#4C69BA, #3B55A0);
+  /*background-image: linear-gradient(#4C69BA, #3B55A0);*/
   /*font-family: "Helvetica neue", Helvetica Neue, Helvetica, Arial, sans-serif;*/
   text-shadow: 0 -1px 0 #354C8C;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
 }
 .loginBtn--facebook:before {
   border-right: #364e92 1px solid;
@@ -1488,8 +1539,9 @@ input[type="text"], input[type="password"]{
 }
 .loginBtn--facebook:hover,
 .loginBtn--facebook:focus {
-  background-color: #5B7BD5;
-  background-image: linear-gradient(#5B7BD5, #4864B1);
+    background-color: #1944bd;
+    /*background-image: -webkit-linear-gradient(#5b7bd5,#4864b1);
+    background-image: linear-gradient(#244fca,#244fca);*/
 }
 .fbPBHide{
     display:none;
@@ -1503,6 +1555,9 @@ input[type="text"], input[type="password"]{
   cursor:pointer;
   /*font-family: "Roboto", Roboto, arial, sans-serif;*/
   background: #DD4B39;
+  -webkit-transition: background .5s ease;
+    -moz-transition: background .5s ease;
+    transition: background .5s ease;
 }
 .loginBtn--google:before {
   border-right: #BB3F30 1px solid;
@@ -1510,7 +1565,7 @@ input[type="text"], input[type="password"]{
 }
 .loginBtn--google:hover,
 .loginBtn--google:focus {
-  background: #E74B37;
+  background: #961b0b;
 }
 //fb google buttons
 
@@ -1535,21 +1590,50 @@ input[type="text"], input[type="password"]{
     vertical-align: middle;
 }
 .modal {
-    position:relative;
-    display:block;
-    background-color: #fff;
+    font-family: Avenir;
+    position: relative;
+    display: block;
+    background-color: #000;
     border-radius: 5px;
     max-width: 500px;
     min-height: 300px;
     margin: 0 auto;
     padding: 30px;
+    color: #fff;
+    font-size: 30px;
+    border: 2px solid #444;
 }
 .modal .modal-footer{
-    position: absolute;
     bottom: 0;
     left: 0;
     margin-bottom: 40px;
     width: 100%;
+    text-align: center;
+    border: o !important;
+    button{
+        background: #67b511 !important;
+        border-radius: 30px;
+        border: 0;
+        width: 240px;
+        font-size: 18px;
+        padding: 10px;
+        margin-top: 50px;
+        -webkit-transition: all .5s ease;
+        -moz-transition: all .5s ease;
+        transition: all .5s ease;
+    }.goPremium{
+        color: #fff;
+    }.resetClose{
+        background: #fff !important;
+        color:#444 !important;
+    }
+    button:hover{
+        background: #168d40!important;
+    }
+    .resetClose:hover{
+        background: #444 !important;
+        color:#fff !important;
+    }
 }
 .modal .modal-contain{
     padding: 30px;
@@ -1746,38 +1830,85 @@ sendInvitation{
 }
 .balls{
     text-align:center;
+    height: 50px;
     .ball-item{
         cursor:pointer;
         display:inline-block;
     }.bullEnabled{
-        font-size: 30px;
+        font-size: 55px;
         color:#444;
     }.bullDisabled{
-        font-size: 30px;
+        font-size: 55px;
         color:#fff;
     }
 }
+.western, .entry-content{
+    color:#fff !important;
+}
+.cookies-table{
+    width: auto  !important;
+}
+.flag_premium{
+    position:absolute;
+    top: 0;
+    right:0;
+    width: 0;
+    height: 0;
+    border-top: 130px solid #000;
+    border-left: 130px solid transparent;
+    .flag_premium_ico{
+        position: absolute;
+        top: -90px;
+        right: 15px;
+        .icon-award{
+            font-size: 30px;
+        }
+    }
+}
+.flag_premium_static{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-top: 130px solid #000;
+    border-left: 130px solid transparent;
+    .flag_premium_ico{
+        color: #fff ;
+        position: absolute;
+        top: -110px;
+        right: 25px;
+        .icon-award{
+            font-size: 30px;
+        }
+    }
+}
 @media screen and (max-width: 992px){
-    .channel, .program, .podcast, .later_web, .historial_web, .download_web , .shared_web, .favourite_web, .suscribed_web{
+    #right1{
+        float: none !important;
+        display: inline-block;
+        padding-top:50px;
+    }
+    .channel, .podcast, .episode, .later_web, .historial_web, .download_web , .shared_web, .favourite_web, .suscribed_web, .info{
         margin-top:0 !important;
     }
-    .channel .row .item, .program .row .item, .podcast .row .item{
+    .channel .row .item, .podcast .row .item, .episode .row .item, .staticplayer .row .item{
         width: 100%;
         display: inline-block;
     }
-    .channel .row .item, .program .row .item, .podcast .row .item{
+    .channel .row .item, .podcast .row .item, .episode .row .item, .staticplayer .row .item{
         width: 100%;
         display: inline-block;
     }
-   .program .item_container, .channel .item_container, .podcast .item_container{
+   .podcast .item_container, .channel .item_container, .episode .item_container, .staticplayer .item_container{
         position: relative;
         padding: 0;
     }
-    .program .item_container_left, .channel .item_container_left, .podcast .item_container_left{
+    .podcast .item_container_left, .channel .item_container_left, .episode .item_container_left, .staticplayer .item_container_left{
         position: relative;
         padding: 0;
     }
-    .program .item_container_right, .channel .item_container_right, .podcast .item_container_right{
+    .podcast .item_container_right, .channel .item_container_right, .episode .item_container_right, .staticplayer .item_container_right{
         position: relative;
         padding:0;
     }
@@ -1789,6 +1920,122 @@ sendInvitation{
         }.bullDisabled{
             font-size: 50px !important;
         }
+    }
+    .flag_premium .flag_premium_ico {
+        position: absolute;
+        top: -110px;
+        right: 25px;
+    }
+}
+
+#staticPlayerDeacoplate{
+    position:fixed;
+    z-index: 200;
+    left:0;
+    bottom:0;
+    width:100%;
+    height:62px;
+    background:#ddd;
+    color:#fff;
+    -webkit-box-shadow: 0;
+    box-shadow: 0;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
+    .app{
+        height: 70px;
+        overflow: hidden;
+        section{
+            padding:10px;
+        }
+        .react-player{
+            display:none;
+        }
+        section:first-child{
+            padding:0px;
+        }
+        section:first-child table{
+            margin:10px;
+        }
+        nav {
+            height:100%;
+            overflow: hidden;
+        }
+        nav .scrollCont{
+            height: 100%;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            -ms-overflow-style: none;  // IE 10+
+            overflow: -moz-scrollbars-none;  // Firefox
+        }
+        nav .scrollCont::-webkit-scrollbar { 
+            display: none;  // Safari and Chrome
+        }
+        nav .scrollableCont{
+            height:auto;
+            padding-top:40px;
+        }
+        nav div{
+            display:block;
+        }
+        .section:nth-child(2){
+            display:none;
+        }
+        .section:nth-child(2) table:first-child{
+            //display:none;
+        }
+        .playPausePb{
+            font-family: inherit;
+            color: #444;
+            font-size: 40px;
+            line-height: inherit;
+            /* float: right; */
+            width: 200px;
+            margin: 10px;
+            /* position: relative; */
+            right: 20px;
+        }
+    }
+}
+
+.player-face{
+    .player-face-1-1{
+        display: none;
+    }
+    >div:first-child{
+        display: inline-block;
+        width:auto;
+    }
+    >div:nth-child(2){
+        display: inline-block;
+        width:45%;
+    }
+    >div:nth-child(4){
+        display: inline-block;
+        width:auto;
+    }
+    height: 62px;
+    .icon-play-circle{
+        font-size:35px;
+    }
+    .icon-pause-circle{
+        font-size:35px;
+    }
+    >div{
+        position:relative;
+        top:-15px;
+    }
+    .play{
+        top: 5px;
+        position: relative;
+    }   
+    .progression{
+        top:-7px;
+    }
+    .time_played, .duration{
+        top: -5px;
+        font-size: 12px;
+        position: relative;
     }
 }
 

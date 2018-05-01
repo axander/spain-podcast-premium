@@ -16,13 +16,28 @@ import List from '../../components/Info/List.js'
 import Player from '../../components/Info/Player.js'
 import Premium from '../../components/Info/Premium.js'
 import Privacity from '../../components/Info/Privacity.js'
+import Contact from '../../components/Info/Contact.js'
+import './info.scss'
 
 class Info extends React.Component {
   constructor(props) {
     super(props);
     localStorage.setItem('lastState',props.location.pathname);
+    var orderStatics = {};
+    var data = [];
+    this.props.statics.data.length
+    ? data = this.props.statics.data
+    : data = JSON.parse(localStorage.getItem('statics'))
+    for( var j in data){
+      orderStatics[data[j].slug]=data[j];
+    }
+    this.state={
+      'statics':orderStatics
+    }
+    this.handleResize = this.handleResize.bind(this);
   }
   componentDidMount() {
+    window.addEventListener('resize', this.handleResize);
     this.setState({
       'style':{
         'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0'
@@ -35,34 +50,64 @@ class Info extends React.Component {
     Utils.scrollToTop(300);
     // Will execute as normal
   }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  }
+  handleResize() {
+    this.setState({
+      'style':{
+        'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0'
+      }
+    })
+  }
   render() {
     return (
-      <div className='mainContainer' style={this.state.style}>
-        <terms>
-          <div className='info'>
-            <div className="basicOuter" >
-              <div className="basicInner">
-                <h1>Info</h1>
+          <div className="info" style={this.state.style}>
                 <Switch>
-                  <Route exact path='/info/about' component={ About }/>
-                  <Route exact path='/info/ads_info' component={ AdsInfo }/>
-                  <Route exact path='/info/ads' component={ Ads }/>
-                  <Route exact path='/info/basic' component={ Basic }/>
-                  <Route exact path='/info/cookies' component={ Cookies }/>
-                  <Route exact path='/info/explore' component={ Explore }/>
-                  <Route exact path='/info/help_center' component={ Help }/>
-                  <Route exact path='/info/invited' component={ Invited }/>
-                  <Route exact path='/info/legal' component={ Legal }/>
-                  <Route exact path='/info/list' component={ List }/>
-                  <Route exact path='/info/player' component={ Player }/>
-                  <Route exact path='/info/premium' component={ Premium }/>
-                  <Route exact path='/info/privacity' component={ Privacity }/>
+                  <Route exact path='/info/about' render={(props) => (
+                    <About {...props} statics={this.state.statics['quienes-somos']} />
+                  )}/>
+                  <Route exact path='/info/ads_info' render={(props) => (
+                    <AdsInfo {...props} statics={this.state.statics['anunciate']}  />
+                  )}/>
+                  <Route exact path='/info/ads' render={(props) => (
+                    <Ads {...props} statics={this.state.statics['anunciate']} />
+                  )}/>
+                  <Route exact path='/info/basic' render={(props) => (
+                    <Basic {...props} statics={this.props.statics} />
+                  )}/>
+                  <Route exact path='/info/cookies' render={(props) => (
+                    <Cookies {...props} statics={this.state.statics['politica-de-cookies']} />
+                  )}/>
+                  <Route exact path='/info/explore' render={(props) => (
+                    <Explore {...props} statics={this.props.statics} />
+                  )}/>
+                  <Route exact path='/info/help_center' render={(props) => (
+                    <Help {...props} statics={this.state.statics['centro-de-ayuda']} />
+                  )}/>
+                  <Route exact path='/info/invited' render={(props) => (
+                    <Invited {...props} statics={this.props.statics} />
+                  )}/>
+                  <Route exact path='/info/legal' render={(props) => (
+                    <Legal {...props} statics={this.state.statics['aviso-legal']} />
+                  )}/>
+                  <Route exact path='/info/list' render={(props) => (
+                    <List {...props} statics={this.props.statics} />
+                  )}/>
+                  <Route exact path='/info/player' render={(props) => (
+                    <Player {...props} statics={this.props.statics} />
+                  )}/>
+                  <Route exact path='/info/premium' render={(props) => (
+                    <Premium {...props} statics={this.props.statics} />
+                  )}/>
+                   <Route exact path='/info/privacity' render={(props) => (
+                    <Privacity {...props} statics={this.state.statics['politica-de-privacidad']} />
+                  )}/>
+                  <Route exact path='/info/contact' render={(props) => (
+                    <Contact {...props} statics={this.state.statics['contactanos']} />
+                  )}/>
                 </Switch>
-              </div> 
-            </div>
           </div>
-        </terms>
-      </div>
     );
   }
 }

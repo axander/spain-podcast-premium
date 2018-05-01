@@ -34,10 +34,12 @@ progress[value]::-moz-progress-bar {
 	background-color: #fff;
 }*/
 .player-face{
-	background: #222;
+	background: #ff0002;
     padding: 15px;
-    border-radius: 4px;
-    text-align: left;
+    text-align: center;
+    .player-face-url{
+    	font-size:10px;
+    }
 	.previous2,.play,.pause,.backward,.forward2, .time_played, .progression, .duration ,.volume{
 		cursor:pointer;
 		display:inline-block;

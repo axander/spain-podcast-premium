@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { Link } from 'react-router-dom'
 import TranslatedComponent from '../../../utils/TranslatedComponent.js';
 import './styles/footer_web.scss'
+import Logo from '../../../components/Logo/Logo.js'
 
 class Footer_generic extends React.Component {
   constructor(props) {
@@ -18,10 +19,7 @@ class Footer_generic extends React.Component {
   render() {
     return (
       <div className={ 'footer_web_generic footer_web_generic_'+localStorage.getItem('template')}>
-        <Link to={'/info/legal'} ><div>{this.translate('footer.legal')}</div></Link>
-        <Link to={'/info/privacity'} ><div>{this.translate('footer.privacity')}</div></Link>
-        <Link to={'/info/cookies'} ><div>{this.translate('footer.cookies')}</div></Link>
-        <Link to={'/info/ads_info'} ><div>{this.translate('footer.adsInfo')}</div></Link>
+        <a href='http://spainmedia.es' target='_blank' ><Logo /></a>
       </div>  
     );
   }

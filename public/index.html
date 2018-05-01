@@ -7,7 +7,29 @@
 	<meta name="description" content="">
 	<meta http-equiv="X-UA-Compatible" content="IE=11" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="mobile-web-app-capable" content="yes">
+	<link rel="manifest" href="./assets/manifest/manifest.json">
 	<link rel="stylesheet" href="./assets/styles/bootstrap.min.css">
+	<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+	<script>
+	  var googletag = googletag || {};
+	  googletag.cmd = googletag.cmd || [];
+	</script>
+
+	<script>
+		
+	  	googletag.cmd.push(function() {
+	  		var mappingTop = googletag.sizeMapping()
+				.addSize([990, 250], [[990, 250]])
+				.addSize([0, 0], [[320, 100]]).build();
+		    googletag.defineSlot('/34616581/premiumpodcast.es/noticia_Right1', [300, 600], 'right1').addService(googletag.pubads());
+		    googletag.defineSlot('/34616581/premiumpodcast.es/noticia_top', [990, 250], 'top').defineSizeMapping(mappingTop).addService(googletag.pubads());
+		    googletag.pubads().collapseEmptyDivs();
+		    googletag.enableServices();
+		    //window.googletag.cmd.push(function() { window.googletag.display('right1'); })
+		});
+	</script>
+
 	<script>
 
 	  window.fbAsyncInit = function() {
@@ -21,9 +43,8 @@
 		    FB.AppEvents.logPageView();  
 
 		    FB.Event.subscribe('auth.login', function () {
-		    	localStorage.getItem('lastState') === '/'
-		    	? window.location = "./#/content"
-			    : window.location = "./#"+localStorage.getItem('lastState');
+			    //window.location = "./#"+localStorage.getItem('lastState');
+			    window.location.reload();
 			  }); 
 		    FB.getLoginStatus(function(response) {
 			    //statusChangeCallback(response);
@@ -128,7 +149,6 @@
 	<spinner>
 		<div class="basicOuter" ><div class="basicInner" ><svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="64px" height="64px" viewBox="0 0 128 128" xml:space="preserve" smiling="fake" style="&#10;    background: transparent;&#10;"><g><circle fill="#ffffff" fill-opacity="1" cx="64.125" cy="64.125" r="12.031"/><animate attributeName="opacity" dur="900ms" begin="0s" repeatCount="indefinite" keyTimes="0;0.5;1" values="0;1;0"/></g><g><path fill="#ffffff" fill-opacity="1" fill-rule="evenodd" d="M64,0A64,64,0,1,1,0,64,64,64,0,0,1,64,0Zm0,19.538A44.462,44.462,0,1,1,19.538,64,44.462,44.462,0,0,1,64,19.538Z"/><animate attributeName="opacity" dur="900ms" begin="0s" repeatCount="indefinite" keyTimes="0;0.5;1" values="1;0;1"/></g></svg></div></div>
 	</spinner>
-</body>
 <script>
 	var spinner = document.querySelector('spinner');
 	var spinnerHide = true;

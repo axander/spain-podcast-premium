@@ -4,20 +4,20 @@
 	"data":{
 		"download":{
 			"title":{
-				"es":"Donde sea y cuando sea",
+				"es":"Donde y cuando quieras",
 				"en":"Where and when you decide"
 			},
 			"subtitle":{
-				"es":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris feugiat libero.",
-				"en":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris feugiat libero."
+				"es":"Descarga nuestra App y escucha los mejores Podcasts.",
+				"en":"Descarga nuestra App y escucha los mejores Podcasts."
 			},
 			"style":{
-				"background-image": "url(http://domgiordano.com/wp-content/uploads/2012/10/microphone_256.png)"
+				"background-image": "url('./assets/images/04.png'), url('./assets/images/03.png')"
 			}
 		},
 		"subscription":{
 			"externalLink":"",
-			"route":"favourites",
+			"route":"register",
 			"title":{
 				"es":"Sin límites",
 				"en":"No limits"
@@ -32,12 +32,7 @@
 			},
 			"style":{
 				"background":"red",
-				"height":"100%",
-				"background-image":"",
-				"height": "470px",
-			    "background-repeat": "no-repeat",
-			    "background-size": "cover",
-			    "background-position": "center center"
+				"background-image":""
 			}
 		}
 		

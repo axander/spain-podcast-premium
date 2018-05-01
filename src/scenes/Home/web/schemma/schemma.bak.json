@@ -118,16 +118,16 @@
 				"path":"Channel/Channel.js"
 			},
 			{
-				"name":"program",
-				"component":"Program",
-				"from":"scenes",
-				"path":"Program/Program.js"
-			},
-			{
 				"name":"podcast",
 				"component":"Podcast",
 				"from":"scenes",
 				"path":"Podcast/Podcast.js"
+			},
+			{
+				"name":"episode",
+				"component":"Episode",
+				"from":"scenes",
+				"path":"Episode/Episode.js"
 			}
 		]
 	}

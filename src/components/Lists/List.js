@@ -512,18 +512,18 @@ class List extends React.Component {
     
     switch(this.props.what){
       case 'channel':
-        localStorage.setItem('lastItemDataprogram',JSON.stringify(_data));
-        localStorage.setItem('lastChannelName',JSON.stringify(_data.name));
-        window.location.href = './#/program/'+_data.id;
-      break;
-      case 'program':
         localStorage.setItem('lastItemDatapodcast',JSON.stringify(_data));
-        localStorage.setItem('lastProgramName',JSON.stringify(_data.name));
+        localStorage.setItem('lastChannelName',JSON.stringify(_data.name));
         window.location.href = './#/podcast/'+_data.id;
       break;
       case 'podcast':
+        localStorage.setItem('lastItemDataepisode',JSON.stringify(_data));
+        localStorage.setItem('lastpodcastName',JSON.stringify(_data.name));
+        window.location.href = './#/episode/'+_data.id;
+      break;
+      case 'episode':
         localStorage.setItem('lastItemDatastatic',JSON.stringify(_data));
-        this.props.initplayer.play(_data.source, _data.id, _data.name, _data);
+        this.props.initplayer.play(_data.file, _data.id, _data.name, _data);
         window.location.href = './#/static/'+_data.id;
       break;
       default:

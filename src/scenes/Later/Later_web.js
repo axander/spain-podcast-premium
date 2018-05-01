@@ -38,8 +38,8 @@ class Later_web extends React.Component {
   render() {
     return (
       <div className='later_web' style={this.state.style} >
-                <h1>Later</h1>
-                <List_web type="Later" auth={this.props.auth} initplayer={this.props.initplayer}  />
+                <h1>{this.translate('content.episodes')} - {this.translate('user.toLater')}</h1>
+                <List_web list="later" item="episode" auth={this.props.auth} initplayer={this.props.initplayer}  />
       </div>
     );
   }

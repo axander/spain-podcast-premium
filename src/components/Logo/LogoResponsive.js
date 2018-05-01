@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js'
-import logoResponsive from '../../assets/images/logoResponsive.png'
+import logoResponsive from '../../assets/images/spmradiomovil.svg'
 import './LogoResponsive.scss'
 
 class LogoResponsive extends React.Component {

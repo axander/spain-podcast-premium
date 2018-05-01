@@ -3,18 +3,23 @@
 	padding-right:20px;
 	padding-left:20px;
 	display: inline-block;
+	#terms{
+		margin-right: 20px;
+	}
 	input[type=password], input[type=text] {
 	    height: 60px;
 	    width: 100%;
   		border-radius: 4px;
   		background-color: #e3e3e3;
-	    margin: 5px;
+	    margin: 5px auto;
 	    border: none;
 	    padding: 22px!important;
 	    font: inherit;
 	    outline: inherit!important;
+	    margin-right: 20px;
 	}
 	.aTerms{
+		
 		opacity: 0.8;
 		/*font-family: Avenir;*/
 		font-size: 14px;
@@ -23,11 +28,27 @@
 		font-stretch: normal;
 		line-height: 2.5;
 		letter-spacing: normal;
-		color: #ffffff;
+		color: rgb(135, 247, 11);
+	}
+	.aTerms:hover{
+		text-decoration: underline;
 	}
 }
 @media screen and (max-width: 992px){
     .intro{
 		width:100%;
+		margin-top: 30px !important;
+		.intro_accept{
+			float: none !important;
+		}
+		.intro_continue{
+			float: none !important;
+		    display: inline-block;
+		    width: 100%;
+		    margin-top:25px;
+		    >div{
+		    	display: inline-block;
+		    }
+		}
 	}
 }

@@ -5,7 +5,7 @@ import Home from '../Home/Home.js'
 import Home_web from '../Home/web/Home_web.js'
 import User from '../User/User.js'
 import Content from '../Content/Content.js'
-import Podcast from '../Podcast/Podcast.js'
+import Episode from '../Episode/Episode.js'
 import Favourites from '../Favourites/Favourites.js'
 import Favourites_web from '../Favourites/Favourites_web.js'
 import Downloads from '../Downloads/Downloads.js'
@@ -14,6 +14,8 @@ import Historial from '../Historial/Historial.js'
 import Historial_web from '../Historial/Historial_web.js'
 import Later from '../Later/Later.js'
 import Later_web from '../Later/Later_web.js'
+import Like_web from '../Like/Like_web.js'
+import Listened_web from '../Listened/Listened_web.js'
 import Subscribes from '../Subscribes/Subscribes.js'
 import Subscribes_web from '../Subscribes/Subscribes_web.js'
 import Shared from '../Shared/Shared.js'
@@ -23,6 +25,10 @@ import Lists from '../Lists/Lists.js'
 import Subscription from '../Subscription/Subscription.js'
 import Bills from '../Bills/Bills.js'
 import DeleteAccount from '../User/DeleteAccount.js'
+//import Podcast from '../Podcast/Podcast.js'
+import StaticPlayer from '../../components/StaticPlayer/StaticPlayer.js'
+import Premium from '../Premium/Premium.js'
+import Promotional from '../Promotional/Promotional.js'
 import './MainContainer.scss'
 
 
@@ -35,7 +41,7 @@ class MainContainer extends React.Component {
             <Route exact path='/' component={ localStorage.getItem('app') ? Home : Home_web } />
             <Route path='/user' component={User} />
             <Route path='/content' component={Content}/>
-            <Route path='/podcast' component={Podcast}/>
+            <Route path='/episode' component={Episode}/>
 
             <Route exact path='/favourites' render={(props) => (
               <Favourites {...props} initplayer={this.props.initplayer} />
@@ -45,7 +51,7 @@ class MainContainer extends React.Component {
             )}/>
 
             <Route exact path='/downloads' render={(props) => (
-              <Downloads {...props} initplayer={this.props.initplayer} />
+              <Downloads {...props} auth={this.props.auth} initplayer={this.props.initplayer} />
             )}/>
             <Route exact path='/lists/downloads' render={(props) => (
               <Downloads_web {...props} auth={this.props.auth} initplayer={this.props.initplayer} />
@@ -56,6 +62,13 @@ class MainContainer extends React.Component {
             )}/>
             <Route exact path='/lists/later' render={(props) => (
               <Later_web {...props} auth={this.props.auth} initplayer={this.props.initplayer} />
+            )}/>
+
+            <Route exact path='/lists/like' render={(props) => (
+              <Like_web {...props} auth={this.props.auth} initplayer={this.props.initplayer} />
+            )}/>
+            <Route exact path='/lists/listened' render={(props) => (
+              <Listened_web {...props} auth={this.props.auth} initplayer={this.props.initplayer} />
             )}/>
 
             <Route exact path='/history' render={(props) => (
@@ -94,6 +107,22 @@ class MainContainer extends React.Component {
             <Route exact path='/deleteAccount' render={(props) => (
               <DeleteAccount {...props} auth={this.props.auth} />
             )}/>
+            <Route exact path='/static/:episode/:name' render={(props) => (
+              <StaticPlayer {...props} initSchemma={this.props.initSchemma}  initplayer={this.props.initplayer} auth={this.props.auth} />
+            )}/>
+            <Route exact path='/premium' render={(props) => (
+              <Premium {...props} initSchemma={this.props.initSchemma}  initplayer={this.props.initplayer} auth={this.props.auth} />
+            )}/>
+            <Route exact path='/promotional' render={(props) => (
+              <Promotional {...props} initSchemma={this.props.initSchemma}  initplayer={this.props.initplayer} auth={this.props.auth} />
+            )}/>
+
+            {/*<Route exact path='/podcast' render={(props) => (
+              <Podcast {...props} initSchemma={this.props.initSchemma}  auth={this.props.auth}  />
+            )}/>
+            <Route exact path='/podcast/:channel/:name' render={(props) => (
+              <Podcast {...props} initSchemma={this.props.initSchemma}  auth={this.props.auth} initplayer={this.props.initplayer} />
+            )}/>*/}
 
 
           </Switch>

@@ -1,9 +1,10 @@
 {
 	"data":{
 		"mocks":true,
-		"extLogin":false,
+		"extLogin":true,
 		"mocksPath":"assets/mocks/",
 		"endpoint":"",
-		"partialPath":""
+		"partialPath":"",
+		"cms":"https://cms.premiumpodcast.es/"
 	}
 }

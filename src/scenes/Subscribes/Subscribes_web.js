@@ -38,8 +38,8 @@ class Subscribes_web extends React.Component {
   render() {
     return (
       <div className='suscribed_web' style={this.state.style} >
-                <h1>Suscribed</h1>
-                <List_web type="Suscribed" auth={this.props.auth} initplayer={this.props.initplayer}  />
+                <h1>{this.translate('podcast.subscribed')}</h1>
+                <List_web list="subscribe" item="podcast" auth={this.props.auth} initplayer={this.props.initplayer}  />
       </div>
     );
   }

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, Route } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js';
+import './Info.scss'
 
 class Legal extends React.Component {
   constructor(props) {
@@ -9,19 +10,16 @@ class Legal extends React.Component {
   }
   componentDidMount() {
     // Will execute as normal
+    document.querySelector('#content-info').innerHTML = this.props.statics.content;
   }
+  
   render() {
     return (
       <div className='mainContainer' >
-        <terms>
-          <div className='terms'>
-            <div className="basicOuter" >
-              <div className="basicInner">
-                <h1>Legal</h1>
-              </div> 
+            <div className="info_static">
+              <h1>{this.props.statics.title}</h1>
+              <div id='content-info'></div>
             </div>
-          </div>
-        </terms>
       </div>
     );
   }

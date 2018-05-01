@@ -137,6 +137,7 @@ $template-size-2: 10px;
 	    position: absolute;
 	    width: auto;
 	    left: 50%;
+	    padding-top:8px;
 	}
 
 }
@@ -156,7 +157,7 @@ $template-size-2: 10px;
 .header_web .header_web_main > a > div{
 	cursor:pointer;
 	display:inline-block;
-	padding-top: 8px;
+	padding-top: 3px;
 
 }
 .header_web .header_web_main > a > div.option:hover{

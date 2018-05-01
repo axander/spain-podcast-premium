@@ -17,13 +17,13 @@ const SingleUserAPI = {
     { id:'Content01', name: "Contenido Listado Op1", position: "C", sub:"/content"  },
     { id:'Content02', name: "Contenido Listado Op2", position: "C", sub:"/content"  },
     { id:'Content03', name: "Contenido Listado Op3", position: "C", sub:"/content"  },
-    { id:'Podcast01', name: "Podcast Op1", position: "P", sub:"/podcast"  },
-    { id:'Podcast02', name: "Podcast Op2", position: "P", sub:"/podcast"  },
-    { id:'Podcast03', name: "Podcast Op3", position: "P", sub:"/podcast"  },
-    { id:'Podcast04', name: "Podcast Op4", position: "P", sub:"/podcast"  },
+    { id:'episode01', name: "episode Op1", position: "P", sub:"/episode"  },
+    { id:'episode02', name: "episode Op2", position: "P", sub:"/episode"  },
+    { id:'episode03', name: "episode Op3", position: "P", sub:"/episode"  },
+    { id:'episode04', name: "episode Op4", position: "P", sub:"/episode"  },
     { id:'channel', name: "channel", position: "F", sub:"/favourites"  },
-    { id:'program', name: "program", position: "F", sub:"/favourites"  },
-    { id:'podcast', name: "podcast", position: "F", sub:"/favourites"  }
+    { id:'podcast', name: "podcast", position: "F", sub:"/favourites"  },
+    { id:'episode', name: "episode", position: "F", sub:"/favourites"  }
   ],
   all: function() { return this.singleUsers},
   get: function(id) {

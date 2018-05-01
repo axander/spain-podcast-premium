@@ -23,8 +23,22 @@ class Confirm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentDidMount() {
-    var urlParameters = [];
-    typeof window.location.href.split('?')[1] !== 'undefined'
+    var code = window.location.href.split('confirm/')[1];
+    code.length
+    ? ( 
+        window.history.replaceState({}, document.title, "./#/confirm"),
+        API.action('confirmAccount', {'activation_code':code}, this.onSuccess, this.onError, 'GET', false, true)
+      )
+    : this.setState(() => ({
+          'isOpen': true,
+          'loggedAs': 'hide',
+          'subscription':'hide',
+          'notLogged': 'contrast basicBorderBtn inline',
+          'msg': '',
+          'showedMsg': 'confirm.0003'
+        }));
+    /*var urlParameters = [];
+    typeof window.location.href.split('confirm/')[1] !== 'undefined'
     ? ( urlParameters = window.location.href.split('?')[1].split('&'),
         this.setParameters(urlParameters),
         window.setSpinner(),
@@ -41,7 +55,7 @@ class Confirm extends React.Component {
           'notLogged': 'contrast basicBorderBtn inline',
           'msg': '',
           'showedMsg': 'confirm.0003'
-        }));
+        }));*/
     
   }
   setParameters(_urlParameters){
@@ -59,20 +73,10 @@ class Confirm extends React.Component {
     :null;*/
   }
   onSuccess = (_response) => {
-    _response.status === 'successfull'
+    _response.status === 'success'
     ? ( 
-      localStorage.setItem('proccess','subscribing'),
-      localStorage.setItem('logged',true),
-      console.log(_response),
-      localStorage.setItem('client',JSON.stringify(_response.data)),
-      localStorage.setItem('token',_response.token),
-      this.setState({
-          'loggedAs': localStorage.getItem('logged') ? 'basicBorderBtn inline' : 'hide',
-          'subscription': localStorage.getItem('logged') ? '' : 'hide',
-          'notLogged': localStorage.getItem('logged') ? 'hide' : 'basicBorderBtn inline',
-          'nickName': JSON.parse(localStorage.getItem('client')) ? JSON.parse(localStorage.getItem('client')).personalData.nickName : null,
-          'msg': this.translate('confirm.successful')
-      })
+      localStorage.setItem('confirmed',true),
+      window.location.href='#/'
     )
     : this.setState({
           isOpen: true,

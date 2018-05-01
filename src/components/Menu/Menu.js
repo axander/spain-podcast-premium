@@ -61,8 +61,8 @@ class Menu extends React.Component {
 				    		<div className="scrollableCont" >
 						        <Link to='/'><div className={ Utils.checkScene('/') && localStorage.getItem('lastState') ==='/' ? 'opSelected' : 'opNoSelected' } >{this.translate('menu.home')}</div></Link>
 						        <Link to='/channel'><div className={ Utils.checkScene('/channel') ? 'opSelected' : 'opNoSelected' } >{this.translate('menu.channel')}</div></Link>
-						        <Link to='/program'><div className={ Utils.checkScene('/program') ? 'opSelected' : 'opNoSelected' } >{this.translate('menu.program')}</div></Link>
 						        <Link to='/podcast'><div className={ Utils.checkScene('/podcast') ? 'opSelected' : 'opNoSelected' } >{this.translate('menu.podcast')}</div></Link>
+						        <Link to='/episode'><div className={ Utils.checkScene('/episode') ? 'opSelected' : 'opNoSelected' } >{this.translate('menu.episode')}</div></Link>
 						        <Link to='/content'><div className={ Utils.checkScene('/content') ? 'opSelected' : 'opNoSelected' } >{this.translate('menu.content')}</div></Link>
 						    </div>
 					    </div>

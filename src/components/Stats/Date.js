@@ -8,7 +8,7 @@ class Date extends React.Component {
 	 }
 	render() {
 	    return (
-	        <div>
+	        <div className="date" >
 		    	<div>
 			    	<div class='basicOuter'>
 			            <div class='basicInner'>

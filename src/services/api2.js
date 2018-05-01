@@ -23,26 +23,26 @@ const UsuarioApi = {
       { id:"Content02", name: "content Op2", position: "C" , sub:"/content" },
       { id:"Content03", name: "content Op3", position: "C" , sub:"/content" }
     ],
-    '/podcast':[
-      { id:"Podcast01", name: "podcast Op1", position: "P" , sub:"/podcast" },
-      { id:"Podcast02", name: "podcast Op2", position: "P" , sub:"/podcast" },
-      { id:"Podcast03", name: "podcast Op3", position: "P" , sub:"/podcast" },
-      { id:"Podcast04", name: "podcast Op4", position: "P" , sub:"/podcast" }
+    '/episode':[
+      { id:"episode01", name: "episode Op1", position: "P" , sub:"/episode" },
+      { id:"episode02", name: "episode Op2", position: "P" , sub:"/episode" },
+      { id:"episode03", name: "episode Op3", position: "P" , sub:"/episode" },
+      { id:"episode04", name: "episode Op4", position: "P" , sub:"/episode" }
     ],
     '/favourites':[
       { id:"channel", name: "channel", position: "F" , sub:"/favourites" },
-      { id:"program", name: "program", position: "F" , sub:"/favourites" },
       { id:"podcast", name: "podcast", position: "F" , sub:"/favourites" },
+      { id:"episode", name: "episode", position: "F" , sub:"/favourites" },
     ],
     '/later':[
       { id:"channel", name: "channel", position: "F" , sub:"/later" },
-      { id:"program", name: "program", position: "F" , sub:"/later" },
       { id:"podcast", name: "podcast", position: "F" , sub:"/later" },
+      { id:"episode", name: "episode", position: "F" , sub:"/later" },
     ],
     '/shared':[
       { id:"channel", name: "channel", position: "F" , sub:"/shared" },
-      { id:"program", name: "program", position: "F" , sub:"/shared" },
       { id:"podcast", name: "podcast", position: "F" , sub:"/shared" },
+      { id:"episode", name: "episode", position: "F" , sub:"/shared" },
     ]
   },
   all: function(_op) { return this.options[_op]},

@@ -18,10 +18,10 @@ class Footer_account extends React.Component {
   render() {
     return (
       <div>
-        <h1>{this.translate('footer.accounts').toUpperCase()}</h1>
-        <Link to={'/info/basic'} ><div>{this.translate('footer.basic')}</div></Link>
-        <Link to={'/info/invited'} ><div>{this.translate('footer.invited')}</div></Link>
-        <Link to={'/info/premium'} ><div>{this.translate('footer.premium')}</div></Link>
+        <h1>{this.translate('legal').toUpperCase()}</h1>
+        <div><Link to={'/info/legal'} ><div>{this.translate('footer.legal')}</div></Link></div>
+        <div><Link to={'/info/privacity'} ><div>{this.translate('footer.privacityTerms')}</div></Link></div>
+        <div><Link to={'/info/cookies'} ><div>{this.translate('footer.cookiesTerms')}</div></Link></div>
       </div>  
     );
   }

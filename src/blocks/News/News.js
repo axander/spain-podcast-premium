@@ -63,12 +63,12 @@ class News extends React.Component {
     }
     return (
       <div className='news' >
-        <div className='news_podcasts' style={style} >
-          <div className='news_podcasts_tittle' >{title}</div>
-          <div className='news_podcasts_content'>
+        <div className='news_episodes' style={style} >
+          <div className='news_episodes_tittle' >{title}</div>
+          <div className='news_episodes_content'>
             {collection.map(( p , index) => {
               return (
-                <div className="news_item" style={p.style} onClick={() => this.props.initplayer.play(p.source, p.id, p.name, p)} >
+                <div className="news_item" style={p.style} onClick={() => this.props.initplayer.play(p.file, p.id, p.name, p)} >
                   <div className="news_item_content" >
                     <div className='news_item_item_PB'>
                       <div className='news_item_item_PB_deco'>

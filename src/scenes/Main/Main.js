@@ -15,6 +15,7 @@ import IconMenu from '../../components/IconMenu/IconMenu.js'
 import Menu from '../../components/Menu/Menu.js'
 import ChannelMenu from '../../components/ChannelMenu/ChannelMenu.js'
 import Logout from '../Login/Logout.js'
+import Registered from '../Login/Registered.js'
 import Info from '../Info/Info.js'
 import Recover from '../Login/Recover.js'
 import RecoverConfirm from '../Login/RecoverConfirm.js'
@@ -24,11 +25,12 @@ import Home from '../Home/Home.js'
 import Home_web from '../Home/web/Home_web.js'
 import Header_web from '../Home/web/Header_web.js'
 import Footer_web from '../Home/web/Footer_web.js'
-import Program from '../Program/Program.js'
-import Channel from '../Channel/Channel.js'
 import Podcast from '../Podcast/Podcast.js'
-
+import Channel from '../Channel/Channel.js'
+import Episode from '../Episode/Episode.js'
+import Search from '../Search/Search.js'
 import StaticPlayer from '../../components/StaticPlayer/StaticPlayer.js'
+import PlayerAppDeacoplate from '../../components/Player/PlayerApp/PlayerAppDeacoplate.js'
 import Terms from '../Terms/Terms.js'
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb.js'
 import MainContainer from './MainContainer.js'
@@ -43,11 +45,12 @@ const fakeAuth = {
   authenticate(cb){
     console.log('this.afterRequired');
     console.log(this.afterRequired);
+    this.isAuthenticated = true;
     this.afterRequired ? this.afterRequired() : null;
     this.afterRequired = null;
     this.afterRequiredApp ? this.afterRequiredApp() : null;
     this.afterRequiredApp = null;
-    this.isAuthenticated = true;
+    
     setTimeout(cb,100);
   },
   signout(cb){
@@ -55,8 +58,12 @@ const fakeAuth = {
     this.resetUser();
     setTimeout(cb,100);
   },
-  setUser(){
+  typeContent : null,
+  typeUser : null,
+  setUser(_type){
     //it will be configured from Login_web
+    this.typeUser = _type;
+    alert(this.typeUser)
   },
   resetUser(){
     //it will be configured from Login_web
@@ -77,12 +84,47 @@ const fakeAuth = {
     
   }
 }
+const playerDeacoplate = {
+  returnTooglePlay(){
 
+  },
+  next:null,
+  previous:null,
+  nextDis:null,
+  previousDis:null,
+  data:null,
+  fromStatic:null,
+  delegate:null,
+  hide(){
+    var staticPlayerDeacoplate = document.querySelector('#staticPlayerDeacoplate');
+    staticPlayerDeacoplate
+    ?(
+      this.playerDeacoplateStyle = staticPlayerDeacoplate.className,
+      staticPlayerDeacoplate.className = 'hide'
+      )
+    : null;
+    
+  },
+  show(){
+    var staticPlayerDeacoplate = document.querySelector('#staticPlayerDeacoplate');
+    staticPlayerDeacoplate
+    ? staticPlayerDeacoplate.className = this.playerDeacoplateStyle
+    : null;
+  },
+  playerDeacoplateStyle : ''
+}
+const statics = {
+  data : {}
+}
 const player = {
   play(){
     //it will be configured from Login_web
   },
-  data : {}
+  data : {},
+  next(){},
+  previous(){},
+  resetInit(){},
+  init : false
 }
 const listSchemma = {
   show(){
@@ -94,15 +136,19 @@ const PrivateRoute = ({ component: Component, needLogin : NeedLogin,  ...rest })
   <Route {...rest} render={(props) =>(
     fakeAuth.afterRequiredApp = null,
     localStorage.setItem('lastState',props.location.pathname),
-    ( fakeAuth.isAuthenticated === true || Logged.getLogged(props) ) && !localStorage.getItem('error') 
-          ? <Component {...props} initplayer={player} auth={fakeAuth} />
+    ( fakeAuth.isAuthenticated === true  ) && !localStorage.getItem('error') 
+          ? <Component {...props} initplayer={player} auth={fakeAuth} initSchemma={listSchemma} />
           :( 
             fakeAuth.required(),
-            <NeedLogin {...props} initplayer={player} auth={fakeAuth} />
+            <NeedLogin {...props} initplayer={player} auth={fakeAuth} initSchemma={listSchemma} />
           )
     )}/>
 )
-
+const header ={
+  initSession(){
+    
+  }
+}
 
 class Login extends React.Component{
 
@@ -180,7 +226,7 @@ class Login extends React.Component{
       localStorage.setItem('email',_response.data.personalData.email),
       localStorage.setItem('client',JSON.stringify(_response.data)),
       localStorage.setItem('token',_response.token),
-      fakeAuth.setUser(),
+      fakeAuth.setUser(_response.data.personalData.type),
       this.setLogged(_response)
     )
     : this.setState({
@@ -297,6 +343,7 @@ class Main extends React.Component {
         'codesData': {},
         'resetUser': null
       };
+      Logged.getLogged(this.props, fakeAuth);
   }
   updateSubscriptions(_subscriptionData, _email){
     this.state.lapsedSubscription = _subscriptionData.lapsed;
@@ -337,21 +384,39 @@ class Main extends React.Component {
       }))*/
   }
   componentWillUpdate(){
-    var subscriptionData = {};
+    /*var subscriptionData = {};
     var client = JSON.parse(localStorage.getItem('client'));
     localStorage.getItem('logged') && !localStorage.getItem('checkingSubscription')
     ? ( 
       //check type of subscription from data
       localStorage.setItem('checkingSubscription', true),
       subscriptionData = Utils.checkSubscription(client.paymentData),
-      console.log(subscriptionData),
       //check instant lapsed
-      //subscriptionInfo = { 'type': typeSubscription, 'status': subscription, 'lapsed': lapsed, 'codesData': [codesFrom], 'codeInv': codeInv }
       subscriptionData.lapsed.premium || subscriptionData.lapsed.invited || subscriptionData.lapsed.basic
         ? this.updateSubscriptions(subscriptionData, client.personalData.email)
         : localStorage.getItem('checkingSubscription') ? localStorage.removeItem('checkingSubscription') : null
     )
-    : null;
+    : null;*/
+  }
+  toggleModal = () => {
+      this.setState({
+          isOpen: !this.state.isOpen
+      });
+   }
+  componentDidMount(){
+    window.googletag.cmd.push(function() { window.googletag.display('right1'); }) ;
+    localStorage.getItem('sesion') === 'timeout'
+    ? (
+      this.setState({
+          isOpen: true,
+          showedMsg: 'timeout'
+      }),
+      localStorage.removeItem('sesion')
+    )
+    : this.setState({
+          isOpen: false,
+          showedMsg: 'timeout'
+      });
   }
   render() {
     if( !localStorage.getItem('app') ){
@@ -359,12 +424,12 @@ class Main extends React.Component {
       return (
         <div className='mainContainer' >
           <div className="main"> 
-            <Route path="/(register|terms|info|channel|program|podcast|static|profile|lists|subscription|bills|deleteAccount|SPP_DEV)/" render={(props) => (
+            <Route path="/(register|terms|info|explorar|podcast|episode|static|search|profile|premium|promotional|lists|subscription|bills|deleteAccount|SPP_DEV)/" render={(props) => (
                 <Breadcrumb {...props} auth={fakeAuth} />
               )}/>
             <Switch>
               <Route exact path='/' render={(props) => (
-                <Home_web {...props} initplayer={player} initSchemma={listSchemma} auth={fakeAuth} />
+                <Home_web {...props} statics={statics} initplayer={player} initSchemma={listSchemma} auth={fakeAuth} />
               )}/>
               <Route exact path='/login' component={Login}/>
               <Route exact path='/logout' component={Logout}/>
@@ -372,44 +437,65 @@ class Main extends React.Component {
                 <Register {...props} auth={fakeAuth} />
               )}/>
               <Route exact path='/terms' component={Terms}/>
+              <Route exact path='/search' render={(props) => (
+                <Search {...props} initplayer={player} auth={fakeAuth} />
+              )}/>
               <Route exact path='/info' component={Info}/>
-              <Route exact path='/info/*' component={Info}/>
+              <Route exact path='/info/*' render={(props) => (
+                <Info {...props} statics={statics} auth={fakeAuth} />
+              )}/>
               <Route path='/confirm' component={Confirm}/>
+              <Route path='/registered' component={Registered}/>
               <Route exact path='/recover' component={Recover} />
               <Route exact path='/recover/confirm' component={RecoverConfirm} />
+              <Route exact path='/episode' render={(props) => (
+                <Episode {...props} initSchemma={listSchemma} initplayer={player} auth={fakeAuth} />
+              )}/>
+              <Route exact path='/static/:episode/:name' render={(props) => (
+                <StaticPlayer {...props} initSchemma={listSchemma}  initplayer={player} auth={fakeAuth} playerDeacoplate={playerDeacoplate} />
+              )}/>
+              <Route exact path='/episode/:podcast/:name' render={(props) => (
+                <Episode {...props} initSchemma={listSchemma}  initplayer={player} auth={fakeAuth} />
+              )}/>
+              <Route exact path='/episode/:podcast/:name/:episode/:episodename' render={(props) => (
+                <Episode {...props} initSchemma={listSchemma}  initplayer={player} auth={fakeAuth} />
+              )}/>
+              <Route exact path='/explorar' render={(props) => (
+                <Channel {...props} initSchemma={listSchemma}  auth={fakeAuth} initplayer={player} />
+              )}/>
               <Route exact path='/podcast' render={(props) => (
-                <Podcast {...props} initSchemma={listSchemma} initplayer={player} auth={fakeAuth} />
+                <Podcast {...props} initSchemma={listSchemma}  auth={fakeAuth}  />
               )}/>
-              <Route exact path='/static/:podcast/:name' render={(props) => (
-                <StaticPlayer {...props} initSchemma={listSchemma}  initplayer={player} auth={fakeAuth} />
+              <Route exact path='/podcast/:channel/:name' render={(props) => (
+                <Podcast {...props} initSchemma={listSchemma}  auth={fakeAuth} initplayer={player} />
               )}/>
-              <Route exact path='/podcast/:program/:name' render={(props) => (
-                <Podcast {...props} initSchemma={listSchemma}  initplayer={player} auth={fakeAuth} />
-              )}/>
-              <Route exact path='/podcast/:program/:name/:podcast/:podcastname' render={(props) => (
-                <Podcast {...props} initSchemma={listSchemma}  initplayer={player} auth={fakeAuth} />
-              )}/>
-              <Route exact path='/channel' render={(props) => (
-                <Channel {...props} initSchemma={listSchemma}  auth={fakeAuth} />
-              )}/>
-              <Route exact path='/program' render={(props) => (
-                <Program {...props} initSchemma={listSchemma}  auth={fakeAuth} />
-              )}/>
-              <Route exact path='/program/:channel/:name' render={(props) => (
-                <Program {...props} initSchemma={listSchemma}  auth={fakeAuth} />
-              )}/>
+
               <Route exact path='/SPP_DEV' component={Home}/>
               <PrivateRoute exact path='/*' component={MainContainer} needLogin={NeedLogin} />
 
             </Switch>
             
-            <Settings logout={fakeAuth} />
+            {<Settings logout={fakeAuth} />}
             <ListSchemma initSchemma={listSchemma} initplayer={player} />
-            <ChannelMenu initSchemma={listSchemma} initplayer={player} auth={fakeAuth} />
-            <Modal />
+            {<ChannelMenu initSchemma={listSchemma} initplayer={player} auth={fakeAuth} />}
+            <Modal show={this.state.isOpen} onClose={this.toggleModal}  >
+              {this.translate(this.state.showedMsg)}
+            </Modal>
           </div>
-          <Header_web login={fakeAuth}  />
-          <Footer_web />
+          <Header_web login={fakeAuth} header={header} />
+          <Footer_web header={header} />
+          {/*<staticPlayer id="staticPlayerDeacoplate" >
+            <PlayerAppDeacoplate 
+              next={playerDeacoplate.next} 
+              previous={playerDeacoplate.previous} 
+              nextDis={playerDeacoplate.nextDis} 
+              previousDis={playerDeacoplate.previousDis} 
+              data={playerDeacoplate.episode} 
+              fromStatic={true} 
+              delegate={delegate}
+              auth={fakeAuth} 
+              initplayer ={player} />
+            </staticPlayer>*/}
         </div>
       );
     }else {
@@ -422,9 +508,12 @@ class Main extends React.Component {
             )}/>
             <Route exact path='/login' component={Login}/>
             <Route exact path='/logout' component={Logout}/>
+            <Route exact path='/registered' component={Registered}/>
             <Route exact path='/register' component={Register}/>
             <Route exact path='/info' component={Info}/>
-            <Route exact path='/info/*' component={Info}/>
+            <Route exact path='/info/*' render={(props) => (
+              <Info {...props} statics={statics} auth={fakeAuth} />
+            )}/>
             <Route exact path='/terms' component={Terms}/>
             <Route path='/confirm' component={Confirm}/>
             <Route exact path='/recover' component={Recover} />
@@ -432,19 +521,19 @@ class Main extends React.Component {
             <Route exact path='/channel' render={(props) => (
               <Channel {...props} initSchemma={listSchemma} auth={fakeAuth} />
             )}/>
-            <Route exact path='/program' render={(props) => (
-              <Program {...props} initSchemma={listSchemma} auth={fakeAuth} />
-            )}/>
-            <Route exact path='/program/:channel/:name' render={(props) => (
-              <Program {...props} initSchemma={listSchemma} auth={fakeAuth} />
-            )}/>
             <Route exact path='/podcast' render={(props) => (
-              <Podcast {...props} initplayer={player} initSchemma={listSchemma} auth={fakeAuth} />
+              <Podcast {...props} initSchemma={listSchemma} auth={fakeAuth} />
             )}/>
-            <Route exact path='/podcast/:program/:name' render={(props) => (
-              <Podcast {...props} initplayer={player} initSchemma={listSchemma} auth={fakeAuth} />
+            <Route exact path='/podcast/:channel/:name' render={(props) => (
+              <Podcast {...props} initSchemma={listSchemma} auth={fakeAuth} />
             )}/>
-            <Route exact path='/static/:podcast/:name' render={(props) => (
+            <Route exact path='/episode' render={(props) => (
+              <episode {...props} initplayer={player} initSchemma={listSchemma} auth={fakeAuth} />
+            )}/>
+            <Route exact path='/episode/:podcast/:name' render={(props) => (
+              <episode {...props} initplayer={player} initSchemma={listSchemma} auth={fakeAuth} />
+            )}/>
+            <Route exact path='/static/:episode/:name' render={(props) => (
               <StaticPlayer {...props} initSchemma={listSchemma}  initplayer={player} auth={fakeAuth} />
             )}/>
             <Route exact path='/SPP_DEV' component={Home}/>
@@ -456,7 +545,7 @@ class Main extends React.Component {
           <Settings logout={fakeAuth} />
           <ListSchemma initSchemma={listSchemma} initplayer={player} />
           <ChannelMenu initplayer={player} initSchemma={listSchemma} auth={fakeAuth}  />
-          <Modal />
+          <Modal show={this.state.isOpen} onClose={this.toggleModal} />
         </div>
       );
     }

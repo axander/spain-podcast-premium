@@ -1,8 +1,8 @@
 .lateralChannelMenu{
 	position:absolute;
-	z-index:40000
+	z-index:40000;
 }
-channelOptions, programOptions, podcastOptions{
+channelOptions, podcastOptions, episodeOptions{
 	.row{
 		position:relative;
 	    margin: 0;
@@ -34,7 +34,7 @@ channelOptions, programOptions, podcastOptions{
 		}
 	}
 }
-podcastPlayer{
+episodePlayer{
 	.options{
 		position: absolute;
     	top: 0;

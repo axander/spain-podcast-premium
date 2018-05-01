@@ -2,9 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Link } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js';
-import Program from '../Program/Program.js'
-import Channel from '../Channel/Channel.js'
+import { Modal, API } from '../../services/Rest.js';
+import Utils from '../../utils/Utils.js';
 import Podcast from '../Podcast/Podcast.js'
+import Channel from '../Channel/Channel.js'
+import Episode from '../Episode/Episode.js'
 
 class Home extends React.Component {
   constructor(props) {
@@ -23,7 +25,30 @@ class Home extends React.Component {
   clickHandler(){
     this.props.auth.afterRequiredApp = null;
   }
+  onSuccess = (_response) => {
+    Utils.scrollToTop(300);
+    _response.status === 'success'
+    ? localStorage.setItem('static', JSON.stringify(_response.result))
+    : this.setState({
+        isOpen: true,
+        showedMsg: 'episode.' + _response.reason
+    });
+  }
+  onError = (_response, _error) =>{
+    this.setState({
+          isOpen: true,
+          showedMsg: _error
+      });
+  }
+  toggleModal = () => {
+      this.setState({
+          isOpen: !this.state.isOpen
+      });
+   }
   componentDidMount() {
+    window.setSpinner();//,
+    API.action('getStatic', null, this.onSuccess, this.onError, 'GET', false, true);
+      
   }
   componentDidUpdate(){
     this.state = {
@@ -59,25 +84,28 @@ class Home extends React.Component {
           </div>
           <div className="col-xs-12 col-md-6">
             <div>
-              <h1>{this.translate('menu.program').toUpperCase()}</h1>
+              <h1>{this.translate('menu.podcast').toUpperCase()}</h1>
             </div>
             <div className="section-container" >
               <div className="section-contain">
-                <Program channel={localStorage.getItem('lastChannel') ? localStorage.getItem('lastChannel') : 'generic' } initSchemma={this.props.initSchemma} auth={this.props.auth} />
+                <Podcast channel={localStorage.getItem('lastChannel') ? localStorage.getItem('lastChannel') : 'generic' } initSchemma={this.props.initSchemma} auth={this.props.auth} />
               </div>
             </div>
           </div>
           <div className="col-xs-12 col-md-6">
             <div>
-              <h1>{this.translate('menu.podcast').toUpperCase()}</h1>
+              <h1>{this.translate('menu.episode').toUpperCase()}</h1>
             </div>
             <div className="section-container" >
               <div className="section-contain">
-                <Podcast program={localStorage.getItem('lastProgram') ? localStorage.getItem('lastProgram') : 'generic' } auth={this.props.auth} initplayer={this.props.initplayer} initSchemma={this.props.initSchemma}  />
+                <Episode podcast={localStorage.getItem('lastpodcast') ? localStorage.getItem('lastpodcast') : 'generic' } auth={this.props.auth} initplayer={this.props.initplayer} initSchemma={this.props.initSchemma}  />
               </div>
             </div>
           </div>
         </div>
+        <Modal show={this.state.isOpen} onClose={this.toggleModal} >
+          {this.translate(this.state.showedMsg)}
+        </Modal>
       </div>  
     );
   }

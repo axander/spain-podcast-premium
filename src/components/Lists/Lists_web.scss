@@ -1,6 +1,6 @@
 .list_web{
     position: relative;
-    height: 300px;
+    height: auto;
     margin-top: 50px;
     padding-left: 10px;
     padding-right: 10px;
@@ -37,6 +37,7 @@
 	}
 	.listsWebBlock{
 		padding-bottom: 20px;
+
 		.listsWebBlock_rot{
 			float:left;
 			padding-bottom: 20px;
@@ -51,6 +52,7 @@
 			opacity:.5;
 		}
 		.listsWebBlock_item{
+			position:relative;
 			width: 100%;
 		    text-align: left;
 		    padding-top: 20px;
@@ -81,6 +83,38 @@
 					opacity:.5;
 				}
 			}
+			.list_ask_delete{
+				position:absolute;
+				top: 0;
+				width:100%;
+				height:100%;
+				background: rgba(0,0,0,.8);
+				.list_ask_delete_rot{
+					display:inline-block;
+				}
+				.list_ask_delete_cancel{
+					cursor:pointer;
+					display:inline-block;
+					padding: 10px;
+				    border: 2px solid #fff;
+				    border-radius: 30px;
+				    margin-left: 20px;
+				}.list_ask_delete_cancel:hover{
+					opacity:.5;
+				}
+				.list_ask_delete_exec{
+					cursor:pointer;
+					display:inline-block;
+					padding: 10px;
+					background: red;
+					color:#fff;
+				    border: 2px solid red;
+				    border-radius: 30px;
+				    margin-left: 20px;
+				}.list_ask_delete_exec:hover{
+					opacity:.5;
+				}
+			}
 	      	.listsWebBlock_item_image{
 	      		cursor:pointer;
 			    width: 10%;
@@ -88,18 +122,28 @@
 			    vertical-align: top;
 			    height: 100%;
 			    .listsWebBlock_item_image_thumb{
-			    	width:30px;
+			    	width:35px;
+			    	background:blue;
+					height:35px;
+			    	background-repeat:no-repeat;
+			    	background-size:cover;
+			    	background-position:center center;
 			    }
 	      	}.listsWebBlock_item_image:hover{
 	      		opacity:.5;
 	      	}
-		    .listsWebBlock_item_descrip{
-		    	width: 50%;
+	      	.listsWebBlock_item_name{
+		    	width: 55%;
 			    display: inline-block;
 			    padding-top: 5px;
 			    padding-bottom: 5px;
 			    vertical-align: top;
 			    height: 100%;
+			    font-weight: bold;
+			    .listsWebBlock_item_description{
+				    vertical-align: top;
+				    font-weight: normal;
+			    }
 		    }
 		    .listsWebBlock_item_options{
 		    	width: 10%;
@@ -110,7 +154,7 @@
 			    height: 100%;
 			    .listsWebBlock_item_options_deco{
 		   			cursor: pointer;
-				    width: 14px;
+		   			width:1px;
 				    word-break: break-all;
 				    line-height: 8px;
 				    color: #666;
@@ -129,7 +173,7 @@
 			    height: 100%;
 		    }
 		    .listsWebBlock_item_delete{
-		    	width: 10%;
+		    	width: 5%;
 			    display: inline-block;
 			    padding-top: 5px;
 			    padding-bottom: 5px;
@@ -140,18 +184,19 @@
 					display:table-cell;
 					width:100%;
 					height:100%;
-					text-align:center;
+					float:right;
 					vertical-align:middle;
 					.listsWebBlock_item_del_PB_deco{
 						display: inline-block;
 					    width: 20px;
 					    height: 20px;
-					    border: 3px solid #bbb;
+					    /*border: 3px solid #bbb;*/
 					    border-radius: 50px;
 					    line-height: 13px;
 					    text-align: center;
 					    font-size: 10px;
 					    color: #bbb;
+					    float:right;
 					}
 				}.listsWebBlock_item_del_PB:hover{
 					opacity:.5;

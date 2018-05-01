@@ -15,6 +15,7 @@
 	.data_input_40{
 	 	width:40%;
 	 	display:inline-block;
+	 	vertical-align: top;
 	}
 	.data_input_60{
 	 	width:60%;
@@ -40,6 +41,19 @@
 }
 @media screen and (max-width: 992px){
     .data{
+    	margin-top:30px !important;
 		width:100%;
+		.data_continue{
+			float: none !important;
+			display:inline-block;
+			margin-top:30px !important;
+		}
+		.data_back{
+			float: none !important;
+			margin-top:30px !important;
+		}
+		.data_input_60{
+		    padding-top: 0;
+		}
 	}
 }

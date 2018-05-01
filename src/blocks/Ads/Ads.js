@@ -10,59 +10,44 @@ class Ads extends React.Component {
   constructor(props) {
     super(props);
     this.state={
-      'init':true,
-      'loading':true,
-      'error':false,
-      'data':{}
+      'resizing':true,
+      'up990':window.innerWidth >= 990 ? true : false ,
+      'down990':window.innerWidth < 990 ? true : false,
+      'change':true
     }
-  }
-  onSuccess = (_response) => {
-    _response.status === 'successfull'
-    ? (
-        this.setState({
-          'init':false,
-          'loading':false,
-          'error':false,
-          'data':_response.data,
-          'style':{
-            'background-image':'url('+_response.data.image+')',
-            'background-position':'center',
-            'background-size':'cover'
-          }
-        })
-      )
-    : (
-        this.setState({
-          'init':false,
-          'loading':false,
-          'error':true
-        })
-      );
-  }
-  onError = (_response, _error) =>{
-    this.setState({
-          'init':false,
-          'loading':false,
-          'error':true
-        })
+    this.handleResize = this.handleResize.bind(this);
   }
   componentDidMount(){
-      API.action('getAdv', {}, this.onSuccess, this.onError, 'get');
+
+    window.googletag.cmd.push(function() { window.googletag.display('top'); })
+    window.addEventListener('resize', this.handleResize);
+  }
+  handleResize() {
+    this.setState({
+      'up990':window.innerWidth >= 990 ? true : false ,
+      'down990':window.innerWidth < 990 ? true : false,
+      'change': ( window.innerWidth >= 990 && !this.state.up990 ) || ( window.innerWidth < 990 && !this.state.down990  ) ? true : false
+    })
+    console.log(this.state.up990);
+    console.log(this.state.down990);
   }
   render() {
-      let Ad
+      this.state.change
+      ? typeof window.googletag !== 'undefined' && window.googletag.pubads ? window.googletag.pubads().refresh() : null
+      : null
+      /*let Ad
       if(typeof this.state.data !== 'undefined' && this.state.data.externalLink && this.state.data.externalLink.length>0){
           Ad =<a href={this.state.data.externalLink} target='_blank' ><div className='ads' style={this.state.style}></div></a>;
         }else if(typeof this.state.data !== 'undefined' && this.state.data.route && this.state.data.route.length>0){
           Ad =<Link to={'/'+this.state.data.route} ><div className='ads' style={this.state.style}></div></Link>;
         }else{
           Ad =<div className='ads' style={this.state.style}></div>;
-        }
+        }*/
         return (
             <div className='ads' >
-              {Ad}
-              <div className={this.state.loading ? 'spinner':'hide'} ><LocalSpinner /></div>
-              <div className={this.state.error ? 'error':'hide'} ><LocalError /></div>
+              <div id='top'>
+                  
+              </div>
             </div>
           );
     /*return (

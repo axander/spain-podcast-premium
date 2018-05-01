@@ -4,13 +4,14 @@ import Utils from '../utils/Utils.js'
 const Logged = {
 	setAuthRefresh : function(){
 		var set = false;
-		localStorage.getItem('logged') && JSON.parse(localStorage.getItem('client')).personalData.email === localStorage.getItem('email')
+		localStorage.getItem('logged') && JSON.parse(localStorage.getItem('client')) && JSON.parse(localStorage.getItem('client')).personalData.email === localStorage.getItem('email')
 		? set = true
 		: null;
 		return set
 	},
-	getLogged : function(_props){
+	getLogged : function(_props, _auth){
 		if(localStorage.getItem('logged')){
+			_auth.typeUser = JSON.parse(localStorage.getItem('client')).personalData.type
 			return true
 		}else{
 			if(!localStorage.getItem('logged') && localStorage.getItem('extStatus') && JSON.parse(localStorage.getItem('extStatus')).status ==='connected'){
@@ -48,19 +49,22 @@ const Logged = {
 					})
 					.then(function(data) {
 						window.setSpinner();
-						data.status==='successfull'
+						data.status==='success'
 						? ( localStorage.setItem('logged',true),
-		    				localStorage.setItem('client',JSON.stringify(data)) ,
+							localStorage.setItem('client',JSON.stringify(data.data)),
+      						localStorage.setItem('token',data.token),
+      						_auth.isAuthenticated = true,
+		    				_auth.setUser(data.data.personalData.type),
 		    				window.location.href='#'+_props.location.pathname
 		    			)
 		    			: window.logoutFb();
 		    			
 					})
 				    .catch((error) => {
-				    	window.setSpinner();
+				    	/*window.setSpinner();
 				    	localStorage.setItem('error', 'ERROR.loginExternal')
 				    	localStorage.removeItem('logged');
-				    	window.logoutFb();
+				    	window.logoutFb();*/
 				    	return false
 				    })
 				}

@@ -18,11 +18,11 @@ class SingleLayoutLater extends React.Component {
             <Route exact path='/later/channel' render={(props) => (
               <List {...props} data={this.props.data.channel} what='channel' where='later' />
             )}/>
-            <Route exact path='/later/program' render={(props) => (
-              <List {...props} data={this.props.data.program} what='program' where='later' />
-            )}/>
             <Route exact path='/later/podcast' render={(props) => (
-              <List {...props} data={this.props.data.podcast} initplayer={this.props.initplayer} what='podcast' where='later' />
+              <List {...props} data={this.props.data.podcast} what='podcast' where='later' />
+            )}/>
+            <Route exact path='/later/episode' render={(props) => (
+              <List {...props} data={this.props.data.episode} initplayer={this.props.initplayer} what='episode' where='later' />
             )}/>
         </Switch>
         

@@ -7,6 +7,9 @@ import { Modal, API } from '../../../services/Rest.js'
 import './styles/login_web.scss'
 import Utils from '../../../utils/Utils.js'
 
+const bodyScroll = {
+  posY:0
+}
 
 class Login_web extends React.Component {
   
@@ -17,7 +20,7 @@ class Login_web extends React.Component {
       'emailClass':'',
       'emailValidation':'',
       'pwd':'',
-      'deactive': 'disabled',
+      'deactive': '',//'disabled',
       'showedMsg': false,
       'isOpen': false,
       'show':false,
@@ -29,7 +32,9 @@ class Login_web extends React.Component {
       'avatar':JSON.parse(localStorage.getItem('client')) ? JSON.parse(localStorage.getItem('client')).personalData.avatar : '',
       'loggedAs': localStorage.getItem('logged') ? '' : 'hide',
       'notLogged': localStorage.getItem('logged') ? 'hide' : 'initSession',
-      'nickName': JSON.parse(localStorage.getItem('client')) ? JSON.parse(localStorage.getItem('client')).personalData.nickName : null
+      'nickName': JSON.parse(localStorage.getItem('client')) ? JSON.parse(localStorage.getItem('client')).personalData.nickName : null,
+      'email':'',
+      'confirmed':localStorage.getItem('confirmed') ? true : false
     }
     this.toogle = this.toogle.bind(this);
     localStorage.removeItem('error')
@@ -50,14 +55,31 @@ class Login_web extends React.Component {
 
   }
   toogle(e){
+    localStorage.getItem('confirmed')
+    ? (
+        localStorage.removeItem('confirmed'),
+        this.state.show = true
+      )
+    : null;
     this.state.logged
     ? (
       window.location.href='#/user/subscriptionData',
       this.state.show = false
     )
     : ( 
+      this.state.show
+      ? (
+          document.querySelector('.main').style.height='auto',
+          window.scrollTo(0,bodyScroll.posY)
+        )
+      : (
+          bodyScroll.posY =window.scrollY,
+          document.querySelector('.main').style.height=window.innerHeight
+        ),
       this.setState({
-        'show': !this.state.show
+        'show': !this.state.show,
+        'requiredMessage':false,
+        'confirmed':false
       }),
       this.props.login.afterRequired = null
     )
@@ -83,7 +105,8 @@ class Login_web extends React.Component {
   }
   requireLogin(_exec){
     this.setState({
-      'show': true
+      'show': true,
+      'requiredMessage':true
     });
     this.props.login.afterRequired = _exec
   }
@@ -94,7 +117,7 @@ class Login_web extends React.Component {
   }
   refreshNick(){
     this.setState({
-      'nickName': JSON.parse(localStorage.getItem('client')).personalData.nickName
+      'nickName': JSON.parse(localStorage.getItem('client')) ? JSON.parse(localStorage.getItem('client')).personalData.nickName : null
     });
   }
   componentDidMount() {
@@ -103,6 +126,7 @@ class Login_web extends React.Component {
     this.props.login.setUser = this.setUser;
     this.props.login.resetUser = this.resetUser;
     this.props.login.refreshNick = this.refreshNick;
+    this.props.header.initSession = this.toogle;
   }
   componentDidUpdate(){
     localStorage.getItem('error')
@@ -111,6 +135,9 @@ class Login_web extends React.Component {
           showedMsg: localStorage.getItem('error')
       }) , localStorage.removeItem('error') )
     :null;
+    localStorage.getItem('confirmed')
+    ? this.state.confirmed = true
+    : null;
   }
   handleChange(event) {
     switch(event.target.id){
@@ -150,29 +177,41 @@ class Login_web extends React.Component {
   state = {
     redirectToReferrer : false
   }
-  
-  login = (_response) => {
+  getInfo = (_response) => {
     var subscriptionData = {};
-    _response.status === 'successfull'
+    _response.status === 'success'
     ? (
-      localStorage.setItem('logged',true),
-      console.log(_response),
+      this.props.login.authenticate(),
+      this.props.login.typeUser = _response.data.personalData.type,
+      Utils.scrollToTop(300),
       localStorage.setItem('email',_response.data.personalData.email),
       localStorage.setItem('client',JSON.stringify(_response.data)),
-      localStorage.setItem('token',_response.token),
       //window.location.href='#/user',
       //window.location.href='./',
-      this.props.login.authenticate(),
       this.setState({
           logged: true,
           show: false,
           loggedAs: true,
           notLogged: 'hide',
-          nickName: _response.data.personalData.nickName 
+          nickName: _response.data.personalData.nickName
       }),
       localStorage.getItem('savingList')
       ? null
       : window.location.reload()
+    )
+    : this.setState({
+          isOpen: true,
+          showedMsg: 'login.error.' + _response.reason
+      });
+  }
+  
+  login = (_response) => {
+    localStorage.removeItem('confirmed');
+    _response.status === 'success'
+    ? (
+      localStorage.setItem('logged',true),
+      localStorage.setItem('api_key',_response.api_key),
+      API.action('getInfo', { 'email':this.state.email, 'password':this.state.pwd}, this.getInfo, this.onError, 'get', false, true)
     )
     : this.setState({
           isOpen: true,
@@ -203,7 +242,7 @@ class Login_web extends React.Component {
       }))
     event.preventDefault();
     //API.action('','GET', { 'user':this.state.user, 'pwd':this.state.pwd}, this.login, this.onError);
-    API.action('login', { 'email':this.state.email, 'pwd':this.state.pwd}, this.login, this.onError);
+    API.action('login', { 'email':this.state.email, 'password':this.state.pwd}, this.login, this.onError, 'get', false, true);
   }
   clickHandlerFB(event){
     window.checkLoginState()
@@ -232,12 +271,12 @@ class Login_web extends React.Component {
    }
    logoutClicked(){
       window.setSpinner();
-      API.action('logout', this.state, this.logout, this.onError);
+      API.action('logout', {}, this.logout, this.onError, 'GET', false, true);
    }
 
   logout = (_response) => {
-    _response.status === 'successfull'
-    ? ( localStorage.removeItem('logged'), localStorage.removeItem('token'),
+    _response.status === 'success'
+    ? ( localStorage.removeItem('logged'), localStorage.removeItem('api_key'),
       localStorage.removeItem('client'),
       this.props.showRegister(),
       typeof localStorage.getItem('extStatus') !== 'undefined' && JSON.parse(localStorage.getItem('extStatus')) && JSON.parse(localStorage.getItem('extStatus')).authResponse && JSON.parse(localStorage.getItem('extStatus')).authResponse.accessToken ? window.logoutFb() : null,
@@ -261,16 +300,24 @@ class Login_web extends React.Component {
       document.getElementById('root').removeEventListener('click', this.handleClickOutside, true);
   }
   hideMenuResponsive(){
+    document.querySelector('.main').style.height='auto';
+    window.scrollTo(0,bodyScroll.posY);
     this.setState({
       'userOptionsResponsive':''
     })
   }
   showMenuResponsive(){
+    bodyScroll.posY =window.scrollY;
+    document.querySelector('.main').style.height=window.innerHeight;
     this.setState({
       'userOptionsResponsive':'userOptions_responsive_show'
     })
   }
   render() {
+    let typeUser = null;
+    localStorage.getItem('client')
+    ? typeUser = JSON.parse(localStorage.getItem('client')).personalData.type
+    : null
     return (
       <div>
         <div onClick={this.toogle} className={this.state.notLogged} >
@@ -290,6 +337,8 @@ class Login_web extends React.Component {
               <div className={this.state.userOptions} >
                 <div className="userOptions_deco" > ▲</div>
                   <Link to='/profile' ><div className="userOptions_item" >{this.translate('user.profile')}</div></Link>
+                  <Link to='/premium' className={ typeUser && typeUser === 'premium' ? 'hide' : '' } ><div className="userOptions_item userOptions_item_premium" >{this.translate('user.toPremium')}</div></Link>
+                  <Link to='/promotional' className={ typeUser && typeUser === 'premium' ? 'hide' : '' } ><div className="userOptions_item userOptions_item_code" >{this.translate('user.promotional')}</div></Link>
                   <Link to='/lists' ><div className="userOptions_item" >{this.translate('user.lists')}</div></Link>
                   <Link to='/subscription' ><div className="userOptions_item" >{this.translate('user.subscription')}</div></Link>
                   <Link to='/bills' ><div className="userOptions_item" >{this.translate('user.bills')}</div></Link>
@@ -299,28 +348,34 @@ class Login_web extends React.Component {
             </div>
           </div>
         </div>
-        <auth_web className={ 'auth_web auth_web_'+localStorage.getItem('template') + (this.state.show ? ' auth_web_show' : '')} >
+        <auth_web className={ 'auth_web auth_web_'+localStorage.getItem('template') + (this.state.show || localStorage.getItem('confirmed') ? ' auth_web_show' : '')} >
             <div className="authInner">
-              <h1>{this.translate('login')}</h1>
-              <div><FBPB /></div>
-              <div className="formOr" >------------------   {this.translate('register.or')}   ------------------</div>
-              <form onSubmit={e => this.handleSubmit(e, this.login, this.onError)}>
-                <div><input id="email" type="text"  onChange={this.handleChange} className={ this.state.emailClass + ' input_web_'+localStorage.getItem('template')}  value={this.state.email} placeholder={this.translate('nickoremail')} /></div>
-                <div className="notValid_msg" >{this.state.emailValidation}</div>
-                <div><input id="pwd" type="password" onChange={this.handleChange} className={ 'input_web_'+localStorage.getItem('template')} value={this.state.pwd} placeholder={this.translate('password')} /></div>
-                <div class='row'>
-                  <div class='col-xs-12 col-md-6' ><Link to='/recover' onClick={this.toogle} className='forgotPwdBtn'><div>{this.translate('register.recoverPwd')}</div></Link></div>
-                  <div class='col-xs-12 col-md-6' ><div className={"initBtn " + this.state.deactive } onClick={e => this.handleSubmit(e, this.login, this.onError)} >{this.translate('header.initSession').toUpperCase()}</div></div>
+              <div>
+                <div className={ this.state.requiredMessage || this.state.confirmed ? 'required_message' : 'hide' }>
+                  { this.state.confirmed ? this.translate('login.confirmed') : this.translate('login.required')}
+                  <span class="icon-chevron-up_2"></span>
                 </div>
-              </form>
-              <div class='row'>
-                  <div class='col-xs-12 col-md-6' ><div className='remember'>Recuérdame</div></div>
+                <h1>{this.translate('login')}</h1>
+                <div><FBPB /></div>
+                <div className="formOr" >------------------   {this.translate('register.or')}   ------------------</div>
+                <form onSubmit={e => this.handleSubmit(e, this.login, this.onError)}>
+                  <div><input id="email" type="text"  onChange={this.handleChange} className={ this.state.emailClass + ' input_web_'+localStorage.getItem('template')}  value={this.state.email} placeholder={this.translate('nickoremail')} /></div>
+                  <div className="notValid_msg" >{this.state.emailValidation}</div>
+                  <div><input id="pwd" type="password" onChange={this.handleChange} className={ 'input_web_'+localStorage.getItem('template')} value={this.state.pwd} placeholder={this.translate('password')} /></div>
+                  <div class='row'>
+                    <div class='col-xs-12 col-md-6' ><Link to='/recover' onClick={this.toogle} className='forgotPwdBtn'><div>{this.translate('register.recoverPwd')}</div></Link></div>
+                    <div class='col-xs-12 col-md-6' ><div className={"initBtn " + this.state.deactive } onClick={e => this.handleSubmit(e, this.login, this.onError)} >{this.translate('header.initSession').toUpperCase()}</div></div>
+                  </div>
+                </form>
+                {/*<div class='row'>
+                    <div class='col-xs-12 col-md-6' ><div className='remember'>Recuérdame</div></div>
+                </div>*/}
+                <div class='row registerRow'>
+                    <div class='col-xs-12 col-md-6' ><div className={ 'noAccountRot noAccountRot_web_'+localStorage.getItem('template')}  >{this.translate('login.noAccount')}</div></div>
+                    <div class='col-xs-12 col-md-6' ><div onClick={this.register} className='registerBtn' >{this.translate('login.regNow').toUpperCase()}</div></div>
+                </div>
+                <div className="closePB" onClick={this.toogle}><span class="icon-x"></span></div>
               </div>
-              <div class='row registerRow'>
-                  <div class='col-xs-12 col-md-6' ><div className={ 'noAccountRot noAccountRot_web_'+localStorage.getItem('template')}  >¿No tienes cuenta?</div></div>
-                  <div class='col-xs-12 col-md-6' ><div onClick={this.register} className='registerBtn' >Registrate ahora</div></div>
-              </div>
-              <div className="closePB" onClick={this.toogle}><span class="icon-x"></span></div>
             </div>
           <div>
             <Modal show={this.state.isOpen} onClose={this.toggleModal} >
@@ -333,6 +388,8 @@ class Login_web extends React.Component {
               <span class="icon-x"></span>
           </div>
           <div><Link to='/profile' ><div className="userOptions_item_responsive" >{this.translate('user.profile')}</div></Link></div>
+          <div className={ typeUser && typeUser === 'premium' ? 'hide' : '' } ><Link to='/premium' ><div className="userOptions_item_responsive userOptions_item_responsive_premium" >{this.translate('user.toPremium')}</div></Link></div>
+          <div className={ typeUser && typeUser === 'premium' ? 'hide' : '' }><Link to='/promotional' ><div className="userOptions_item_responsive userOptions_item_responsive_code" >{this.translate('user.promotional')}</div></Link></div>
           <div><Link to='/lists' ><div className="userOptions_item_responsive" >{this.translate('user.lists')}</div></Link></div>
           <div><Link to='/subscription' ><div className="userOptions_item_responsive" >{this.translate('user.subscription')}</div></Link></div>
           <div><Link to='/bills' ><div className="userOptions_item_responsive" >{this.translate('user.bills')}</div></Link></div>

@@ -8,7 +8,7 @@
     background: #000;
     color: #ddd;
     display: block;
-    position: fixed;
+    position: absolute;
     z-index: 10;
     text-align: left;
     border-radius: 0;
@@ -41,15 +41,12 @@
     a{
         color:#ccc !important;
     }
-    a:last-child{
-        pointer-events:none;
-        color:#444 !important;
-    }
+    
     .breadcrumb_item:hover{
         opacity:.5;
     }
 }
-@media screen and (max-width: 990px){
+@media screen and (max-width: 992px){
    .breadcrumb{
 		width: 100%;
         position:relative;

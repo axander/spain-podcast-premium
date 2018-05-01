@@ -6,6 +6,7 @@
 	padding:50px;
 	padding-top:100px;
 	background:#333;
+	margin-top: 50px;
 	.spinner, .error{
 		position:absolute;
 		top:0;
@@ -14,7 +15,7 @@
 		height:100%;
 	}
 	.opinion_count{
-		  float:left;
+		  margin-top: -20px;
 		  /*font-family: Avenir;*/
 		  font-size: 30px;
 		  font-weight: normal;
@@ -24,6 +25,10 @@
 		  letter-spacing: normal;
 		  text-align: left;
 		  color: #ffffff;
+	}
+	.opinion_showing{
+		text-align:left;
+		font-size: 16px;
 	}
 	.opinion_advice{
 		float: right;
@@ -94,7 +99,7 @@
 		width:100%;
 		height:auto;
 		background:#fff;
-		padding:50px;
+		padding:20px;
 		margin-bottom: 40px;
 		/*font-family: Avenir;*/
   		font-size: 14px;
@@ -105,21 +110,83 @@
 		  letter-spacing: normal;
 		  text-align: left;
 		  color: #4a4a4a;
+		  .opinion_text_literals{
+		  	padding:30px;
+		  }
+		  .opinion_options_container{
+		  	position:relative;
+		  	text-align : right;
+		  	.opinion_button{
+		  		width: 141px;
+			    height: 50px;
+			    border-radius: 52px;
+			    border: 5px solid #000;
+			    text-align: center;
+			    padding: 10px;
+			    cursor: pointer;
+			    /* right: 0; */
+			    display: inline-block;
+		  	}
+		  	.opinion_button:hover{
+			  opacity:.5;
+			}
+		  }
 	}
-	.opinion_button{
-		float: right;
-	    width: 141px;
-	    height: 50px;
-	    border-radius: 52px;
-	    border: 5px solid #000;
-	    margin: 10px;
-	    text-align: center;
-	    padding: 10px;
-	    cursor: pointer;
+	.opinion_text_me{
+		position: relative;
+	    text-align: right;
+		width:100%;
+		height:225px;
+		background:#fff;
+		padding:20px;
+		margin-bottom: 40px;
+		/*font-family: Avenir;*/
+  		font-size: 14px;
+		font-weight: normal;
+		font-style: normal;
+		font-stretch: normal;
+		line-height: 1.36;
+		letter-spacing: normal;
+		color: #4a4a4a;
+		.opinion_text_container{
+			width:100%;
+			textArea{
+				display: inline-block;
+				width:100%;
+			    height: 110px;
+			    margin: 5px 0px;
+			    border: none;
+			    font-style: inherit;
+			    font-variant: inherit;
+			    font-weight: inherit;
+			    font-stretch: inherit;
+			    font-size: inherit;
+			    line-height: inherit;
+			    font-family: inherit;
+			    cursor: pointer;
+			    background: rgb(221, 221, 221);
+			    border-radius: 4px;
+			    color: #444;
+			    outline: inherit !important;
+			    padding: 22px !important;
+			}
+		}
+		.opinion_button{
+		  		width: 141px;
+			    height: 50px;
+			    border-radius: 52px;
+			    border: 5px solid #000;
+			    text-align: center;
+			    padding: 10px;
+			    cursor: pointer;
+			    /* right: 0; */
+			    display: inline-block;
+		  	}
+		  	.opinion_button:hover{
+			  opacity:.5;
+			}
 	}
-	.opinion_button:hover{
-	  opacity:.5;
-	}
+
 }
 @media screen and (max-width: 990px){
 	.opinion{
@@ -138,7 +205,7 @@
 			height:100%;
 		}
 		.opinion_count{
-			  float:left;
+			  
 			  /*font-family: Avenir;*/
 			  font-size: 30px;
 			  font-weight: normal;
@@ -149,7 +216,19 @@
 			  text-align: left;
 			  color: #ffffff;
 		}
+		.opinion_showing{
+    			text-align: left;
+			  font-size: 16px;
+			  font-weight: normal;
+			  font-style: normal;
+			  font-stretch: normal;
+			  line-height: 1.17;
+			  letter-spacing: normal;
+			  text-align: left;
+			  color: #ffffff;
+		}
 		.opinion_advice{
+			margin-top:20px;
 			float: left;
 		    text-align: left;
 		    padding-bottom: 60px;
@@ -230,12 +309,11 @@
 		    color: #4a4a4a;
 		}
 		.opinion_button{
-			float: right;
 		    width: 141px;
 		    height: 50px;
 		    border-radius: 52px;
 		    border: 5px solid #000;
-		    margin: 10px;
+		    margin-top: 10px;
 		    text-align: center;
 		    padding: 10px;
 		    cursor: pointer;

@@ -20,7 +20,7 @@
 				width:100%;
 				height:100%;
 				>div>div{
-					display:inline-block;
+					display:block;
 					vertical-align: top;
 					.choose_register_item_selector{
 						width:36px;
@@ -125,7 +125,44 @@
     padding-right: 20px;
 }
 @media screen and (max-width: 992px){
+	.register_choose{
+		margin-top:30px !important;
+		margin-bottom:30px !important;
+		padding:0;
+		.choose_register_content{
+    		.choose_register_item{
+    			width: 270px;
+			    margin: 20px auto;
+			    padding: 25px;
+			    .choose_register_item_content{
+				    .choose_register_item_features{
+						.choose_register_item_feature{
+							.choose_register_item_feature_checkmark{
+								position:absolute;
+							}
+							.choose_register_item_feature_txt{
+								padding-left:20px;
+								line-height: 1.5;
+								letter-spacing: normal;
+							}
+						}.choose_register_item_feature_active{
+							
+						}
+					}
+				}
+    		}
+    	}
+	}
     .register_choose_adjust{
 		width:100%;
+		.register_choose_continue{
+			float: none !important;
+			display: inline-block;
+		}
+		.register_choose_back{
+			float: none !important;
+			margin-top:25px;
+			margin-top:30px !important;
+		}
 	}
 }

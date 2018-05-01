@@ -18,11 +18,11 @@ class SingleLayoutFav extends React.Component {
             <Route exact path='/favourites/channel' render={(props) => (
               <List {...props} data={this.props.data.channel} what='channel' where='fav' />
             )}/>
-            <Route exact path='/favourites/program' render={(props) => (
-              <List {...props} data={this.props.data.program} what='program' where='fav' />
-            )}/>
             <Route exact path='/favourites/podcast' render={(props) => (
-              <List {...props} data={this.props.data.podcast} initplayer={this.props.initplayer} what='podcast' where='fav' />
+              <List {...props} data={this.props.data.podcast} what='podcast' where='fav' />
+            )}/>
+            <Route exact path='/favourites/episode' render={(props) => (
+              <List {...props} data={this.props.data.episode} initplayer={this.props.initplayer} what='episode' where='fav' />
             )}/>
         </Switch>
         

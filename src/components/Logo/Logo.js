@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js'
-import logo from '../../assets/images/logo.png'
+import logo from '../../assets/images/spmradio.svg'
 import './Logo.scss'
 
 class Logo extends React.Component {
@@ -20,7 +20,7 @@ class Logo extends React.Component {
 
   render() {
     return (
-      <div classsName="logo" >
+      <div className="logo" >
         <img src={'.'+logo} alt="logo" />
       </div>  
     );

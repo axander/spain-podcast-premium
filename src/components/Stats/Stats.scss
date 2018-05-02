@@ -1,5 +1,6 @@
 .item_stats{
 	padding-bottom:5px;
+	margin-top: 45px !important;
 	.item_stats_container{
 		 .item_stats_container_elem{
 		 	div{
@@ -18,5 +19,8 @@
    .item_stats{
    		width: 100%;
     	text-align: center;
+    	.item_stats_container{
+    		
+    	}
    }
 }

@@ -1,4 +1,7 @@
 .profile{
+	label{
+		float:left;
+	}
 	.profile_avatar{
 		cursor: pointer;
 	    width: 150px;
@@ -15,6 +18,9 @@
 		    display: inline;
 	    }
 
+	}
+	#uploaderImage{
+		display:none;
 	}
 	.profile_avatar:hover{
 		opacity:.5;
@@ -33,11 +39,16 @@
 		    outline: inherit!important;
 		}
 	}
+
+
 	
 }
 @media screen and (max-width: 992px){
-	.profile_save{
-		float: none !important;
-		display:inline-block;
+	.profile{
+		margin-top:50px !important;
+		.profile_save{
+			float: none !important;
+			display:inline-block;
+		}
 	}
 }

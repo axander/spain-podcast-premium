@@ -46,7 +46,7 @@ const List = {
 		"method":"GET"
 	},
 	"savePersonalData":{
-		"service":"user/savePersonalData",
+		"service":"updateProfile",
 		"method":"POST"
 	},
 	"getSessionData":{

@@ -1,4 +1,5 @@
 .iteminfo{
+
 	font-size:20px;
 	text-align:center;
 	text-align:left;
@@ -112,6 +113,10 @@
 		text-align:left;
 		padding-left: 10px;
     	padding-right: 10px;
+    	.item_stats_container{
+    		position: relative !important;
+    		bottom : 0 !important;
+    	}
 		.iteminfo_image_container_channel, .iteminfo_image_container_podcast, .iteminfo_image_container_episode{
 			width:136px;
 			height: 136px;

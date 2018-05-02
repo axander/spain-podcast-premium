@@ -68,7 +68,7 @@ class Header_web extends React.Component {
         <div className='header_web_main'>
           <div class="header_web_explore option left pr20"><Link to={'/explorar'} ><div class=''>{this.translate('header.explore').toUpperCase()}</div></Link></div>
           <div class="header_web_explore option left pr20 menu_responsive_pb" onClick={this.showMenuResponsive} >☰</div>
-          <div class="header_web_premium option left" onClick={this.getPremium} ><div class=''>{this.translate('header.premium').toUpperCase()}</div></div>
+          <div className={!this.props.login.typeUser || this.props.login.typeUser === 'basic' ? 'header_web_premium option left' : 'hide' }  onClick={this.getPremium} ><div class=''>{this.translate('header.premium').toUpperCase()}</div></div>
           <Link to={'/'} >
             <div class='option logo'><Logo /></div>
             <div class='option logoResponsive'><LogoResponsive /></div>
@@ -82,7 +82,7 @@ class Header_web extends React.Component {
               <span class="icon-x"></span>
             </div>
             <div><Link to='/explorar' ><div className="menu_responsive_option" >{this.translate('header.explore').toUpperCase()}</div></Link></div>
-            <div><Link to='/premium' ><div className="menu_responsive_option" >{this.translate('header.premium').toUpperCase()}</div></Link></div>
+            <div className={this.props.login.typeUser === 'basic' ? '' : 'hide' } ><Link to='/premium' ><div className="menu_responsive_option" >{this.translate('header.premium').toUpperCase()}</div></Link></div>
             <div className={ this.state.registerHide ?'hide' : 'menu_responsive_option' } ><Link to='/register' ><div  >{this.translate('header.register').toUpperCase()}</div></Link></div>
             
           </div>

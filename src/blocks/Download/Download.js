@@ -63,7 +63,7 @@ class Download extends React.Component {
   }
   render() {
     var lan = localStorage.getItem('language');
-    if(typeof this.state.data.subscription !== 'undefined'){
+    if(typeof this.state.data.subscription !== 'undefined' && !this.props.auth.isAuthenticated){
       var subscription = 
         <div style={this.state.data.subscription.style} >
               <div className='download_subscription_title' >{this.state.data.subscription.title[lan]}</div>
@@ -81,7 +81,7 @@ class Download extends React.Component {
     }
     if(typeof this.state.data.download !== 'undefined'){
       var download = 
-        <div className='download_apps'>
+        <div className={this.props.auth.isAuthenticated ? 'download_apps download_apps_single' : 'download_apps' } >
           <div className='download_deco' style={this.state.data.download.style} ></div>
           <div className='download_apps_content' >
             <div className='download_apps_content_title' >{this.state.data.download.title[lan]}</div>

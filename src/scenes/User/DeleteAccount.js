@@ -25,6 +25,9 @@ class DeleteAccount extends React.Component {
     event.preventDefault();
     API.action('deleteAccount', {} , this.onSuccess, this.onError, 'GET', false, true);
   }
+  goProfile(){
+    window.location.href = './#/profile'
+  }
   onSuccess = (_response) => {
       _response.status === 'success'
       ? ( 
@@ -83,7 +86,8 @@ class DeleteAccount extends React.Component {
         <div>{this.translate('user.deleteAccountMessage')}</div>
         <div>{this.translate('user.deleteAccountConfirm')}</div>
         <div>
-            <div><div className="submitBtn" onClick={this.handleSubmit} >{this.translate('continue').toUpperCase()}</div></div>
+            <div className="submitBtn" onClick={this.goProfile} >{this.translate('cancel').toUpperCase()}</div>
+            <div className="submitBtn2" onClick={this.handleSubmit} >{this.translate('user.delete').toUpperCase()}</div>
         </div>
         <Modal show={this.state.isOpen} onClose={this.toggleModal} >
           {this.translate(this.state.showedMsg)}

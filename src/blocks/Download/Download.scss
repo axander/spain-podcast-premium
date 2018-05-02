@@ -41,6 +41,12 @@
 			margin-bottom: 50px;
 		}
 	}
+}.download_apps_single{
+	height:670px;
+	.download_apps_content_title{
+		padding-top: 210px !important;
+    	padding-bottom: 40px;
+	}
 }.download_subscription{
 	height:auto;
 	display:table;
@@ -149,6 +155,15 @@
 				margin-bottom: 19px;
 				text-align: left;
 			}
+		}
+	}.download_apps_single{
+		height:380px;
+		.download_apps_content_title{
+			padding-top: 0 !important;
+	    	padding-bottom: 40px;
+		}
+		.download_apps_content_subtitle{
+			margin-bottom: 39px !important;
 		}
 	}.download_subscription{
 		margin-top:100px;

@@ -116,8 +116,10 @@ class Login_web extends React.Component {
     });
   }
   refreshNick(){
+    var data = JSON.parse(localStorage.getItem('client'))
     this.setState({
-      'nickName': JSON.parse(localStorage.getItem('client')) ? JSON.parse(localStorage.getItem('client')).personalData.nickName : null
+      'avatar':data ? data.personalData.avatar : '',
+      'nickName': data ? data.personalData.nickName : null
     });
   }
   componentDidMount() {

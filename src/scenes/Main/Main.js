@@ -63,7 +63,6 @@ const fakeAuth = {
   setUser(_type){
     //it will be configured from Login_web
     this.typeUser = _type;
-    alert(this.typeUser)
   },
   resetUser(){
     //it will be configured from Login_web

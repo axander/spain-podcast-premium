@@ -22,6 +22,11 @@ class Premium extends React.Component {
       }
     })
   }
+  componentWillUpdate(){
+    this.props.auth.typeUser === 'premium'
+    ? window.location.href = './#/subscription'
+    : null;
+  }
   handleResize() {
     this.setState({
       'style':{
@@ -31,6 +36,7 @@ class Premium extends React.Component {
   }
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
+   
   }
   render() {
     return (

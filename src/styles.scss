@@ -596,8 +596,14 @@ AuthButton {
     background-position: center;
 }
 .podcast .item .desc_cont, .channel .item .desc_cont, .episode .item .desc_cont, .staticplayer .item .desc_cont{
-    position: absolute;
+    /*position: absolute;*/
     bottom: 0;
+    width: 100%;
+}
+.item_stats_container{
+    position: absolute;
+    /* display: inline-block; */
+    bottom: 70px;
     width: 100%;
 }
 
@@ -1501,6 +1507,26 @@ input[type="text"], input[type="password"]{
 }
 .submitBtn:hover{
     background: #90291d  !important;
+}
+.submitBtn2{
+    display: inline-block;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit !important;
+    margin-top: 40px;
+    padding: 10px !important;
+    margin: 20px;
+    width: 184px;
+    border-radius:20px;
+    background: #67b511 ;
+    color: #fff !important;
+    -webkit-transition: background .5s ease;
+    -moz-transition: background .5s ease;
+    transition: background .5s ease;
+}
+.submitBtn2:hover{
+    background: #168d40  !important;
 }
 .loginBtn:before {
   content: "";

@@ -70,6 +70,7 @@
   "login.facebook": "Continue with Facebook",
   "login.google": "Continue with Google",
   "login.error.undefined":"Not valid identification. Try again, please.",
+  "login.error.User doesn't exist!": "User doesn't exist!",
   "login.error.generic":"It has been a problem login you. Try it again, please",
   "login.error.0001":"Email not valid. Intro a valid mail and try it again, please",
   "login.error.0002":"Incorrect Password. Intro the correct password and try it again, please",

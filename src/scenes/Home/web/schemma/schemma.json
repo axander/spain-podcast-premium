@@ -71,10 +71,10 @@
 					"path":"Travel/Travel.js"
 				},
 				{
-					"name":"downloadSingle",
-					"component":"DownloadSingle",
+					"name":"download",
+					"component":"Download",
 					"from":"blocks",
-					"path":"DownloadSingle/DownloadSingle.js"
+					"path":"Download/Download.js"
 				}
 			],
 			"premium":[
@@ -101,6 +101,12 @@
 					"component":"Travel",
 					"from":"blocks",
 					"path":"Travel/Travel.js"
+				},
+				{
+					"name":"download",
+					"component":"Download",
+					"from":"blocks",
+					"path":"Download/Download.js"
 				}
 			]
 		},

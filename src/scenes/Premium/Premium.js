@@ -23,9 +23,9 @@ class Premium extends React.Component {
     })
   }
   componentWillUpdate(){
-    this.props.auth.typeUser === 'premium'
+    this.props.auth.isAuthenticated
     ? window.location.href = './#/subscription'
-    : null;
+    : window.location.href = './#/register';
   }
   handleResize() {
     this.setState({

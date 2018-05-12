@@ -13,7 +13,7 @@ class Ads extends React.Component {
       'resizing':true,
       'up990':window.innerWidth >= 990 ? true : false ,
       'down990':window.innerWidth < 990 ? true : false,
-      'change':true
+      'change':false
     }
     this.handleResize = this.handleResize.bind(this);
   }
@@ -33,7 +33,10 @@ class Ads extends React.Component {
   }
   render() {
       this.state.change
-      ? typeof window.googletag !== 'undefined' && window.googletag.pubads ? window.googletag.pubads().refresh() : null
+      ? (
+        typeof window.googletag !== 'undefined' && window.googletag.pubads ? window.googletag.pubads().refresh() : null,
+        this.state.change = false
+      )
       : null
       /*let Ad
       if(typeof this.state.data !== 'undefined' && this.state.data.externalLink && this.state.data.externalLink.length>0){

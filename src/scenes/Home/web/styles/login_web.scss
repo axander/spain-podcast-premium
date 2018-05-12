@@ -222,7 +222,10 @@ auth_web{
 }
 .userNick{
     >div{
-        display:inline-block;
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 60px;
     }
     .userOptions_avatar{
         width: 40px;

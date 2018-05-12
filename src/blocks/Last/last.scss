@@ -23,7 +23,7 @@
 		position: absolute;
 	    top: 30px;
 	    padding: 10px;
-	    font-size: 12px;
+	    font-size: 15px;
 	    text-align: left;
 	}
 	.item_origen:hover{
@@ -99,6 +99,40 @@
 		    height: 100%;
 		    color: #444;
 			display:inline-block;
+		}
+	}
+	.flag_premium{
+	    position: absolute;
+	    top: 35px;
+	    right: 15px !important;
+	    width: 0;
+	    height: 0;
+	    border-top: 80px solid #000;
+	    border-left: 80px solid transparent;
+	    .flag_premium_ico{
+	        color: #fff;
+	        position: absolute;
+	        top: -75px;
+	        right: 5px;
+	        .icon-award{
+	            font-size: 25px;
+	        }
+	    }
+	}
+}
+@media screen and (max-width: 992px){
+	.last{
+		.flag_premium{
+		    position: absolute;
+		    top: 0 !important;
+		    right: 0 !important;
+		    width: 0;
+		    height: 0;
+		    border-top: 80px solid #000;
+		    border-left: 80px solid transparent;
+		    .flag_premium_ico{
+		        
+		    }
 		}
 	}
 }

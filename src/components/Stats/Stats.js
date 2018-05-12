@@ -6,6 +6,7 @@ import Comment from './Comment.js'
 import Date from './Date.js'
 import Played from './Played.js'
 import Like from './Like.js'
+import Utils from '../../utils/Utils.js'
 import './Stats.scss'
 
 class Stats extends React.Component {
@@ -71,7 +72,11 @@ class Stats extends React.Component {
                       <Comment num={this.props.data.info.comments} />
                     </div>
                     <div class="item_stats_container_elem" >
-                      <Date num={this.props.data.info.date} />
+                      <Date num={Utils.statsDate(this.props.data.date)} />
+                    {/*<Date num={this.props.data.date.split(' ')[0].split('-').reverse().join('/')} />*/}
+                    </div>
+                    <div class="item_stats_container_elem" >
+                      <Played num={this.props.data.listeneds} />
                     </div>
                   </div>
                 )
@@ -84,10 +89,11 @@ class Stats extends React.Component {
                       <Comment num={this.props.data.info.comments} />
                     </div>
                     <div class="item_stats_container_elem" >
-                      <Date num={this.props.data.info.date} />
+                      <Date num={Utils.statsDate(this.props.data.date)} />
+                      {/*<Date num={this.props.data.date.split(' ')[0].split('-').reverse().join('/')} />*/}
                     </div>
                     <div class="item_stats_container_elem" >
-                      <Played num={this.props.data.info.played} />
+                      <Played num={this.props.data.info.listeneds} />
                     </div>
                   </div>
                 )

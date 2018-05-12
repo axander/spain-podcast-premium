@@ -3,7 +3,6 @@ import { Modal, API } from '../../services/Rest.js'
 import { Link, Route } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js'
 import Utils from '../../utils/Utils.js'
-import DeleteAccount from '../../components/DeleteAccount/DeleteAccount.js'
 import './Subscription.scss'
 
 class Subscription extends React.Component {
@@ -84,6 +83,7 @@ class Subscription extends React.Component {
     document.querySelector('.subscription_list').style.left = - this.state.fase * document.querySelector('.subscription_list_container').offsetWidth + 'px'
   }
   componentDidMount(){
+     Utils.scrollToTop(300);
     window.addEventListener('resize', this.handleResize);
     this.setState({
       'style':{
@@ -149,7 +149,7 @@ class Subscription extends React.Component {
       Type  = 'Basic';
     }
     if(typeof this.state.data.next !== 'undefined'){
-      Next = this.state.data.next;
+      Next = this.state.data.next.replace(/ /g,"T");
     }else{
       Next  = [];
     }
@@ -165,7 +165,7 @@ class Subscription extends React.Component {
             </div>
             <div className={this.state.type !=='basic'  ? 'col-xs-12 col-md-3 invPrem' : 'col-xs-12'}>
               <div className="subscription_data_value greenFont" >
-                {Type}
+                {this.translate('user.subscription'+Type)}
               </div>
             </div>
           </div>
@@ -194,11 +194,14 @@ class Subscription extends React.Component {
               <div className="col-xs-12 col-md-2">{this.translate('user.subscription.total')}</div>
             </div>
             {SubscriptionList.map(( p , index) => {
+              var date = p.date.replace(/ /g,"T");
+              var init = p.period.init.replace(/ /g,"T");
+              var end = p.period.end.replace(/ /g,"T");
               return(
                 <div className ="row subscription_list_item mt25">
-                  <div className="col-xs-12 col-md-2">{ (new Date(p.date)).toLocaleDateString() }</div>
+                  <div className="col-xs-12 col-md-2">{ (new Date(date)).toLocaleDateString() }</div>
                   <div className="col-xs-12 col-md-2">{p.description}</div>
-                  <div className="col-xs-12 col-md-2">{ (new Date(p.period.init)).toLocaleDateString() } - { (new Date(p.period.end)).toLocaleDateString() }</div>
+                  <div className="col-xs-12 col-md-2">{ (new Date(init)).toLocaleDateString() } - { (new Date(end)).toLocaleDateString() }</div>
                   <div className="col-xs-12 col-md-2">{p.method}</div>
                   <div className="col-xs-12 col-md-2">{p.subtotal.amount.toFixed(2)}€ ( +{p.subtotal.iva.toFixed(2)} IVA )</div>
                   <div className="col-xs-12 col-md-2"><span className='singleTabLabel'>{this.translate('user.subscription.total')}</span>{p.total.toFixed(2)}€</div>
@@ -217,35 +220,25 @@ class Subscription extends React.Component {
             )
           })}
         </div>
-        <div className={this.state.type !=='basic'  ? 'hide' : 'row mt50'} >
-          <div className="subscription_basic_desc" >
-            <p>{this.translate('user.subscription.nonactive1')}</p>
-            <p>{this.translate('user.subscription.nonactive2')}</p>
-          </div>
+        <div className={this.state.type !=='basic'  ? 'hide' : 'basic row mt50'} >
           {/*<div className="subscription_basic_op mt25">
             {this.translate('creditCard').toUpperCase()}
           </div>*/}
           <div className="subscription_basic_activate mt25 mb50" >
             <Link to='/premium' >
-              <div className="neutralPB_bordered greenTextPB" >
-                {this.translate('user.subsNonActive').toUpperCase()}
+              <div className="subscription_pb_premium" >
+                {this.translate('user.toPremium')}
               </div>
             </Link>
           </div>
-
-          <div className="subscription_basic_op mt25">
-            {this.translate('promotionalCode').toUpperCase()}
-            <div className="subscription_basic_desc mb25 mt25">{this.translate('code.description')}</div>
-          </div>
           <div className="subscription_basic_activate mt25 mb25" >
             <Link to='/promotional' >
-              <div className="neutralPB_bordered greenTextPB" >
-                {this.translate('user.subsNonActive').toUpperCase()}
+              <div className="subscription_pb_premium" >
+                {this.translate('user.promotional')}
               </div>
             </Link>
           </div>
         </div>
-        <DeleteAccount />
         <Modal show={this.state.isOpen} onClose={this.toggleModal}  >
           {this.translate(this.state.showedMsg)}
         </Modal>

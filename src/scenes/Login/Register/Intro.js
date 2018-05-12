@@ -11,7 +11,9 @@ class Intro extends React.Component {
      'email':'',
      'emailClass':'',
      'emailValidation':'',
-     'user':'',
+     'nickName':'',
+     'nickNameValidation':'',
+     'nickNameValidationInit':false,
      'name':'',
      'surname':'',
      'pwd':'',
@@ -77,8 +79,18 @@ class Intro extends React.Component {
             'pwdClass':!this.state.length ? 'notValid_input' : ''
           })
       break;
-      case 'user':
-          this.setState({[event.target.id]:event.target.value});
+      case 'nickName':
+          event.target.value.length >= 4 && event.target.value.length<=20
+          ? this.setState({
+              [event.target.id]:event.target.value,
+              'nickNameValidation':true,
+              'nickNameValidationInit':true
+            })
+          : this.setState({
+              [event.target.id]:event.target.value,
+              'nickNameValidation':false,
+              'nickNameValidationInit':true
+            })
       break;
       case 'name':
           this.setState({[event.target.id]:event.target.value});
@@ -96,7 +108,7 @@ class Intro extends React.Component {
           this.setState({[event.target.id]:event.target.value});
       break
     }
-    this.state.email !== '' && this.state.length && this.state.pwd !== '' && this.state.pwdRepit !== '' && this.state.user !== '' && this.state.name !== '' && this.state.surname !== ''
+    this.state.email !== '' && this.state.length && this.state.pwd !== '' && this.state.pwdRepit !== '' && this.state.nickName !== '' && this.state.nickNameValidation && this.state.name !== '' && this.state.surname !== ''
     && this.state.emailValidation === '' && this.state.passwordNotMatch === '' && this.state.terms
     ? this.state.deactive = ''
     : this.state.deactive = 'disabled';
@@ -110,7 +122,8 @@ class Intro extends React.Component {
           <div class='mt50 mb50 intro'>
           	    	{/*<h1>{this.translate('create.account')}</h1>*/}
                   <form onSubmit={this.handleSubmit} autocomplete="on" >
-                    <div><input id="user" type="text"  onChange={this.handleChange} value={this.state.user} placeholder={this.translate('user')} /></div>
+                    <div><input id="nickName" className={ this.state.nickNameValidationInit && ( this.state.nickName === '' || !this.state.nickNameValidation ) ? 'notValid_input' : ''} type="text"  onChange={this.handleChange} value={this.state.nickName} placeholder={this.translate('user')} /></div>
+                    <div className={ this.state.nickNameValidationInit && ( this.state.nickName === '' || !this.state.nickNameValidation ) ? 'notValid_msg' : 'hide'}  >{this.translate('user.nickNameNotValid')}</div>
                     <div><input id="name" type="text"  onChange={this.handleChange} value={this.state.name} placeholder={this.translate('name')} /></div>
                     <div><input id="surname" type="text"  onChange={this.handleChange} value={this.state.surname} placeholder={this.translate('surname')} /></div>
                     <div><input id="email" type="text"  onChange={this.handleChange} className={ this.state.emailClass} value={this.state.email} placeholder={this.translate('email')} /></div>
@@ -119,7 +132,7 @@ class Intro extends React.Component {
                     <div className="notValid_msg" >{this.state.passwordLength}</div>
                     <div className="notValid_msg" >{this.state.passwordNotMatch}</div>
                     <div><input id="pwdRepit" type="password" onChange={this.handleChange} className={ this.state.pwdClass } value={this.state.pwdRepit} placeholder={this.translate('password.repit')} /></div>
-                    <div className="mt25 left intro_accept" ><input id="terms" type="checkbox" onChange={this.handleChange}  checked={this.state.terms}  />{this.translate('user.accept')}<Link className='aTerms' to='/info/about' target="_blank" > {this.translate('user.terms')}</Link>.</div>
+                    <div className="mt25 left intro_accept" ><input id="terms" type="checkbox" onChange={this.handleChange}  checked={this.state.terms}  />{this.translate('user.accept')}<Link className='aTerms' to='/info/legal' target="_blank" > {this.translate('user.terms')}</Link>.</div>
                     <div className="mt50 right intro_continue" ><div className={"greenPB " + this.state.deactive }  onClick={() => this.props.flow(this.state,'intro')} >{this.state.oneStep ? this.translate('register.finalize') : this.translate('register.continue')}</div></div>
                   </form>
           </div>

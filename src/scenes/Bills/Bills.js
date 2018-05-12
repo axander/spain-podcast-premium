@@ -153,9 +153,10 @@ class Bills extends React.Component {
               <div className="col-xs-2 col-md-2">{this.translate('user.bills.amount')}</div>
             </div>
             {BillsList.map(( p , index) => {
+              var date =  p.date.replace(/ /g,"T");
               return(
                 <div className ="row bills_list_item mt25">
-                  <div className="col-xs-12 col-md-2">{ (new Date(p.date)).toLocaleDateString() }</div>
+                  <div className="col-xs-12 col-md-2">{ (new Date(date)).toLocaleDateString() }</div>
                   <div className="col-xs-12 col-md-3">{p.number}</div>
                   <div className="col-xs-12 col-md-2">{p.amount}</div>
                   <div className="col-xs-12 col-md-5"><div className="neutralPB font20 font_med_grey" >{this.translate('user.bills.download')}</div></div>

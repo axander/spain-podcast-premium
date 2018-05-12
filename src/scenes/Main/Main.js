@@ -27,6 +27,7 @@ import Header_web from '../Home/web/Header_web.js'
 import Footer_web from '../Home/web/Footer_web.js'
 import Podcast from '../Podcast/Podcast.js'
 import Channel from '../Channel/Channel.js'
+import Premium from '../Premium/Premium.js'
 import Episode from '../Episode/Episode.js'
 import Search from '../Search/Search.js'
 import StaticPlayer from '../../components/StaticPlayer/StaticPlayer.js'
@@ -38,6 +39,12 @@ import NeedLogin from './NeedLogin.js'
 import TranslatedComponent from '../../utils/TranslatedComponent.js'
 import Utils from '../../utils/Utils.js'
 import AddPropsToRoute from '../../components/AddPropsToRoute.js'
+
+
+
+import PlayerApp from '../../components/Player/PlayerApp/PlayerApp.js'
+
+
 
 
 const fakeAuth = {
@@ -83,35 +90,6 @@ const fakeAuth = {
     
   }
 }
-const playerDeacoplate = {
-  returnTooglePlay(){
-
-  },
-  next:null,
-  previous:null,
-  nextDis:null,
-  previousDis:null,
-  data:null,
-  fromStatic:null,
-  delegate:null,
-  hide(){
-    var staticPlayerDeacoplate = document.querySelector('#staticPlayerDeacoplate');
-    staticPlayerDeacoplate
-    ?(
-      this.playerDeacoplateStyle = staticPlayerDeacoplate.className,
-      staticPlayerDeacoplate.className = 'hide'
-      )
-    : null;
-    
-  },
-  show(){
-    var staticPlayerDeacoplate = document.querySelector('#staticPlayerDeacoplate');
-    staticPlayerDeacoplate
-    ? staticPlayerDeacoplate.className = this.playerDeacoplateStyle
-    : null;
-  },
-  playerDeacoplateStyle : ''
-}
 const statics = {
   data : {}
 }
@@ -123,7 +101,40 @@ const player = {
   next(){},
   previous(){},
   resetInit(){},
-  init : false
+  init : false,
+  episodePageList : null
+}
+const deacoplatePlayer = {
+  initPlayer : false,
+  ready(){
+
+  },
+  getTitle(){
+
+  },
+  play(){
+
+  },
+  tooglePlay(){
+
+  },
+  firstEpisode:null,
+  next(){
+    return 'empty'
+  },
+  previous(){
+    return 'empty'
+  },
+  nextDis(){
+
+  },
+  previousDis(){
+
+  },
+  data(){
+
+  },
+  fromStatic:true
 }
 const listSchemma = {
   show(){
@@ -451,7 +462,7 @@ class Main extends React.Component {
                 <Episode {...props} initSchemma={listSchemma} initplayer={player} auth={fakeAuth} />
               )}/>
               <Route exact path='/static/:episode/:name' render={(props) => (
-                <StaticPlayer {...props} initSchemma={listSchemma}  initplayer={player} auth={fakeAuth} playerDeacoplate={playerDeacoplate} />
+                <StaticPlayer {...props} initSchemma={listSchemma}  initplayer={player} auth={fakeAuth}  deacoplatePlayer={deacoplatePlayer} />
               )}/>
               <Route exact path='/episode/:podcast/:name' render={(props) => (
                 <Episode {...props} initSchemma={listSchemma}  initplayer={player} auth={fakeAuth} />
@@ -468,6 +479,9 @@ class Main extends React.Component {
               <Route exact path='/podcast/:channel/:name' render={(props) => (
                 <Podcast {...props} initSchemma={listSchemma}  auth={fakeAuth} initplayer={player} />
               )}/>
+              <Route exact path='/premium' render={(props) => (
+                <Premium {...props} initSchemma={listSchemma}  auth={fakeAuth} initplayer={player} />
+              )}/>
 
               <Route exact path='/SPP_DEV' component={Home}/>
               <PrivateRoute exact path='/*' component={MainContainer} needLogin={NeedLogin} />
@@ -483,18 +497,24 @@ class Main extends React.Component {
           </div>
           <Header_web login={fakeAuth} header={header} />
           <Footer_web header={header} />
-          {/*<staticPlayer id="staticPlayerDeacoplate" >
-            <PlayerAppDeacoplate 
-              next={playerDeacoplate.next} 
-              previous={playerDeacoplate.previous} 
-              nextDis={playerDeacoplate.nextDis} 
-              previousDis={playerDeacoplate.previousDis} 
-              data={playerDeacoplate.episode} 
+        {/*<div id="playerDeacoplate" className = {!localStorage.getItem('episodePageList') ? 'hide' : '' } >*/}
+          <div id="playerDeacoplate" className = {localStorage.getItem('lastepisode') ? '' : 'hide' } >
+            <PlayerApp 
+              /*firstEpisode = {this.props.firstEpisode} */
+              next={this.props.next} 
+              previous={this.props.previous} 
+              nextDis={this.props.nextDis} 
+              previousDis={this.props.previousDis} 
+              data={this.props.episode} 
               fromStatic={true} 
-              delegate={delegate}
+              /*delegate={delegate}*/
               auth={fakeAuth} 
-              initplayer ={player} />
-            </staticPlayer>*/}
+              initplayer ={player} 
+              deacoplatePlayer={deacoplatePlayer} />
+          </div>
+
+
+
         </div>
       );
     }else {
@@ -533,7 +553,7 @@ class Main extends React.Component {
               <episode {...props} initplayer={player} initSchemma={listSchemma} auth={fakeAuth} />
             )}/>
             <Route exact path='/static/:episode/:name' render={(props) => (
-              <StaticPlayer {...props} initSchemma={listSchemma}  initplayer={player} auth={fakeAuth} />
+              <StaticPlayer {...props} initSchemma={listSchemma}  initplayer={player} auth={fakeAuth}/>
             )}/>
             <Route exact path='/SPP_DEV' component={Home}/>
             <PrivateRoute exact path='/*' component={MainContainer} needLogin={NeedLogin} />

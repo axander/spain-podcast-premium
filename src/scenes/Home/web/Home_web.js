@@ -62,7 +62,7 @@ class Home_web extends React.Component {
       'show': 'hideMenu',
       'loggedAs': localStorage.getItem('logged') ? 'basicBorderBtn inline' : 'hide',
       'notLogged': localStorage.getItem('logged') ? 'hide' : 'basicBorderBtn inline',
-      'nickName': JSON.parse(localStorage.getItem('client')) ? JSON.parse(localStorage.getItem('client')).personalData.nickName : null
+      'nickName': localStorage.getItem('client') ? JSON.parse(localStorage.getItem('client')).personalData.nickName : null
     }
     Utils.scrollToTop(300);
   }
@@ -78,6 +78,7 @@ class Home_web extends React.Component {
         ? Filtered = data.schemma.generic.premium
         : Filtered = data.schemma.generic.basic
     : Filtered = data.schemma.generic.notLogged;
+    console.log('client data end');
     return (
       <div className={ "home_web home_web_" + this.state.template } >
         <div className="main">

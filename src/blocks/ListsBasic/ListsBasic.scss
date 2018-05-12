@@ -31,6 +31,7 @@
 		cursor:pointer;
 		color:#bbb;
 		text-decoration:underline;
+
 	}
 	.lists_basic_all:hover{
 		opacity:.5 !important;
@@ -41,4 +42,32 @@
 	width: 100%;
 }.lists_basic_ads:hover{
 	opacity:.5;
+}
+
+@media screen and (max-width: 992px){
+	.lists_basic{
+		padding-left: 0;
+		.row{
+			[class*="col-"] {
+			    
+			}
+		}
+		h1{
+			
+		}
+		.spinner, .error{
+			
+		}
+		.lists_basic_all{
+			font-size: 20px;
+    		margin-top: 0;
+		}
+		.lists_basic_all:hover{
+			
+		}
+	}.lists_basic_ads{
+		
+	}.lists_basic_ads:hover{
+		
+	}
 }

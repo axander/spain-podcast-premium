@@ -87,12 +87,12 @@ class Last extends React.Component {
     localStorage.setItem('phase_podcast_'+_response.data.podcast.id, Math.trunc(_response.position / _response.perPhase));
     localStorage.setItem('lastpodcast',_response.data.podcast.id);
     localStorage.setItem('podcast',JSON.stringify(_response.data.podcast));
-    localStorage.setItem('lastpodcastName',JSON.stringify(_response.data.podcast.name));
+    localStorage.setItem('lastpodcastName',_response.data.podcast.name);
     localStorage.setItem('lastpodcastLink','/episode/'+_response.data.podcast.id+'/'+_response.data.podcast.name);
     localStorage.setItem('lastChannel',_response.data.channel.id);
     localStorage.setItem('lastChannelData',JSON.stringify(_response.data.channel));
     localStorage.setItem('lastChannelLink','/podcast/'+_response.data.channel.id+'/'+_response.data.channel.name);
-    localStorage.setItem('lastChannelName',JSON.stringify(_response.data.channel.name));
+    localStorage.setItem('lastChannelName',_response.data.channel.name);
     localStorage.setItem('lastItemDatapodcast',JSON.stringify(_response.data.channel));
     localStorage.setItem('phase_opinion_'+_response.data.podcast.id, 0);
     window.location.href = './#/episode/'+_response.data.podcast.id+'/'+_response.data.podcast.name;
@@ -172,13 +172,15 @@ class Last extends React.Component {
       }
     }
     var episodePageList;
-    episodePageList = JSON.parse(localStorage.getItem('episodePageList'));
+    /*episodePageList = JSON.parse(localStorage.getItem('episodePageList'));*/
+    episodePageList =  this.props.initplayer.episodePageList;
     if(episodePageList){
       for( var j in episodePageList){
         episodePageList[j].id === this.state.episode.id
         ? (
             episodePageList[j].isLater = !episodePageList[j].isLater,
-            localStorage.setItem('episodePageList', JSON.stringify(episodePageList))
+            this.props.initplayer.episodePageList = episodePageList
+            /*localStorage.setItem('episodePageList', JSON.stringify(episodePageList))*/
           )
         :null
       }
@@ -300,13 +302,13 @@ class Last extends React.Component {
     localStorage.setItem('phase_episode_'+_response.data.episode.id, Math.trunc(_response.position / _response.perPhase));
     localStorage.setItem('lastpodcast',_response.data.podcast.id);
     localStorage.setItem('podcast',JSON.stringify(_response.data.podcast));
-    localStorage.setItem('lastpodcastName',JSON.stringify(_response.data.podcast.name));
+    localStorage.setItem('lastpodcastName',_response.data.podcast.name);
     localStorage.setItem('lastItemDataepisode',JSON.stringify(_response.data.podcast));
     localStorage.setItem('lastpodcastLink','/episode/'+_response.data.podcast.id+'/'+_response.data.podcast.name);
     localStorage.setItem('lastChannel',_response.data.channel.id);
     localStorage.setItem('lastChannelData',JSON.stringify(_response.data.channel));
     localStorage.setItem('lastChannelLink','/podcast/'+_response.data.channel.id+'/'+_response.data.channel.name);
-    localStorage.setItem('lastChannelName',JSON.stringify(_response.data.channel.name));
+    localStorage.setItem('lastChannelName',_response.data.channel.name);
     localStorage.setItem('lastItemDatapodcast',JSON.stringify(_response.data.channel));
     localStorage.setItem('phase_opinion_'+_response.data.podcast.id, 0);
     this.props.initplayer.data = _response.data.episode;
@@ -357,7 +359,7 @@ class Last extends React.Component {
                 <div class="row" > 
                   {
                     this.state.data.map((p, index)  => (
-                      <div className={this.props.auth.typeUser !=='premium' ? "col-xs-12 col-md-6" : "col-xs-12 col-md-4" }>
+                      <div className={this.props.auth.typeUser !=='premium' ? "col-xs-12 col-md-6 item_responsive" : "col-xs-12 col-md-4 item_responsive" }>
                         <div className ={this.props.auth.typeUser  !=='premium' ? 'item_container' : (index-1)%3===0 ? 'item_container' : index%3===0 ? 'item_container_left' : 'item_container_right'} >
                           <div >
                               <div className="row item" >
@@ -368,7 +370,7 @@ class Last extends React.Component {
                                 </div>
                                 <div className="col-xs-12 ">
                                   <div className="rot" onClick={(episode) => this.getOrigenEpisode(p)} >
-                                    {index+1}. {p.name}
+                                    {/*{index+1}. */}{p.name}
                                   </div>
                                 </div>
                                 <div class="desc_cont">
@@ -387,7 +389,10 @@ class Last extends React.Component {
                                         <div>
                                           <div class='basicOuter'>
                                             <div class='basicInner'>
-                                              <span class="icon-play-circle"></span>
+                                              <div className='item_action_play'>
+                                                <div></div>
+                                              </div>
+                                              {/*<span class="icon-play-circle"></span>*/}
                                             </div>
                                           </div>
                                         </div>

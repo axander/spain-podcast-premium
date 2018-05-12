@@ -95,12 +95,12 @@ class Slider extends React.Component {
           localStorage.setItem('phase_podcast_'+_response.data.podcast.id, Math.trunc(_response.position / _response.perPhase));
           localStorage.setItem('lastpodcast',_response.data.podcast.id);
           localStorage.setItem('podcast',JSON.stringify(_response.data.podcast));
-          localStorage.setItem('lastpodcastName',JSON.stringify(_response.data.podcast.name));
+          localStorage.setItem('lastpodcastName',_response.data.podcast.name);
           localStorage.setItem('lastpodcastLink','/episode/'+_response.data.podcast.id+'/'+_response.data.podcast.name);
           localStorage.setItem('lastChannel',_response.data.channel.id);
           localStorage.setItem('lastChannelData',JSON.stringify(_response.data.channel));
           localStorage.setItem('lastChannelLink','/podcast/'+_response.data.channel.id+'/'+_response.data.channel.name);
-          localStorage.setItem('lastChannelName',JSON.stringify(_response.data.channel.name));
+          localStorage.setItem('lastChannelName',_response.data.channel.name);
           localStorage.setItem('lastItemDatapodcast',JSON.stringify(_response.data.channel));
           localStorage.setItem('phase_opinion_'+_response.data.podcast.id, 0);
           window.location.href = './#/episode/'+_response.data.podcast.id+'/'+_response.data.podcast.name;
@@ -111,13 +111,13 @@ class Slider extends React.Component {
           localStorage.setItem('phase_episode_'+_response.data.episode.id, Math.trunc(_response.position / _response.perPhase));
           localStorage.setItem('lastpodcast',_response.data.podcast.id);
           localStorage.setItem('podcast',JSON.stringify(_response.data.podcast));
-          localStorage.setItem('lastpodcastName',JSON.stringify(_response.data.podcast.name));
+          localStorage.setItem('lastpodcastName',_response.data.podcast.name);
           localStorage.setItem('lastItemDataepisode',JSON.stringify(_response.data.podcast));
           localStorage.setItem('lastpodcastLink','/episode/'+_response.data.podcast.id+'/'+_response.data.podcast.name);
           localStorage.setItem('lastChannel',_response.data.channel.id);
           localStorage.setItem('lastChannelData',JSON.stringify(_response.data.channel));
           localStorage.setItem('lastChannelLink','/podcast/'+_response.data.channel.id+'/'+_response.data.channel.name);
-          localStorage.setItem('lastChannelName',JSON.stringify(_response.data.channel.name));
+          localStorage.setItem('lastChannelName',_response.data.channel.name);
           localStorage.setItem('lastItemDatapodcast',JSON.stringify(_response.data.channel));
           localStorage.setItem('phase_opinion_'+_response.data.podcast.id, 0);
           this.props.initplayer.data = _response.data.episode;
@@ -308,10 +308,11 @@ class Slider extends React.Component {
 
                       return (
                         <div className='slider-item' style={this.state.itemStyle} >
-                          <div style={'background:'+p.color+';background-image:url("' + cms + ( p.image !== '' ? p.image : p.image_extra ) + '")'} >
-                                <div className='slider-item-title' style={'color:'+p.fontcolor+' !important;'} >{p.title}</div>
-                                <div className='slider-item-subtitle' style={'color:'+p.fontcolor+' !important;'} >{p.subtitle}</div>
-                                <div className='slider-items-PB'>
+                          <div style={'background:'+p.color+';background-image:url("' + cms + ( p.image !== '' ? p.image : '' ) + '")'} >
+                                <div className = { p.image_extra !== '' ? 'slider-item-img-sing' :  'hide' }  style={'background-image:url("' + cms + ( p.image_extra !== '' ? p.image_extra : '' ) + '")'}></div>
+                                <div className = { p.image_extra !== '' ? 'slider-item-title slider-item-title-img-extra' : 'slider-item-title' } style={'color:'+p.fontcolor+' !important;'} >{p.title}</div>
+                                <div className = { p.image_extra !== '' ? 'slider-item-subtitle slider-item-subtitle-img-extra' : 'slider-item-subtitle' }  style={'color:'+p.fontcolor+' !important;'} >{p.subtitle}</div>
+                                <div className = 'slider-items-PB' >
                                   { p.buttons.map( q => { 
                                     return (
                                       <div className="slider-item-PB-container" >

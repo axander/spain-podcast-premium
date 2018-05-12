@@ -146,7 +146,7 @@ class ChannelMenu extends React.Component {
     	}
     }
     clickHandlerChannel(event, _name){
-    	localStorage.setItem('lastChannelName', JSON.stringify(_name));
+    	localStorage.setItem('lastChannelName', _name);
 		typeof localStorage.getItem('podcast')!=='undefined' && localStorage.getItem('podcast') && localStorage.getItem('lastChannel') === event.target.id
 	    ? ( this.setState ({
 		      	'toogle':false,

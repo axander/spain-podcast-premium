@@ -3,6 +3,9 @@
 	font-size:20px;
 	text-align:center;
 	text-align:left;
+	.item_stats_container{
+		bottom: 75px !important;
+	}
 	.iteminfo_image_container_channel, .iteminfo_image_container_podcast, .iteminfo_image_container_wrapper_channel , .iteminfo_image_container_wrapper_podcast{
 		width:136px;
 		height: 136px;

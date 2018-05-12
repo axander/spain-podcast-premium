@@ -47,14 +47,15 @@ class Header_web extends React.Component {
     window.location.href = '/#/premium';
   }
   getPremium(){
-    this.props.login.isAuthenticated
+    this.goPremium()
+    /*this.props.login.isAuthenticated
     ? this.goPremium()
     : localStorage.getItem('app')
       ? null
       : (
         localStorage.setItem('scrollY', window.scrollY),
         this.props.login.required(this.goPremium)
-     )
+     )*/
   }
   componentDidMount(){
     /*document.querySelector('menu').addEventListener('touchmove', function(e) {

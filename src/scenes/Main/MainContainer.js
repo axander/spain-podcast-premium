@@ -27,7 +27,7 @@ import Bills from '../Bills/Bills.js'
 import DeleteAccount from '../User/DeleteAccount.js'
 //import Podcast from '../Podcast/Podcast.js'
 import StaticPlayer from '../../components/StaticPlayer/StaticPlayer.js'
-import Premium from '../Premium/Premium.js'
+/*import Premium from '../Premium/Premium.js'*/
 import Promotional from '../Promotional/Promotional.js'
 import './MainContainer.scss'
 
@@ -110,9 +110,9 @@ class MainContainer extends React.Component {
             <Route exact path='/static/:episode/:name' render={(props) => (
               <StaticPlayer {...props} initSchemma={this.props.initSchemma}  initplayer={this.props.initplayer} auth={this.props.auth} />
             )}/>
-            <Route exact path='/premium' render={(props) => (
+            {/*<Route exact path='/premium' render={(props) => (
               <Premium {...props} initSchemma={this.props.initSchemma}  initplayer={this.props.initplayer} auth={this.props.auth} />
-            )}/>
+            )}/>*/}
             <Route exact path='/promotional' render={(props) => (
               <Promotional {...props} initSchemma={this.props.initSchemma}  initplayer={this.props.initplayer} auth={this.props.auth} />
             )}/>

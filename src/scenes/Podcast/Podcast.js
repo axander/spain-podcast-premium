@@ -84,7 +84,7 @@ class Podcast extends React.Component {
     ? ( 
       localStorage.setItem('lastChannel',_response.data.channel.id),
       localStorage.setItem('lastChannelLink','/podcast/'+_response.data.channel.id+'/'+_response.data.channel.name),
-      localStorage.setItem('lastChannelName',JSON.stringify(_response.data.channel.name)),
+      localStorage.setItem('lastChannelName',_response.data.channel.name),
       window.location.href = './#/podcast/'+_response.data.channel.id+'/'+_response.data.channel.name
     )
     : this.setState({
@@ -351,7 +351,7 @@ class Podcast extends React.Component {
               <div class="row" >
                 {
                   this.state.data.map((p, index) => (
-                    <div className={this.props.auth.typeUser !=='premium' ? "col-xs-12 col-md-6" : "col-xs-12 col-md-4" }>
+                    <div className={this.props.auth.typeUser !=='premium' ? "col-xs-12 col-md-6 item_responsive" : "col-xs-12 col-md-4 item_responsive" }>
                         <div className ={this.props.auth.typeUser  !=='premium' ? 'item_container' : (index-1)%3===0 ? 'item_container' : index%3===0 ? 'item_container_left' : 'item_container_right'} >
                           <div className={ p.id === localStorage.getItem('lastpodcast') ? "contentSelected" : "" }>
                               <div className="row item" ><div className="col-xs-12 ">
@@ -399,7 +399,7 @@ class Podcast extends React.Component {
                                           <div class='basicOuter'>
                                             <div class='basicInner'>
                                               <div class='item_actions_text' >
-                                                {this.translate('goList')}
+                                                {this.translate('goPodcast')}
                                               </div>
                                             </div>
                                           </div>

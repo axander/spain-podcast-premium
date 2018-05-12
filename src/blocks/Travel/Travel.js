@@ -67,12 +67,12 @@ class Travel extends React.Component {
     localStorage.setItem('phase_podcast_'+_response.data.podcast.id, Math.trunc(_response.position / _response.perPhase));
     localStorage.setItem('lastpodcast',_response.data.podcast.id);
     localStorage.setItem('podcast',JSON.stringify(_response.data.podcast));
-    localStorage.setItem('lastpodcastName',JSON.stringify(_response.data.podcast.name));
+    localStorage.setItem('lastpodcastName',_response.data.podcast.name);
     localStorage.setItem('lastpodcastLink','/episode/'+_response.data.podcast.id+'/'+_response.data.podcast.name);
     localStorage.setItem('lastChannel',_response.data.channel.id);
     localStorage.setItem('lastChannelData',JSON.stringify(_response.data.channel));
     localStorage.setItem('lastChannelLink','/podcast/'+_response.data.channel.id+'/'+_response.data.channel.name);
-    localStorage.setItem('lastChannelName',JSON.stringify(_response.data.channel.name));
+    localStorage.setItem('lastChannelName',_response.data.channel.name);
     localStorage.setItem('lastItemDatapodcast',JSON.stringify(_response.data.channel));
     localStorage.setItem('phase_opinion_'+_response.data.podcast.id, 0);
     window.location.href = './#/episode/'+_response.data.podcast.id+'/'+_response.data.podcast.name;

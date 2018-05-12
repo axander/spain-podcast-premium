@@ -81,10 +81,71 @@ const Utils = {
         scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         return { top: rect.top + scrollTop, left: rect.left + scrollLeft }
     },
+    statsDate: function(_date){
+      console.log(_date);
+      _date = _date .replace(/ /g,"T");
+      var fa = new Date();
+      var fb = new Date(_date);
+      console.log(fa);
+      console.log(fb);
+      console.log('totdias');
+      console.log(totdias);
+      var totdias = fa-fb;
+      totdias=totdias/3600000;  
+      totdias=totdias/24; 
+      totdias= Math.floor(totdias);
+      totdias= Math.abs(totdias);
+      console.log('totdias');
+      console.log(totdias);
+      var ans, meses, dias, m2, m1, d3, d2, d1;
+      var f2=new Date();  var f1=new Date();
+
+      if (fa > fb){f2=fa;f1=fb;}else{var f2=fb; f1=fa;}  //Siempre f2 > f1
+      ans=f2.getFullYear()-f1.getFullYear(); // dif de años inicial
+      m2=f2.getMonth();
+      m1=f1.getMonth();
+      meses=m2-m1;  if (meses<0){meses +=12; --ans; }
+
+      d2=f2.getDate();
+      d1=f1.getDate();
+      dias=d2-d1;
+
+      var f3=new Date(f2.getFullYear(),m2,1);
+      f3.setDate(f3.getDate()-1);
+      d3=f3.getDate();
+
+      if (d1>d2) {
+        dias +=d3; --meses; if (meses<0){meses +=12; --ans; }
+        if (fa>fb){  //corrección por febrero y meses de 30 días
+          f3=new Date(f1.getFullYear(),m1+1,1);
+          f3.setDate(f3.getDate()-1);
+          d3=f3.getDate();
+          if (d3==30) dias -=1;
+          if (d3==29) dias -=2;
+          if (d3==28) dias -=3;
+        }
+      }
+      var string = '';
+      if(ans){
+        string= ans + ( ans === 1 ? ' año' : ' años');
+      }else if(meses){
+        string = meses + ( meses === 1 ? ' mes' : ' meses');
+      }else if(totdias >= 7){
+        string = Math.trunc(totdias/7) + (totdias === 7 ? ' semana' : ' semanas');
+      }else if(totdias){
+        string = totdias + (totdias ===1 ? ' día' : ' días');
+      }else{
+        string = 'Hoy';
+      }
+      return string
+    },
     scrollToTop: function(scrollDuration, _end) {
       !localStorage.getItem('opinionNotLogged') && !localStorage.getItem('scrollY')
       ? window.scrollTo(0, 0)
-      : null
+      : (
+          localStorage.removeItem('opinionNotLogged'),
+          localStorage.removeItem('scrollY')
+        )
       
         /*var scrollHeight = window.scrollY || window.pageYOffset || document.documentElement.scrollTop,
             scrollStep = Math.PI / (scrollDuration / 15),
@@ -145,6 +206,7 @@ const Utils = {
         return elapsed.toFixed(0);
     },
     leapYear: function(_date) {
+        _date = _date .replace(/ /g,"T");
         var y = new Date(_date).getFullYear();
         var x = (y % 100 === 0) ? (y % 400 === 0) : (y % 4 === 0);
         return x

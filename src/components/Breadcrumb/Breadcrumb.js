@@ -46,11 +46,11 @@ class Breadcrumb extends React.Component {
     switch(sequence[0]){
       case 'info':
         this.state.acumulate=[];
-        this.state.acumulate[0] ={
+        /*this.state.acumulate[0] ={
           'text':this.translate('info'),
           'path':this.props.location.pathname
-        }
-        this.state.acumulate[1] ={
+        }*/
+        this.state.acumulate[0] ={
           'text':this.translate('footer.'+sequence[1]),
           'path':this.props.location.pathname
         }
@@ -328,7 +328,7 @@ class Breadcrumb extends React.Component {
             {this.state.acumulate.map(( p , index) => {
               return (
                 <Link to={p.path} ><div className='breadcrumb_item' >
-                  {p.text}<span className='breadcrumb_item_deco' >❯</span>
+                  {p.text}<span className={index !== this.state.acumulate.length-1 ? 'breadcrumb_item_deco' : 'hide'} >❯</span>
                 </div></Link>
               )
             })}

@@ -582,7 +582,7 @@ class ListSchemma extends React.Component {
       case 'channel':
         this.hideSchemma();
         localStorage.setItem('lastItemDatapodcast',JSON.stringify(_data));
-        localStorage.setItem('lastChannelName',JSON.stringify(_data.name));
+        localStorage.setItem('lastChannelName',_data.name);
         history.pushState(null, './#/podcast/'+_data.id+'/'+_data.name[localStorage.getItem('language')]);
         window.location.href = './#/podcast/'+_data.id+'/'+_data.name[localStorage.getItem('language')];
         window.location.reload();

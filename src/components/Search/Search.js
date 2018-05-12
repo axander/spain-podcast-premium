@@ -11,7 +11,9 @@ class Search extends React.Component {
     super(props);
     this.state={
       'toogle':false,
-      'text':''
+      'text':'',
+      'searchValidation':false,
+      'searchValidationInit':false
     };
     this.clickHandler= this.clickHandler.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -38,17 +40,31 @@ class Search extends React.Component {
       });
   }
   componentDidMount() {
-
+    window.spinnerHide = false;
+    window.setSpinner()
   }
   componentDidUpdate(){
     
+  }
+  keyPress(e){
+    if (event.keyCode === 13 && this.state.searchValidation){
+      this.clickHandlerSearch();
+    }
   }
   handleChange(event) {
     switch(event.target.id){
       case 'searchInput':
           console.log(event.target.value);
-          this.setState({
+          event.target.value.length<3
+          ? this.setState({
             'text':event.target.value,
+            'searchValidation':false,
+            'searchValidationInit':true
+          })
+          : this.setState({
+            'text':event.target.value,
+            'searchValidation':true,
+            'searchValidationInit':true
           })
       break;
       default:
@@ -66,7 +82,11 @@ class Search extends React.Component {
     this.setState({
       'toogle':!this.state.toogle
     })
+    this.state.toogle
+    ? document.querySelector('#searchInput').focus()
+    : null
   }
+
 
   render() {
     return (
@@ -76,13 +96,14 @@ class Search extends React.Component {
           <div className="search_logo" >
             <div class='option logo'><Logo /></div>
           </div>
-          <div className="search_text" ><input id='searchInput' type="text" width="80%" placeholder='Busca episodes, podcastas, episodios, canales, radios online, usuarios...' onChange={(value) => this.handleChange(value) } /></div>
+          <div className="search_text" ><input id='searchInput' onKeyPress={(e) => this.keyPress(e)} type="text" width="80%" placeholder='Busca episodes, podcastas, episodios, canales, radios online, usuarios...' onChange={(value) => this.handleChange(value) } /></div>
+          <div className={ this.state.searchValidationInit && ( this.state.text === '' || !this.state.searchValidation ) ? 'notValidSearch_msg' : 'hide'}  >{this.translate('search.notValid')}</div>
           <div className="search_pb_container"  >
             <div className="search_close_pb" onClick={this.clickHandler} >
               <span class="icon-x"></span>
             </div>
           </div>
-          <div className={this.state.text.length ? 'search_pb_container' : 'hide'}  >
+          <div className={this.state.text.length >= 3 ? 'search_pb_container' : 'hide'}  >
             <div className="search_pb" onClick={this.clickHandlerSearch} >
               <span class="icon-search" ></span>
             </div>

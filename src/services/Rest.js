@@ -34,8 +34,10 @@ const API = {
 			_method === 'GET' && List[_path].service !== 'config' ? url+"?"+Utils.formatGetParameters(_params) : url , 
 			{
 				/*mode: 'no-cors',*/
+				'username':'nginx',
+				'password':'spainmedia',
 		      	method: _method,
-		      	headers: localStorage.getItem('api_key') && fullUrl < 0 ? new Headers({
+		      	headers: List[_path].service !== 'config' && localStorage.getItem('api_key') && fullUrl < 0 ? new Headers({
 		      			'Access-Control-Allow-Origin': '*',
 		      			'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
 		      			'Cache-Control': 'cache',
@@ -49,7 +51,8 @@ const API = {
 		        		'Cache-Control': 'cache',
 		        		'Accept':'*/*',
 		                'Content-Type': '*/*', // <-- Specifying the Content-Type
-		                'Content-Type': 'application/json'
+		                'Content-Type': 'application/json',
+		                'Authorization' : 'Basic bmdpbng6c3BhaW5tZWRpYQ=='
 		        }),
 		      	body: _method === 'POST' ? JSON.stringify(_params) : undefined // <-- Post parameters
 		    }

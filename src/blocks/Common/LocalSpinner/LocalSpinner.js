@@ -7,7 +7,7 @@ class LocalSpinner extends React.Component {
     return (
       <div className="localSpinner" >
         <div>
-          <h1>Loading...</h1>
+          <h1>Cargando...</h1>
         </div>
       </div>
     );

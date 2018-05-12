@@ -51,6 +51,9 @@
 		}.listsWebBlock_all:hover{
 			opacity:.5;
 		}
+		.listsWebBlock_item:last-child{
+			border-bottom: 1px solid #444;
+		}
 		.listsWebBlock_item{
 			position:relative;
 			width: 100%;
@@ -162,6 +165,14 @@
 			    vertical-align: top;
 			    height: 100%;
 			    font-weight: bold;
+			    .listsWebBlock_item_name_title{
+			    	display: inline-block;
+			    	width: auto;
+			    	cursor: pointer;
+			    }
+			    .listsWebBlock_item_name_title:hover{
+			    	opacity:.5;
+			    }
 			    .listsWebBlock_item_description{
 				    vertical-align: top;
 				    font-weight: normal;
@@ -195,6 +206,7 @@
 			    padding-bottom: 5px;
 			    vertical-align: top;
 			    height: 100%;
+			    float: right;
 		    }
 		    .listsWebBlock_item_delete{
 		    	width: 5%;
@@ -229,3 +241,10 @@
 		}
 	}
 }
+@media screen and (max-width: 992px){
+	.lists_search{
+		margin-top: 0px !important
+	}
+
+}
+

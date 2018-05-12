@@ -178,14 +178,15 @@ class Lists_web extends React.Component {
     }
     var episodePageList
     this.state.typeItem === 'episode'
-      ? episodePageList = JSON.parse(localStorage.getItem('episodePageList'))
+      ? episodePageList =  this.props.initplayer.episodePageList /*episodePageList = JSON.parse(localStorage.getItem('episodePageList'))*/
       : null
     if(episodePageList){
       for( var j in episodePageList){
         episodePageList[j].id === this.state.idItem
         ? (
             episodePageList[j].isLater = !episodePageList[j].isLater,
-            localStorage.setItem('episodePageList', JSON.stringify(episodePageList))
+            this.props.initplayer.episodePageList = episodePageList
+            /*localStorage.setItem('episodePageList', JSON.stringify(episodePageList))*/
           )
         :null
       }
@@ -281,14 +282,15 @@ class Lists_web extends React.Component {
     }
     var episodePageList
     this.state.typeItem === 'episode'
-      ? episodePageList = JSON.parse(localStorage.getItem('episodePageList'))
+      ? episodePageList =  this.props.initplayer.episodePageList /*episodePageList = JSON.parse(localStorage.getItem('episodePageList'))*/
       : null
     if(episodePageList){
       for( var j in episodePageList){
         episodePageList[j].id === this.state.idItem
         ? (
             episodePageList[j].isFavorite = !episodePageList[j].isFavorite,
-            localStorage.setItem('episodePageList', JSON.stringify(episodePageList))
+            this.props.initplayer.episodePageList = episodePageList
+            /*localStorage.setItem('episodePageList', JSON.stringify(episodePageList))*/
           )
         :null
       }
@@ -315,7 +317,7 @@ class Lists_web extends React.Component {
         localStorage.setItem('phase_podcast_'+_response[0].id, Math.trunc(_response[0].position / _response.perPhase));
         localStorage.setItem('lastChannel',_response[0].id);
         localStorage.setItem('lastChannelLink','/podcast/'+_response[0].id+'/'+_response[0].name);
-        localStorage.setItem('lastChannelName',JSON.stringify(_response[0].name));
+        localStorage.setItem('lastChannelName',_response[0].name);
         localStorage.setItem('lastChannelData',JSON.stringify(_response[0]));
         localStorage.setItem('lastChannelData',JSON.stringify(_response[0]));
         localStorage.setItem('lastItemDatapodcast',JSON.stringify(_response[0]));
@@ -328,12 +330,12 @@ class Lists_web extends React.Component {
         localStorage.setItem('phase_podcast_'+_response.data.podcast.id, Math.trunc(_response.position / _response.perPhase));
         localStorage.setItem('lastpodcast',_response.data.podcast.id);
         localStorage.setItem('podcast',JSON.stringify(_response.data.podcast));
-        localStorage.setItem('lastpodcastName',JSON.stringify(_response.data.podcast.name));
+        localStorage.setItem('lastpodcastName',_response.data.podcast.name);
         localStorage.setItem('lastpodcastLink','/episode/'+_response.data.podcast.id+'/'+_response.data.podcast.name);
         localStorage.setItem('lastChannel',_response.data.channel.id);
         localStorage.setItem('lastChannelData',JSON.stringify(_response.data.channel));
         localStorage.setItem('lastChannelLink','/podcast/'+_response.data.channel.id+'/'+_response.data.channel.name);
-        localStorage.setItem('lastChannelName',JSON.stringify(_response.data.channel.name));
+        localStorage.setItem('lastChannelName',_response.data.channel.name);
         localStorage.setItem('lastItemDatapodcast',JSON.stringify(_response.data.channel));
         localStorage.setItem('phase_opinion_'+_response.data.podcast.id, 0);
         window.location.href = './#/episode/'+_response.data.podcast.id+'/'+_response.data.podcast.name;
@@ -344,13 +346,13 @@ class Lists_web extends React.Component {
         localStorage.setItem('phase_episode_'+_response.data.episode.id, Math.trunc(_response.position / _response.perPhase));
         localStorage.setItem('lastpodcast',_response.data.podcast.id);
         localStorage.setItem('podcast',JSON.stringify(_response.data.podcast));
-        localStorage.setItem('lastpodcastName',JSON.stringify(_response.data.podcast.name));
+        localStorage.setItem('lastpodcastName',_response.data.podcast.name);
         localStorage.setItem('lastItemDataepisode',JSON.stringify(_response.data.podcast));
         localStorage.setItem('lastpodcastLink','/episode/'+_response.data.podcast.id+'/'+_response.data.podcast.name);
         localStorage.setItem('lastChannel',_response.data.channel.id);
         localStorage.setItem('lastChannelData',JSON.stringify(_response.data.channel));
         localStorage.setItem('lastChannelLink','/podcast/'+_response.data.channel.id+'/'+_response.data.channel.name);
-        localStorage.setItem('lastChannelName',JSON.stringify(_response.data.channel.name));
+        localStorage.setItem('lastChannelName',_response.data.channel.name);
         localStorage.setItem('lastItemDatapodcast',JSON.stringify(_response.data.channel));
         localStorage.setItem('phase_opinion_'+_response.data.podcast.id, 0);
         this.props.initplayer.data = _response.data.episode;
@@ -369,7 +371,8 @@ class Lists_web extends React.Component {
     this.setState({
       'focus' : _p
     })
-    this.props.auth.isAuthenticated
+    this.getOrigen();
+    /*this.props.auth.isAuthenticated
     ? this.getOrigen()
     : (
       localStorage.setItem('staticNotLogged', true),
@@ -382,7 +385,7 @@ class Lists_web extends React.Component {
         ? localStorage.setItem('lastItemDataepisode', JSON.stringify(this.state.focus))
         : localStorage.setItem('lastItemDatastatic', JSON.stringify(this.state.focus)),
         this.props.auth.required()
-    )
+    )*/
   }
   
   getOrigen(){
@@ -438,7 +441,7 @@ class Lists_web extends React.Component {
           <div>
             {Coll.map(( p , index) => {
               var itemGo
-              this.props.item === 'episodes'
+              this.props.item !== 'algún tipo'
               ? itemGo = <div className="listsWebBlock_item_play" onClick={() => this.goSearch(p)} >
                     <div className='listsWebBlock_item_play_PB'>
                       <div className='listsWebBlock_item_play_PB_deco'>
@@ -456,12 +459,12 @@ class Lists_web extends React.Component {
                 <div id={'listsWebBlock_item_' + index} className="listsWebBlock_item" >
                   {itemGo}
                   <div className="listsWebBlock_item_image" onClick={() => this.goSearch(p)} ><div className="listsWebBlock_item_image_thumb" style={ this.props.item ==='episodes' ? 'background-image:url("' + this.state.cms + p.picture + '")' : 'background-image:url("' + this.state.cms + p.image + '")'} ></div></div>
-                  <div className="listsWebBlock_item_name" >
-                    {index+1}. {p.name}
+                  <div className="listsWebBlock_item_name">
+                    <div className="listsWebBlock_item_name_title" onClick={() => this.goSearch(p)} >{this.props.item !== 'episodes' ? index+1 +'.' : ''} {p.name}</div>
                      <div className="listsWebBlock_item_description" >{p.descripction}</div>
                   </div>
                   {
-                    this.props.item !== 'canals'
+                    this.props.item === 'algún tipo'
                     ? <div className="listsWebBlock_item_options" >
                         <div className="listsWebBlock_item_options_deco" onClick={(position) => this.showOptionsItem(index)} >
                           •••

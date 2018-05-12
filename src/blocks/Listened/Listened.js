@@ -66,12 +66,12 @@ class Listened extends React.Component {
     localStorage.setItem('phase_podcast_'+_response.data.podcast.id, Math.trunc(_response.position / _response.perPhase));
     localStorage.setItem('lastpodcast',_response.data.podcast.id);
     localStorage.setItem('podcast',JSON.stringify(_response.data.podcast));
-    localStorage.setItem('lastpodcastName',JSON.stringify(_response.data.podcast.name));
+    localStorage.setItem('lastpodcastName',_response.data.podcast.name);
     localStorage.setItem('lastpodcastLink','/episode/'+_response.data.podcast.id+'/'+_response.data.podcast.name);
     localStorage.setItem('lastChannel',_response.data.channel.id);
     localStorage.setItem('lastChannelData',JSON.stringify(_response.data.channel));
     localStorage.setItem('lastChannelLink','/podcast/'+_response.data.channel.id+'/'+_response.data.channel.name);
-    localStorage.setItem('lastChannelName',JSON.stringify(_response.data.channel.name));
+    localStorage.setItem('lastChannelName',_response.data.channel.name);
     localStorage.setItem('lastItemDatapodcast',JSON.stringify(_response.data.channel));
     localStorage.setItem('phase_opinion_'+_response.data.podcast.id, 0);
     window.location.href = './#/episode/'+_response.data.podcast.id+'/'+_response.data.podcast.name;
@@ -114,7 +114,9 @@ class Listened extends React.Component {
             collection.push(this.state.data[j]);
         }
       }
-      collection = collection.slice(0,4);
+      this.props.auth.typeUser !== 'premium'
+      ? collection = collection.slice(0,4)
+      : collection = collection.slice(0,6)
     }else{
       collection = [];
     }
@@ -135,11 +137,11 @@ class Listened extends React.Component {
         <div className='row'>
           <div className={this.props.auth.typeUser !=='premium' ? "col-xs-12 col-sm-8" : "col-xs-12" } >
             <h1>{this.translate('blocks.listened')}</h1>
-            <div className='most_listened_episodes' >
+            <div className={this.props.auth.typeUser !=='premium' ? 'most_listened_episodes' : 'most_listened_episodes_premium'}  >
               {collection.map(( p , index) => {
                 return (
                   <div>
-                    <div className="most_listened_item" style={'background-image:url("' + this.state.cms + p.image + '")'} onClick={(episode) => this.getItem(p)} >
+                    <div className={this.props.auth.typeUser !=='premium' ? "most_listened_item" : "col-md-4 most_listened_item" }  style={'background-image:url("' + this.state.cms + p.image + '")'} onClick={(episode) => this.getItem(p)} >
                       {/*<div className="most_listened_item_content" >
                         <div className='most_listened_item_item_PB'>
                           <div className='most_listened_item_item_PB_deco'>

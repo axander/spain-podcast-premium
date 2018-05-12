@@ -106,13 +106,14 @@ class NewChannel extends React.Component {
       }
     }
     var episodePageList;
-    episodePageList = JSON.parse(localStorage.getItem('episodePageList'));
+    episodePageList =  this.props.initplayer.episodePageList; /*episodePageList = JSON.parse(localStorage.getItem('episodePageList'));*/
     if(episodePageList){
       for( var j in episodePageList){
         episodePageList[j].id === this.state.episode.id
         ? (
             episodePageList[j].isLater = !episodePageList[j].isLater,
-            localStorage.setItem('episodePageList', JSON.stringify(episodePageList))
+            this.props.initplayer.episodePageList = episodePageList
+            /*localStorage.setItem('episodePageList', JSON.stringify(episodePageList))*/
           )
         :null
       }
@@ -259,12 +260,12 @@ class NewChannel extends React.Component {
     localStorage.setItem('lastPosition',_response.position % _response.perPhase);//indicates the position
     localStorage.setItem('phase_episode_'+_response.data.episode.id, Math.trunc(_response.position / _response.perPhase));
     localStorage.setItem('lastpodcast',_response.data.podcast.id);
-    localStorage.setItem('lastpodcastName',JSON.stringify(_response.data.podcast.name));
+    localStorage.setItem('lastpodcastName',_response.data.podcast.name);
     localStorage.setItem('lastItemDataepisode',JSON.stringify(_response.data.podcast));
     localStorage.setItem('lastpodcastLink','/episode/'+_response.data.podcast.id+'/'+_response.data.podcast.name);
     localStorage.setItem('lastChannel',_response.data.channel.id);
     localStorage.setItem('lastChannelLink','/podcast/'+_response.data.channel.id+'/'+_response.data.channel.name);
-    localStorage.setItem('lastChannelName',JSON.stringify(_response.data.channel.name));
+    localStorage.setItem('lastChannelName',_response.data.channel.name);
     localStorage.setItem('lastItemDatapodcast',JSON.stringify(_response.data.channel));
     localStorage.setItem('phase_opinion_'+_response.data.podcast.id, 0);
     this.props.initplayer.data = _response.data.episode;

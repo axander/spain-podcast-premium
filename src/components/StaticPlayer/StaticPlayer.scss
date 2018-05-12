@@ -98,17 +98,26 @@
 	.item_origen{
 		cursor:pointer;
 		position: absolute;
-	    top: 30px;
+	    top: 20px;
 	    padding: 10px;
-	    font-size: 12px;
+	    padding-left: 20px;
+	    font-size: 15px;
 	    text-align: left;
 	}
 	.item_origen:hover{
 		opacity:.5;
 	}
 	.app{
-		height: 70px;
+		height: 85px;
 	    overflow: hidden;
+	    .player-face-title{
+	    	background: #444;
+		    font-size: 16px;
+		    padding: 4px;
+		    padding-left: 20px;
+		    text-align: center;
+		    height:30px;
+	    }
 	}
 	font-size:12px;
 	text-align:center;
@@ -128,7 +137,7 @@
 		left:0;
 		bottom:0;
 	    width:100%;
-	    height:62px;
+	    height:85px;
 	    background:#ddd;
 	    color:#fff;
 	    -webkit-box-shadow: 0;
@@ -188,6 +197,13 @@
 	    right: 20px;
 	}
 	.player-face{
+		.icon-more-horizontal {
+		    font-size: 20px;
+		    font-size: 35px;
+		    position: absolute;
+		    top: -33px;
+		    left: -7px;
+		}
 		.player-face-1-1{
 			display: none;
 		}
@@ -215,7 +231,6 @@
 			top:-15px;
 		}
 		.play{
-			top: 5px;
 		    position: relative;
 		}	
 		.progression{
@@ -238,7 +253,7 @@
 		}
 		.player-face{
 			position: relative;
-			height: 62px;
+			height: 85px;
 			>div{
 				position:relative;
 				top:4px !important;
@@ -266,13 +281,13 @@
 				display: inline-block;
 				width:55px !important;
 				float:right;
-				margin-top: 4px;
+				margin-top: 2px;
 			}
 			.volume, .play{
 				display:none !important;
 			}
 			.time_played, .duration{
-				top:-5PX !important;
+				top:-5px !important;
 			}
 		}
 	}

@@ -17,10 +17,11 @@ class EpisodeSingleList extends React.Component {
       <div className='episodeSingleList' >
               <div class="row">
                 <div class="col-xs-10">
-                  <div className="episodeSingleList_rot" >{this.translate('blocks.'+this.props.destiny)}</div>
+                  <div className="episodeSingleList_rot" >{this.translate('blocks.'+this.props.destiny).toUpperCase()}</div>
                 </div>
-                <div class="col-xs-2">
-                    <Link to={'/lists/'+this.props.destiny}><div className="episodeSingleList_all" >{this.translate('blocks.getAll')}</div></Link>
+                <div className={this.props.restrict ? "hide" : "col-xs-2" }>
+                    <Link to='/lists'><div className="episodeSingleList_all" >{this.translate('blocks.getAll')}</div></Link>
+                  {/*<Link to={'/lists/'+this.props.destiny}><div className="episodeSingleList_all" >{this.translate('blocks.getAll')}</div></Link>*/}
                 </div>
               </div>
       </div>

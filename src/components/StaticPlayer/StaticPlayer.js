@@ -61,14 +61,20 @@ class StaticPlayer extends React.Component {
     this.clickHandlerOpen = this.clickHandlerOpen.bind(this);
     this.clickHandlerClose = this.clickHandlerClose.bind(this);
     this.handleResize = this.handleResize.bind(this);
+    /*this.firstEpisode = this.firstEpisode.bind(this);*/
+    this.onSuccessFirst = this.onSuccessFirst.bind(this);
+    this.getOrigen = this.getOrigen.bind(this);
+    this.getData = this.getData.bind(this);
   }
   onSuccess = (_response) => {
-    var phase, position, previous;
+    var phase, position, previous, episodes, _episode ;
     _response.status === 'success'
     ? ( 
       phase = parseFloat(localStorage.getItem('phase_episode_'+localStorage.getItem('lastpodcast'))) || 0,
-      position = !this.state.dir  ? parseFloat(localStorage.getItem('lastPosition')) : this.state.dir === 'next' ? 0 : _response.data.length-1,
+      position = !this.state.dir  ? parseFloat(localStorage.getItem('lastPosition')) : this.state.dir === 'next' ? 0 : _response.result.length-1,
       localStorage.setItem('lastPosition',position),
+      localStorage.setItem('total',_response.total),
+      localStorage.setItem('perPhase',_response.perPhase),
       this.setState ({
         'data':_response.result,
         'total':_response.total,
@@ -78,7 +84,26 @@ class StaticPlayer extends React.Component {
         'prevName':_response.prevName,
         'nextName':_response.nextName
       }),
-      this.initPlayer(this.state.data[position], position),
+      /*_response.first_episode
+      ? localStorage.setItem('firstEpisode', _response.first_episode)
+      : null,*/
+      !document.querySelector('.iteminfo_static')
+      ? (
+        episodes = _response.result,
+        _episode = episodes[position],
+        localStorage.setItem('lastPosition',position),
+        this.state.phase >= (Math.ceil(parseFloat(localStorage.getItem('total'))/parseFloat(localStorage.getItem('perPhase')))-1) && position >= parseFloat(localStorage.getItem('perPhase'))-1
+        ? localStorage.setItem('nextDis',false)
+        : localStorage.setItem('nextDis',true),
+        !position && !parseFloat(localStorage.getItem('phase_episode_'+localStorage.getItem('lastpodcast')))
+        ? localStorage.setItem('prevDis',false)
+        : localStorage.setItem('prevDis',true),
+        localStorage.setItem('lastItemDatastatic',JSON.stringify(_episode)),
+        this.props.initplayer.reset(),
+        this.props.initplayer.data = _episode,
+        this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode)
+      )
+      : this.initPlayer(this.state.data[position], position),
       localStorage.setItem('episode', JSON.stringify(_response.data))
     )
     : this.setState({
@@ -107,7 +132,7 @@ class StaticPlayer extends React.Component {
     this.props.initplayer.data = _episode;
     //this.props.initplayer.play(_episode.file, _episode.id, _episode.name, _episode);
     this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode);
-    localStorage.setItem('episodePageList',JSON.stringify(this.state.data));
+    this.props.initplayer.episodePageList = this.state.data; /*localStorage.setItem('episodePageList',JSON.stringify(this.state.data));*/
     window.location.href = './#/static/'+_episode.id+'/'+_episode.name;
     _fromStatic
     ? _Opinion.refresh(_episode.id)
@@ -132,7 +157,7 @@ class StaticPlayer extends React.Component {
     this.props.initplayer.data = _episode;
     //this.props.initplayer.play(_episode.file, _episode.id, _episode.name, _episode);
     this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode);
-    localStorage.setItem('episodePageList',JSON.stringify(this.state.data));
+    this.props.initplayer.episodePageList = this.state.data; /*localStorage.setItem('episodePageList',JSON.stringify(this.state.data));*/
     window.location.href = './#/static/'+_episode.id+'/'+_episode.name;
     _fromStatic
     ? _Opinion.refresh(_episode.id)
@@ -145,87 +170,171 @@ class StaticPlayer extends React.Component {
     localStorage.setItem('routing.history', JSON.stringify(_routing.history));
     localStorage.setItem('routing.history.last',this.state.history);
   }
-  next(){
-    this.state.internal = false;
-    Utils.scrollToTop(300);
-    if(!this.state.data[this.state.position+1]){
-      localStorage.setItem('phase_episode_'+localStorage.getItem('lastpodcast'),this.state.phase +1);
-      this.state.dir = 'next';
-      this.setPhase(this.state.phase +1);
+  /*firstEpisode(){
+    this.getFirstEpisode();
+  }*/
+  getData(){
+    var episode = JSON.parse(localStorage.getItem('lastItemDatastatic'));
+    return episode
+  }
+  /*nextDis(){
+    if(this.state.phase >= Math.ceil(this.state.total/this.state.perPhase)-1 && !this.state.data[this.state.position+1]){
+      return true
     }else{
-      var _episode = this.state.data[this.state.position+1];
-      var state = localStorage.getItem('lastState').split('/')[1];
-      localStorage.setItem('lastItemData'+state,JSON.stringify(_episode));
-      this.props.initplayer.reset();
-      this.props.initplayer.data = _episode;
-      this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode);
-      localStorage.setItem('episodePageList',JSON.stringify(this.state.data));
-      window.location.href = './#/static/'+_episode.id+'/'+_episode.name;
-      localStorage.setItem('lastPosition',this.state.position+1);
-      _Opinion.refresh(_episode.id);
-      localStorage.setItem('routing.history.last',this.state.history);
-      this.setState({
-        'refresh':true,
-        'position':this.state.position+1,
-        'dir':'next',
-        'history':this.state.history+1
-      });
-      _routing.history[this.state.history]={'position':this.state.position, 'phase':this.state.phase, 'data':_episode, 'hash':document.location.hash};
-      localStorage.setItem('routing.history', JSON.stringify(_routing.history));
+      return false
+    }
+  }
+  previousDis(){
+    if(!this.state.phase && this.state.position === 0){
+      return true 
+    }else{
+      return false
+    }
+  } */
+  
+  next(){
+    if(!document.querySelector('.iteminfo_static')){
+      if(parseFloat(localStorage.getItem('lastPosition'))+1 === this.state.perPhase){
+        localStorage.setItem('phase_episode_'+localStorage.getItem('lastpodcast'),this.state.phase +1);
+        this.state.dir = 'next';
+        this.setPhase(this.state.phase +1);
+      }else{
+        var nextPosition = parseFloat(localStorage.getItem('lastPosition'))+1;
+        var episodes = this.props.initplayer.episodePageList; /*var episodes = JSON.parse(localStorage.getItem('episodePageList'))*/
+        var _episode = episodes[nextPosition];
+        localStorage.setItem('lastPosition',nextPosition);
+        this.state.phase >= (Math.ceil(parseFloat(localStorage.getItem('total'))/parseFloat(localStorage.getItem('perPhase')))-1) && nextPosition >= episodes.length-1
+        ? localStorage.setItem('nextDis',false)
+        : localStorage.setItem('nextDis',true);
+        !nextPosition
+        ? localStorage.setItem('prevDis',false)
+        : localStorage.setItem('prevDis',true);
+        localStorage.setItem('lastItemDatastatic',JSON.stringify(_episode));
+        this.props.initplayer.reset();
+        this.props.initplayer.data = _episode;
+        this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode);
+      }
+    }else{
+      this.state.internal = false;
+      Utils.scrollToTop(300);
+      if(!this.state.data[this.state.position+1]){
+        localStorage.setItem('phase_episode_'+localStorage.getItem('lastpodcast'),this.state.phase +1);
+        this.state.dir = 'next';
+        this.setPhase(this.state.phase +1);
+      }else{
+        var _episode = this.state.data[this.state.position+1];
+        var state = localStorage.getItem('lastState').split('/')[1];
+        localStorage.setItem('lastItemData'+state,JSON.stringify(_episode));
+        this.props.initplayer.reset();
+        this.props.initplayer.data = _episode;
+        this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode);
+        this.props.initplayer.episodePageList = this.state.data; /*localStorage.setItem('episodePageList',JSON.stringify(this.state.data));*/
+        window.location.href = './#/static/'+_episode.id+'/'+_episode.name;
+        localStorage.setItem('lastPosition',this.state.position+1);
+        _Opinion.refresh(_episode.id);
+        localStorage.setItem('routing.history.last',this.state.history);
+        this.setState({
+          'refresh':true,
+          'position':this.state.position+1,
+          'dir':'next',
+          'history':this.state.history+1
+        });
+        _routing.history[this.state.history]={'position':this.state.position, 'phase':this.state.phase, 'data':_episode, 'hash':document.location.hash};
+        localStorage.setItem('routing.history', JSON.stringify(_routing.history));
+      }
     }
   }
   previous(){
-    this.state.internal = false;
-    if(this.state.position-1 < 0){
-      localStorage.setItem('phase_episode_'+localStorage.getItem('lastpodcast'),this.state.phase -1);
-      this.state.dir = 'prev';
-      this.setPhase(this.state.phase -1);
+    if(!document.querySelector('.iteminfo_static')){
+      if(parseFloat(localStorage.getItem('lastPosition'))-1< 0){
+        localStorage.setItem('phase_episode_'+localStorage.getItem('lastpodcast'),this.state.phase -1);
+        this.state.dir = 'prev';
+        this.setPhase(this.state.phase -1);
+      }else{
+        var prevPosition = parseFloat(localStorage.getItem('lastPosition'))-1;
+        var episodes = this.props.initplayer.episodePageList; /*var episodes = JSON.parse(localStorage.getItem('episodePageList'));*/
+        var _episode = episodes[prevPosition];
+        localStorage.setItem('lastPosition',prevPosition),
+        !prevPosition && !parseFloat(localStorage.getItem('phase_episode_'+localStorage.getItem('lastpodcast')))
+        ? localStorage.setItem('prevDis',false)
+        : localStorage.setItem('prevDis',true);
+        prevPosition === episodes.length-1
+        ? localStorage.setItem('nextDis',false)
+        : localStorage.setItem('nextDis',true);
+        localStorage.setItem('lastItemDatastatic',JSON.stringify(_episode));
+        this.props.initplayer.reset();
+        this.props.initplayer.data = _episode;
+        this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode);
+      }
     }else{
-      Utils.scrollToTop(300);
-      var _episode = this.state.data[this.state.position-1];
-      var state = localStorage.getItem('lastState').split('/')[1];
-      localStorage.setItem('lastItemData'+state,JSON.stringify(_episode));
-      this.props.initplayer.reset();
-      this.props.initplayer.data = _episode;
-      this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode);
-      localStorage.setItem('episodePageList',JSON.stringify(this.state.data));
-      window.location.href = './#/static/'+_episode.id+'/'+_episode.name;
-      localStorage.setItem('lastPosition',this.state.position-1);
-      _Opinion.refresh(_episode.id);
-      localStorage.setItem('routing.history.last',this.state.history);
-      this.setState({
-        'refresh':true,
-        'position':this.state.position-1,
-        'dir':'prev',
-        'history':this.state.history+1
-      });
-      _routing.history[this.state.history]={'position':this.state.position, 'phase':this.state.phase, 'data':_episode, 'hash':document.location.hash};
-      localStorage.setItem('routing.history', JSON.stringify(_routing.history));
+      this.state.internal = false;
+      if(this.state.position-1 < 0){
+        localStorage.setItem('phase_episode_'+localStorage.getItem('lastpodcast'),this.state.phase -1);
+        this.state.dir = 'prev';
+        this.setPhase(this.state.phase -1);
+      }else{
+        Utils.scrollToTop(300);
+        var _episode = this.state.data[this.state.position-1];
+        var state = localStorage.getItem('lastState').split('/')[1];
+        localStorage.setItem('lastItemData'+state,JSON.stringify(_episode));
+        this.props.initplayer.reset();
+        this.props.initplayer.data = _episode;
+        this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode);
+        this.props.initplayer.episodePageList = this.state.data;/*localStorage.setItem('episodePageList',JSON.stringify(this.state.data));*/
+        window.location.href = './#/static/'+_episode.id+'/'+_episode.name;
+        localStorage.setItem('lastPosition',this.state.position-1);
+        _Opinion.refresh(_episode.id);
+        localStorage.setItem('routing.history.last',this.state.history);
+        this.setState({
+          'refresh':true,
+          'position':this.state.position-1,
+          'dir':'prev',
+          'history':this.state.history+1
+        });
+        _routing.history[this.state.history]={'position':this.state.position, 'phase':this.state.phase, 'data':_episode, 'hash':document.location.hash};
+      }
     }
-    
   }
   onSuccessOrigen = (_response) => {
-    _response.status === 'successfull'
-    ? ( 
-      localStorage.setItem('lastpodcast',_response.data.podcast.id),
-      localStorage.setItem('lastpodcastName',JSON.stringify(_response.data.podcast.name)),
-      localStorage.setItem('lastItemDataepisode',JSON.stringify(_response.data.podcast)),
-      localStorage.setItem('lastpodcastLink','/episode/'+_response.data.podcast.id+'/'+_response.data.podcast.name),
-      localStorage.setItem('lastChannel',_response.data.channel.id),
-      localStorage.setItem('lastChannelLink','/podcast/'+_response.data.channel.id+'/'+_response.data.channel.name),
-      localStorage.setItem('lastChannelName',JSON.stringify(_response.data.channel.name)),
-      localStorage.setItem('lastItemDatapodcast',JSON.stringify(_response.data.channel)),
-      localStorage.setItem('phase_episode_'+_response.data.podcast.id, 0),
-      localStorage.setItem('phase_opinion_'+_response.data.podcast.id, 0),
-      window.location.href = './#/episode/'+_response.data.podcast.id+'/'+_response.data.podcast.name
-    )
+    _response.status === 'success'
+    ? this.setOrigen(_response)
     : this.setState({
         isOpen: true,
         showedMsg: 'episode.' + _response.reason
     });
   }
   getOrigen(_origen){
-    API.action('getPodcastOrigen', { 'podcast' : _origen }, this.onSuccessOrigen, this.onError, 'GET');
+    window.setSpinner();
+    API.action('getPodcastOrigen', { 'id' : _origen }, this.onSuccessOrigen, this.onError, 'GET', false, true);
+  }
+  setOrigen(_response){
+    localStorage.setItem('lastPosition',_response.position % _response.perPhase);//indicates the position
+    localStorage.setItem('lastItemDataepisode',JSON.stringify(_response.data.podcast));
+    localStorage.setItem('phase_podcast_'+_response.data.podcast.id, Math.trunc(_response.position / _response.perPhase));
+    localStorage.setItem('lastpodcast',_response.data.podcast.id);
+    localStorage.setItem('podcast',JSON.stringify(_response.data.podcast));
+    localStorage.setItem('lastpodcastName',_response.data.podcast.name);
+    localStorage.setItem('lastpodcastLink','/episode/'+_response.data.podcast.id+'/'+_response.data.podcast.name);
+    localStorage.setItem('lastChannel',_response.data.channel.id);
+    localStorage.setItem('lastChannelData',JSON.stringify(_response.data.channel));
+    localStorage.setItem('lastChannelLink','/podcast/'+_response.data.channel.id+'/'+_response.data.channel.name);
+    localStorage.setItem('lastChannelName',_response.data.channel.name);
+    localStorage.setItem('lastItemDatapodcast',JSON.stringify(_response.data.channel));
+    localStorage.setItem('phase_opinion_'+_response.data.podcast.id, 0);
+    window.location.href = './#/episode/'+_response.data.podcast.id+'/'+_response.data.podcast.name;
+  }
+  /*getFirstEpisode(){
+    Utils.scrollToTop(300);
+    window.setSpinner();
+    API.action('getEpisodeOrigen', { 'id' : localStorage.getItem('firstEpisode') }, this.onSuccessFirst, this.onError, 'GET', false, true)
+  }*/
+  onSuccessFirst = (_response) => {
+    _response.status === 'success'
+    ? this.setOrigen(_response)
+    : this.setState({
+        isOpen: true,
+        showedMsg: 'episode.' + _response.reason
+    });
   }
   setSchemmaLater(){
     this.props.initSchemma.setSchemma = Lists.saveToList('episode','later',this.state.episode.id);
@@ -392,7 +501,6 @@ class StaticPlayer extends React.Component {
   componentDidMount() {
     //window.googletag.cmd.push(function() { window.googletag.display('right1'); }) 
     window.onpopstate = ()=> {
-
       if(this.state.internal){
         if(typeof _routing.history[this.state.history-1] !=='undefined' && decodeURI(_routing.history[this.state.history-1].hash) === decodeURI(document.location.hash)){
           this.setState({
@@ -411,6 +519,13 @@ class StaticPlayer extends React.Component {
         this.state.internal = true
       }
     }
+
+    this.props.deacoplatePlayer.next = this.next;
+    this.props.deacoplatePlayer.previous = this.previous;
+    /*this.props.deacoplatePlayer.nextDis  = this.nextDis;
+    this.props.deacoplatePlayer.previousDis  = this.previousDis;*/
+    this.props.deacoplatePlayer.data = this.getData;
+
     window.addEventListener('resize', this.handleResize);
     Utils.scrollToTop(300);
     this.setState({
@@ -455,6 +570,7 @@ class StaticPlayer extends React.Component {
     if(this.state.refresh){
       this.state.refresh = false;
       Iteminfo = <IteminfoStatic 
+                  /*firstEpisode = {this.firstEpisode}*/
                   next={this.next} 
                   previous={this.previous} 
                   previousDis = {!this.state.phase && this.state.position === 0 ? true : false} 
@@ -468,9 +584,10 @@ class StaticPlayer extends React.Component {
                   dataOrigen={localStorage.getItem('lastpodcastName')} 
                   initSchemma={this.props.initSchemma} 
                   initplayer ={this.props.initplayer} 
-                  playerDeacoplate = {this.props.playerDeacoplate} />
+                  deacoplatePlayer = {this.props.deacoplatePlayer} />
     }else{
       Iteminfo = <IteminfoStatic 
+                /*firstEpisode = {this.firstEpisode}*/
                 next={this.next} 
                 previous={this.previous}
                 previousDis = {!this.state.phase && this.state.position === 0 ? true : false} 
@@ -484,9 +601,11 @@ class StaticPlayer extends React.Component {
                 dataOrigen={localStorage.getItem('lastpodcastName')} 
                 initSchemma={this.props.initSchemma} 
                 initplayer ={this.props.initplayer}
-                playerDeacoplate = {this.props.playerDeacoplate} />
+                deacoplatePlayer = {this.props.deacoplatePlayer} />
     }
     let PagesList, Collection, AP, prevName, nextName;
+    localStorage.setItem('nextDis',this.state.phase >= Math.ceil(this.state.total/this.state.perPhase)-1 && !this.state.data[this.state.position+1] ? false : true);
+    localStorage.setItem('prevDis',!this.state.phase && this.state.position === 0 ? false : true);
     if(this.state.total>0){
       PagesList = <Pages 
                   total={this.state.total} 
@@ -529,18 +648,18 @@ class StaticPlayer extends React.Component {
               <div class="row"  >
                 {
                   Collection.map((p, index)  => (
-                    <div className={this.props.auth.typeUser !=='premium' ? "col-xs-12 col-md-6" : "col-xs-12 col-md-4" } >
+                    <div className={this.props.auth.typeUser !=='premium' ? "col-xs-12 col-md-6 item_responsive" : "col-xs-12 col-md-4 item_responsive" } >
                       <div className ={this.props.auth.typeUser  !=='premium' ? 'item_container' : (index-1)%3===0 ? 'item_container' : index%3===0 ? 'item_container_left' : 'item_container_right'} >
                         <div className={ p.id == localStorage.getItem('lastepisode') ? "contentSelected" : "" } >
                             <div className="row item" >
                               <div className="col-xs-12 ">
-                                <div className="item_origen" onClick={() => this.getOrigen(p.origen.id)}>
+                                <div className="item_origen" onClick={() => this.getOrigen(p.origin.id)}>
                                   {p.origin.name}
                                 </div>
                               </div>
                               <div className="col-xs-12 ">
                                 <div className="rot" onClick={(_episode, _position, _fromStatic) => this.initPlayer(p, index, true)}>
-                                  {index+1+this.state.phase*this.state.perPhase}. {p.name}
+                                  {/*{index+1+this.state.phase*this.state.perPhase}. */}{p.name}
                                 </div>
                               </div>
                               <div class="desc_cont">
@@ -559,7 +678,10 @@ class StaticPlayer extends React.Component {
                                       <div>
                                         <div class='basicOuter'>
                                           <div class='basicInner'>
-                                            <span class="icon-play-circle"></span>
+                                            <div className='item_action_play'>
+                                              <div></div>
+                                            </div>
+                                            {/*<span class="icon-play-circle"></span>*/}
                                           </div>
                                         </div>
                                       </div>

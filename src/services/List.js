@@ -318,6 +318,10 @@ const List = {
 		"service":"claim-podcast",
 		"method":"GET"
 	},
+	"getClaimPremium":{
+		"service":"claim-podcast-premium",
+		"method":"GET"
+	},
 	"getTravelOld":{
 		"service":"blocks/getTravel",
 		"method":"GET"

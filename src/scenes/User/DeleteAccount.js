@@ -85,7 +85,7 @@ class DeleteAccount extends React.Component {
         <h1>{this.translate('user.deleteAccount')}</h1>
         <div>{this.translate('user.deleteAccountMessage')}</div>
         <div>{this.translate('user.deleteAccountConfirm')}</div>
-        <div>
+        <div className="delete_container_pb" >
             <div className="submitBtn" onClick={this.goProfile} >{this.translate('cancel').toUpperCase()}</div>
             <div className="submitBtn2" onClick={this.handleSubmit} >{this.translate('user.delete').toUpperCase()}</div>
         </div>

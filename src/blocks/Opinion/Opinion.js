@@ -219,6 +219,7 @@ class Opinion extends React.Component {
         {OpinionList.map(( p , index) => {
             {/*var avatar = { 'background':'url('+p.author.avatar+')'};*/}
             var avatar = p.avatar;
+            var date = p.date.replace(/ /g,"T");
             return (
               <div className='row' >
                 <div className='col-xs-12 col-md-3'>
@@ -227,7 +228,7 @@ class Opinion extends React.Component {
                     <div className='opinion_author_data'>
                       {/*<div className='opinion_author_data_name' >{p.author.name}</div>*/}
                       <div className='opinion_author_data_name' >{p.nickname}</div>
-                      <div className='opinion_author_data_date'>{ (new Date(p.date)).toLocaleDateString() } {new Date(p.date).getHours()}:{new Date(p.date).getMinutes()}</div>
+                      <div className='opinion_author_data_date'>{ (new Date(date)).toLocaleDateString() } {new Date(date).getHours()}:{new Date(date).getMinutes()}</div>
                     </div>
                     <div className='opinion_author_deco'>
                       <span class="icon-chevron-up_2"></span>

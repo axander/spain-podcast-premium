@@ -13,6 +13,7 @@ class Registered extends React.Component {
     // Will execute as normal
   }
   reloadLogOut(){
+    Utils.scrollToTop(300);
     window.location.reload();
   }
   render() {

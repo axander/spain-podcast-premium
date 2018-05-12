@@ -2,6 +2,17 @@ audio, canvas, progress, video {
     vertical-align: top;
     width: 100%;
 }
+.player-face-title{
+	background: #444;
+    padding: 10px;
+    min-height: 40px;
+}
+.player-wrapper{
+	display:none;
+}
+table{
+	display:none;
+}
 progress[value] {
 	-webkit-appearance: none;
     -moz-appearance: none;
@@ -37,14 +48,17 @@ progress[value]::-moz-progress-bar {
 	background: #ff0002;
     padding: 15px;
     text-align: center;
+    padding-top: 30px;
+    height:55px;
     .player-face-url{
+    	display:none;
     	font-size:10px;
     }
 	.previous2,.play,.pause,.backward,.forward2, .time_played, .progression, .duration ,.volume{
 		cursor:pointer;
 		display:inline-block;
 		padding-left: 10px;
-    	padding-right: 10px;
+    	padding-right: 15px;
     	img{
     		width:50%;
     	}
@@ -83,5 +97,20 @@ progress[value]::-moz-progress-bar {
 			position: absolute;
 		    top: 0;
 		}
+	}
+}
+@media screen and (max-width: 992px){
+	.player-face{
+	    padding-top: 27px;
+	}
+	.progression{
+	    margin-left: 10px;
+		top: -12px !important;
+	}
+	.player-face-title{
+		width: 100%;
+	    white-space: nowrap;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
 	}
 }

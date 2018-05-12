@@ -51,13 +51,13 @@ class Claim extends React.Component {
     if(typeof this.state.data !== 'undefined'){
       var subscription = 
         <div style={'background:' + this.state.data.bgcolor }>
-              <div className='claim_subscription_title' style={'color:' + this.state.data.fontcolor } >{this.state.data.title}</div>
-              <div className='claim_subscription_subtitle' style={'color:' + this.state.data.fontcolor } >{this.state.data.subtitle}</div>
+              <div className='claim_subscription_title' style={'color:' + this.state.data.fontcolor } >{this.state.data.small_title}</div>
+              <div className='claim_subscription_subtitle' style={'color:' + this.state.data.fontcolor } >{this.state.data.small_subtitle}</div>
               <a href={this.state.data.externalLink} target='_blank' className={typeof this.state.data.externalLink === 'undefined' || this.state.data.externalLink.length <= 0 ? 'hidden':'' } ><div className='claim_subscription_PB' >
-                  <span>{this.state.data.btn_title}</span>
+                  <span>{this.state.data.small_btn_title}</span>
               </div></a>
-              <Link to={'/'+this.state.data.btn_url} className={typeof this.state.data.btn_url === 'undefined' || this.state.data.btn_url.length <= 0 ? 'hidden':'' } ><div className='claim_subscription_PB' >
-                  <span>{this.state.data.btn_title}</span>
+              <Link to={'/'+this.state.data.small_btn_url} className={typeof this.state.data.small_btn_url === 'undefined' || this.state.data.small_btn_url.length <= 0 ? 'hidden':'' } ><div className='claim_subscription_PB' >
+                  <span>{this.state.data.small_btn_title}</span>
               </div></Link>
         </div>
     }else{

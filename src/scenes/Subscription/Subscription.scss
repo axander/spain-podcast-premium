@@ -1,4 +1,26 @@
 .subscription{
+	.basic{
+		text-align:center;
+	}
+	.subscription_pb_premium{
+		cursor:pointer;
+		bottom: 0;
+	    display: inline-block;
+	    width: 200px;
+	    cursor: pointer;
+	    margin-top: 40px;
+	    padding: 15px;
+	    border-radius: 30px;
+	    text-align: center;
+	    font-size: 20px;
+	    color: #fff;
+	    background: #67b511;
+	    -webkit-transition: background .5s ease;
+	    transition: background .5s ease;
+	}
+	.subscription_pb_premium:hover{
+		background: #168d40!important;
+	}
 	[class*="row"],[class*="col-"] {
 		padding:0;
 		margin:0;
@@ -81,7 +103,10 @@
 		color: #ffffff;
 	}
 	.subscription_basic_activate{
-		text-align:center;
+		text-align: center;
+	    display: inline-block;
+	    margin: 10px;
+	    margin-bottom: 100px;
 	}
 	.subscription_list_rot{
 		padding-top:10px;

@@ -69,7 +69,7 @@ class Register extends React.Component {
     Utils.scrollToTop(300);  
     switch (_tab){
         case 'intro':
-          this.dataToSend.user = _data.user;
+          this.dataToSend.nickName = _data.nickName;
           this.dataToSend.first_name = _data.name;
           this.dataToSend.last_name = _data.surname;
           this.dataToSend.email = _data.email;
@@ -158,6 +158,7 @@ class Register extends React.Component {
   onSuccess = (_response) => {
     _response.status === 'success'
     ? ( 
+        Utils.scrollToTop(300),
         window.location.href = '/#/registered'
         /*API.action('login', { 'email':this.dataToSend.email, 'pwd':this.dataToSend.pwd}, this.login, this.onError)*/
       )
@@ -186,6 +187,9 @@ class Register extends React.Component {
     API.action('createAccount', this.dataToSend , this.onSuccess, this.onError, 'GET', false, true);
   }
   componentDidMount(){
+    this.props.auth.isAuthenticated
+    ? window.location.href = './#'
+    : null;
     this.setState({
       'style':{
         'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0'

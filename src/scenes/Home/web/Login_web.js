@@ -29,10 +29,10 @@ class Login_web extends React.Component {
       'lapsedSubscription':{},
       'codesData': {},
       'userOptions':'hide',
-      'avatar':JSON.parse(localStorage.getItem('client')) ? JSON.parse(localStorage.getItem('client')).personalData.avatar : '',
+      'avatar': localStorage.getItem('client') ? JSON.parse(localStorage.getItem('client')).personalData.avatar : '',
       'loggedAs': localStorage.getItem('logged') ? '' : 'hide',
       'notLogged': localStorage.getItem('logged') ? 'hide' : 'initSession',
-      'nickName': JSON.parse(localStorage.getItem('client')) ? JSON.parse(localStorage.getItem('client')).personalData.nickName : null,
+      'nickName': localStorage.getItem('client') ? JSON.parse(localStorage.getItem('client')).personalData.nickName : null,
       'email':'',
       'confirmed':localStorage.getItem('confirmed') ? true : false
     }
@@ -187,7 +187,9 @@ class Login_web extends React.Component {
       this.props.login.typeUser = _response.data.personalData.type,
       Utils.scrollToTop(300),
       localStorage.setItem('email',_response.data.personalData.email),
+      console.log(_response.data),
       localStorage.setItem('client',JSON.stringify(_response.data)),
+      console.log(JSON.stringify(_response.data)),
       //window.location.href='#/user',
       //window.location.href='./',
       this.setState({

@@ -216,7 +216,7 @@ class Channel extends React.Component {
               <div class="row"  >
                 {
                   this.state.data.map((p, index) => (
-                      <div className="col-xs-12 col-md-4">
+                      <div className="col-xs-12 col-md-4 item_responsive">
                         <div className ={(index-1)%3===0 ? 'item_container' : index%3===0 ? 'item_container_left' : 'item_container_right'} >
                           <div className={ p.id === localStorage.getItem('lastChannel') ? "contentSelected" : "" } >
                             <div className="row item" >
@@ -263,7 +263,7 @@ class Channel extends React.Component {
                                         <div class='basicOuter'>
                                           <div class='basicInner'>
                                             <div class='item_actions_text' >
-                                              {this.translate('goList')}
+                                              {this.translate('goChannel')}
                                             </div>
                                           </div>
                                         </div>

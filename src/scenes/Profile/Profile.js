@@ -25,7 +25,9 @@ class Profile extends React.Component {
       'emailValidation':'',
       'docType':client.docType,
       'docNumber':client.docNumber,
-      'user':client.nickName,
+      'nickName':client.nickName,
+      'nickNameValidation':true,
+      'nickNameValidationInit':true,
       'pwd':this.props.auth.pwd,
       'pwdRepit':this.props.auth.pwd,
       'address':client.address,
@@ -153,8 +155,18 @@ class Profile extends React.Component {
             'pwdClass':''
           })
       break;*/
-      case 'user':
-          this.setState({[event.target.id]:event.target.value});
+      case 'nickName':
+          event.target.value.length >= 4 && event.target.value.length<=20
+          ? this.setState({
+              [event.target.id]:event.target.value,
+              'nickNameValidation':true,
+              'nickNameValidationInit':true
+            })
+          : this.setState({
+              [event.target.id]:event.target.value,
+              'nickNameValidation':false,
+              'nickNameValidationInit':true
+            })
       break;
       case 'name':
           this.setState({[event.target.id]:event.target.value});
@@ -166,7 +178,7 @@ class Profile extends React.Component {
           this.setState({[event.target.id]:event.target.value});
       break
     }
-    this.state.user !== '' && this.state.name !== '' && this.state.surname !== '' && this.state.emailValidation === ''
+    this.state.nickName !== '' && this.state.nickNameValidation && this.state.name !== '' && this.state.surname !== '' && this.state.emailValidation === ''
     ? this.state.deactive = ''
     : this.state.deactive = 'disabled';
     
@@ -178,7 +190,7 @@ class Profile extends React.Component {
       }))
     event.preventDefault();
     API.action('savePersonalData', {
-      'nickName':this.state.user,
+      'nickName':this.state.nickName,
       'first_name':this.state.name,
       'last_name':this.state.name,
       'email':this.state.email
@@ -193,7 +205,7 @@ class Profile extends React.Component {
     var data = JSON.parse(localStorage.getItem('client'));
     _response.status === 'success'
     ? ( 
-      data.personalData.nickName = this.state.user,
+      data.personalData.nickName = this.state.nickName,
       data.personalData.name = this.state.name,
       data.personalData.surname = this.state.surname,
       data.personalData.password = this.state.pwd,
@@ -246,7 +258,7 @@ class Profile extends React.Component {
         'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0',
         'data':clientData,
         'avatar':clientData.image,
-        'user':clientData.nickName,
+        'nickName':clientData.nickName,
         'name':clientData.name,
         'surname':clientData.surname,
         'pwd':this.props.auth.pwd,
@@ -283,7 +295,8 @@ class Profile extends React.Component {
                     <div className="profile_avatar_rot" >{this.translate('user.uploadImage')}</div>
                     <input id="uploaderImage" type="file" onChange={() => this.saveImage(event)}  />
                   </div>
-                  <div class="profile_input" ><label>Nick</label><input id="user" type="text"  onChange={(value) => this.handleChange(value) } value={this.state.user} placeholder={this.translate('user')} /></div>
+                  <div class="profile_input" ><label>Nick</label><input id="nickName" type="text"  onChange={(value) => this.handleChange(value) } value={this.state.nickName} placeholder={this.translate('nickName')} /></div>
+                  <div className={ this.state.nickNameValidationInit && ( this.state.nickName === '' || !this.state.nickNameValidation ) ? 'notValid_msg' : 'hide'}  >{this.translate('user.nickNameNotValid')}</div>
                   <div class="profile_input" ><label>Nombre</label><input id="name" type="text"  onChange={(value) => this.handleChange(value) } value={this.state.name} placeholder={this.translate('name')} /></div>
                   <div class="profile_input" ><label>Apellidos</label><input id="surname" type="text"  onChange={(value) => this.handleChange(value) } value={this.state.surname} placeholder={this.translate('surname')} /></div>
                   <div class="profile_input" ><label>Email</label><input id="email" className={ this.state.emailClass} type="text" onChange={(value) => this.handleChange(value) } value={this.state.email} placeholder={this.translate('email')}/></div>

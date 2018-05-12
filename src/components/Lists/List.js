@@ -513,12 +513,12 @@ class List extends React.Component {
     switch(this.props.what){
       case 'channel':
         localStorage.setItem('lastItemDatapodcast',JSON.stringify(_data));
-        localStorage.setItem('lastChannelName',JSON.stringify(_data.name));
+        localStorage.setItem('lastChannelName',_data.name);
         window.location.href = './#/podcast/'+_data.id;
       break;
       case 'podcast':
         localStorage.setItem('lastItemDataepisode',JSON.stringify(_data));
-        localStorage.setItem('lastpodcastName',JSON.stringify(_data.name));
+        localStorage.setItem('lastpodcastName',_data.name);
         window.location.href = './#/episode/'+_data.id;
       break;
       case 'episode':

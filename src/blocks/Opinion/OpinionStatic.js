@@ -81,6 +81,7 @@ class OpinionStatic extends React.Component {
         </div>
         {OpinionList.map(( p , index) => {
             var avatar = { 'background':'url('+p.author.avatar+')'};
+            var date = p.author.date.replace(/ /g,"T");
             return (
               <div className='row' >
                 <div className='col-xs-12 col-md-3'>
@@ -88,7 +89,7 @@ class OpinionStatic extends React.Component {
                     <div className='opinion_author_avatar' style={avatar}></div>
                     <div className='opinion_author_data'>
                       <div className='opinion_author_data_name' >{p.author.name}</div>
-                      <div className='opinion_author_data_date'>{ (new Date(p.author.date)).toLocaleDateString() }</div>
+                      <div className='opinion_author_data_date'>{ (new Date(date)).toLocaleDateString() }</div>
                     </div>
                     <div className='opinion_author_deco'>
                       <span class="icon-chevron-up_2"></span>

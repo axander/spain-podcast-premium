@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, Route } from 'react-router-dom'
 import TranslatedComponent from '../../utils/TranslatedComponent.js';
-import PlayerApp from '../Player/PlayerApp/PlayerApp.js'
+/*import PlayerApp from '../Player/PlayerApp/PlayerApp.js'*/
 import Stats from '../Stats/Stats.js'
 import Lists from '../../utils/Lists.js'
 import { Modal, API } from '../../services/Rest.js'
@@ -158,13 +158,15 @@ class IteminfoStatic extends React.Component {
       }
     }
     var episodePageList;
-    episodePageList = JSON.parse(localStorage.getItem('episodePageList'));
+    /*episodePageList = JSON.parse(localStorage.getItem('episodePageList'));*/
+    episodePageList =  this.props.initplayer.episodePageList;
     if(episodePageList){
       for( var j in episodePageList){
         episodePageList[j].id === this.state.data.id
         ? (
             episodePageList[j].isLater = !episodePageList[j].isLater,
-            localStorage.setItem('episodePageList', JSON.stringify(episodePageList))
+            this.props.initplayer.episodePageList = episodePageList
+            /*localStorage.setItem('episodePageList', JSON.stringify(episodePageList))*/
           )
         :null
       }
@@ -265,12 +267,10 @@ class IteminfoStatic extends React.Component {
         this.setState({
           'playing' : !this.state.playing
         }),
-        delegate.play()/*,
-        this.props.playerDeacoplate.play()*/
+        this.props.deacoplatePlayer.play()
       )
     : (
-      delegate.play()/*,
-      this.props.playerDeacoplate.play()*/
+      this.props.deacoplatePlayer.play()
     )
   }
   delegateTooglePlay(_playing){
@@ -314,38 +314,18 @@ class IteminfoStatic extends React.Component {
       'menuResponsive':'menu_responsive_show'
     })
   }
-  hidePlayer(){
-    var staticPlayer = document.querySelector('#staticPlayer')
-    staticPlayer
-    ? (
-        delegate.style = staticPlayer.className,
-        staticPlayer.className = 'hide'
-      )
-    : null;
-  }
-  showPlayer(){
-    var staticPlayer = document.querySelector('#staticPlayer');
-    staticPlayer
-    ? staticPlayer.className = delegate.style
-    : null;
+  getTitle(){
+    var data = JSON.parse(localStorage.getItem('lastItemDatastatic'));
+    return data.name
   }
   componentDidMount() {
-    //deacoplate
-    this.props.playerDeacoplate.hide();
-    //this.hidePlayer();
-    /*this.props.playerDeacoplate.next=this.props.next;
-    this.props.playerDeacoplate.previous=this.props.previous;
-    this.props.playerDeacoplate.nextDis=this.props.nextDis;
-    this.props.playerDeacoplate.previousDis=this.props.previousDis; 
-    this.props.playerDeacoplate.data=this.props.episode;
-    this.props.playerDeacoplate.fromStatic=true;
-    this.props.playerDeacoplate.returnTooglePlay = this.delegateTooglePlay;*/
-
-    //deacoplate
     delegate.duration = this.delegateDuration;
-    delegate.returnTooglePlay = this.delegateTooglePlay;
-    delegate.ready = this.ready;
-    delegate.returnOnProgress = this.delegateOnProgress;
+    this.props.deacoplatePlayer.tooglePlay = this.delegateTooglePlay;
+    this.props.deacoplatePlayer.returnOnProgress = this.delegateOnProgress;
+    this.props.deacoplatePlayer.getTitle = this.getTitle;
+    this.props.deacoplatePlayer.ready = this.ready;
+    /*delegate.ready = this.ready;*/
+    /*delegate.returnOnProgress = this.delegateOnProgress;*/
     // Will execute as normal
     var state = localStorage.getItem('lastState').split('/')[1];
     typeof this.state.data === 'undefined'
@@ -357,7 +337,7 @@ class IteminfoStatic extends React.Component {
     : localStorage.setItem('lastItemData'+this.props.destiny, JSON.stringify(this.props.data));
   }
   componentWillUnmount() {
-    //this.props.playerDeacoplate.show();
+    
   }
   componentWillUpdate(){
     var state = localStorage.getItem('lastState').split('/')[1];
@@ -393,8 +373,9 @@ class IteminfoStatic extends React.Component {
                     {this.state.data.name}
                   </div>
                 </div>
-                <staticPlayer id="staticPlayer" >
+                {/*<staticPlayer id="staticPlayer" >
                   <PlayerApp 
+                    firstEpisode = {this.props.firstEpisode} 
                     next={this.props.next} 
                     previous={this.props.previous} 
                     nextDis={this.props.nextDis} 
@@ -404,7 +385,7 @@ class IteminfoStatic extends React.Component {
                     delegate={delegate}
                     auth={this.props.auth} 
                     initplayer ={this.props.initplayer} />
-                </staticPlayer>
+                </staticPlayer>*/}
               </div>
               <div>
                 <div class="iteminfo_container_desc" >

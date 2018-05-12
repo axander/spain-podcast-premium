@@ -1,8 +1,8 @@
 .episodeSingleList{
-	padding-bottom: 20px;
 	height:0;
 	.episodeSingleList_rot{
 		float:left;
+		padding-left: 10px;
 		padding-bottom: 20px;
 	}
 	.episodeSingleList_all{
@@ -11,6 +11,7 @@
 		float:right;
 		color: #bbb;
 		padding-bottom: 50px;
+		padding-right: 10px;
 	}.episodeSingleList_all:hover{
 		opacity:.5;
 	}
@@ -121,5 +122,65 @@
 				opacity:.5;
 			}
 	    }
+	}
+}
+@media screen and (max-width: 992px){
+   .episodeSingleList{
+		
+		.episodeSingleList_rot{
+			
+		}
+		.episodeSingleList_all{
+			white-space: nowrap;
+    		padding-right: 10px;
+		}.episodeSingleList_all:hover{
+			
+		}
+		.episodeSingleList_item{
+			
+			.episodeSingleList_item_play{
+				
+				.episodeSingleList_item_play_PB{
+					
+					.episodeSingleList_item_play_PB_deco{
+						
+					}
+				}.episodeSingleList_item_play_PB:hover{
+					
+				}
+			}
+	      	.episodeSingleList_item_image{
+	      		
+			    .episodeSingleList_item_image_thumb{
+			    	
+			    }
+	      	}.episodeSingleList_item_image:hover{
+	      		
+	      	}
+		    .episodeSingleList_item_descrip{
+		    	
+		    }
+		    .episodeSingleList_item_options{
+		    	
+			    .episodeSingleList_item_options_deco{
+		   			
+			    } .episodeSingleList_item_options_deco:hover{
+		   			
+			    }
+		    }
+		    .episodeSingleList_item_duration{
+		    	
+		    }
+		    .episodeSingleList_item_delete{
+		    	
+		    	.episodeSingleList_item_del_PB{
+		    		
+					.episodeSingleList_item_del_PB_deco{
+						
+					}
+				}.episodeSingleList_item_del_PB:hover{
+				}
+		    }
+		}
 	}
 }

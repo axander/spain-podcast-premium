@@ -29,7 +29,8 @@ class PlayerApp extends Component {
     console.log(props);
     this.state ={
       'url':'',
-      'init':false
+      'init':false,
+      'initF5':false
     }
     this.loadepisode = this.loadepisode.bind(this);
     this.playPause = this.playPause.bind(this);
@@ -38,9 +39,12 @@ class PlayerApp extends Component {
     this.getFileError = this.getFileError.bind(this);
     this.getFile = this.getFile.bind(this);
     this.reset = this.reset.bind(this);
+    this.f5Prev = this.f5Prev.bind(this);
+    this.f5Next = this.f5Next.bind(this);
   }
   waitToPlay(){
-    API.action('saveToList', { 'id_item' : itemToPlay.data._id , 'type_item':'episode', 'list':'listened', 'value':true }, null, null, 'GET', false, true)
+    var dataFile = this.props.deacoplatePlayer.data();
+    API.action('saveToList', { 'id_item' : dataFile.id || itemToPlay.data._id , 'type_item':'episode', 'list':'listened', 'value':true }, null, null, 'GET', false, true)
     this.load(JSON.parse(localStorage.getItem('config')).cms+itemToPlay.data.source);
     this.player.seekTo(0);
     this.props.initplayer.init = true;
@@ -49,6 +53,7 @@ class PlayerApp extends Component {
         /*this.props.showplayer(),*/
         this.setState({ 
           init:true,
+          title : itemToPlay.data._name,
           urlPath : JSON.parse(localStorage.getItem('config')).cms+itemToPlay.data.source,
           url: JSON.parse(localStorage.getItem('config')).cms+itemToPlay.data.source,
           playing: this.props.auth.isAuthenticated ? true : false,
@@ -60,6 +65,7 @@ class PlayerApp extends Component {
       )
     : this.setState({ 
       init:true,
+      title : itemToPlay.data._name,
       urlPath : JSON.parse(localStorage.getItem('config')).cms+itemToPlay.data.source,
       url: JSON.parse(localStorage.getItem('config')).cms+itemToPlay.data.source,
       playing: this.props.auth.isAuthenticated ? true : false,
@@ -69,7 +75,7 @@ class PlayerApp extends Component {
       playbackRate: 1.0,
     })
     this.props.auth.isAuthenticated
-    ? this.props.delegate.tooglePlay(true)
+    ? this.props.deacoplatePlayer.tooglePlay(true)/*this.props.delegate.tooglePlay(true)*/
     : null
   }
   getFileSuccess = (_response) => {
@@ -98,13 +104,15 @@ class PlayerApp extends Component {
     });
   }
   getFile(){
+    var dataFile = this.props.deacoplatePlayer.data();
     ( this.props.auth.typeUser !== 'premium' && !JSON.parse(localStorage.getItem('lastItemDatapodcast')).premium  ) || this.props.auth.typeUser === 'premium' 
     ? (
       window.setSpinner(),
-      API.action('getFile', { 'id' : itemToPlay.data._id }, this.getFileSuccess, this.getFileError, 'GET', false, true)
+      API.action('getFile', { 'id' : dataFile.id || itemToPlay.data._id }, this.getFileSuccess, this.getFileError, 'GET', false, true)
     )
     : (
-        this.props.delegate.tooglePlay(false),
+        /*this.props.delegate.tooglePlay(false),*/
+        this.props.deacoplatePlayer.tooglePlay(false),
         localStorage.setItem('goPremium',true),
         this.setState({
             isOpen: true,
@@ -158,7 +166,8 @@ class PlayerApp extends Component {
         )
     }else{
       this.setState({ playing: !this.state.playing });
-      this.props.delegate.tooglePlay(this.state.playing);
+      this.props.deacoplatePlayer.tooglePlay(this.state.playing);
+      /*this.props.delegate.tooglePlay(this.state.playing);*/
     }
   }
   tooglePlay = () => {
@@ -227,14 +236,16 @@ class PlayerApp extends Component {
     this.player = player
   }
   onReady(){
-    typeof this.props.delegate !== 'undefined' ? this.props.delegate.ready() : null;
+    /*typeof this.props.delegate !== 'undefined' ? this.props.delegate.ready() : null;*/
+    typeof this.props.deacoplatePlayer !== 'undefined' ? this.props.deacoplatePlayer.ready() : null;
   }
   onBuffer(){
     alert('buffer');
   }
   reset(){
     this.props.initplayer.init = false;
-    this.props.delegate.tooglePlay(false);
+    this.props.deacoplatePlayer.tooglePlay(false);
+    /*this.props.delegate.tooglePlay(false);*/
     this.setState({
       'played':0,
       'duration':0,
@@ -251,9 +262,103 @@ class PlayerApp extends Component {
       <button onClick={this.setPlaybackRate} value={2}>2</button>
     </td>
   */
+   onSuccess = (_response) => {
+    var phase, position, previous, episodes, _episode ;
+    _response.status === 'success'
+    ? ( 
+      phase = parseFloat(localStorage.getItem('phase_episode_'+localStorage.getItem('lastpodcast'))) || 0,
+      position = !this.state.dir  ? parseFloat(localStorage.getItem('lastPosition')) : this.state.dir === 'next' ? 0 : _response.result.length-1,
+      localStorage.setItem('lastPosition',position),
+      episodes = _response.result,
+      _episode = episodes[position],
+      localStorage.setItem('lastPosition',position),
+      phase >= (Math.ceil(parseFloat(localStorage.getItem('total'))/parseFloat(localStorage.getItem('perPhase')))-1) && position >= parseFloat(localStorage.getItem('perPhase'))-1
+      ? localStorage.setItem('nextDis',false)
+      : localStorage.setItem('nextDis',true),
+      !position && !parseFloat(localStorage.getItem('phase_episode_'+localStorage.getItem('lastpodcast')))
+      ? localStorage.setItem('prevDis',false)
+      : localStorage.setItem('prevDis',true),
+      localStorage.setItem('lastItemDatastatic',JSON.stringify(_episode)),
+      this.props.initplayer.reset(),
+      this.props.initplayer.data = _episode,
+      this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode)
+    )
+    : this.setState({
+        isOpen: true,
+        showedMsg: 'episode.' + _response.reason
+    });
+  }
+  onError = (_response, _error) =>{
+    this.setState({
+          isOpen: true,
+          showedMsg: _error
+      });
+  }
+  toggleModal = () => {
+      this.setState({
+          isOpen: !this.state.isOpen
+      });
+   }
+  setPhase(_phase, _fromPages){
+    window.setSpinner();//,
+    API.action('getEpisode', { 'id' : localStorage.getItem('lastepisode'), 'phase': parseFloat(localStorage.getItem('phase_episode_'+localStorage.getItem('lastpodcast'))) || 0 }, this.onSuccess, this.onError, 'GET', false, true);
+  }
+  f5Next(){
+    var phase = parseFloat(localStorage.getItem('phase_episode_'+localStorage.getItem('lastpodcast'))) || 0;
+    if(parseFloat(localStorage.getItem('lastPosition'))+1 >= parseFloat(localStorage.getItem('perPhase'))){
+      localStorage.setItem('phase_episode_'+localStorage.getItem('lastpodcast'),phase +1);
+      this.state.dir = 'next';
+      this.setPhase(phase +1);
+    }else{
+      var nextPosition = parseFloat(localStorage.getItem('lastPosition'))+1;
+      var episodes = this.props.initplayer.episodePageList; /*var episodes = JSON.parse(localStorage.getItem('episodePageList'));*/
+      var _episode = episodes[nextPosition];
+      localStorage.setItem('lastPosition',nextPosition);
+      phase >= (Math.ceil(parseFloat(localStorage.getItem('total'))/parseFloat(localStorage.getItem('perPhase')))-1) && nextPosition >= episodes.length-1
+      ? localStorage.setItem('nextDis',false)
+      : localStorage.setItem('nextDis',true);
+      !nextPosition
+      ? localStorage.setItem('prevDis',false)
+      : localStorage.setItem('prevDis',true);
+      /*nextPosition === episodes.length-1
+      ? localStorage.setItem('nextDis',false)
+      : localStorage.setItem('nextDis',true);
+      !nextPosition
+      ? localStorage.setItem('prevDis',false)
+      : localStorage.setItem('prevDis',true);*/
+      localStorage.setItem('lastItemDatastatic',JSON.stringify(_episode));
+      console.log(this.props);
+      this.props.initplayer.reset();
+      this.props.initplayer.data = _episode;
+      this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode);
+    }
+  }
+  f5Prev(){
+    var phase = parseFloat(localStorage.getItem('phase_episode_'+localStorage.getItem('lastpodcast'))) || 0;
+    if(!parseFloat(localStorage.getItem('lastPosition'))){
+        localStorage.setItem('phase_episode_'+localStorage.getItem('lastpodcast'),phase -1);
+        this.state.dir = 'prev';
+        this.setPhase(phase -1);
+    }else{
+      var prevPosition = parseFloat(localStorage.getItem('lastPosition'))-1;
+      var episodes = this.props.initplayer.episodePageList; /*var episodes = JSON.parse(localStorage.getItem('episodePageList'));*/
+      var _episode = episodes[prevPosition];
+      localStorage.setItem('lastPosition',prevPosition),
+      !prevPosition && !parseFloat(localStorage.getItem('phase_episode_'+localStorage.getItem('lastpodcast')))
+      ? localStorage.setItem('prevDis',false)
+      : localStorage.setItem('prevDis',true);
+      prevPosition === episodes.length-1
+      ? localStorage.setItem('nextDis',false)
+      : localStorage.setItem('nextDis',true);
+      localStorage.setItem('lastItemDatastatic',JSON.stringify(_episode));
+      this.props.initplayer.reset();
+      this.props.initplayer.data = _episode;
+      this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode);
+    }
+  }
   componentDidMount(){
-    typeof this.props.delegate !== 'undefined' 
-    ?  this.props.delegate.play = this.playPause
+    typeof this.props.deacoplatePlayer !== 'undefined' 
+    ?  this.props.deacoplatePlayer.play = this.playPause
     : null;
     typeof this.props.delegate !== 'undefined' 
     ?  this.props.delegate.loading = this.onReady
@@ -269,11 +374,28 @@ class PlayerApp extends Component {
     : this.props.fromStatic 
       ? this.loadepisode(this.props.data.file,this.props.data.id,this.props.data.name,this.props.data) 
       : null;
+   
+    if(typeof this.props.deacoplatePlayer !== 'undefined' && !this.props.deacoplatePlayer.initPlayer && localStorage.getItem('lastepisode')){
+      this.setPhase();
+      this.props.deacoplatePlayer.initPlayer = true;
+      this.props.deacoplatePlayer.data = function(){
+        var episode = JSON.parse(localStorage.getItem('lastItemDatastatic'));
+        return episode
+      }
+      this.props.initplayer.reset();
+      var _episode = JSON.parse(localStorage.getItem('lastItemDatastatic'));
+      this.props.initplayer.data = _episode;
+      //this.props.initplayer.play(_episode.file, _episode.id, _episode.name, _episode);
+      this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode);
+      this.props.deacoplatePlayer.next = this.f5Next;
+      this.props.deacoplatePlayer.previous = this.f5Prev;
+    }
   }
   
   render () {
     const { url, playing, volume, muted, loop, played, loaded, duration, playbackRate } = this.state
     const SEPARATOR = ' · '
+
     return (
       <div className='app'>
         <section className='section'>
@@ -303,13 +425,14 @@ class PlayerApp extends Component {
 
           </div>
 
-
+          <div className="player-face-title" >{ localStorage.getItem('lastItemDatastatic') ? JSON.parse(localStorage.getItem('lastItemDatastatic')).name : '...'}</div>
           <div className='player-face' >
             <div className="player-face-1" >
-              <div className='previous2'  onClick={this.playPause}><span class="icon-skip-back"></span></div>
+                {/*<div className='previous2'  onClick={this.props.firstEpisode}><span class="icon-skip-back"></span></div>*/}
+              <div className='previous2'  onClick={this.props.firstEpisode}><span class="icon-skip-back"></span></div>
               <div className='play'  onClick={this.playPause}><span class={playing ? (!duration || duration<=0) ? "icon-more-horizontal" : "icon-pause-circle" : "icon-play-circle" } ></span></div>
-              <div className={this.props.previousDis ? 'backward disabled' : 'backward'}   onClick={this.props.previous}><span class="icon-rewind"></span></div>
-              <div className={this.props.nextDis ? 'forward2 disabled' : 'forward2'}  onClick={this.props.next}><span class="icon-fast-forward"></span></div>
+              <div className={localStorage.getItem('prevDis') === 'true'  ? 'backward' : 'backward  disabled'}   onClick={typeof this.props.deacoplatePlayer !== 'undefined' ? this.props.deacoplatePlayer.previous : null}><span class="icon-rewind"></span></div>
+              <div className={localStorage.getItem('nextDis') === 'true' ? 'forward2' : 'forward2  disabled'}  onClick={typeof this.props.deacoplatePlayer !== 'undefined' ? this.props.deacoplatePlayer.next : null }><span class="icon-fast-forward"></span></div>
               <div className='time_played' ><Duration seconds={duration * played} /></div>
             </div>
             <div className="player-face-2">
@@ -467,7 +590,7 @@ class PlayerApp extends Component {
             </tr>
           </tbody></table>*/}
 
-          <h2>State</h2>
+          {/*<h2>State</h2>*/}
 
           <table><tbody>
             <tr>

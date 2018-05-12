@@ -1,3 +1,4 @@
+
 .download{
     position: relative;
 	height:auto;
@@ -40,6 +41,50 @@
 		  	color: #d0d0d0;
 			margin-bottom: 50px;
 		}
+	}
+	.download_deco{
+		position: absolute;
+	    top: 0;
+	    right: 0;
+	    width: 60%;
+	    height: 700px;
+	    background-size: 49%,70%;
+	    background-position: 290px 152px,90px -40px;
+	    background-repeat: no-repeat;
+	    background-image: url('../../assets/images/04.png'), url('../../assets/images/03.png');
+	}
+}.download_appsMini{
+	width: 300px;
+    float: right;
+	.downloadApple{
+		display:block;
+	}
+	.download_apps_content_title{
+		font-family: AlfaSlabOne;
+	    font-size: 34px;
+	    font-weight: 400;
+	    font-style: normal;
+	    font-stretch: normal;
+	    line-height: 1.29;
+	    letter-spacing: 1.4px;
+	    text-align: center;
+	    color: #fff;
+	    padding-top: 270px;
+	    padding-bottom: 30px;
+	}
+	.download_apps_content_subtitle{
+		display: none;
+	}
+	.download_deco{
+		position: absolute;
+	    top: 0px;
+	    right: 0;
+	    width: 300px;
+	    height: 700px;
+	    background-size: 39%,50%;
+	    background-position: 130px 42px,50px -10px;
+	    background-repeat: no-repeat;
+	    background-image: url('../../assets/images/04.png'), url('../../assets/images/03.png');
 	}
 }.download_apps_single{
 	height:670px;
@@ -113,15 +158,6 @@
 	.slider-item-PB:hover{
 		opacity:.5;
 	}
-}.download_deco{
-	position: absolute;
-    top: 0;
-    right: 0;
-    width: 60%;
-    height: 700px;
-    background-size: 49%,70%;
-    background-position: 290px 152px,90px -40px;
-    background-repeat: no-repeat;
 }
 @media screen and (max-width: 992px){
 	.download{
@@ -139,6 +175,7 @@
 		    background-size: 110px,172px;
 		    background-position: 95% 282px,85% 170px;
 		    background-repeat: no-repeat;
+		    background-image: url('../../assets/images/04.png'), url('../../assets/images/03.png');
 		}
 	}.download_apps{
 		height:300px;
@@ -155,6 +192,43 @@
 				margin-bottom: 19px;
 				text-align: left;
 			}
+		}
+	}.download_appsMini{
+		width: 300px;
+	    float: none;
+	    display: inline-block;
+	    margin-bottom: -70px;
+		.downloadApple{
+			display:block;
+		}
+		.download_apps_content_title{
+			font-family: AlfaSlabOne;
+		    font-size: 34px;
+		    font-weight: 400;
+		    font-style: normal;
+		    font-stretch: normal;
+		    line-height: 1.29;
+		    letter-spacing: 1.4px;
+		    text-align: center;
+		    color: #fff;
+		    padding-top: 270px;
+		    padding-bottom: 30px;
+		}
+		.download_apps_content_subtitle{
+			display: none;
+		}
+		.download_deco{
+			margin-right: 0;
+		    /* margin-left: 100px; */
+		    /* position: absolute; */
+		    /* top: 0; */
+		    /* right: 0; */
+		    /* width: 300px; */
+		    /* height: 700px; */
+		    /* background-size: 39%,50%; */
+		    background-position: 65% 60px, 45% -20px;
+		    /* background-repeat: no-repeat; */
+		    background-image: url('../../assets/images/04.png'), url('../../assets/images/03.png');
 		}
 	}.download_apps_single{
 		height:380px;
@@ -198,7 +272,7 @@
 			display: block;
 		    color: #fff;
 		    margin: 0 auto;
-		    margin-top: -90px;
+		    margin-top: -50px;
 		    margin-bottom: -50px;
 		    font-size: 18px;
 		    padding: 0;

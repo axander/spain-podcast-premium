@@ -389,7 +389,7 @@ class Episode extends React.Component {
                   </div>
                 </div>
                 <div className={!this.state.data.length ? '':'hide'} >{this.translate('user.listEmpty')}</div>
-                <div class="row" > 
+                <div class="row item_responsive" > 
                   {
                     this.state.data.map((p, index)  => (
                       <div className={this.props.auth.typeUser !=='premium' ? "col-xs-12 col-md-6 item_responsive" : "col-xs-12 col-md-4 item_responsive" }>

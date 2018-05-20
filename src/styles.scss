@@ -137,31 +137,45 @@
   font-weight: 400;
   src: url('./assets/fonts/Avenir-Black-03.ttf') format('truetype');
 }
-html,body {
-    /*position:absolute*/;
+
+/*html,body {
+    position:absolute;
+    height:auto;
+    overflow:hidden;
+    -ms-touch-action: none;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke: 0.45px;
+
     top:0;
     left:0;
-	background-color: #000;
-	color: #fff;
-	font-family: Avenir, Lato, sans-serif !important;
-   
-	margin:0;
-	width:100vw;
+    background-color: #000;
+    color: #fff;
+    font-family: Avenir, Lato, sans-serif !important;
+    margin:0;
+    width:100vw;
     height:auto;
     overflow-x:hidden;
-	/*height:auto;
-	overflow:hidden;*/
     -ms-overflow-style: none;  // IE 10+
     overflow: -moz-scrollbars-none;  // Firefox
-    /*-ms-touch-action: none;*/
-
-    /*-webkit-font-smoothing: antialiased;
-    -webkit-text-stroke: 0.45px;*/
-    
+}*/
+html,body {
+    top:0;
+    left:0;
+    background-color: #000;
+    color: #fff;
+    font-family: Avenir, Lato, sans-serif !important;
+    margin:0;
+    width:100vw;
+    height:auto;
+    overflow-x:hidden;
+    //-ms-overflow-style: none;  // IE 10+
+    //overflow: -moz-scrollbars-none;  // Firefox
 }
-
-html::-webkit-scrollbar, body::-webkit-scrollbar { 
+/*html::-webkit-scrollbar, body::-webkit-scrollbar { 
     display: none;  // Safari and Chrome
+}*/
+html::-webkit-scrollbar, body::-webkit-scrollbar { 
+    
 }
 label {
     margin-top: 5px;
@@ -205,7 +219,7 @@ h1{
     display: none;  // Safari and Chrome
 }
 .app-wrapper_web{
-    display: table;
+    display: table !important;
     margin: 0 auto;
     background-color: #000;
     padding-top: 75px;
@@ -223,11 +237,15 @@ h1{
         .main{
             width: 100%;
         }
+        .main-noMobile{
+            padding-right: 15px;
+        }
     }
 }
 .app-wrapper{
     background-color: #698ab1;
-    
+    background-color: #444;
+    padding: 10px;
 }
 
 .basicOuter{
@@ -562,7 +580,13 @@ AuthButton {
     padding-left: 7px;
     float: left;
 }
-
+.row{
+    .col-md-4:nth-child(3n){
+        .flag_premium{
+            right: 0 !important;
+        }
+    }
+}
 .podcast .item_container, .channel .item_container, .episode .item_container, .staticplayer .item_container{
     position: relative;
     padding-right: 15px;
@@ -578,6 +602,7 @@ AuthButton {
     position: relative;
     padding-top: 35px;
     padding-left: 20px;
+    
 }
 .podcast .item_actions_play_PB, .channel .item_actions_play_PB, .episode .item_actions_play_PB, .staticplayer .item_actions_play_PB{
     display: inline-block;
@@ -1330,6 +1355,7 @@ MenuPB{
     transition: all .5s ease;
 }
 .app-wrapper_web .channelMenuPB{
+    display:none !important;
     opacity:0;
     font-size: 25px;
     cursor: pointer;
@@ -2120,6 +2146,7 @@ sendInvitation{
 }
 
 .player-face{
+    height: 50px;
     .player-face-1-1{
         display: none;
     }
@@ -2135,7 +2162,6 @@ sendInvitation{
         display: inline-block;
         width:auto;
     }
-    height: 62px;
     .icon-play-circle{
         font-size:35px;
         position: absolute;
@@ -2147,10 +2173,6 @@ sendInvitation{
         position: absolute;
         top: -33px;
         left: -7px;
-    }
-    >div{
-        position:relative;
-        top:-15px;
     }
     .play{
         position: relative;
@@ -2171,7 +2193,6 @@ sendInvitation{
     bottom : 0;
     left: 0;
     width :100%;
-    height: 95px;
 }
 
 

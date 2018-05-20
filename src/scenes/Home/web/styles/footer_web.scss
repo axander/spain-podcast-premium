@@ -126,6 +126,9 @@ $template-size-2: 10px;
 		    text-align: center;
 		}
 	}
+	.logo{
+		display:none !important;
+	}
 }
 
 .footer_web_block{
@@ -216,7 +219,7 @@ $template-size-2: 10px;
 .footer_web_generic{
 	margin: 10px;
 	padding:10px;
-	border-top:1px solid $template-dark-color-border-purple;
+	border-top:1px solid #fff;
 }
 .footer_web_generic_dark {
 	color: $template-dark-color-1;

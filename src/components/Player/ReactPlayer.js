@@ -23,6 +23,7 @@ export default class ReactPlayer extends Component {
   }
   config = getConfig(this.props, defaultProps, true)
   componentDidMount () {
+    this.props.getStop = this.stop ;
     this.progress()
   }
   componentWillUnmount () {
@@ -53,28 +54,54 @@ export default class ReactPlayer extends Component {
     if (!this.player) return null
     this.player.seekTo(fraction)
   }
+  stop = () => {
+    alert('stop1');
+    if (!this.player) return null
+    this.player.stop()
+  }
   progress = () => {
-    if (this.props.url && this.player && this.player.isReady) {
-      const playedSeconds = this.player.getCurrentTime() || 0
-      const loadedSeconds = this.player.getSecondsLoaded()
-      const duration = this.player.getDuration()
-      if (duration) {
-        const progress = {
-          playedSeconds,
-          played: playedSeconds / duration
+    try{
+      if (this.props.url && this.player && this.player.isReady && this.player.getCurrentTime() && this.player.getSecondsLoaded() && this.player.getDuration()) {
+        var string = '';
+        const playedSeconds = this.player.getCurrentTime() || 0;
+        string = string + '1';
+        const loadedSeconds = this.player.getSecondsLoaded() || 0;
+        console.log('loadedSeconds');
+        console.log(loadedSeconds);
+        console.log(this.player.isReady);
+        string = string + '2';
+        const duration = this.player.getDuration() || 0
+        string = string + '3';
+        if (duration) {
+          const progress = {
+            playedSeconds,
+            played: playedSeconds / duration
+          }
+          if (loadedSeconds !== null) {
+            progress.loadedSeconds = loadedSeconds
+            progress.loaded = loadedSeconds / duration
+          }
+          // Only call onProgress if values have changed
+          if (progress.played !== this.prevPlayed || progress.loaded !== this.prevLoaded) {
+            progress.buffering = false;
+            this.props.onProgress(progress);
+          }else{
+            progress.buffering = true;
+            this.props.onProgress(progress)
+          }
+          this.prevPlayed = progress.played
+          this.prevLoaded = progress.loaded
         }
-        if (loadedSeconds !== null) {
-          progress.loadedSeconds = loadedSeconds
-          progress.loaded = loadedSeconds / duration
-        }
-        // Only call onProgress if values have changed
-        if (progress.played !== this.prevPlayed || progress.loaded !== this.prevLoaded) {
-          this.props.onProgress(progress)
-        }
-        this.prevPlayed = progress.played
-        this.prevLoaded = progress.loaded
+        //document.querySelector('#contadorxxx').innerHTML = playedSeconds + ' ' + string;
       }
+    }catch(e){
+      const progress = {
+        'buffering':true
+      }
+      this.props.onProgress(progress);
+      //document.querySelector('#contadorxxx').innerHTML = e;
     }
+
     this.progressTimeout = setTimeout(this.progress, this.props.progressFrequency)
   }
   getActivePlayer (url) {

@@ -83,6 +83,13 @@ class Breadcrumb extends React.Component {
           'path':this.props.location.pathname
         }
       break;
+      case 'recovered':
+        this.state.acumulate=[];
+        this.state.acumulate[0] ={
+          'text':this.translate('register.recoverPwd.rot'),
+          'path':this.props.location.pathname
+        }
+      break;
       case 'promotional':
         this.state.acumulate=[];
         this.state.acumulate[0] ={

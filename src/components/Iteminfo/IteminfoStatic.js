@@ -274,11 +274,16 @@ class IteminfoStatic extends React.Component {
     )
   }
   delegateTooglePlay(_playing){
-    this.props.auth.isAuthenticated
+    _playing==='buffering'
     ? this.setState({
-        'playing': _playing
-      })
-    : null;
+        'buffering':true
+    })
+    : this.props.auth.isAuthenticated
+      ? this.setState({
+          'playing': _playing,
+          'buffering':false
+        })
+      : null;
   }
   ready(){
     this.setState({
@@ -355,11 +360,11 @@ class IteminfoStatic extends React.Component {
           <div className='iteminfo_static'>
               <div>
                 <div className={'iteminfo_image_container_'+this.props.origen} >
-                  <div className ="iteminfo_image" style={"background-image:url('"+ this.state.cms + this.state.data.image+"')"} >
+                  <div className ="iteminfo_image" style={"background-image:url('"+ this.state.cms + this.state.data.picture+"')"} >
                     <div class="basicOuter">
                       <div class="basicInner">
                           {/*<span className={this.state.loading ? "iteminfo_play icon-more-horizontal" : this.state.playing ? "iteminfo_play icon-pause-circle" : "iteminfo_play icon-play-circle"} onClick={this.play}></span>*/}
-                          <span className={ this.state.playing && !this.state.ready ? "iteminfo_play icon-more-horizontal" : this.state.playing && this.state.ready ? "iteminfo_play icon-pause-circle" : "iteminfo_play icon-play-circle"} onClick={this.play}></span>
+                          <span className={ this.state.playing && ( !this.state.ready || this.state.buffering ) ? "iteminfo_play icon-more-horizontal" : this.state.playing && this.state.ready ? "iteminfo_play icon-pause-circle" : "iteminfo_play icon-play-circle"} onClick={this.play}></span>
                       </div>
                     </div>
                     

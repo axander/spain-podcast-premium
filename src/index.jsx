@@ -42,7 +42,7 @@ class AppComponent extends React.Component {
     if (TranslationStore.getCurrentLanguage() === null) {
       return (
         <div className="app-wrapper">
-          Cargando ...
+          Cargando. Por favor, espere ...
         </div>
       );
     }

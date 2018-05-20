@@ -213,7 +213,7 @@ class Channel extends React.Component {
               <div>
                 <div className="channels_rot" >{this.translate('menu.channel').toUpperCase()}</div>
               </div>
-              <div class="row"  >
+              <div class="row item_responsive"  >
                 {
                   this.state.data.map((p, index) => (
                       <div className="col-xs-12 col-md-4 item_responsive">

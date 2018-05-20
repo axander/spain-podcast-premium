@@ -37,7 +37,7 @@ const API = {
 				'username':'nginx',
 				'password':'spainmedia',
 		      	method: _method,
-		      	headers: List[_path].service !== 'config' && localStorage.getItem('api_key') && fullUrl < 0 ? new Headers({
+		      	headers: url.indexOf('.json')<0 && List[_path].service !== 'config' && localStorage.getItem('api_key') && fullUrl < 0 ? new Headers({
 		      			'Access-Control-Allow-Origin': '*',
 		      			'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
 		      			'Cache-Control': 'cache',
@@ -98,41 +98,49 @@ const API = {
 
 
 class Modal extends React.Component {
-  render() {
+	setLink(){
+		localStorage.getItem('modalToExplore')
+		? (
+			window.location.href = './#/'+localStorage.getItem('modalToExplore'),
+			localStorage.removeItem('modalToExplore')
+		)
+		:null
+	}
+  	render() {
     // Render nothing if the "show" prop is false
-    if(!this.props.show) {
-      return null;
-    }
-    let  goPremium
-    localStorage.getItem('goPremium')
-    ? (
-    	goPremium = <Link to='/premium' >
-	    				<button className='goPremium'>
-			                {this.translate('user.toPremium')}
-			            </button>
-			        </Link>
-    	
-    )
-    : goPremium = ''
+	    if(!this.props.show) {
+	      return null;
+	    }
+	    let  goPremium
+	    localStorage.getItem('goPremium')
+	    ? (
+	    	goPremium = <Link to='/premium' >
+		    				<button className='goPremium'>
+				                {this.translate('user.toPremium')}
+				            </button>
+				        </Link>
+	    	
+	    )
+	    : goPremium = ''
 
-    return (
-      <div className="backdropContainer" onClick={this.props.onClose}>
-        <div className="backdrop" >
-          <div className="modal" >
-            <div className="modal-contain">
-              <p>{this.props.children}</p>
-            </div>
-            <div className="modal-footer">
-             {goPremium}
-              <button className={localStorage.getItem('goPremium') ? 'resetClose' : ''} >
-                {this.translate('continue')}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+	    return (
+	      <div className="backdropContainer" onClick={this.props.onClose}>
+	        <div className="backdrop" onClick={this.setLink}>
+	          <div className="modal" >
+	            <div className="modal-contain">
+	              <p>{this.props.children}</p>
+	            </div>
+	            <div className="modal-footer">
+	             {goPremium}
+	              <button className={localStorage.getItem('goPremium') ? 'resetClose' : ''} onClick={this.setLink} >
+	                {this.translate('continue')}
+	              </button>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    );
+  	}
 }
 
 Modal.propTypes = {

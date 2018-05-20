@@ -71,12 +71,15 @@
 		}
     }
 }
-@media screen and (max-width: 990px){
+@media screen and (max-width: 992px){
 	.travel{
 		.spinner, .error{
 		}
 	}.travel_episodes{
 		height:530px;
+		background-repeat: no-repeat !important;
+	    background-size: cover !important;
+	    background-position: center !important;
 	    .travel_episodes_tittle{
 	    	position: initial;
 	    	padding-top: 130px;

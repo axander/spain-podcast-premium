@@ -15,6 +15,7 @@ class Premium extends React.Component {
     this.handleResize = this.handleResize.bind(this);
   }
   componentDidMount(){
+    localStorage.removeItem('goPremium');
     window.addEventListener('resize', this.handleResize);
     this.setState({
       'style':{
@@ -24,7 +25,9 @@ class Premium extends React.Component {
   }
   componentWillUpdate(){
     this.props.auth.isAuthenticated
-    ? window.location.href = './#/subscription'
+    ? this.props.auth.typeUser !== 'premium'
+      ? window.location.href = './#/premium'
+      : window.location.href = './#/subscription'
     : window.location.href = './#/register';
   }
   handleResize() {

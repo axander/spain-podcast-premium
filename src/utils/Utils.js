@@ -131,7 +131,8 @@ const Utils = {
       }else if(meses){
         string = meses + ( meses === 1 ? ' mes' : ' meses');
       }else if(totdias >= 7){
-        string = Math.trunc(totdias/7) + (totdias === 7 ? ' semana' : ' semanas');
+        var week = Math.floor(totdias/7);
+        string = week + ( week === 1 ? ' semana' : ' semanas');
       }else if(totdias){
         string = totdias + (totdias ===1 ? ' día' : ' días');
       }else{

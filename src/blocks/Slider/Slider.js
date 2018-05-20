@@ -42,7 +42,8 @@ class Slider extends React.Component {
         'width':document.getElementById('slider_content').offsetWidth +'px'
       },
       'leftArrow':parseFloat(this.state.fase) <= 0 ? false : true,
-      'rightArrow':_response[0].sliders.length>1 &&  parseFloat(this.state.fase)<= _response[0].sliders.length -1 ? true : false
+      'rightArrow':_response[0].sliders.length>1 &&  parseFloat(this.state.fase)<= _response[0].sliders.length -1 ? true : false,
+      'arrows': _response[0].sliders[0].fontcolor
     })
   }
   onError = (_response, _error) =>{
@@ -332,7 +333,12 @@ class Slider extends React.Component {
                                               : ( typeof q.route === 'undefined' || !q.route || q.route.length <= 0 ) && q.id
                                                 ? <div className='slider-item-PB-container' onClick={(id, type) => this.initPlayer(q.id, q.type)} >
                                                         <div className='slider-item-PB' style={'border-color:'+p.fontcolor+' !important'}>
-                                                          { q.type !== 'canal' ? <span class="icon-play-circle" style={'color:'+p.fontcolor+';border-color:'+p.fontcolor+' !important'} ></span> : '' }
+                                                          { q.type !== 'canal' 
+                                                              ? <div className='item_action_play' style={'border: 3px solid ' + p.fontcolor + '; color:'+p.fontcolor+';border-color:'+p.fontcolor+' !important'} >
+                                                                  <div style={'border-left: 7px solid '+p.fontcolor+' !important'} ></div>
+                                                                </div>/*<span class="icon-play-circle" style={'color:'+p.fontcolor+';border-color:'+p.fontcolor+' !important'} ></span>*/ 
+                                                              : '' 
+                                                          }
                                                           <span style={'color:'+p.fontcolor+' !important;'}>{q.text}</span>
                                                         </div>
                                                   </div>

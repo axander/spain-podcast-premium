@@ -316,10 +316,10 @@ class NewChannel extends React.Component {
           </div>
         </div>
         <div className={!NewList.length ? '':'hide'} >{this.translate('user.listEmpty')}</div>
-        <div class="row" >
+        <div class="row item_responsive" >
             {
               NewList.map((p, index)  => (
-                <div className="col-xs-12 col-md-4" >
+                <div className="col-xs-12 col-md-4 item_responsive" >
                   <div className ={ (index-1)%3===0 ? 'item_container' : index%3===0 ? 'item_container_left' : 'item_container_right'} >
                     <div className={ p.id === localStorage.getItem('lastepisode') ? "contentSelected" : "" } >
                         <div className="row item new_item"  style={ 'background-image:url("' + this.state.cms + p.picture + '")'}  >
@@ -330,7 +330,10 @@ class NewChannel extends React.Component {
                                   <div>
                                     <div class='basicOuter'>
                                       <div class='basicInner'>
-                                        <span class="icon-play-circle"></span>
+                                        <div className='item_action_play'>
+                                          <div></div>
+                                        </div>
+                                        {/*<span class="icon-play-circle"></span>*/}
                                       </div>
                                     </div>
                                   </div>

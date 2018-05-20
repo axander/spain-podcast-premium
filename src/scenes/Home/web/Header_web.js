@@ -66,6 +66,7 @@ class Header_web extends React.Component {
     let registerHide = localStorage.getItem('logged');
     return (
       <div className={ 'header_web header_web_'+localStorage.getItem('template') }>
+      <div id="contadorxxx"></div>
         <div className='header_web_main'>
           <div class="header_web_explore option left pr20"><Link to={'/explorar'} ><div class=''>{this.translate('header.explore').toUpperCase()}</div></Link></div>
           <div class="header_web_explore option left pr20 menu_responsive_pb" onClick={this.showMenuResponsive} >☰</div>

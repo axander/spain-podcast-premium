@@ -19,7 +19,7 @@ $template-size-0: 16px;
 $template-size-1: 12px;
 $template-size-2: 10px;
 
-auth_web{
+auth_web, auth_recover{
     cursor:initial;
 	position:absolute;
     display: table;
@@ -93,6 +93,9 @@ auth_web{
     }
 }
 @media screen and (max-width: 992px){
+    .auth_recover{
+        padding-top:100px;
+    }
     .required_message{
         display: inline-block;
         position: relative;
@@ -249,7 +252,7 @@ auth_web{
     }
 }
 
-.auth_web_show{
+.auth_web_show, .auth_recover_show{
 	top:0;
 }
 .auth_web_dark{
@@ -278,7 +281,7 @@ auth_web{
 .initSession:hover {
     opacity:.5;
 }
-auth_web .authInner {
+auth_web .authInner, auth_recover .authInner{
     display: table-cell;
     width: 100%;
     height: 100%;
@@ -319,7 +322,7 @@ auth_web .authInner {
 .auth_web .formOr{
     margin-top: 20px;
 }
-.auth_web .initBtn {
+.auth_web .initBtn, .auth_web .recoverBtn {
 	display: inline-block;
     border: none;
     float: right;
@@ -336,11 +339,21 @@ auth_web .authInner {
     -moz-transition: background .5s ease;
     transition: background .5s ease;
 }
-.auth_web .initBtn:hover{
+.auth_web h4{
+    margin-top:30px;
+}
+.auth_web .recoverBtn {
+    margin-top:20px;
+}
+.auth_web .initBtn:hover, .auth_web .recoverBtn:hover{
 	background: #168d40!important;
 }
 .auth_web .forgotPwdBtn{
+    cursor:pointer;
 	float:left;
+}
+.auth_web .forgotPwdBtn:hover{
+    opacity:.5;
 }
 .auth_web .forgotPwdBtn, .auth_web .forgotPwdBtn:hover, .auth_web .forgotPwdBtn:link, .auth_web .forgotPwdBtn:visited {
 	padding-top: 25px;

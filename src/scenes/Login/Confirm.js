@@ -11,6 +11,7 @@ class Confirm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+     'activation_code':this.props.match.params.code,
      'showedMsg': localStorage.getItem('error'),
      'isOpen': localStorage.getItem('error') ? true : false,
      'loggedAs': localStorage.getItem('logged') ? 'basicBorderBtn inline' : 'hide',
@@ -23,40 +24,12 @@ class Confirm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentDidMount() {
-    var code = window.location.href.split('confirm/')[1];
-    code.length
+    typeof this.state.activation_code !== 'undefined' && this.state.activation_code.length
     ? ( 
         window.history.replaceState({}, document.title, "./#/confirm"),
-        API.action('confirmAccount', {'activation_code':code}, this.onSuccess, this.onError, 'GET', false, true)
+        API.action('confirmAccount', {'activation_code':this.state.activation_code}, this.onSuccess, this.onError, 'GET', false, true)
       )
-    : this.setState(() => ({
-          'isOpen': true,
-          'loggedAs': 'hide',
-          'subscription':'hide',
-          'notLogged': 'contrast basicBorderBtn inline',
-          'msg': '',
-          'showedMsg': 'confirm.0003'
-        }));
-    /*var urlParameters = [];
-    typeof window.location.href.split('confirm/')[1] !== 'undefined'
-    ? ( urlParameters = window.location.href.split('?')[1].split('&'),
-        this.setParameters(urlParameters),
-        window.setSpinner(),
-        this.setState(() => ({
-          showedMsg: ''
-        })),
-        window.history.replaceState({}, document.title, "./#/confirm"),
-        API.action('confirmAccount', this.state, this.onSuccess, this.onError)
-      )
-    : this.setState(() => ({
-          'isOpen': true,
-          'loggedAs': 'hide',
-          'subscription':'hide',
-          'notLogged': 'contrast basicBorderBtn inline',
-          'msg': '',
-          'showedMsg': 'confirm.0003'
-        }));*/
-    
+    : window.location.href = './#/explorar'
   }
   setParameters(_urlParameters){
     for( var j in _urlParameters){
@@ -78,11 +51,13 @@ class Confirm extends React.Component {
       localStorage.setItem('confirmed',true),
       window.location.href='#/'
     )
-    : this.setState({
+    : ( 
+      this.setState({
           isOpen: true,
           showedMsg: 'confirm.' + _response.reason
-      });
-    
+      }),
+      localStorage.setItem('modalToExplore','explorar')
+    )
   }
   onError = (_response, _error) =>{
     this.setState({

@@ -26,7 +26,7 @@ export default class Player extends Component {
   }
   componentWillReceiveProps (nextProps) {
     // Invoke player methods based on incoming props
-    const { url, playing, volume, muted, playbackRate } = this.props
+    const { url, playing, volume, muted, playbackRate, secondsPlayed } = this.props
     if (url !== nextProps.url) {
       this.isLoading = true
       this.player.load(nextProps.url, this.isReady)
@@ -46,6 +46,16 @@ export default class Player extends Component {
     if (playbackRate !== nextProps.playbackRate && this.player.setPlaybackRate) {
       this.player.setPlaybackRate(nextProps.playbackRate)
     }
+  }
+  getStop (){
+    if (this.isReady) {
+      this.player.stop()
+    }
+    this.mounted = false
+  }
+  getPlayed (){
+    if (!this.isReady) return null
+    return this.player.progress()
   }
   getDuration () {
     if (!this.isReady) return null
@@ -95,10 +105,13 @@ export default class Player extends Component {
     }
     this.onDurationCheck()
   }
+  onStop = () => {
+    this.player.stop();
+  }
   onPlay = () => {
     this.isPlaying = true
     this.isLoading = false
-    const { volume, muted, onStart, onPlay, playbackRate } = this.props
+    const { volume, muted, onStart, onPlay, playbackRate, secondsPlayed } = this.props
     if (this.startOnPlay) {
       if (this.player.setPlaybackRate) {
         this.player.setPlaybackRate(playbackRate)
@@ -117,9 +130,10 @@ export default class Player extends Component {
   onPause = () => {
     this.isPlaying = false
     if (!this.isLoading) {
-      this.props.onPause()
+      this.props.onStop()
     }
   }
+  
   onEnded = () => {
     const { activePlayer, loop, onEnded } = this.props
     if (activePlayer.loopOnEnded && loop) {
@@ -152,6 +166,7 @@ export default class Player extends Component {
         ref={this.ref}
         onReady={this.onReady}
         onPlay={this.onPlay}
+        onStop={this.onStop}
         onPause={this.onPause}
         onEnded={this.onEnded}
       />

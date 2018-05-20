@@ -52,8 +52,9 @@ export default class FilePlayer extends Component {
     this.removeListeners()
   }
   addListeners () {
-    const { onReady, onPlay, onPause, onEnded, onError, playsinline } = this.props
+    const { onReady, onPlay, onPause, onEnded, onError, playsinline, onStop } = this.props
     this.player.addEventListener('canplay', onReady)
+    this.player.addEventListener('stop', onStop)
     this.player.addEventListener('play', onPlay)
     this.player.addEventListener('pause', onPause)
     this.player.addEventListener('seeked', this.onSeek)
@@ -65,8 +66,9 @@ export default class FilePlayer extends Component {
     }
   }
   removeListeners () {
-    const { onReady, onPlay, onPause, onEnded, onError } = this.props
+    const { onReady, onPlay, onPause, onEnded, onError , onStop} = this.props
     this.player.removeEventListener('canplay', onReady)
+    this.player.removeEventListener('stop', onStop)
     this.player.removeEventListener('play', onPlay)
     this.player.removeEventListener('pause', onPause)
     this.player.removeEventListener('seeked', this.onSeek)
@@ -136,10 +138,11 @@ export default class FilePlayer extends Component {
     return this.player.currentTime
   }
   getSecondsLoaded () {
+    console.log('buffers');
     console.log(this.player.buffered.length);
-    console.log(this.player.buffered.end(0));
+    console.log(this.player.buffered.end(this.player.buffered.length-1));
     if (this.player.buffered.length === 0) return 0
-    return this.player.buffered.end(0)
+    return this.player.buffered.end(this.player.buffered.length-1)
   }
   renderSource = (source, index) => {
     if (typeof source === 'string') {
@@ -168,6 +171,7 @@ export default class FilePlayer extends Component {
     }
     return (
       <Element
+        id='audioFile'
         ref={this.ref}
         src={src}
         style={style}

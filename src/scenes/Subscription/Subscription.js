@@ -149,7 +149,8 @@ class Subscription extends React.Component {
       Type  = 'Basic';
     }
     if(typeof this.state.data.next !== 'undefined'){
-      Next = this.state.data.next.replace(/ /g,"T");
+      /*Next = this.state.data.next.replace(/ /g,"T");*/
+      Next = this.state.data.next;
     }else{
       Next  = [];
     }
@@ -194,9 +195,12 @@ class Subscription extends React.Component {
               <div className="col-xs-12 col-md-2">{this.translate('user.subscription.total')}</div>
             </div>
             {SubscriptionList.map(( p , index) => {
-              var date = p.date.replace(/ /g,"T");
+              /*var date = p.date.replace(/ /g,"T");
               var init = p.period.init.replace(/ /g,"T");
-              var end = p.period.end.replace(/ /g,"T");
+              var end = p.period.end.replace(/ /g,"T");*/
+              var date = p.date;
+              var init = p.period.init;
+              var end = p.period.end;
               return(
                 <div className ="row subscription_list_item mt25">
                   <div className="col-xs-12 col-md-2">{ (new Date(date)).toLocaleDateString() }</div>

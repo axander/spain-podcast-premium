@@ -30,6 +30,11 @@ $template-size-2: 10px;
 	color: $template-light-color-1;
 }
 .header_web{
+	#contadorxxx{
+		display:none;
+		position: absolute;
+	    top: 110px;	
+	}
 	position: fixed;
     z-index: 200;
     top: 0;

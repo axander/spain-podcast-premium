@@ -212,7 +212,7 @@ class StaticPlayer extends React.Component {
         localStorage.setItem('lastItemDatastatic',JSON.stringify(_episode));
         this.props.initplayer.reset();
         this.props.initplayer.data = _episode;
-        this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode);
+        this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode, true);
       }
     }else{
       this.state.internal = false;
@@ -227,7 +227,7 @@ class StaticPlayer extends React.Component {
         localStorage.setItem('lastItemData'+state,JSON.stringify(_episode));
         this.props.initplayer.reset();
         this.props.initplayer.data = _episode;
-        this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode);
+        this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode, true);
         this.props.initplayer.episodePageList = this.state.data; /*localStorage.setItem('episodePageList',JSON.stringify(this.state.data));*/
         window.location.href = './#/static/'+_episode.id+'/'+_episode.name;
         localStorage.setItem('lastPosition',this.state.position+1);
@@ -264,7 +264,7 @@ class StaticPlayer extends React.Component {
         localStorage.setItem('lastItemDatastatic',JSON.stringify(_episode));
         this.props.initplayer.reset();
         this.props.initplayer.data = _episode;
-        this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode);
+        this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode, true);
       }
     }else{
       this.state.internal = false;
@@ -279,7 +279,7 @@ class StaticPlayer extends React.Component {
         localStorage.setItem('lastItemData'+state,JSON.stringify(_episode));
         this.props.initplayer.reset();
         this.props.initplayer.data = _episode;
-        this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode);
+        this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode, true);
         this.props.initplayer.episodePageList = this.state.data;/*localStorage.setItem('episodePageList',JSON.stringify(this.state.data));*/
         window.location.href = './#/static/'+_episode.id+'/'+_episode.name;
         localStorage.setItem('lastPosition',this.state.position-1);
@@ -642,10 +642,10 @@ class StaticPlayer extends React.Component {
           <div class="row" >
             <div className={this.props.auth.typeUser !=='premium' ? "col-xs-12 col-sm-8" : "col-xs-12" } >
               <div className='staticplayer_episodes' >
-                {this.translate('content.episodes')}
+                {this.translate('content.moreEpisodes')}
               </div>
               <div className={!Collection.length ? '':'hide'} >{this.translate('user.listEmpty')}</div>
-              <div class="row"  >
+              <div class="row item_responsive"  >
                 {
                   Collection.map((p, index)  => (
                     <div className={this.props.auth.typeUser !=='premium' ? "col-xs-12 col-md-6 item_responsive" : "col-xs-12 col-md-4 item_responsive" } >

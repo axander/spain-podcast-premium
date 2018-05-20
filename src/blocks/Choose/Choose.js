@@ -52,51 +52,48 @@ class Choose extends React.Component {
       'fase': event.target.id.replace('ball_item_','')
     })
     //document.querySelector('.choose_episodes_content').style.left = - this.state.fase * document.querySelector('.choose_episodes_content_container').offsetWidth + 'px'
-    this.state.fase
-    ? document.querySelector('.choose_episodes_content').style.left = - this.state.fase * 260 +  ( document.querySelector('.choose_episodes_content_container').offsetWidth/2 - 136 ) + 'px'
-    : document.querySelector('.choose_episodes_content').style.left = "10px";
+    this.handleResize();
   }
   clickCardHandler(event){
-    this.setState({
-      'fase': event.target.id.replace('card_item_','')
-    })
-    //document.querySelector('.choose_episodes_content').style.left = - this.state.fase * document.querySelector('.choose_episodes_content_container').offsetWidth + 'px'
-    this.state.fase
-    ? document.querySelector('.choose_episodes_content').style.left = - this.state.fase * 260 +  ( document.querySelector('.choose_episodes_content_container').offsetWidth/2 - 136 ) + 'px'
-    : document.querySelector('.choose_episodes_content').style.left = "10px";
+    event.target.className.indexOf('choose-item-PB') <= -1
+    ?(
+      !this.state.fase
+        ? this.setState({
+              'fase':1
+            })
+        : this.setState({
+          'fase':0
+        }),
+      this.handleResize()
+    )
+    : null;
   }
   leftFunction(){
-    if((parseFloat(this.state.fase) + 1) >= this.state.data.collection.length-1 ){
-       this.setState({
-          'fase':this.state.data.collection.length-1
+    !this.state.fase
+    ? this.setState({
+          'fase':1
         })
-    }else{
-      this.setState({
-          'fase':parseFloat(this.state.fase) + 1
-        })
-    }
-    this.state.fase
-    ? document.querySelector('.choose_episodes_content').style.left = - this.state.fase * 260 +  ( document.querySelector('.choose_episodes_content_container').offsetWidth/2 - 132.5 ) + 'px'
-    : document.querySelector('.choose_episodes_content').style.left = "10px";
+    : null;
+   this.handleResize();
   }
   handleResize() {
-    this.state.fase
-    ? document.querySelector('.choose_episodes_content').style.left = - this.state.fase * 260 +  ( document.querySelector('.choose_episodes_content_container').offsetWidth/2 - 132.5 ) + 'px'
-    : document.querySelector('.choose_episodes_content').style.left = "10px";
+    var elem = document.querySelector('.choose_episodes_content');
+    elem.style.left = - this.state.fase * 260 +  ( document.querySelector('.choose_episodes_content_container').offsetWidth/2 - 132.5 ) + 'px';
+    if(document.querySelector('#choose_item_features_0') && document.querySelector('#choose_item_features_1')){
+      var height1 = document.querySelector('#choose_item_features_0').offsetHeight;
+      var height2 = document.querySelector('#choose_item_features_1').offsetHeight;
+      var maxHeight = height1 <= height2 ? height2 : height1;
+      document.querySelector('#choose_item_features_0').style.height = maxHeight + 'px';
+      document.querySelector('#choose_item_features_1').style.height = maxHeight + 'px';
+    }
   }
   rightFunction(){
-    if((parseFloat(this.state.fase) - 1) <= 0 ){
-       this.setState({
+    this.state.fase
+    ? this.setState({
           'fase':0
         })
-    }else{
-      this.setState({
-          'fase':parseFloat(this.state.fase) - 1
-        })
-    }
-    this.state.fase
-    ? document.querySelector('.choose_episodes_content').style.left = - this.state.fase * 260 +  ( document.querySelector('.choose_episodes_content_container').offsetWidth/2 - 132.5 ) + 'px'
-    : document.querySelector('.choose_episodes_content').style.left = "10px";
+    : null;
+    this.handleResize();
   }
   componentDidMount(){
     window.setSpinner();
@@ -132,6 +129,7 @@ class Choose extends React.Component {
       document.querySelector('#choose_item_features_0').style.height = maxHeight + 'px';
       document.querySelector('#choose_item_features_1').style.height = maxHeight + 'px';
     }
+    this.handleResize();
   }
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
@@ -209,7 +207,7 @@ class Choose extends React.Component {
                                   items.map(( q , index) => {
                                   return(
                                       /*<div className={ q.status ? "choose_item_feature choose_item_feature_active" : "choose_item_feature" } ><div className="choose_item_feature_checkmark" >&#10004;</div><div className="choose_item_feature_txt" >{q.description[lan]}</div></div>*/
-                                      <div className="choose_item_feature choose_item_feature_active"><div className="choose_item_feature_checkmark" >&#10004;</div><div className="choose_item_feature_txt" >{q}</div></div>
+                                      <div className="choose_item_feature choose_item_feature_active"><div className="choose_item_feature_checkmark" >✓</div><div className="choose_item_feature_txt" >{q}</div></div>
                                     )
                                 })
 

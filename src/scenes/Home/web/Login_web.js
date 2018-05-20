@@ -17,10 +17,12 @@ class Login_web extends React.Component {
     super(props);
     this.state ={
       'email':'',
+      'emailRecover':'',
       'emailClass':'',
       'emailValidation':'',
       'pwd':'',
-      'deactive': '',//'disabled',
+      'deactive': 'disabled',//'disabled',
+      'deactiveRecover': 'disabled',//'disabled',
       'showedMsg': false,
       'isOpen': false,
       'show':false,
@@ -34,11 +36,14 @@ class Login_web extends React.Component {
       'notLogged': localStorage.getItem('logged') ? 'hide' : 'initSession',
       'nickName': localStorage.getItem('client') ? JSON.parse(localStorage.getItem('client')).personalData.nickName : null,
       'email':'',
-      'confirmed':localStorage.getItem('confirmed') ? true : false
+      'confirmed':localStorage.getItem('confirmed') ? true : false,
+      'showRecover':false
     }
     this.toogle = this.toogle.bind(this);
+    this.toogleRecover = this.toogleRecover.bind(this);
     localStorage.removeItem('error')
     this.handleChange = this.handleChange.bind(this);
+    this.handleChangeRecover = this.handleChangeRecover.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.clickHandlerFB = this.clickHandlerFB.bind(this);
     this.register = this.register.bind(this);
@@ -53,6 +58,13 @@ class Login_web extends React.Component {
     this.showMenuResponsive= this.showMenuResponsive.bind(this);
     this.hideMenuResponsive= this.hideMenuResponsive.bind(this);
 
+  }
+  toogleRecover(e){
+    localStorage.removeItem('confirmed');
+    this.setState({
+      'show':false,
+      'showRecover':!this.state.showRecover
+    })
   }
   toogle(e){
     localStorage.getItem('confirmed')
@@ -176,6 +188,29 @@ class Login_web extends React.Component {
     ? this.state.deactive = ''
     : this.state.deactive = 'disabled';
   }
+  handleChangeRecover(event) {
+    switch(event.target.id){
+      case 'emailRecover':
+          this.setState({[event.target.id]:event.target.value});
+          !Utils.validateEmail(event.target.value)
+          ? this.setState({
+            'emailValidationRecover':this.translate('register.emailNotValid'),
+            'emailClassRecover':'notValid_input'
+          })
+          : this.setState({
+            'emailValidationRecover':'',
+            'emailClassRecover':''
+          })
+      break;
+      default:
+          this.setState({[event.target.id]:event.target.value});
+      break
+    }
+    this.setState({[event.target.id]:event.target.value});
+    this.state.emailRecover !== '' && this.state.emailValidationRecover === ''
+    ? this.state.deactiveRecover = ''
+    : this.state.deactiveRecover = 'disabled';
+  }
   state = {
     redirectToReferrer : false
   }
@@ -222,6 +257,22 @@ class Login_web extends React.Component {
           showedMsg: 'login.error.' + _response.reason
       });
   }
+  recover = (_response) => {
+    _response.status === 'success'
+    ? ( 
+        Utils.scrollToTop(300),
+        window.location.href = '/#/recovered',
+        this.setState({
+          'showRecover':false,
+          'emailRecover':''
+        })
+        /*API.action('login', { 'email':this.dataToSend.email, 'pwd':this.dataToSend.pwd}, this.login, this.onError)*/
+      )
+    : this.setState({
+          isOpen: true,
+          showedMsg: 'recovering.' + _response.reason
+      });
+  }
   /*setLogged(){
     fakeAuth.authenticate(() => {
       this.setState(() => ({
@@ -247,6 +298,15 @@ class Login_web extends React.Component {
     event.preventDefault();
     //API.action('','GET', { 'user':this.state.user, 'pwd':this.state.pwd}, this.login, this.onError);
     API.action('login', { 'email':this.state.email, 'password':this.state.pwd}, this.login, this.onError, 'get', false, true);
+  }
+  handleSubmitRecover(event, _recover, _onError) {
+    console.log(this.state);
+    window.setSpinner();
+    this.setState(() => ({
+        showedMsg: ''
+      }))
+    event.preventDefault();
+    API.action('recoverPassword', { 'email':this.state.emailRecover }, this.recover, this.onError, 'get', true, false);
   }
   clickHandlerFB(event){
     window.checkLoginState()
@@ -367,7 +427,7 @@ class Login_web extends React.Component {
                   <div className="notValid_msg" >{this.state.emailValidation}</div>
                   <div><input id="pwd" type="password" onChange={this.handleChange} className={ 'input_web_'+localStorage.getItem('template')} value={this.state.pwd} placeholder={this.translate('password')} /></div>
                   <div class='row'>
-                    <div class='col-xs-12 col-md-6' ><Link to='/recover' onClick={this.toogle} className='forgotPwdBtn'><div>{this.translate('register.recoverPwd')}</div></Link></div>
+                    <div class='col-xs-12 col-md-6' ><div onClick={this.toogleRecover} className='forgotPwdBtn'><div>{this.translate('register.recoverPwd')}</div></div></div>
                     <div class='col-xs-12 col-md-6' ><div className={"initBtn " + this.state.deactive } onClick={e => this.handleSubmit(e, this.login, this.onError)} >{this.translate('header.initSession').toUpperCase()}</div></div>
                   </div>
                 </form>
@@ -379,6 +439,29 @@ class Login_web extends React.Component {
                     <div class='col-xs-12 col-md-6' ><div onClick={this.register} className='registerBtn' >{this.translate('login.regNow').toUpperCase()}</div></div>
                 </div>
                 <div className="closePB" onClick={this.toogle}><span class="icon-x"></span></div>
+              </div>
+            </div>
+          <div>
+            <Modal show={this.state.isOpen} onClose={this.toggleModal} >
+                {this.translate(this.state.showedMsg)}
+              </Modal>
+          </div>
+        </auth_web>
+
+        <auth_web className={ 'auth_recover auth_web auth_web_'+localStorage.getItem('template') + ( this.state.showRecover ? ' auth_web_show' : '' ) } >
+            <div className="authInner">
+              <div>
+                <h3>{this.translate('recover')}</h3>
+                <h4>{this.translate('recover.message')}</h4>
+                <div className="formOr" >------------------   {this.translate('register.or')}   ------------------</div>
+                <form onSubmit={e => this.handleSubmit(e, this.login, this.onError)}>
+                  <div><input id="emailRecover" type="text"  onChange={this.handleChangeRecover} className={ this.state.emailClassRecover+ ' input_web_'+localStorage.getItem('template')}  value={this.state.emailRecover} placeholder={this.translate('nickoremail')} /></div>
+                  <div className="notValid_msg" >{this.state.emailValidationRecover}</div>
+                  <div class='row'>
+                    <div class='col-xs-12' ><div className={"recoverBtn " + this.state.deactiveRecover } onClick={e => this.handleSubmitRecover(e, this.recover, this.onError)} >{this.translate('recover.button').toUpperCase()}</div></div>
+                  </div>
+                </form>
+                <div className="closePB" onClick={this.toogleRecover}><span class="icon-x"></span></div>
               </div>
             </div>
           <div>

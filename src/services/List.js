@@ -86,11 +86,11 @@ const List = {
 		"method":"POST"
 	},
 	"recoverPassword":{
-		"service":"user/recoverPassword",
+		"service":"recover",
 		"method":"GET"
 	},
 	"confirmRecoverPassword":{
-		"service":"user/confirmRecoverPassword",
+		"service":"confirmRecoverPassword",
 		"method":"POST"
 	},
 	"changePassword":{

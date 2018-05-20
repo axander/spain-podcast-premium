@@ -16,6 +16,8 @@ import Menu from '../../components/Menu/Menu.js'
 import ChannelMenu from '../../components/ChannelMenu/ChannelMenu.js'
 import Logout from '../Login/Logout.js'
 import Registered from '../Login/Registered.js'
+import Recovered from '../Login/Recovered.js'
+import RecoveredConfirm from '../Login/RecoveredConfirm.js'
 import Info from '../Info/Info.js'
 import Recover from '../Login/Recover.js'
 import RecoverConfirm from '../Login/RecoverConfirm.js'
@@ -31,7 +33,7 @@ import Premium from '../Premium/Premium.js'
 import Episode from '../Episode/Episode.js'
 import Search from '../Search/Search.js'
 import StaticPlayer from '../../components/StaticPlayer/StaticPlayer.js'
-import PlayerAppDeacoplate from '../../components/Player/PlayerApp/PlayerAppDeacoplate.js'
+/*import PlayerAppDeacoplate from '../../components/Player/PlayerApp/PlayerAppDeacoplate.js'*/
 import Terms from '../Terms/Terms.js'
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb.js'
 import MainContainer from './MainContainer.js'
@@ -94,6 +96,7 @@ const statics = {
   data : {}
 }
 const player = {
+  show : true,
   play(){
     //it will be configured from Login_web
   },
@@ -433,8 +436,8 @@ class Main extends React.Component {
       fakeAuth.hide();
       return (
         <div className='mainContainer' >
-          <div className="main"> 
-            <Route path="/(register|terms|info|explorar|podcast|episode|static|search|profile|premium|promotional|lists|subscription|bills|deleteAccount|SPP_DEV)/" render={(props) => (
+          <div className={'ontouchstart' in document.documentElement ? 'main' : 'main main-noMobile'} > 
+            <Route path="/(register|terms|info|explorar|podcast|episode|static|confirm|search|recovered|profile|premium|promotional|lists|subscription|bills|deleteAccount|SPP_DEV)/" render={(props) => (
                 <Breadcrumb {...props} auth={fakeAuth} />
               )}/>
             <Switch>
@@ -442,7 +445,10 @@ class Main extends React.Component {
                 <Home_web {...props} statics={statics} initplayer={player} initSchemma={listSchemma} auth={fakeAuth} />
               )}/>
               <Route exact path='/login' component={Login}/>
-              <Route exact path='/logout' component={Logout}/>
+              <Route exact path='/logout' render={(props) => (
+                <Logout {...props} auth={fakeAuth} initplayer={player} />
+              )}/>
+              
               <Route exact path='/register' render={(props) => (
                 <Register {...props} auth={fakeAuth} />
               )}/>
@@ -454,8 +460,12 @@ class Main extends React.Component {
               <Route exact path='/info/*' render={(props) => (
                 <Info {...props} statics={statics} auth={fakeAuth} />
               )}/>
-              <Route path='/confirm' component={Confirm}/>
+              <Route exact path='/confirm' component={Confirm}/>
+              <Route path='/confirm/:code' component={Confirm}/>
               <Route path='/registered' component={Registered}/>
+              <Route exact path='/recovered' component={Recovered}/>
+              <Route path='/recovered/confirm/:code' component={RecoveredConfirm}/>
+              <Route exact path='/recovered/confirm' component={RecoveredConfirm}/>
               <Route exact path='/recover' component={Recover} />
               <Route exact path='/recover/confirm' component={RecoverConfirm} />
               <Route exact path='/episode' render={(props) => (
@@ -498,7 +508,7 @@ class Main extends React.Component {
           <Header_web login={fakeAuth} header={header} />
           <Footer_web header={header} />
         {/*<div id="playerDeacoplate" className = {!localStorage.getItem('episodePageList') ? 'hide' : '' } >*/}
-          <div id="playerDeacoplate" className = {localStorage.getItem('lastepisode') ? '' : 'hide' } >
+          <div id="playerDeacoplate" className = { player.show && fakeAuth.isAuthenticated && localStorage.getItem('lastepisode') ? '' : 'hide' } >
             <PlayerApp 
               /*firstEpisode = {this.props.firstEpisode} */
               next={this.props.next} 

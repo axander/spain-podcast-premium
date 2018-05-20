@@ -2,52 +2,41 @@ import React from 'react'
 import TranslatedComponent from '../../utils/TranslatedComponent.js'
 import Utils from '../../utils/Utils.js'
 import { Link } from 'react-router-dom'
-import './logout.scss'
+import './registered.scss'
 
-class Logout extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+class Recovered extends React.Component {
   componentWillUnmount() {
       
-  }
-  componentDidMount(){
-    this.props.auth.isAuthenticated = false;
-    this.props.initplayer.reset();
   }
   componentDidUpdate() {
     Utils.scrollToTop(300);
     // Will execute as normal
   }
-  reloadLogOut(){
-    window.location.reload();
-  }
   render() {
     return (
       <div className='mainContainer' >
-        <logout>
-          <div className='logout'>
+        <registered>
+          <div className='registered'>
             <div className="basicOuter" >
               <div className="basicInner">
-                <h1>{this.translate('sesionClosed')}</h1>
-                <h1>{this.translate('bye')}</h1>
+                <h1>{this.translate('recover.successfull')}</h1>
                 <div>
-                  <Link to='/'><div className="logout-session-close-pb" onClick={this.reloadLogOut} >{this.translate('continue')}</div></Link>
+                  <Link to='./explorar'><div className="registered-pb" >{this.translate('continue')}</div></Link>
                 </div>
               </div>
             </div>
           </div>
-        </logout>
+        </registered>
       </div>
     );
   }
 }
 
-Logout.propTypes = {
+Recovered.propTypes = {
   //who: React.PropTypes.string.isRequired,
 };
 
 
 // Returns nothing because it mutates the class
-TranslatedComponent(Logout);
-export default Logout;
+TranslatedComponent(Recovered);
+export default Recovered;

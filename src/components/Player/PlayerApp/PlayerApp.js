@@ -3,6 +3,7 @@ import { findDOMNode } from 'react-dom'
 import { Modal, API } from '../../../services/Rest.js'
 import TranslatedComponent from '../../../utils/TranslatedComponent.js';
 import screenfull from 'screenfull'
+import Utils from '../../../utils/Utils.js';
 import './PlayerApp.scss'
 
 /*import './reset.scss'
@@ -30,7 +31,10 @@ class PlayerApp extends Component {
     this.state ={
       'url':'',
       'init':false,
-      'initF5':false
+      'initF5':false,
+      'touchPlayed':0,
+      'volume':.8,
+      'buffering':true
     }
     this.loadepisode = this.loadepisode.bind(this);
     this.playPause = this.playPause.bind(this);
@@ -41,9 +45,23 @@ class PlayerApp extends Component {
     this.reset = this.reset.bind(this);
     this.f5Prev = this.f5Prev.bind(this);
     this.f5Next = this.f5Next.bind(this);
+    this.onSeekUp10 = this.onSeekUp10.bind(this);
+    this.onSeekDown10 = this.onSeekDown10.bind(this);
+    this.hidePlayer = this.hidePlayer.bind(this);
+    this.handleTouchStart = this.handleTouchStart.bind(this);
+    this.handleTouchEnd = this.handleTouchEnd.bind(this);
+    this.mobilePlay = this.mobilePlay.bind(this);
+
+    this.onSeekMouseDownVolume = this.onSeekMouseDownVolume.bind(this);
+    this.onSeekMouseUpVolume = this.onSeekMouseUpVolume.bind(this);
+    this.onSeekChangeVolume = this.onSeekChangeVolume.bind(this);
+    this.setVolumeProgress = this.setVolumeProgress.bind(this);
+    this.handleTouchStartVolume = this.handleTouchStartVolume.bind(this);
+    this.handleTouchEndVolume = this.handleTouchEndVolume.bind(this);
   }
   waitToPlay(){
     var dataFile = this.props.deacoplatePlayer.data();
+
     API.action('saveToList', { 'id_item' : dataFile.id || itemToPlay.data._id , 'type_item':'episode', 'list':'listened', 'value':true }, null, null, 'GET', false, true)
     this.load(JSON.parse(localStorage.getItem('config')).cms+itemToPlay.data.source);
     this.player.seekTo(0);
@@ -61,6 +79,8 @@ class PlayerApp extends Component {
           loaded: 0,
           duration: 0,
           playbackRate: 1.0,
+          touchPlayed:0,
+          buffering:true
         })
       )
     : this.setState({ 
@@ -73,10 +93,20 @@ class PlayerApp extends Component {
       loaded: 0,
       duration: 0,
       playbackRate: 1.0,
+      touchPlayed:0,
+      buffering:true
     })
     this.props.auth.isAuthenticated
-    ? this.props.deacoplatePlayer.tooglePlay(true)/*this.props.delegate.tooglePlay(true)*/
+    ? 'ontouchstart' in document.documentElement
+      ? this.mobilePlay()
+      : this.props.deacoplatePlayer.tooglePlay(true)/*this.props.delegate.tooglePlay(true)*/
     : null
+  }
+  mobilePlay(){
+    this.playPause();
+    this.playPause();
+    this.playPause();
+    this.props.deacoplatePlayer.tooglePlay('buffering');
   }
   getFileSuccess = (_response) => {
     _response.status === 'success'
@@ -104,10 +134,13 @@ class PlayerApp extends Component {
     });
   }
   getFile(){
+    /*this.reset();*/
+    document.querySelector('#playerDeacoplate').className = '';
     var dataFile = this.props.deacoplatePlayer.data();
     ( this.props.auth.typeUser !== 'premium' && !JSON.parse(localStorage.getItem('lastItemDatapodcast')).premium  ) || this.props.auth.typeUser === 'premium' 
     ? (
       window.setSpinner(),
+
       API.action('getFile', { 'id' : dataFile.id || itemToPlay.data._id }, this.getFileSuccess, this.getFileError, 'GET', false, true)
     )
     : (
@@ -120,7 +153,7 @@ class PlayerApp extends Component {
         })
       )
   }
-  loadepisode(_source, _id, _name, _object){
+  loadepisode(_source, _id, _name, _object, autoPlay){
     localStorage.setItem('lastepisode', _id);
     localStorage.setItem('lastepisodeName', _name);
     localStorage.setItem('episodeInfo', JSON.stringify(_object));
@@ -134,6 +167,9 @@ class PlayerApp extends Component {
     this.setState({
       'init':false
     })
+    autoPlay && this.props.auth.isAuthenticated
+    ? this.getFile()
+    : null;
   }
 
   state = {
@@ -155,9 +191,13 @@ class PlayerApp extends Component {
     })
   }
   playPause = () => {
+    
     if(!this.props.initplayer.init){
       this.props.auth.isAuthenticated
-        ? this.getFile()
+        ? (
+          this.getFile(),
+          document.querySelector('#playerDeacoplate').className = ''
+        )
         : (
           localStorage.setItem('savingList',true),
           localStorage.getItem('app')
@@ -173,9 +213,6 @@ class PlayerApp extends Component {
   tooglePlay = () => {
     return this.state.playing
   }
-  stop = () => {
-    this.setState({ url: null, playing: false })
-  }
   toggleLoop = () => {
     this.setState({ loop: !this.state.loop })
   }
@@ -183,7 +220,16 @@ class PlayerApp extends Component {
     this.setState({ volume: parseFloat(e.target.value) })
   }
   toggleMuted = () => {
-    this.setState({ muted: !this.state.muted })
+    this.setState({
+      volume : this.state.muted ? .8 : 0,
+      muted : !this.state.muted
+    })
+    if (this.state.touch) {
+      var audioFile = document.querySelector('#audioFile');
+      audioFile
+      ? audioFile.muted = this.state.muted
+      : null;
+    }
   }
   setPlaybackRate = e => {
     this.setState({ playbackRate: parseFloat(e.target.value) })
@@ -196,6 +242,27 @@ class PlayerApp extends Component {
     console.log('onPause')
     this.setState({ playing: false })
   }
+  onSeekInit= e => {
+    this.setState({ seeking: false })
+    this.player.seekTo(0)
+  }
+  onSeekUp10= e => {
+    this.setState({ seeking: false });
+    console.log('los que ha played' + this.state.playedSeconds);
+    var played = this.state.playedSeconds + 10;
+    played > this.state.duration
+    ? played = this.state.duration
+    : null;
+    this.player.seekTo(played)
+  }
+  onSeekDown10= e => {
+    this.setState({ seeking: false });
+    var played = this.state.playedSeconds - 10;
+    played < 0
+    ? played = 0
+    : null;
+    this.player.seekTo(played);
+  }
   onSeekMouseDown = e => {
     this.setState({ seeking: true })
   }
@@ -207,12 +274,75 @@ class PlayerApp extends Component {
     this.player.seekTo(parseFloat(e.target.value))
   }
   onProgress = state => {
-    console.log('onProgress', state)
+    console.log('onProgress', state);
     typeof this.props.delegate !== 'undefined' ? this.props.delegate.onProgress(state) : null;
+    this.state.buffering = state.buffering;
+    state.buffering
+    ? this.props.deacoplatePlayer.tooglePlay('buffering')
+    : this.props.deacoplatePlayer.tooglePlay(this.state.playing)
     // We only want to update time slider if we are not currently seeking
     if (!this.state.seeking) {
       this.setState(state)
     }
+  }
+  setVolumeProgress(_event){
+    _event.preventDefault();
+    var prop = (_event.clientX-_event.target.offsetLeft-_event.target.parentNode.offsetLeft)/_event.target.offsetWidth;
+    console.log(prop);
+    if(prop>1){
+      prop = 1;
+    }else if(prop<0){
+      prop = 0;
+    }
+    this.setState({
+      volume : prop,
+      muted : prop ? false : true
+    })
+  }
+  onSeekMouseDownVolume = e => {
+    this.setState({
+      'volumeDown':true
+    })
+    this.setVolumeProgress(e);
+  }
+  onSeekChangeVolume = e => {
+    this.state.volumeDown
+    ? this.setVolumeProgress(e)
+    : null;
+  }
+  onSeekMouseUpVolume = e => {
+    this.setState({
+      'volumeDown':false
+    })
+    this.setVolumeProgress(e);
+  }
+  handleTouchStartVolume(event){
+    event.preventDefault();
+    console.log(event.target.parentNode.offsetLeft);
+    console.log(event.target.offsetWidth);
+    var prop = (event.changedTouches[0].pageX-(event.target.parentNode.offsetLeft-event.target.offsetWidth))/event.target.offsetWidth;
+    if(prop>1){
+      prop = 1;
+    }else if(prop<0){
+      prop = 0;
+    }
+    this.setState({
+      volume : prop
+    })
+  }
+  handleTouchEndVolume(event){
+    event.preventDefault();
+    var prop = (event.changedTouches[0].pageX-(event.target.parentNode.offsetLeft-event.target.offsetWidth))/event.target.offsetWidth;
+    console.log(prop);
+    if(prop>1){
+      prop = 1;
+    }else if(prop<0){
+      prop = 0;
+    }
+    this.setState({
+      volume : prop
+    })
+    console.log(prop);
   }
   onEnded = () => {
     console.log('onEnded')
@@ -272,13 +402,14 @@ class PlayerApp extends Component {
       episodes = _response.result,
       _episode = episodes[position],
       localStorage.setItem('lastPosition',position),
-      phase >= (Math.ceil(parseFloat(localStorage.getItem('total'))/parseFloat(localStorage.getItem('perPhase')))-1) && position >= parseFloat(localStorage.getItem('perPhase'))-1
+      phase >= (Math.ceil(parseFloat(localStorage.getItem('total'))/parseFloat(localStorage.getItem('perPhase')))-1) && position >= _response.result-length-1
       ? localStorage.setItem('nextDis',false)
       : localStorage.setItem('nextDis',true),
       !position && !parseFloat(localStorage.getItem('phase_episode_'+localStorage.getItem('lastpodcast')))
       ? localStorage.setItem('prevDis',false)
       : localStorage.setItem('prevDis',true),
       localStorage.setItem('lastItemDatastatic',JSON.stringify(_episode)),
+      this.props.initplayer.episodePageList = _response.result,
       this.props.initplayer.reset(),
       this.props.initplayer.data = _episode,
       this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode)
@@ -299,6 +430,10 @@ class PlayerApp extends Component {
           isOpen: !this.state.isOpen
       });
    }
+  hidePlayer(){
+    document.querySelector('#playerDeacoplate').className = 'hide';
+    this.reset()
+  }
   setPhase(_phase, _fromPages){
     window.setSpinner();//,
     API.action('getEpisode', { 'id' : localStorage.getItem('lastepisode'), 'phase': parseFloat(localStorage.getItem('phase_episode_'+localStorage.getItem('lastpodcast'))) || 0 }, this.onSuccess, this.onError, 'GET', false, true);
@@ -330,7 +465,7 @@ class PlayerApp extends Component {
       console.log(this.props);
       this.props.initplayer.reset();
       this.props.initplayer.data = _episode;
-      this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode);
+      this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode, true);
     }
   }
   f5Prev(){
@@ -353,10 +488,51 @@ class PlayerApp extends Component {
       localStorage.setItem('lastItemDatastatic',JSON.stringify(_episode));
       this.props.initplayer.reset();
       this.props.initplayer.data = _episode;
-      this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode);
+      this.props.initplayer.play('undefined', _episode.id, _episode.name, _episode, true);
     }
   }
+  handleTouchStart(event){
+    event.preventDefault();
+    this.player.isReady = false;
+    var prop = (event.changedTouches[0].pageX-event.target.parentNode.offsetLeft)/event.target.offsetWidth;
+    if(prop>1){
+      prop = 1;
+    }else if(prop<0){
+      prop = 0;
+    }
+    this.setState({
+      'seeking': true,
+      'played':prop
+    })
+  }
+  handleTouchEnd(event){
+    event.preventDefault();
+    var prop = (event.changedTouches[0].pageX-event.target.parentNode.offsetLeft)/event.target.offsetWidth;
+    if(prop>1){
+      prop = 1;
+    }else if(prop<0){
+      prop = 0;
+    }
+    this.setState({ 
+      seeking: false,
+
+      'playedSeconds':this.state.duration*prop
+    })
+  
+    this.player.seekTo(this.state.duration*prop);
+  }
   componentDidMount(){
+
+    if ('ontouchstart' in document.documentElement) {
+      this.setState({
+        'touch':true
+      })
+    }else{
+      this.setState({
+        'touch':false
+      })
+    }
+
     typeof this.props.deacoplatePlayer !== 'undefined' 
     ?  this.props.deacoplatePlayer.play = this.playPause
     : null;
@@ -425,25 +601,46 @@ class PlayerApp extends Component {
 
           </div>
 
-          <div className="player-face-title" >{ localStorage.getItem('lastItemDatastatic') ? JSON.parse(localStorage.getItem('lastItemDatastatic')).name : '...'}</div>
+          <div className="player-face-header" >
+            <div id="player-face-title" className="player-face-title" >{ localStorage.getItem('lastItemDatastatic') ? JSON.parse(localStorage.getItem('lastItemDatastatic')).name : '...'}</div>
+            <div class="del_PB_deco" onClick={this.hidePlayer} ><div ><span class="icon-x" ></span></div></div>
+          </div>
           <div className='player-face' >
-            <div className="player-face-1" >
+            <div className={ this.state.touch ? "player-face-1" : "player-face-1 player-face-1-desktop" } >
                 {/*<div className='previous2'  onClick={this.props.firstEpisode}><span class="icon-skip-back"></span></div>*/}
-              <div className='previous2'  onClick={this.props.firstEpisode}><span class="icon-skip-back"></span></div>
-              <div className='play'  onClick={this.playPause}><span class={playing ? (!duration || duration<=0) ? "icon-more-horizontal" : "icon-pause-circle" : "icon-play-circle" } ></span></div>
-              <div className={localStorage.getItem('prevDis') === 'true'  ? 'backward' : 'backward  disabled'}   onClick={typeof this.props.deacoplatePlayer !== 'undefined' ? this.props.deacoplatePlayer.previous : null}><span class="icon-rewind"></span></div>
-              <div className={localStorage.getItem('nextDis') === 'true' ? 'forward2' : 'forward2  disabled'}  onClick={typeof this.props.deacoplatePlayer !== 'undefined' ? this.props.deacoplatePlayer.next : null }><span class="icon-fast-forward"></span></div>
-              <div className='time_played' ><Duration seconds={duration * played} /></div>
+              <div className={localStorage.getItem('prevDis') === 'true'  ? 'previous2' : 'previous2  disabled'} onClick={typeof this.props.deacoplatePlayer !== 'undefined' ? this.props.deacoplatePlayer.previous : null} ><span class="icon-skip-back"></span></div>
+              <div className='backward'  onClick={this.onSeekDown10} ><span class="icon-rewind"></span></div>
+              <div className='play' onClick={this.playPause}><span class={playing ? (!duration || duration<=0) || this.state.buffering ? "icon-more-horizontal" : "icon-pause-circle" : "icon-play-circle" } ></span></div>
+              <div className='forward2' onClick={this.onSeekUp10} ><span class="icon-fast-forward"></span></div>
+              <div className={localStorage.getItem('nextDis') === 'true' ? 'next' : 'next disabled'} onClick={typeof this.props.deacoplatePlayer !== 'undefined' ? this.props.deacoplatePlayer.next : null }><span class="icon-skip-back"></span></div>
+              <div className='time_played' ><Duration seconds={ duration * played} /></div>
             </div>
             <div className="player-face-2">
               <div className="player-face-url" >{this.state.urlPath}</div>
-              <div className='progression'><progress max={1} value={played} />
+              <div className={'ontouchstart' in document.documentElement ? 'progression progression_mobile' :  'progression ' } ><progress max={1} value={played} />
                 <input className='progression-seek'
                     type='range' min={0} max={1} step='any'
                     value={played}
                     onMouseDown={this.onSeekMouseDown}
                     onChange={this.onSeekChange}
                     onMouseUp={this.onSeekMouseUp}/>
+              </div>
+              <div id='player-face-progression-mask' className={this.state.touch ? "player-face-progression-mask" : "player-face-progression-mask player-face-progression-mask-noMobile" } onTouchEnd={this.handleTouchEnd} onTouchStart={this.handleTouchStart} onTouchMove={this.handleTouchStart} >
+                <div className="basicOuter">
+                  <div className="basicInner">
+                      <div className="player-face-progression-mask-bg" >
+
+                      </div>
+                      <div className="player-face-progression-mask-progress" style={'width:'+ played*100 + '%' } >
+
+                      </div>
+                      <div className="player-face-progression-mask-cursor" style={'margin-left:'+ played*100 + '%' } >
+                        <div className="player-face-progression-mask-cursor-deco" >
+                        
+                        </div>
+                      </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="player-face-1-1" >
@@ -456,6 +653,30 @@ class PlayerApp extends Component {
             <div className="player-face-3">
               <div className='duration'><Duration seconds={duration} /></div>
               <div className='volume'  onClick={this.toggleMuted}><span class={this.state.muted ? "icon-volume-x" : "icon-volume-2" }></span></div>
+              <div id='volume-progression-mask' className={this.state.touch ? "volume-progression-mask volume-progression-mask-desktop" : "volume-progression-mask" } 
+                  onTouchEnd={this.handleTouchEndVolume} 
+                  onTouchStart={this.handleTouchStartVolume} 
+                  onTouchMove={this.handleTouchStartVolume} 
+                  onMouseDown={this.onSeekMouseDownVolume}
+                  onMouseMove={this.onSeekChangeVolume}
+                  onMouseUp={this.onSeekMouseUpVolume}
+                  >
+                <div className="basicOuter">
+                  <div className="basicInner">
+                      <div className="volume-progression-mask-bg" >
+
+                      </div>
+                      <div className="volume-progression-mask-progress" style={'width:'+ this.state.volume*100 + '%' } >
+
+                      </div>
+                      <div className="volume-progression-mask-cursor" style={'margin-left:'+ this.state.volume*100 + '%' } >
+                        <div className="volume-progression-mask-cursor-deco" >
+                        
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 

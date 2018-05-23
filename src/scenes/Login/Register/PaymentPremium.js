@@ -141,13 +141,13 @@ class PaymentPremium extends React.Component {
                       </div>
                       <div className ="payment_register_item_rot">{this.translate('paypal')}</div>
                     </div>
-                    <div className="payment_register_type payment_input_50_1"  onClick={() => this.clickHandler('card')}>
+                    {/*<div className="payment_register_type payment_input_50_1"  onClick={() => this.clickHandler('card')}>
                       <div className="payment_register_item_selector" >
                         <div className={ this.state.card ? "payment_register_item_selector_selected" : "hide"} ></div>
                       </div>
                       <div className ="payment_register_item_rot">{this.translate('creditCard')}</div>
-                    </div>
-                    <div className={ this.state.paypal ? 'hide' : '' } >
+                    </div>*/}
+                    <div className={ this.state.paypal ? 'hide' : 'hide' } >
                       <div><input id="cardNumber" type="text"  onChange={this.handleChange} value={this.state.cardNumber} placeholder={this.translate('cardNumber')} /></div>
                       <div className="payment_input_50_1" ><input id="month" type="text"  onChange={this.handleChange} value={this.state.month} placeholder={this.translate('month')} /></div>
                       <div className="payment_input_50_2" ><input id="year" type="text"  onChange={this.handleChange} value={this.state.year} placeholder={this.translate('year')} /></div>
@@ -155,10 +155,18 @@ class PaymentPremium extends React.Component {
                       <div className="payment_input_50_1">{this.translate('what')}</div>
                     </div>
                     <div className={ this.state.paypal ? '' : 'hide' } >
-                      <div><input id="paypalMail" className={this.state.initPaypalMailValidation && !this.state.emailPaypalValidation ? 'notValid_input':''} type="text"  onChange={this.handleChange} value={this.state.paypalMail} placeholder={this.translate('user.paypalMail')} /></div>
-                      <div className={ this.state.initPaypalMailValidation && !this.state.emailPaypalValidation ? 'notValid_msg'  : 'hide'} >{this.translate('paypalMailNotValid')}</div>
+                      {/*<div><input id="paypalMail" className={this.state.initPaypalMailValidation && !this.state.emailPaypalValidation ? 'notValid_input':''} type="text"  onChange={this.handleChange} value={this.state.paypalMail} placeholder={this.translate('user.paypalMail')} /></div>
+                      <div className={ this.state.initPaypalMailValidation && !this.state.emailPaypalValidation ? 'notValid_msg'  : 'hide'} >{this.translate('paypalMailNotValid')}</div>*/}
+                      <div>
+                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                          <input type="hidden" name="cmd" value="_s-xclick" />
+                          <input type="hidden" name="hosted_button_id" value="24YQWNE8M4D9S" />
+                          <input type="image" src="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_subscribe_LG.gif" border="0" name="submit" alt="PayPal, la forma rápida y segura de pagar en Internet." />
+                          <img alt="" border="0" src="https://www.paypalobjects.com/es_ES/i/scr/pixel.gif" width="1" height="1" />
+                        </form>
+                      </div>
                     </div>
-                    <div className="mt50 right payment_finalize" ><div className={"greenPB " + this.state.deactive } onClick={this.handleSubmitPayment } >{this.translate('save')}</div></div>
+                    {/*<div className="mt50 right payment_finalize" ><div className={"greenPB " + this.state.deactive } onClick={this.handleSubmitPayment } >{this.translate('save')}</div></div>*/}
                   </form>
           </div>
         </payment>

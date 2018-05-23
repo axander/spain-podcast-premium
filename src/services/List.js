@@ -450,6 +450,10 @@ const List = {
 	"savePromotional":{
 		"service":"promotional",
 		"method":"GET"
+	},
+	"confirmPremium":{
+		"service":"confirmPremium",
+		"method":"GET"
 	}
 	
 	

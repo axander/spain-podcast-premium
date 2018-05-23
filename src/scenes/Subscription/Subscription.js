@@ -14,7 +14,7 @@ class Subscription extends React.Component {
     var client = JSON.parse(localStorage.getItem('client'));
     this.state = {
       'data':[ ],
-      'type':client ? client.personalData.type : null,
+      'type':client ? this.props.auth.typeUser : null,
       'fase':0
     }
     this.handleResize = this.handleResize.bind(this);
@@ -80,7 +80,9 @@ class Subscription extends React.Component {
         'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0'
       }
     });
-    document.querySelector('.subscription_list').style.left = - this.state.fase * document.querySelector('.subscription_list_container').offsetWidth + 'px'
+    document.querySelector('.subscription_list_container') && document.querySelector('.subscription_list')
+    ? document.querySelector('.subscription_list').style.left = - this.state.fase * document.querySelector('.subscription_list_container').offsetWidth + 'px'
+    : null;
   }
   componentDidMount(){
      Utils.scrollToTop(300);
@@ -90,7 +92,7 @@ class Subscription extends React.Component {
         'margin-top':document.querySelector('.breadcrumb') ? document.querySelector('.breadcrumb').offsetHeight + 'px' : '0'
       }
     })
-    switch(this.state.type){
+    switch(this.props.auth.typeUser){
       case 'premium':
         window.setSpinner();
         API.action('getSubscriptionList', { 'phase': localStorage.getItem('phase_channel') || 0 }, this.onSuccess, this.onError, 'GET');//,
@@ -168,6 +170,9 @@ class Subscription extends React.Component {
               <div className="subscription_data_value greenFont" >
                 {this.translate('user.subscription'+Type)}
               </div>
+              <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_subscr-find&alias=WPXJ4P9VS4Z2Y" className={this.props.auth.typeUser==='premium' ? '' : 'hide'} >
+                <img src="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_unsubscribe_LG.gif" border="0" />
+              </a>
             </div>
           </div>
           <div className={this.state.type !=='basic'  ? 'row mt50' : 'hide'} >

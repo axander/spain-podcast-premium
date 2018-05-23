@@ -5,23 +5,30 @@ import { Link } from 'react-router-dom'
 import './registered.scss'
 
 class Recovered extends React.Component {
-  componentWillUnmount() {
-      
+  constructor(props) {
+    super(props);
   }
+ 
   componentDidUpdate() {
     Utils.scrollToTop(300);
     // Will execute as normal
   }
+  componentDidMount() {
+    Utils.scrollToTop(300);
+    // Will execute as normal
+  }
+ 
+  
   render() {
     return (
-      <div className='mainContainer' >
+      <div className='mainContainer' style={this.state.style}>
         <registered>
           <div className='registered'>
             <div className="basicOuter" >
               <div className="basicInner">
                 <h1>{this.translate('recover.successfull')}</h1>
                 <div>
-                  <Link to='./explorar'><div className="registered-pb" >{this.translate('continue')}</div></Link>
+                  <Link to={'.'+localStorage.getItem('lastState')} ><div className="registered-pb" >{this.translate('continue')}</div></Link>
                 </div>
               </div>
             </div>

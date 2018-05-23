@@ -25,7 +25,7 @@ class Registered extends React.Component {
               <div className="basicInner">
                 <h1>{this.translate('register.successfull')}</h1>
                 <div>
-                  <Link to='/'><div className="registered-pb" onClick={this.reloadLogOut} >{this.translate('continue')}</div></Link>
+                  <Link to={'.'+localStorage.getItem('lastState')} ><div className="registered-pb" onClick={this.reloadLogOut} >{this.translate('continue')}</div></Link>
                 </div>
               </div>
             </div>

@@ -112,7 +112,7 @@ class RecoveredConfirm extends React.Component {
           'isOpen': true,
           'showedMsg': 'register.recoverPwd.confirm.successfull'
       }),
-      localStorage.setItem('modalToExplore','explorar')
+      localStorage.setItem('modalToExplore',localStorage.getItem('lastState').substring(1))
     )
     : (
       this.setState({

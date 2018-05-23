@@ -437,7 +437,7 @@ class Main extends React.Component {
       return (
         <div className='mainContainer' >
           <div className={'ontouchstart' in document.documentElement ? 'main' : 'main main-noMobile'} > 
-            <Route path="/(register|terms|info|explorar|podcast|episode|static|confirm|search|recovered|profile|premium|promotional|lists|subscription|bills|deleteAccount|SPP_DEV)/" render={(props) => (
+            <Route path="/(cancel-premium-process|premium-process-ok|register|terms|info|explorar|podcast|episode|static|confirm|search|recovered|registered|profile|premium|promotional|lists|subscription|bills|deleteAccount|SPP_DEV)/" render={(props) => (
                 <Breadcrumb {...props} auth={fakeAuth} />
               )}/>
             <Switch>

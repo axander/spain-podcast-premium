@@ -79,8 +79,22 @@ class Breadcrumb extends React.Component {
       case 'premium':
         this.state.acumulate=[];
         this.state.acumulate[0] ={
-          'text':this.translate('user.premium'),
+          'text':this.translate('user.toPremium'),
           'path':this.props.location.pathname
+        }
+      break;
+      case 'cancel-premium-process':
+        this.state.acumulate=[];
+        this.state.acumulate[0] ={
+          'text':this.translate('user.toPremium'),
+          'path':'/premium'
+        }
+      break;
+      case 'premium-process-ok':
+        this.state.acumulate=[];
+        this.state.acumulate[0] ={
+          'text':this.translate('user.toPremium'),
+          'path':'/subscription'
         }
       break;
       case 'recovered':

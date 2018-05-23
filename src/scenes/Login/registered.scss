@@ -1,4 +1,7 @@
 .registered{
+    .basicOuter{
+        margin-top: 100px;
+    }
     h1{
         font-size:30px;
         padding-left: 50px;
@@ -22,5 +25,13 @@
     }
     .registered-pb:hover{
         background: #168d40!important;
+    }
+}
+@media screen and (max-width: 992px){
+    .registered{
+        .basicOuter{
+            height:50%;
+            margin-top: 100px;
+        }
     }
 }

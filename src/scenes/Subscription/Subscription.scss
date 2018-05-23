@@ -41,6 +41,20 @@
 		color: #ffffff;
 	}
 	.subscription_data{
+		.invPrem{
+			width: auto !important;
+			>div{
+				display: inline-block;
+				margin-right:20px;
+			}
+			a {
+				display:inline-block;
+				img{
+					margin-top: -20px;
+    				position: absolute;
+				}
+			}
+		}
 		.invPrem .subscription_data_rot , .invPrem .subscription_data_value{
 			text-align:left !important;
 		}
@@ -165,6 +179,10 @@
 }
 @media screen and (max-width: 992px){
     .subscription{
+    	.basic{
+    		margin-bottom: 100px !important;
+    		margin-top: -100px !important;
+    	}
     	margin-top: 20px!important;
 		[class*="row"],[class*="col-"] {
 			padding:0;
@@ -188,6 +206,19 @@
     		word-break: break-word;
 		}
 		.subscription_data{
+			.invPrem{
+				width:100% !important;
+				>div{
+					margin-right:0;
+				}
+				a {
+					display:block;
+					img{
+						margin-top: 20px;
+    					position: relative;
+					}
+				}
+			}
 			.invPrem .subscription_data_rot,.invPrem .subscription_data_value {
 				text-align:center !important;
 			}
@@ -211,6 +242,7 @@
 			
 		}
 		.subscription_basic_activate{
+		    margin-bottom: 0;
 			input{
 
 			}

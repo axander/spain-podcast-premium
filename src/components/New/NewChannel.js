@@ -224,7 +224,12 @@ class NewChannel extends React.Component {
   onSuccess = (_response) => {
     _response.status === 'success'
     ? (
-        Utils.scrollTo(200,Utils.offset(document.querySelector('.new')).top-document.querySelector('.breadcrumb').offsetHeight),
+        localStorage.getItem('scrollY')
+        ? (
+          alert('scrollY'),
+          Utils.scrollTo(200,Utils.offset(document.querySelector('.new')).top-document.querySelector('.breadcrumb').offsetHeight)
+        )
+        : null,
         this.setState({
           'init':false,
           'loading':false,

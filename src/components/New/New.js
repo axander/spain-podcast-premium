@@ -224,7 +224,7 @@ class New extends React.Component {
   onSuccess = (_response) => {
     _response.status === 'success'
     ? (
-        Utils.scrollTo(200,Utils.offset(document.querySelector('.new')).top-document.querySelector('.breadcrumb').offsetHeight),
+        /*Utils.scrollTo(200,Utils.offset(document.querySelector('.new')).top-document.querySelector('.breadcrumb').offsetHeight),*/
         this.setState({
           'init':false,
           'loading':false,
